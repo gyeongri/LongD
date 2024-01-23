@@ -12,10 +12,9 @@ import HelloWorld from './components/HelloWorld.vue';
       width="125"
       height="125"
     />
-
+    <div></div>
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
-
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
