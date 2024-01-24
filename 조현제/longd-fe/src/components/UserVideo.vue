@@ -8,11 +8,17 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, defineProps } from 'vue'; // Import defineProps
 import OvVideo from './OvVideo.vue';
 
+// Use defineProps to receive props
+const props = defineProps(['streamManager']);
+
 const getConnectionData = () => {
-  const { connection } = streamManager.stream;
+  if (!props.streamManager || !props.streamManager.stream) {
+    return {};
+  }
+  const { connection } = props.streamManager.stream;
   return JSON.parse(connection.data);
 };
 

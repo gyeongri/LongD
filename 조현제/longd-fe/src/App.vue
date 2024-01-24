@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import { onBeforeMount, ref } from 'vue';
-
+import UserVideo from '@/components/UserVideo.vue';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 // const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000/';
 var APPLICATION_SERVER_URL = 'http://localhost:5000/';
@@ -162,7 +162,7 @@ onBeforeMount(() => {
 
     <div v-if="session" id="session">
       <div id="session-header">
-        <h1 :id="session - title">{{ mySessionId }}</h1>
+        <h1 :id="session ? session.title : ''">{{ mySessionId }}</h1>
         <input
           @click="leaveSession"
           type="button"
