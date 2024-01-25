@@ -1,15 +1,20 @@
 <template>
-  <video autoplay/>
+  <video ref="videoElement" autoplay />
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
-const props = defineProps(['streamManager']);
+import { defineProps } from 'vue';
 
-const { addVideoElement } = props.streamManager;
+const props = defineProps({
+  streamManager: Object,
+});
+
 const videoElement = ref(null);
 
 onMounted(() => {
-  addVideoElement(videoElement.value);
+  if (props.streamManager && videoElement.value) {
+    props.streamManager.addVideoElement(videoElement.value);
+  }
 });
 </script>
