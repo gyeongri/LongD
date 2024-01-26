@@ -1,231 +1,176 @@
 <template>
-  <div id="main-container" class="container">
-    <div v-if="!session" id="join">
-      <div id="img-div">
-        <img src="/resources/images/openvidu_grey_bg_transp_cropped.png" />
-      </div>
-      <div class="jumbotron vertical-center" id="join-dialog">
-        <h1>비디오 세션 참여하기</h1>
-        <div class="form-group">
-          <p>
-            <label>참여자</label>
-            <input
-              v-model="myUserName"
-              class="form-control"
-              type="text"
-              required
-            />
-          </p>
-          <p>
-            <label>세션</label>
-            <input
-              v-model="mySessionId"
-              class="form-control"
-              type="text"
-              required
-            />
-          </p>
-          <p class="text-center">
-            <button @click="joinSession" class="btn btn-lg btn-success">
-              참여하기!
-            </button>
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <div v-if="session" id="session">
-      <div id="session-header">
-        <h1 :id="session ? session.title : ''">{{ mySessionId }}</h1>
-        <input
-          @click="leaveSession"
-          type="button"
-          id="buttonLeaveSession"
-          class="btn btn-large btn-danger"
-          value="세션 나가기"
-        />
-      </div>
-      <div class="col-md-6" id="main-video">
-        <user-video :stream-manager="mainStreamManager" />
-      </div>
-      <div id="video-container" class="col-md-6">
-        <user-video
-          @click="updateMainVideoStreamManager(publisher)"
-          :stream-manager="publisher"
-        />
-        <user-video
-          v-for="sub in subscribers"
-          :key="sub.stream.connection.connectionId"
-          :stream-manager="sub"
-          @click="updateMainVideoStreamManager(sub)"
-        />
-      </div>
-    </div>
-  </div>
-  <div @click="startRecord">녹화시작</div>
-  <div @click="stopRecord">녹화중지</div>
+  <div></div>
 </template>
+
 <script setup>
-import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
-import { onBeforeMount, ref, reactive } from 'vue';
-import UserVideo from '@/components/UserVideo.vue';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-// const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000/';
-var APPLICATION_SERVER_URL = 'http://localhost:5000/';
+import { ref } from 'vue';
+const events = ref('');
+const OV = ref(null);
+const session = ref(null);
+const sessionName = ref('SessionA');
+const token = ref(null);
+const numVideos = ref(0);
 
-const OV = ref(undefined);
-const session = ref(undefined);
-const mainStreamManager = ref(undefined);
-const publisher = ref(undefined);
-const subscribers = reactive([]);
+const pushEvent = function (event) {
+  events.value += (!events.value ? '' : '\n') + event.type;
+  document.getElementById('textarea-events').value = events.value;
+};
+function joinSession() {
+  document.getElementById('join-btn').disabled = true;
+  document.getElementById('join-btn').innerHTML = '참가 중...';
 
-const mySessionId = ref('SessionA');
-const myUserName = ref('Participant' + Math.floor(Math.random() * 100));
+  getToken(() => {
+    //객체생성
+    OV.value = new OpenVidu();
+    //색션 생성
+    session.value = OV.value.initSession();
 
-const joinSession = async () => {
-  //openvidu 객체생성
-  OV.value = new OpenVidu();
-  //세션 초기화
-  session.value = OV.value.initSession();
-  // 세션이벤트 처리지정
-  //새로운 스트림이 생길때 마다 구독자 추가
-  session.value.on('streamCreated', ({ stream }) => {
-    const subscriber = session.value.subscribe(stream);
-    subscribers.push(subscriber);
-  });
-  //스트림이 파괴될 때마다 구독자 제거
-  session.value.on('streamDestroyed', ({ stream }) => {
-    const index = subscribers.indexOf(stream.streamManager, 0);
-    if (index >= 0) {
-      subscribers.splice(index, 1);
-    }
-  });
-
-  // 모든 비동기 예외가 발생할 때마다...
-  session.value.on('exception', ({ exception }) => {
-    console.warn(exception);
-  });
-  //Openvidu 배포에서 토큰 가져오기
-  const token = await getToken(mySessionId.value);
-  session.value
-    .connect(token, { clientData: myUserName.value })
-    .then(() => {
-      //사용자 웹캠 스트림을 얻고 메인 비디오로 표시
-      let publisherInstance = {
-        audioSource: undefined,
-        videoSource: undefined,
-        publishAudio: true,
-        publishVideo: true,
-        resolution: '640x480',
-        frameRate: 30,
-        insertMode: 'APPEND',
-        mirror: false,
-      };
-      let pub = OV.value.initPublisher(undefined, publisherInstance);
-      //페이지에 자신의 웹캠 표시하고 발행자 저장
-      mainStreamManager.value = pub;
-      publisher.value = pub;
-      //스트림 발행
-      session.value.publish(publisher.value);
-    })
-    .catch(error => {
-      console.error(
-        'There was an error connecting to the session:',
-        error.code,
-        error.message,
-      );
+    //이벤트 출력하기
+    session.value.on('connectionCreated', event => {
+      pushEvent(event);
     });
 
-  //페이지 나가거나 새로 고침할 때 세션 나가도록 이벤트 리스너 추가
-  // window.addEventListener('beforeunload', leaveSession);
-};
-//세션 나가기 함수
-const leaveSession = () => {
-  // Session 객체의 disconnect 메서드 호출로 세션 나가기
-  if (session.value) {
-    session.value.disconnect();
+    session.value.on('connectionDestroyed', event => {
+      pushEvent(event);
+    });
+    session.value.on('streamCreated', event => {
+      pushEvent(event);
+      var subscriber = session.value.subscribe(event.stream, 'video-container');
+
+      subscriber.on('videoElementCreated', event => {
+        pushEvent(event);
+        updateNumVideos(1);
+      });
+
+      subscriber.on('videoElementDestroyed', event => {
+        pushEvent(event);
+        updateNumVideos(-1);
+      });
+
+      subscriber.on('streamPlaying', event => {
+        pushEvent(event);
+      });
+    });
+    session.value.on('streamDestroyed', event => {
+      pushEvent(event);
+    });
+    session.value.on('sessionDisconnected', event => {
+      pushEvent(event);
+      if (event.reason !== 'disconnect') {
+        removeUser();
+      }
+      if (event.reason !== 'sessionClosedByServer') {
+        session.value = null;
+        numVideos.value = 0;
+        document.getElementById('join').style.display = 'block';
+        document.getElementById('session').style.display = 'none';
+      }
+    });
+    session.value.on('recordingStarted', event => {
+      pushEvent(event);
+    });
+
+    session.value.on('recordingStopped', event => {
+      pushEvent(event);
+    });
+    //비동기 에러뜬거
+    session.value.on('exception', exception => {
+      console.warn(exception);
+    });
+    // --- 4) 세션에 연결하여 검색한 토큰 및 클라이언트에서 가져온 추가 데이터 전달 ---
+    session.value
+      .connect(token)
+      .then(() => {
+        // --- 5) 활성 통화를 위한 페이지 레이아웃 설정 ---
+        document.getElementById('session-title').textContent = sessionName;
+        document.getElementById('join').style.display = 'none';
+        document.getElementById('session').style.display = 'block';
+
+        // --- 6) 자신의 카메라 스트림을 가져오기 ---
+        const publisher = OV.value.initPublisher('video-container', {
+          audioSource: undefined,
+          videoSource: undefined,
+          publishAudio: true,
+          publishVideo: true,
+          resolution: '640x480',
+          frameRate: 30,
+          insertMode: 'APPEND',
+          mirror: false,
+        });
+
+        publisher.on('streamCreated', () => {
+          pushEvent({
+            type: 'accessAllowed',
+          });
+        });
+        publisher.on('accessDenied', event => {
+          pushEvent(event);
+        });
+        publisher.on('accessDialogOpened', () => {
+          pushEvent({
+            type: 'accessDialogOpened',
+          });
+        });
+        publisher.on('accessDialogClosed', () => {
+          pushEvent({
+            type: 'accessDialogClosed',
+          });
+        });
+        // 발행자 스트림이 미디어 재생을 시작하면...
+        publisher.on('streamCreated', event => {
+          pushEvent(event);
+        });
+        // HTML 비디오가 DOM에 추가될 때...
+        publisher.on('videoElementCreated', event => {
+          pushEvent(event);
+          updateNumVideos(1);
+          event.element.prop('muted', true);
+        });
+
+        // HTML 비디오가 DOM에 추가되었을 때...
+        publisher.on('videoElementDestroyed', event => {
+          pushEvent(event);
+          updateNumVideos(-1);
+        });
+
+        publisher.on('streamPlaying', event => {
+          // handle stream playing event
+        });
+
+        session.value.publish(publisher);
+      })
+      .catch(error => {
+        console.warn(
+          '세션에 연결하는 중 오류가 발생했습니다:',
+          error.code,
+          error.message,
+        );
+        enableBtn();
+      });
+
+    return false;
+  });
+}
+
+const updateNumVideos = function (i) {
+  numVideos.value += i;
+  const videoElement = document.querySelector('video');
+
+  switch (numVideos.value) {
+    case 1:
+      videoElement.classList.add('two');
+      break;
+    case 2:
+      videoElement.classList.add('two');
+      break;
+    case 3:
+      videoElement.classList.add('three');
+      break;
+    case 4:
+      videoElement.classList.add('four');
+      break;
   }
-
-  //모든 속성 초기화
-  session.value = undefined;
-  mainStreamManager.value = undefined;
-  publisher.value = undefined;
-  subscribers.splice(0, subscribers.length);
-  OV.value = undefined;
-
-  //beforeunload 이벤트 리스너 제거
-  // window.removeEventListener('beforeunload', leaveSession);
-};
-
-//메인 비디오 스트림 매니저 업데이트 함수
-const updateMainVideoStreamManager = stream => {
-  if (mainStreamManager.value === stream) return;
-  mainStreamManager.value = stream;
-};
-
-//세션 토크 가져오기 함수
-const getToken = async sessionId => {
-  const createdSessionId = await createSession(sessionId);
-  console.log(`이거다 ${createdSessionId}`);
-  return await createToken(createdSessionId);
-};
-
-//세션 생성 함수
-const createSession = async sessionId => {
-  const response = await axios.post(
-    APPLICATION_SERVER_URL + 'api/sessions',
-    { customSessionId: sessionId },
-    // {
-    //   headers: { 'Content-Type': 'application/json' },
-    // },
-  );
-  return response.data; //세션 ID반환
-};
-
-//토큰 생성 함수
-const createToken = async sessionId => {
-  const response = await axios.post(
-    APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections',
-    { headers: { 'Content-Type': 'application/json' } },
-  );
-
-  return response.data; //토큰 반환
-};
-//컴포넌트가 언마운트될 때 세션 나가기
-onBeforeMount(() => {
-  leaveSession();
-  window.removeEventListener('beforeunload', () => leaveSession());
-});
-
-const startRecord = async sessionId => {
-  const response = await axios.post(
-    APPLICATION_SERVER_URL + 'api/sessions/' + 'start',
-    {
-      session: 'as',
-      name: 'MyRecording',
-      hasAudio: true,
-      hasVideo: true,
-      outputMode: 'COMPOSED',
-      recordingLayout: 'CUSTOM',
-      customLayout: 'mySimpleLayout',
-      resolution: '1280x720',
-      frameRate: 25,
-      shmSize: 536870912,
-      ignoreFailedStreams: false,
-      mediaNode: {
-        id: 'media_i-0c58bcdd26l11d0sd',
-      },
-    },
-  );
-  console.log(`여기${response}`);
-  return response.data;
-};
-const stopRecord = async sessionId => {
-  const response = await axios.post(
-    APPLICATION_SERVER_URL + 'api/sessions/' + 'stop',
-  );
-  return response.data;
 };
 </script>
 
