@@ -82,6 +82,7 @@ const subscribers = reactive([]);
 
 const mySessionId = ref('SessionA');
 const myUserName = ref('Participant' + Math.floor(Math.random() * 100));
+const recordingResult = ref(null);
 
 const joinSession = async () => {
   //openvidu 객체생성
@@ -198,32 +199,43 @@ onBeforeMount(() => {
   window.removeEventListener('beforeunload', () => leaveSession());
 });
 
-const startRecord = async sessionId => {
-  const response = await axios.post(
-    APPLICATION_SERVER_URL + 'api/sessions/' + 'start',
-    {
-      session: 'as',
-      name: 'MyRecording',
-      hasAudio: true,
-      hasVideo: true,
-      outputMode: 'COMPOSED',
-      recordingLayout: 'CUSTOM',
-      customLayout: 'mySimpleLayout',
-      resolution: '1280x720',
-      frameRate: 25,
-      shmSize: 536870912,
-      ignoreFailedStreams: false,
-      mediaNode: {
-        id: 'media_i-0c58bcdd26l11d0sd',
+const startRecord = async () => {
+  try {
+    const response = await axios.post(
+      APPLICATION_SERVER_URL + 'api/recording/' + 'start',
+      {
+        session: mySessionId.value,
+        name: 'MyRecording',
+        hasAudio: true,
+        hasVideo: true,
+        outputMode: 'COMPOSED',
+        recordingLayout: 'CUSTOM',
+        customLayout: 'mySimpleLayout',
+        resolution: '1280x720',
+        frameRate: 25,
+        shmSize: 536870912,
+        ignoreFailedStreams: false,
+        mediaNode: {
+          id: 'media_i-0c58bcdd26l11d0sd',
+        },
       },
-    },
-  );
-  console.log(`여기${response}`);
-  return response.data;
+    );
+    console.log(`여기여기에요${response.data}`)
+    // 반환된 데이터를 recordingResult 변수에 저장
+    recordingResult.value = response.data;
+  } catch (error) {
+    console.error('Error starting recording:', error);
+    // 에러 처리 로직 추가 (예: 사용자에게 알림)
+  }
 };
-const stopRecord = async sessionId => {
+
+const stopRecord = async () => {
+  console.log(recordingResult.value)
   const response = await axios.post(
-    APPLICATION_SERVER_URL + 'api/sessions/' + 'stop',
+    APPLICATION_SERVER_URL + 'api/recording/' + 'stop',
+    {
+      recording : mySessionId.value
+    }
   );
   return response.data;
 };
