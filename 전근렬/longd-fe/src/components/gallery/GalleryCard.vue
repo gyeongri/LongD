@@ -1,14 +1,18 @@
 <template>
-  <div class="card card-compact w-96 bg-base-100 shadow-xl">
-    <figure>
-      <img :src="src" alt="#" />
+  <div
+    class="card card-compact w-96 bg-base-100 shadow-xl relative"
+    style="height: 300px"
+  >
+    <figure class="w-full h-full relative">
+      <img :src="src" alt="#" class="object-contain w-full h-full" />
+      <div
+        class="absolute top-0 right-0 m-4 bg-primary text-white px-3 py-1 rounded"
+      >
+        <input type="checkbox" checked="checked" class="checkbox checkbox-xs" />
+      </div>
     </figure>
     <div class="card-body">
       <h2 class="card-title">{{ id }}</h2>
-      <p>If a dog chews shoes whose shoes does he choose?</p>
-      <div class="card-actions justify-end">
-        <button class="btn btn-primary">Buy Now</button>
-      </div>
     </div>
   </div>
 </template>
@@ -24,4 +28,6 @@ defineProps({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+/* 추가적인 스타일링을 위한 부분 */
+</style>

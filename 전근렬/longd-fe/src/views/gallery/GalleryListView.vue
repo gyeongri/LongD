@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex justify-between">
     <GalleryFilter
       v-model:id="params.id_like"
       :limit="params._limit"
@@ -7,24 +7,58 @@
     >
     </GalleryFilter>
 
-    <AppGrid :items="items">
-      <template v-slot="{ item }">
-        <GalleryCard
-          :src="item.src"
-          :id="item.id"
-          @click="goDetail(item.id)"
-        ></GalleryCard>
-      </template>
-    </AppGrid>
-    <AppPagination
-      :current-page="params._page"
-      :page-count="pageCount"
-      @page="page => (params._page = page)"
-    />
+    <div class="flex items-center space-x-4">
+      <AppDropdown>
+        <template v-slot>
+          <li onclick="gallery_create.showModal()">
+            <a>open modal</a>
+          </li>
+          <li @click="goCreate"><a>사진 추가</a></li>
+          <li><a>사진 삭제</a></li>
+        </template>
+      </AppDropdown>
+    </div>
   </div>
+
+  <AppGrid :items="items">
+    <template v-slot="{ item }">
+      <GalleryCard
+        :src="item.src"
+        :id="item.id"
+        @click="goDetail(item.id)"
+      ></GalleryCard>
+    </template>
+  </AppGrid>
+
+  <AppModal modalId="gallery_create">
+    <template v-slot:title>사진을 등록하세요</template>
+    <template v-slot:body>
+      <div class="mb-4">
+        <GalleryCard v-if="src" :src="src" />
+        <GalleryCard v-else :src="defaultImage" />
+        <input
+          type="file"
+          class="file-input file-input-bordered file-input-primary w-full max-w-xs"
+          @change="previewImage"
+        />
+      </div>
+    </template>
+    <template v-slot:footer>
+      <button class="btn btn-outline btn-primary mx-2">취소</button>
+      <button @click="save" class="btn btn-outline btn-primary">저장</button>
+    </template>
+  </AppModal>
+
+  <AppPagination
+    :current-page="params._page"
+    :page-count="pageCount"
+    @page="page => (params._page = page)"
+  />
 </template>
 
 <script setup>
+import AppModal from '@/components/app/AppModal.vue';
+import AppDropdown from '@/components/app/AppDropdown.vue';
 import GalleryFilter from '@/components/gallery/GalleryFilter.vue';
 import GalleryCard from '@/components/gallery/GalleryCard.vue';
 import AppPagination from '@/components/app/AppPagination.vue';
@@ -32,6 +66,7 @@ import AppGrid from '@/components/app/AppGrid.vue';
 import { ref, computed, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import { getAlbums } from '@/api/albums';
+import { createAlbum } from '@/api/albums';
 const router = useRouter();
 
 const params = ref({
@@ -76,6 +111,66 @@ const goDetail = id => {
     },
   });
 };
+
+const goCreate = () => {
+  router.push({
+    name: 'GalleryCreate',
+  });
+};
+
+// 모달 관련
+const src = ref('');
+
+const defaultImage = '/src/assets/images/icon_upload.png'; // 디폴트 이미지 경로
+
+const previewImage = event => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      src.value = reader.result;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    src.value = '';
+  }
+};
+
+const save = async () => {
+  try {
+    // console.log(src);
+    await createAlbum({
+      src: 'https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg',
+      createdAt: Date.now(),
+    });
+    router.push({ name: 'GalleryList' });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// // 참고 (데이터 전송 관련 방법 2가지)
+// // 데이터 받는 방식 1
+// const fetchAlbums2 = () => {
+//   getAlbums()
+//     .then(res => {
+//       console.log('res', res);
+//     })
+//     .catch(err => {
+//       console.log('err', err);
+//     });
+// };
+// fetchAlbums2();
+// // 데이터 받는 방식 2
+// const fetchAlbums3 = async () => {
+//   try {
+//     const res = await getAlbums();
+//     console.dir(res);
+//   } catch (err) {
+//     console.err(err);
+//   }
+// };
+// fetchAlbums3();
 </script>
 
 <style lang="scss" scoped></style>

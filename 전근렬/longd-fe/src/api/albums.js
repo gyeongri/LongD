@@ -12,6 +12,7 @@ export function createAlbum(data) {
   return api2.post('', data);
 }
 
+// 일부 수정
 export function updateAlbum(id, data) {
   return api2.patch(`/${id}`, data);
 }
