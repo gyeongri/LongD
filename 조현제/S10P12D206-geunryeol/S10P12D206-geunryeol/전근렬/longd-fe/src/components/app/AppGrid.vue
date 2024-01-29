@@ -10,13 +10,13 @@
 defineProps({
   items: {
     type: Array,
-    required: true,
+    required: true
   },
   colClass: {
     type: String,
-    default: 'col-span-1',
-  },
-});
+    default: 'col-span-1'
+  }
+})
 </script>
 
 <style lang="scss" scoped></style>

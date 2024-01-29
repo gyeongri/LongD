@@ -1,14 +1,24 @@
 <template>
   <div class="desktop">
+    <button @click="join(coupleid)">통화하기</button>
+
     <div class="div">
-      <div class="rectangle"></div>
+      <ViduMine />
       <div class="rectangle-2"></div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+import ViduMine from '@/components/openvidu/ViduMine.vue';
+import { useViduStore } from '@/stores/vidu.js';
+import { ref } from 'vue';
+const viduStore = useViduStore();
+const coupleid = ref('aa');
 
+const join = function (coupleid) {
+  viduStore.joinSession(coupleid);
+};
 </script>
 
 <style>

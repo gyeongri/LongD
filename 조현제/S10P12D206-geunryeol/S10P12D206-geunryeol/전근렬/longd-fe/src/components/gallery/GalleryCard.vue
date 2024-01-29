@@ -1,13 +1,8 @@
 <template>
-  <div
-    class="card card-compact w-96 bg-base-100 shadow-xl relative"
-    style="height: 300px"
-  >
+  <div class="card card-compact w-96 bg-base-100 shadow-xl relative" style="height: 300px">
     <figure class="w-full h-full relative">
       <img :src="src" alt="#" class="object-contain w-full h-full" />
-      <div
-        class="absolute top-0 right-0 m-4 bg-primary text-white px-3 py-1 rounded"
-      >
+      <div class="absolute top-0 right-0 m-4 bg-primary text-white px-3 py-1 rounded">
         <input type="checkbox" checked="checked" class="checkbox checkbox-xs" />
       </div>
     </figure>
@@ -20,12 +15,12 @@
 <script setup>
 defineProps({
   id: {
-    type: Number,
+    type: Number
   },
   src: {
-    type: String,
-  },
-});
+    type: String
+  }
+})
 </script>
 
 <style lang="scss" scoped>

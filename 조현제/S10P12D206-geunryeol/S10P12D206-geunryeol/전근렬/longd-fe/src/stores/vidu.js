@@ -1,51 +1,66 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { OpenVidu } from 'openvidu-browser';
-import{ viduapi } from '@/api';
-export const useCounterStore = defineStore('vidu', () => {
-  const OV = ref(null)
+import { viduapi } from '@/api/index.js';
+export const useViduStore = defineStore('vidu', () => {
+  const OV = ref(null);
   const session = ref(null);
-  const sessionName = ref('SessionA');
+  const sessionName = ref('aa');
   const token = ref(null);
+  const forceRecordingId = ref(null);
+  const publisher = ref(null);
+  const subscriber = ref(null);
   //세션들어가기
-  const joinSession = function() {
+  const joinSession = function (coupleid) {
+    console.log();
     //토큰부터받아오고
-    getToken()
-    .then((token) => {
+    getToken(coupleid).then(token => {
       OV.value = new OpenVidu();
+      console.log('hihi');
+      console.log('Token:', token);
+
       session.value = OV.value.initSession();
+      console.log('session', session.value);
       //연결만들때 할거 생기면 적는용
       // session.value.on('connectionCreated', (event) => {});
       // 연결 끊겼을때 할거 생기면 적는용
       // session.value.on('connectionDestroyed', (event) => {});
 
       //새로운 스트림 생겼을 때 다른 참가자가 오디오,비디오 전송시작할 때
-      session.value.on('streamCreated', (event) => {
-        const subscriber = session.value.subscribe(event.stream, 'video-container');
+      session.value.on('streamCreated', event => {
+        console.log('되니되니되니?');
+        subscriber.value = session.value.subscribe(
+          event.stream,
+          'video-container',
+        );
+
         //세션에 비디오 엘리먼트가 생겼을 때
-        subscriber.on('videoElementCreated', (event) => {
-          updateNumVideos(1);
+        subscriber.value.on('videoElementCreated', event => {
+          // updateNumVideos(1);
         });
         //세션에 비디오 엘리먼트 사라졌을때
-        subscriber.on('videoElementDestroyed', (event) => {
-          updateNumVideos(-1);
+        subscriber.value.on('videoElementDestroyed', event => {
+          // updateNumVideos(-1);
         });
 
         // 비디오스트림이 재생되기 시작할 때 넣고싶은 로직 넣기
-      //   subscriber.on('streamPlaying', (event) => {});
-      // });
+        //   subscriber.on('streamPlaying', (event) => {});
+        // });
 
-      // 비디오 스트림 종료되었을때 넣고싶은 로직
-      // session.value.on('streamDestroyed', (event) => {});
+        // 비디오 스트림 종료되었을때 넣고싶은 로직
+        // session.value.on('streamDestroyed', (event) => {});
+      });
 
+      console.log('되니?');
+      console.log(token);
       //연결이 끝났을 떄
-      session.value.on('sessionDisconnected', (event) => {
+      session.value.on('sessionDisconnected', event => {
         if (event.reason !== 'disconnect') {
           removeUser();
         }
         if (event.reason !== 'sessionClosedByServer') {
           session.value = null;
-          numVideos.value = 0;
+          // numVideos.value = 0;
           //서버에의해 샤따내렸을 때 칸안보이게
           document.getElementById('join').style.display = 'block';
           document.getElementById('session').style.display = 'none';
@@ -59,15 +74,18 @@ export const useCounterStore = defineStore('vidu', () => {
       session.value.on('exception', console.warn);
 
       //토큰가지고 연결
-      session.value.connect(token)
+      session.value
+        .connect(token)
         .then(() => {
           // 활성 통화를 위한 페이지 레이아웃 설정
-          document.getElementById('session-title').textContent = sessionName.value;
-          document.getElementById('join').style.display = 'none';
-          document.getElementById('session').style.display = 'block';
+          // document.getElementById('session-title').textContent =
+          //   sessionName.value;
+          // document.getElementById('join').style.display = 'none';
+          // document.getElementById('session').style.display = 'block';
 
+          console.log('dsada412421214d', publisher.value);
           // 자신의 카메라 스트림 가져오기
-          const publisher = OV.value.initPublisher('video-container', {
+          publisher.value = OV.value.initPublisher('video-container', {
             audioSource: undefined,
             videoSource: undefined,
             publishAudio: true,
@@ -77,6 +95,7 @@ export const useCounterStore = defineStore('vidu', () => {
             insertMode: 'APPEND',
             mirror: false,
           });
+          console.log('dsadasdasdad', publisher.value);
 
           //스트림이 만들어졌을떄
           // publisher.on('streamCreated', () => {});
@@ -88,32 +107,162 @@ export const useCounterStore = defineStore('vidu', () => {
           // publisher.on('accessDialogClosed', () => {});
 
           // publisher.on('streamCreated', () => {});
-          publisher.on('videoElementCreated', (event) => {
-            updateNumVideos(1);
+          publisher.value.on('videoElementCreated', event => {
+            // updateNumVideos(1);
             event.element.prop('muted', true);
           });
-          publisher.on('videoElementDestroyed', (event) => {
-            updateNumVideos(-1);
+          publisher.value.on('videoElementDestroyed', event => {
+            // updateNumVideos(-1);
           });
-          publisher.on('streamPlaying', () => {});
+          publisher.value.on('streamPlaying', () => {});
 
-          session.value.publish(publisher);
+          session.value.publish(publisher.value);
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('세션에 연결하는 중 오류가 발생했습니다:', error);
-          enableBtn();
+          // enableBtn();
         });
 
       return false;
-    })
-    ;
-})};
+    });
+  };
+
   //버튼관리용 필요하려나
-  const enableBtn =() => {
-    document.getElementById("join-btn").disabled = false;
-    document.getElementById("join-btn").innerHTML = "Join!  ";
-  }
+  // const enableBtn = () => {
+  //   document.getElementById('join-btn').disabled = false;
+  //   document.getElementById('join-btn').innerHTML = 'Join!';
+  // };
 
-  return {  };
+  //토큰받아오기
+  const getToken = function (coupleid) {
+    console.log('hihibyby', coupleid);
+    sessionName.value = coupleid;
+    return viduapi
+      .post('get-token', { sessionName: sessionName.value })
+      .then(res => {
+        console.log(res.data[0]);
+        token.value = res.data[0];
+        console.warn(`Token 요청 성공 (TOKEN: ${token.value})`);
+        return token.value;
+      })
+      .catch(error => {
+        console.error('TOKEN 요청 실패:', error);
+        throw error;
+      });
+  };
 
+  //세션닫기
+  const closeSession = function () {
+    viduapi
+      .delete('close-session', {
+        sessionName: sessionName.value,
+      })
+      .then(res => {
+        console.warn(`Session ${sessionName.value} has been closed`);
+      })
+      .catch(error => {
+        console.error("Session couldn't be closed");
+      });
+  };
+
+  //세션정보불러오기
+  const fetchInfo = function () {
+    viduapi
+      .post('fetch-info', {
+        sessionName: sessionName.value,
+      })
+      .then(res => {
+        console.warn('Session info has been fetched', res.data);
+      })
+      .catch(error => {
+        console.error('세션 못찾음'.error);
+      });
+  };
+  //녹화하기
+  const startRecording = function () {
+    //일단 COMPOSED Mode로
+    var outputMode = 'COMPOSED';
+    var hasAudio = true;
+    var hasVideo = true;
+    console.log(session.value.sessionId);
+    viduapi
+      .post('recording/start', {
+        session: session.value.sessionId,
+        outputMode,
+        hasAudio,
+        hasVideo,
+      })
+      .then(res => {
+        console.log('녹화시작성공');
+        forceRecordingId.value = res.data.id;
+        console.log(`forceRecordingId : ${res.data.id}`);
+      })
+      .catch(error => {
+        console.error(error);
+        throw error;
+      });
+  };
+
+  //녹화 끝
+  const stopRecording = function () {
+    viduapi
+      .post('recording/stop', {
+        recording: forceRecordingId.value,
+      })
+      .then(res => {
+        //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
+        console.log('녹화완료');
+      })
+      .catch(error => {
+        console.error(error);
+        throw error;
+      });
+  };
+
+  //세션에서 나가기
+  const removeUser = function () {
+    viduapi
+      .post('remove-user', {
+        sessionName: sessionName.value,
+        token: token.value,
+      })
+      .then(res => {
+        console.warn('You have been removed from session ' + sessionName.value);
+      })
+      .catch(error => {
+        console.error("User couldn't be removed from session");
+      });
+  };
+
+  //세션나가기
+  const leaveSession = function () {
+    session.value.disconnect();
+    // enableBtn();
+  };
+  //browser 메서드
+
+  window.onbeforeunload = function () {
+    if (session.value) {
+      removeUser();
+      leaveSession();
+    }
+  };
+
+  return {
+    OV,
+    session,
+    sessionName,
+    token,
+    forceRecordingId,
+    publisher,
+    joinSession,
+    // enableBtn,
+    getToken,
+    closeSession,
+    fetchInfo,
+    startRecording,
+    stopRecording,
+    removeUser,
+    leaveSession,
+  };
 });

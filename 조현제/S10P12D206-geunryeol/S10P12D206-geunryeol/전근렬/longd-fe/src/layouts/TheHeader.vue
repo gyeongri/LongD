@@ -1,9 +1,7 @@
 <template>
   <div class="navbar bg-base-100">
     <div class="flex-1">
-      <RouterLink class="btn btn-ghost text-xl" :to="{ name: 'Home' }"
-        >롱디</RouterLink
-      >
+      <RouterLink class="btn btn-ghost text-xl" :to="{ name: 'Home' }">롱디</RouterLink>
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal px-1">

@@ -13,9 +13,7 @@
         height="32"
         viewBox="0 0 512 512"
       >
-        <path
-          d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"
-        />
+        <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
       </svg>
 
       <!-- close icon -->
@@ -33,10 +31,7 @@
     </label>
 
     <!-- 드롭다운 메뉴 -->
-    <ul
-      tabindex="0"
-      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-    >
+    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
       <slot></slot>
     </ul>
   </div>

@@ -12,12 +12,12 @@
 <script setup>
 defineProps({
   id: {
-    type: Number,
+    type: Number
   },
   src: {
-    type: String,
-  },
-});
+    type: String
+  }
+})
 </script>
 
 <style lang="scss" scoped></style>

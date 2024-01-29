@@ -16,42 +16,42 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import GalleryCard from '@/components/gallery/GalleryCard.vue';
-import { createAlbum } from '@/api/albums';
-import { useRouter } from 'vue-router';
+import { ref } from 'vue'
+import GalleryCard from '@/components/gallery/GalleryCard.vue'
+import { createAlbum } from '@/api/albums'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 
-const src = ref('');
+const src = ref('')
 
-const defaultImage = '/src/assets/images/icon_upload.png'; // 디폴트 이미지 경로
+const defaultImage = '/src/assets/images/icon_upload.png' // 디폴트 이미지 경로
 
-const previewImage = event => {
-  const file = event.target.files[0];
+const previewImage = (event) => {
+  const file = event.target.files[0]
   if (file) {
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = () => {
-      src.value = reader.result;
-    };
-    reader.readAsDataURL(file);
+      src.value = reader.result
+    }
+    reader.readAsDataURL(file)
   } else {
-    src.value = '';
+    src.value = ''
   }
-};
+}
 
 const save = async () => {
   try {
-    console.log(src);
+    console.log(src)
     await createAlbum({
       src: 'https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg',
-      createdAt: Date.now(),
-    });
-    router.push({ name: 'GalleryList' });
+      createdAt: Date.now()
+    })
+    router.push({ name: 'GalleryList' })
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
-};
+}
 </script>
 
 <style lang="scss" scoped></style>
