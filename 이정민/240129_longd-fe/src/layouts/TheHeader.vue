@@ -34,7 +34,7 @@
     </div>
 
     <div @click="lockPage()">
-      <!-- <RouterLink :to="{ name: 'app' }"> 화면잠금 </RouterLink> -->
+      <!-- <RouterLink :to="{ name: 'closed' }"> 화면잠금 </RouterLink> -->
       <!-- 화면잠금할게아니라 어떤 변수를 위로 던져줘야한다! -->
       <p>화면잠금</p>
     </div>

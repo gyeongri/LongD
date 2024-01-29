@@ -9,6 +9,7 @@
       <ClosedView />
     </div>
   </div>
+  
   <div v-if="userStore.isLogin">
     <!-- <div v-if="로그아웃이라면(토큰이 없다면)"> -->
     <LoginSignUpView />
