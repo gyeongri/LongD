@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue';
 import GalleryListView from '@/views/gallery/GalleryListView.vue';
 import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
 import GalleryCreateView from '@/views/gallery/GalleryCreateView.vue';
+import CalendarView from '@/views/calendar/CalendarView.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/gallery/create',
       name: 'GalleryCreate',
       component: GalleryCreateView,
+    },
+    {
+      path: '/calendar',
+      name: 'Calendar',
+      component: CalendarView,
     },
   ],
 });

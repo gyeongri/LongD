@@ -8,6 +8,7 @@
     <div class="flex-none">
       <ul class="menu menu-horizontal px-1">
         <li><RouterLink :to="{ name: 'GalleryList' }">Gallery</RouterLink></li>
+        <li><RouterLink :to="{ name: 'Calendar' }">Calendar</RouterLink></li>
         <li>
           <details>
             <summary>profile</summary>

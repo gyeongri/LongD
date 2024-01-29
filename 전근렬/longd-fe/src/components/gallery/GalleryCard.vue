@@ -24,9 +24,9 @@
 </template>
 
 <script setup>
-import { defineEmits, ref } from 'vue';
+import { ref, watch } from 'vue';
 
-defineProps({
+const props = defineProps({
   id: {
     type: Number,
   },
@@ -38,16 +38,21 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['update:deleteActive']);
-
 const checked = ref(false);
 
 const toggleCheckbox = () => {
-  // 부모 컴포넌트에 이벤트를 발송하여 상태를 변경합니다.
-  emit('update:deleteActive', !checked.value);
-  // checked 값을 토글합니다.
   checked.value = !checked.value;
 };
+
+// deleteActive의 변경을 감시하여 checked를 false로 설정
+watch(
+  () => props.deleteActive,
+  newValue => {
+    if (newValue) {
+      checked.value = false;
+    }
+  },
+);
 </script>
 
 <style lang="scss" scoped>
