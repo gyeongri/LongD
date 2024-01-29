@@ -4,18 +4,21 @@
 
     <div class="div">
       <ViduMine />
-      <div class="rectangle-2"></div>
+      <div>
+        <ViduYours v-if="viduStore.hasSubscriber" />
+        <div v-else class="rectangle-2"></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import ViduMine from '@/components/openvidu/ViduMine.vue';
+import ViduYours from '@/components/openvidu/ViduYours.vue';
 import { useViduStore } from '@/stores/vidu.js';
 import { ref } from 'vue';
 const viduStore = useViduStore();
 const coupleid = ref('aa');
-
 const join = function (coupleid) {
   viduStore.joinSession(coupleid);
 };

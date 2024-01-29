@@ -2,24 +2,35 @@
   <div>
     <video ref="videoElement" autoplay></video>
   </div>
-  <button @click="check">여기</button>
-  <br />
-  <button @click="viduStore.startRecording">녹화</button>
-  <br />
-  <button @click="viduStore.stopRecording">중단</button>
-  <br />
+
   <button @click="enterPiPMode">pip변신</button>
+  <button @check="click">여기</button>
 </template>
 
 <script setup>
 import { computed, watch, ref } from 'vue';
 import { useViduStore } from '@/stores/vidu.js';
 const viduStore = useViduStore();
-const videoElement = ref(null);
-const check = function () {
-  console.log(viduStore.publisher);
-  viduStore.publisher.addVideoElement(videoElement.value);
+const videoElement = ref();
+const click = function () {
+  viduStore.subscriber.addVideoElement(videoElement.value);
 };
+watch(
+  // 첫 번째 인자: 감시할 데이터
+  () => viduStore.hasSubscriber,
+
+  // 두 번째 인자: 데이터가 변경될 때 실행될 콜백 함수
+  (newValue, oldValue) => {
+    // newValue: 변경된 데이터
+    // oldValue: 변경되기  전의 데이터
+
+    // 변경될 때 실행할 로직 작성
+    if (newValue) {
+      viduStore.subscriber.addVideoElement(videoElement.value);
+    }
+  },
+);
+
 const enterPiPMode = async () => {
   try {
     if (document.pictureInPictureEnabled) {
