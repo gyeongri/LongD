@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent>
-    <div class="row" g-3>
-      <div class="col">
+    <div class="flex items-center justify-between">
+      <div class="w-3/4">
         <input
           :value="id"
           @input="changeId"
@@ -10,7 +10,7 @@
           placeholder="id로 검색해주세요."
         />
       </div>
-      <div class="col-3">
+      <div class="w-1/4 pl-2">
         <select
           :value="limit"
           @input="$emit('update:limit', $event.target.value)"
@@ -28,7 +28,6 @@
 <script setup>
 defineProps({
   id: { type: [String, Number] },
-
   limit: { type: [String, Number] },
 });
 const emit = defineEmits(['update:id', 'update:limit']);
