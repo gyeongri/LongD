@@ -19,4 +19,11 @@ const api2 = axios.create({
     // 다른 헤더를 필요에 따라 설정할 수 있습니다.
   },
 });
-export { api, api2 };
+const viduapi = axios.create({
+  baseURL: 'https://localhost:5000/recording-java/api/',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU',
+  },
+});
+export { api, api2, viduapi };
