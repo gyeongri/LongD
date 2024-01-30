@@ -9,6 +9,7 @@
       <ul class="menu menu-horizontal px-1">
         <li><RouterLink :to="{ name: 'GalleryList' }">Gallery</RouterLink></li>
         <li><RouterLink :to="{ name: 'Calendar' }">Calendar</RouterLink></li>
+        <li><RouterLink :to="{ name: 'Calendar2' }">Calendar2</RouterLink></li>
         <li>
           <details>
             <summary>profile</summary>

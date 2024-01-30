@@ -11,16 +11,30 @@ import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 
-// 클릭 이벤트 핸들러 함수
-const handleDateClick = arg => {
-  console.log(arg);
-  alert('date click! ' + arg.dateStr);
+// const handleDateClick = arg => {
+//   console.log(arg);
+//   alert('date click! ' + arg.dateStr);
+// };
+
+const handleEventClick = clickInfo => {
+  if (
+    confirm(
+      `Are you sure you want to delete the event '${clickInfo.event.title}'`,
+    )
+  ) {
+    clickInfo.event.remove();
+  }
 };
 
 const calendarOptions = {
   plugins: [dayGridPlugin, interactionPlugin],
   initialView: 'dayGridMonth',
-  dateClick: handleDateClick,
+  // dateClick: handleDateClick,
+  eventClick: handleEventClick,
+  editable: true, // 수정 가능?
+  selectable: true,
+  nowIndicator: true, // 현재 시간 마크
+  dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
   events: [
     { title: 'event 1', date: '2024-01-01' },
     {

@@ -4,6 +4,7 @@ import GalleryListView from '@/views/gallery/GalleryListView.vue';
 import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
 import GalleryCreateView from '@/views/gallery/GalleryCreateView.vue';
 import CalendarView from '@/views/calendar/CalendarView.vue';
+import CalendarView2 from '@/views/calendar/CalendarView2.vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -39,6 +40,11 @@ const router = createRouter({
       path: '/calendar',
       name: 'Calendar',
       component: CalendarView,
+    },
+    {
+      path: '/calendar2',
+      name: 'Calendar2',
+      component: CalendarView2,
     },
   ],
 });
