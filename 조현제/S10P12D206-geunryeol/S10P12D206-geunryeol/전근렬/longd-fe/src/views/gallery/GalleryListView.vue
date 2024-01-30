@@ -1,6 +1,10 @@
 <template>
   <div class="flex justify-between">
-    <GalleryFilter v-model:id="params.id_like" :limit="params._limit" @update:limit="changeLimit">
+    <GalleryFilter
+      v-model:id="params.id_like"
+      :limit="params._limit"
+      @update:limit="changeLimit"
+    >
     </GalleryFilter>
 
     <div class="flex items-center space-x-4">
@@ -18,7 +22,11 @@
 
   <AppGrid :items="items">
     <template v-slot="{ item }">
-      <GalleryCard :src="item.src" :id="item.id" @click="goDetail(item.id)"></GalleryCard>
+      <GalleryCard
+        :src="item.src"
+        :id="item.id"
+        @click="goDetail(item.id)"
+      ></GalleryCard>
     </template>
   </AppGrid>
 
@@ -44,100 +52,102 @@
   <AppPagination
     :current-page="params._page"
     :page-count="pageCount"
-    @page="(page) => (params._page = page)"
+    @page="page => (params._page = page)"
   />
 </template>
 
 <script setup>
-import AppModal from '@/components/app/AppModal.vue'
-import AppDropdown from '@/components/app/AppDropdown.vue'
-import GalleryFilter from '@/components/gallery/GalleryFilter.vue'
-import GalleryCard from '@/components/gallery/GalleryCard.vue'
-import AppPagination from '@/components/app/AppPagination.vue'
-import AppGrid from '@/components/app/AppGrid.vue'
-import { ref, computed, watchEffect } from 'vue'
-import { useRouter } from 'vue-router'
-import { getAlbums } from '@/api/albums'
-import { createAlbum } from '@/api/albums'
-const router = useRouter()
+import AppModal from '@/components/app/AppModal.vue';
+import AppDropdown from '@/components/app/AppDropdown.vue';
+import GalleryFilter from '@/components/gallery/GalleryFilter.vue';
+import GalleryCard from '@/components/gallery/GalleryCard.vue';
+import AppPagination from '@/components/app/AppPagination.vue';
+import AppGrid from '@/components/app/AppGrid.vue';
+import { ref, computed, watchEffect } from 'vue';
+import { useRouter } from 'vue-router';
+import { getAlbums } from '@/api/albums';
+import { createAlbum } from '@/api/albums';
+const router = useRouter();
 
 const params = ref({
   _sort: 'createdAt', // 무엇을
   _order: 'desc', // 내림차순
   _limit: 6, // 몇개씩 조회
   _page: 1, // 현재 페이지를 조회
-  id_like: '' // 해당 요소 검색 기능
-})
+  id_like: '', // 해당 요소 검색 기능
+});
 
-const totalCount = ref(0)
-const pageCount = computed(() => Math.ceil(totalCount.value / params.value._limit))
+const totalCount = ref(0);
+const pageCount = computed(() =>
+  Math.ceil(totalCount.value / params.value._limit),
+);
 
-const changeLimit = (value) => {
-  params.value._limit = value
-  params.value._page = 1 // 갯수 제한이 바뀔 때마다 첫 페이지로 가도록
-}
+const changeLimit = value => {
+  params.value._limit = value;
+  params.value._page = 1; // 갯수 제한이 바뀔 때마다 첫 페이지로 가도록
+};
 
-const items = ref([])
+const items = ref([]);
 
 const fetchAlbums = async () => {
   try {
-    const { data, headers } = await getAlbums(params.value)
-    items.value = data
-    totalCount.value = headers['x-total-count']
+    const { data, headers } = await getAlbums(params.value);
+    items.value = data;
+    totalCount.value = headers['x-total-count'];
     // console.log(data);
   } catch (err) {
-    console.err(err)
+    console.err(err);
   }
-}
+};
 
 // watchEffect는 watch와 동일하지만 처음에 한번 바로 실행해주는 점이 다름
-watchEffect(fetchAlbums)
+watchEffect(fetchAlbums);
 
-const goDetail = (id) => {
+const goDetail = id => {
   router.push({
     name: 'GalleryDetail',
     params: {
-      id
-    }
-  })
-}
+      id,
+    },
+  });
+};
 
 const goCreate = () => {
   router.push({
-    name: 'GalleryCreate'
-  })
-}
+    name: 'GalleryCreate',
+  });
+};
 
 // 모달 관련
-const src = ref('')
+const src = ref('');
 
-const defaultImage = '/src/assets/images/icon_upload.png' // 디폴트 이미지 경로
+const defaultImage = '/src/assets/images/icon_upload.png'; // 디폴트 이미지 경로
 
-const previewImage = (event) => {
-  const file = event.target.files[0]
+const previewImage = event => {
+  const file = event.target.files[0];
   if (file) {
-    const reader = new FileReader()
+    const reader = new FileReader();
     reader.onload = () => {
-      src.value = reader.result
-    }
-    reader.readAsDataURL(file)
+      src.value = reader.result;
+    };
+    reader.readAsDataURL(file);
   } else {
-    src.value = ''
+    src.value = '';
   }
-}
+};
 
 const save = async () => {
   try {
     // console.log(src);
     await createAlbum({
       src: 'https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg',
-      createdAt: Date.now()
-    })
-    router.push({ name: 'GalleryList' })
+      createdAt: Date.now(),
+    });
+    router.push({ name: 'GalleryList' });
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
 
 // // 참고 (데이터 전송 관련 방법 2가지)
 // // 데이터 받는 방식 1

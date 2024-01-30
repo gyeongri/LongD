@@ -25,7 +25,7 @@ watch(
     // oldValue: 변경되기  전의 데이터
 
     // 변경될 때 실행할 로직 작성
-    if (newValue) {
+    if (newValue || oldValue) {
       viduStore.subscriber.addVideoElement(videoElement.value);
     }
   },

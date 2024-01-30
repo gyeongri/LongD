@@ -1,6 +1,6 @@
 <template>
   <ov-videoconference> </ov-videoconference>
-  <div>
+  <div v-if="viduStore.publisher">
     <video ref="videoElement" autoplay></video>
   </div>
   <button @click="check">여기</button>
@@ -17,6 +17,26 @@ import { computed, watch, ref } from 'vue';
 import { useViduStore } from '@/stores/vidu.js';
 const viduStore = useViduStore();
 const videoElement = ref(null);
+watch(
+  () => viduStore.publisherTest,
+  (newValue, oldValue) => {
+    if (viduStore.publisherTest) {
+      viduStore.publisher.addVideoElement(videoElement.value);
+    }
+  },
+);
+// watch(
+//   () => viduStore.publisherTest,
+//   (newValue, oldValue) => {
+//     console.log('qwe');
+//     setTimeout(() => {
+//       console.log('시간차공격');
+//       if (viduStore.publisherTest) {
+//         viduStore.publisher.addVideoElement(videoElement.value);
+//       }
+//     }, 0);
+//   },
+// );
 const check = function () {
   console.log(viduStore.publisher);
   viduStore.publisher.addVideoElement(videoElement.value);

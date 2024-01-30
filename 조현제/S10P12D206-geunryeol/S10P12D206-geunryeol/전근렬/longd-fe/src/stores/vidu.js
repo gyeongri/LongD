@@ -13,6 +13,8 @@ export const useViduStore = defineStore('vidu', () => {
   const hasSubscriber = computed(() => !!subscriber.value);
   const test1 = ref(null);
   const test2 = ref(null);
+  const videoContainer = ref(null);
+  const publisherTest = ref(false);
   //세션들어가기
   const joinSession = function (coupleid) {
     console.log();
@@ -34,7 +36,7 @@ export const useViduStore = defineStore('vidu', () => {
         console.log('되니되니되니?');
         subscriber.value = session.value.subscribe(
           event.stream,
-          'video-container',
+          videoContainer.value,
         );
         // console.log(subscriber.value.addVideoElement(test2.value));
         // console.log(event.stream.addVideoElement(test1.value));
@@ -56,9 +58,6 @@ export const useViduStore = defineStore('vidu', () => {
         // 비디오 스트림 종료되었을때 넣고싶은 로직
         // session.value.on('streamDestroyed', (event) => {});
       });
-
-      console.log('되니?');
-      console.log(token);
       //연결이 끝났을 떄
       session.value.on('sessionDisconnected', event => {
         if (event.reason !== 'disconnect') {
@@ -126,6 +125,9 @@ export const useViduStore = defineStore('vidu', () => {
           publisher.value.on('streamPlaying', () => {});
 
           session.value.publish(publisher.value);
+        })
+        .then(res => {
+          publisherTest.value = true;
         })
         .catch(error => {
           console.error('세션에 연결하는 중 오류가 발생했습니다:', error);
@@ -268,6 +270,7 @@ export const useViduStore = defineStore('vidu', () => {
     hasSubscriber,
     test1,
     test2,
+    publisherTest,
     joinSession,
     // enableBtn,
     getToken,
