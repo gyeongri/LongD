@@ -1,4 +1,5 @@
 <template>
+  <ov-videoconference> </ov-videoconference>
   <div>
     <video ref="videoElement" autoplay></video>
   </div>

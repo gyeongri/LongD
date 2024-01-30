@@ -8,12 +8,11 @@ export const useViduStore = defineStore('vidu', () => {
   const sessionName = ref('aa');
   const token = ref(null);
   const forceRecordingId = ref(null);
-  //내화면관련데이터
   const publisher = ref(null);
-  //상대화면 관련데이터
   const subscriber = ref(null);
   const hasSubscriber = computed(() => !!subscriber.value);
-  const test = ref(null);
+  const test1 = ref(null);
+  const test2 = ref(null);
   //세션들어가기
   const joinSession = function (coupleid) {
     console.log();
@@ -33,10 +32,16 @@ export const useViduStore = defineStore('vidu', () => {
       //새로운 스트림 생겼을 때 다른 참가자가 오디오,비디오 전송시작할 때
       session.value.on('streamCreated', event => {
         console.log('되니되니되니?');
-        subscriber.value = session.value.subscribe(event.stream);
-        subscriber.value.addVideoElement(test.value);
+        subscriber.value = session.value.subscribe(
+          event.stream,
+          'video-container',
+        );
+        // console.log(subscriber.value.addVideoElement(test2.value));
+        // console.log(event.stream.addVideoElement(test1.value));
+
         //세션에 비디오 엘리먼트가 생겼을 때
         subscriber.value.on('videoElementCreated', event => {
+          console.log('떠라떠라떠라');
           // updateNumVideos(1);
         });
         //세션에 비디오 엘리먼트 사라졌을때
@@ -50,11 +55,6 @@ export const useViduStore = defineStore('vidu', () => {
 
         // 비디오 스트림 종료되었을때 넣고싶은 로직
         // session.value.on('streamDestroyed', (event) => {});
-
-        //나갔을떄
-        session.value.on('streamDestroyed', event => {
-          subscriber.value = null;
-        });
       });
 
       console.log('되니?');
@@ -103,8 +103,10 @@ export const useViduStore = defineStore('vidu', () => {
           });
           console.log('dsadasdasdad', publisher.value);
 
-          //스트림이 만들어졌을떄
-          // publisher.on('streamCreated', () => {});
+          // 스트림이 만들어졌을떄
+          publisher.value.on('streamCreated', () => {
+            console.log('어디지?');
+          });
           //요청이 거부당했을떄
           // publisher.on('accessDenied', (event) => {});
           //카메라, 마이크 사용권한부여 생길떄
@@ -115,6 +117,7 @@ export const useViduStore = defineStore('vidu', () => {
           // publisher.on('streamCreated', () => {});
           publisher.value.on('videoElementCreated', event => {
             // updateNumVideos(1);
+            console.log('여기가뜨는건가?');
             event.element.prop('muted', true);
           });
           publisher.value.on('videoElementDestroyed', event => {
@@ -187,7 +190,7 @@ export const useViduStore = defineStore('vidu', () => {
   //녹화하기
   const startRecording = function () {
     //일단 COMPOSED Mode로
-    var outputMode = 'COMPOSED';
+    var outputMode = 'INDIVIDUAL';
     var hasAudio = true;
     var hasVideo = true;
     console.log(session.value.sessionId);
@@ -255,7 +258,6 @@ export const useViduStore = defineStore('vidu', () => {
   };
 
   return {
-    test,
     OV,
     session,
     sessionName,
@@ -264,6 +266,8 @@ export const useViduStore = defineStore('vidu', () => {
     publisher,
     subscriber,
     hasSubscriber,
+    test1,
+    test2,
     joinSession,
     // enableBtn,
     getToken,

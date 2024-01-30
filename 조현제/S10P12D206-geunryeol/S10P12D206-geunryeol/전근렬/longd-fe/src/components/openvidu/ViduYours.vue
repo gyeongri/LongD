@@ -13,7 +13,7 @@ import { useViduStore } from '@/stores/vidu.js';
 const viduStore = useViduStore();
 const videoElement = ref();
 const click = function () {
-  viduStore.subscriber.addVideoElement(videoElement.value);
+  viduStore.subscriber.value.addVideoElement(videoElement.value);
 };
 watch(
   // 첫 번째 인자: 감시할 데이터
