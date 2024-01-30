@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="box">
     <div class="group">
       <div class="overlap">
@@ -82,29 +82,29 @@
   width: 612px;
 }
 
-.box .group {
+/* .box .group {
   height: 740px;
   left: 0;
   position: fixed;
   top: 0;
   width: 612px;
-}
+} */
 
-.box .overlap {
+/* .box .overlap {
   height: 740px;
   position: relative;
-}
+} */
 
 .box .view {
   height: 720px;
-  left: 0;
+  left: 50px;
   position: absolute;
-  top: 20px;
+  top: 200px;
   width: 612px;
 }
 
 .box .overlap-group {
-  background-image: url(./frame.png);
+  background-image: url(/static/img/frame.png);
   background-size: 100% 100%;
   height: 728px;
   left: -4px;
@@ -314,10 +314,10 @@
 
 .image .heart-suit {
   height: 43px;
-  left: 0;
+  left: 400px;
   object-fit: cover;
   position: fixed;
-  top: 0;
+  top: 290px;
   width: 42px;
 }
 .box .img {
@@ -330,14 +330,14 @@
 
 .box .overlap-wrapper {
   height: 78px;
-  left: 174px;
+  left: 230px;
   position: absolute;
-  top: 0;
+  top: 180px;
   width: 266px;
 }
 
 .box .div-wrapper {
-  background-image: url(./group-19.png);
+  background-image: url(/static/img/group-19.png);
   background-size: 100% 100%;
   height: 78px;
   position: relative;
@@ -359,12 +359,12 @@
   white-space: nowrap;
   width: 182px;
 }
-</style> -->
+</style>
 
-<template>
+<!-- <template>
   <div>일단 이게 홈화면 대체</div>
 </template>
 
 <script setup></script>
 
-<style scoped></style>
+<style scoped></style> -->
