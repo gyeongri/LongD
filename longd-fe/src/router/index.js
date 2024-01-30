@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue';
 import GalleryListView from '@/views/gallery/GalleryListView.vue';
 import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
 import GalleryCreateView from '@/views/gallery/GalleryCreateView.vue';
+import CalendarView from '@/views/calendar/CalendarView.vue';
 import CalendarView2 from '@/views/calendar/CalendarView2.vue';
 import ViduMainView from '@/views/openvidu/ViduMainView.vue';
 import ClosedView from '../views/main/ClosedView.vue';
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/gallery/create',
       name: 'GalleryCreate',
       component: GalleryCreateView,
+    },
+    {
+      path: '/calendar',
+      name: 'Calendar',
+      component: CalendarView,
     },
     {
       path: '/calendar2',

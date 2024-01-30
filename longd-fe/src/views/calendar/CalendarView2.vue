@@ -20,6 +20,20 @@
       </FullCalendar>
     </div>
   </div>
+  <AppModal :open="isModalOpen" modalId="calendarId">
+    <template v-slot:title>추억 내용을 등록하세요</template>
+    <template v-slot:body>
+      <div class="mb-4">{{ currentClickInfoId }}</div>
+    </template>
+    <template v-slot:footer>
+      <button @click="closeModal" class="btn btn-outline btn-primary mx-2">
+        취소
+      </button>
+      <button @click="confirmDeleteEvent" class="btn btn-outline btn-primary">
+        삭제
+      </button>
+    </template>
+  </AppModal>
 </template>
 
 <script setup>
@@ -27,11 +41,12 @@ import { ref } from 'vue';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { INITIAL_EVENTS, createEventId } from './event-utils';
+import { INITIAL_EVENTS, createEventId } from '@/composables/event-utils';
+import AppModal from '@/components/app/AppModal.vue';
 
-// Functions
+// 계획 작성 메소드
 const handleDateSelect = selectInfo => {
-  let title = prompt('Please enter a new title for your event');
+  let title = prompt('새로운 추억을 입력해주세요.');
   let calendarApi = selectInfo.view.calendar;
 
   calendarApi.unselect(); // clear date selection
@@ -47,14 +62,44 @@ const handleDateSelect = selectInfo => {
   }
 };
 
-const handleEventClick = clickInfo => {
+// 모달을 열고 닫는 상태 변수
+const isModalOpen = ref(false);
+// 클릭된 이벤트 정보 저장 변수
+let currentClickInfo = null;
+let currentClickInfoId = null;
+
+// 모달을 열기 위한 메소드
+// 현재 클릭된 이벤트 정보 저장도 해줌.
+// 추가적으로 모달을 열 때 백으로 부터 해당 id의 정보도 불러오기(axios)
+const openModal = clickInfo => {
+  currentClickInfo = clickInfo;
+  currentClickInfoId = currentClickInfo.event.id;
+  isModalOpen.value = true;
+};
+
+// 모달을 닫기 위한 메소드
+const closeModal = () => {
+  isModalOpen.value = false;
+};
+
+// 이벤트 삭제 관련 메소드
+const confirmDeleteEvent = () => {
   if (
-    confirm(
-      `Are you sure you want to delete the event '${clickInfo.event.title}'`,
-    )
+    currentClickInfo &&
+    confirm(`정말로 '${currentClickInfo.event.title}'를 삭제하시겠습니까?`)
   ) {
-    clickInfo.event.remove();
+    currentClickInfo.event.remove();
   }
+  closeModal(); // 모달 닫기
+};
+
+const handleEventClick = clickInfo => {
+  console.log(clickInfo.event.id);
+  // if (confirm(`정말로 '${clickInfo.event.title}'를 삭제하시겠습니까?`)) {
+  //   clickInfo.event.remove();
+  // }
+  // 모달 열기
+  openModal(clickInfo);
 };
 
 const handleEvents = events => {
@@ -68,14 +113,20 @@ const calendarOptions = ref({
     interactionPlugin, // needed for dateClick
   ],
   initialView: 'dayGridMonth',
-  initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+  initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed, 이걸로 저장하는 느낌을 줄 수 있을 듯
+
   editable: true,
   selectable: true,
   selectMirror: true,
   dayMaxEvents: true,
   select: handleDateSelect,
   eventClick: handleEventClick,
-  eventsSet: handleEvents,
+  eventsSet: handleEvents, // 이게 있어야 이벤트를 화면에 띄울 수 있음
+  /* you can update a remote database when these fire:
+  eventAdd:
+  eventChange:
+  eventRemove:
+  */
 });
 
 const currentEvents = ref([]);

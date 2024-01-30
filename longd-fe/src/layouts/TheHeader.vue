@@ -12,6 +12,7 @@
             ><img class="image" alt="Gallery" src="/static/img/image.png"
           /></RouterLink>
         </li>
+        <li><RouterLink :to="{ name: 'Calendar' }">Calendar</RouterLink></li>
         <li>
           <RouterLink :to="{ name: 'Calendar2' }"
             ><img class="image" alt="Calendar" src="/static/img/2x.png"
