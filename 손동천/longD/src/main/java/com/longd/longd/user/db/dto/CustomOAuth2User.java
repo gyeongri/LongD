@@ -1,5 +1,6 @@
-package com.longd.longd.user.db.entity;
+package com.longd.longd.user.db.dto;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -21,7 +22,7 @@ public class CustomOAuth2User implements OAuth2User {
     @Override
     public Map<String, Object> getAttributes() {
 
-        return null;
+        return oAuth2Response.getAttribute();
     }
 
     @Override
@@ -50,5 +51,13 @@ public class CustomOAuth2User implements OAuth2User {
     public String getUsername() {
 
         return oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
+    }
+
+    public String getProvider() {
+        return oAuth2Response.getProvider();
+    }
+
+    public String getProviderId() {
+        return oAuth2Response.getProviderId();
     }
 }

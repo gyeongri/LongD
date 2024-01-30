@@ -1,15 +1,11 @@
 package com.longd.longd.user.db.entity;
 
+import com.longd.longd.user.db.dto.OAuth2Response;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 
 @Getter
@@ -22,7 +18,7 @@ public class User implements OAuth2Response {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = null;
 
-    //private int couple_list_id;
+    private int coupleListId = 0;
     private String userId = "NULL방지";
     private String emailId = "NULL방지";
     private String emailDomain = "NULL방지";
@@ -46,15 +42,6 @@ public class User implements OAuth2Response {
     //private String refreshToken;
 
 
-
-//    private final Map<String, Object> attribute;
-    public User(Map<String, Object> attribute) {
-
-//        this.attribute= attribute;
-//        userId = tmpAttribute.get("sub").toString();
-//        name = tmpAttribute.get("name").toString();
-    }
-
     @Override
     public String getProviderId() {
         return getUserId();
@@ -63,5 +50,10 @@ public class User implements OAuth2Response {
     @Override
     public String getEmail() {
         return getEmailId() + "@" + getEmailDomain();
+    }
+
+    @Override
+    public Map<String, Object> getAttribute() {
+        return null;
     }
 }
