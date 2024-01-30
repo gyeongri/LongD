@@ -30,23 +30,23 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 const props = defineProps({
   currentPage: {
     type: Number,
-    required: true
+    required: true,
   },
   pageCount: {
     type: Number,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-defineEmits(['page'])
+defineEmits(['page']);
 
-const isPrevPage = computed(() => !(props.currentPage > 1))
-const isNextPage = computed(() => !(props.currentPage < props.pageCount))
+const isPrevPage = computed(() => !(props.currentPage > 1));
+const isNextPage = computed(() => !(props.currentPage < props.pageCount));
 </script>
 
 <style lang="scss" scoped></style>

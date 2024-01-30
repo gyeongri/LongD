@@ -1,9 +1,20 @@
 <template>
-  <div class="card card-compact w-96 bg-base-100 shadow-xl relative" style="height: 300px">
+  <div
+    class="card card-compact w-96 bg-base-100 shadow-xl relative"
+    style="height: 300px"
+  >
     <figure class="w-full h-full relative">
       <img :src="src" alt="#" class="object-contain w-full h-full" />
-      <div class="absolute top-0 right-0 m-4 bg-primary text-white px-3 py-1 rounded">
-        <input type="checkbox" checked="checked" class="checkbox checkbox-xs" />
+      <div
+        class="absolute top-0 right-0 m-4 bg-primary text-white px-3 py-1 rounded"
+      >
+        <input
+          type="checkbox"
+          class="checkbox checkbox-xs"
+          :checked="checked"
+          v-if="deleteActive"
+          @click.stop="toggleCheckbox"
+        />
       </div>
     </figure>
     <div class="card-body">
@@ -13,14 +24,35 @@
 </template>
 
 <script setup>
-defineProps({
+import { ref, watch } from 'vue';
+
+const props = defineProps({
   id: {
-    type: Number
+    type: Number,
   },
   src: {
-    type: String
-  }
-})
+    type: String,
+  },
+  deleteActive: {
+    type: Boolean,
+  },
+});
+
+const checked = ref(false);
+
+const toggleCheckbox = () => {
+  checked.value = !checked.value;
+};
+
+// deleteActive의 변경을 감시하여 checked를 false로 설정
+watch(
+  () => props.deleteActive,
+  newValue => {
+    if (newValue) {
+      checked.value = false;
+    }
+  },
+);
 </script>
 
 <style lang="scss" scoped>

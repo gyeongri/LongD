@@ -21,9 +21,9 @@
 <script setup>
 defineProps({
   modalId: {
-    type: String
-  }
-})
+    type: String,
+  },
+});
 </script>
 
 <style lang="scss" scoped></style>

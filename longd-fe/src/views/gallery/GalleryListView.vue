@@ -8,13 +8,16 @@
     </GalleryFilter>
 
     <div class="flex items-center space-x-4">
+      <button v-if="deleteActive" class="btn btn-outline btn-primary">
+        삭제
+      </button>
       <AppDropdown>
         <template v-slot>
           <li onclick="gallery_create.showModal()">
             <a>open modal</a>
           </li>
           <li @click="goCreate"><a>사진 추가</a></li>
-          <li><a>사진 삭제</a></li>
+          <li @click="toggleDelete"><a>사진 삭제</a></li>
         </template>
       </AppDropdown>
     </div>
@@ -25,6 +28,7 @@
       <GalleryCard
         :src="item.src"
         :id="item.id"
+        :deleteActive="deleteActive"
         @click="goDetail(item.id)"
       ></GalleryCard>
     </template>
@@ -65,8 +69,9 @@ import AppPagination from '@/components/app/AppPagination.vue';
 import AppGrid from '@/components/app/AppGrid.vue';
 import { ref, computed, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
-import { getAlbums } from '@/api/albums';
-import { createAlbum } from '@/api/albums';
+import { getAlbums } from '@/util/api/albums';
+import { createAlbum } from '@/util/api/albums';
+
 const router = useRouter();
 
 const params = ref({
@@ -118,6 +123,12 @@ const goCreate = () => {
   });
 };
 
+const deleteActive = ref(false);
+
+const toggleDelete = () => {
+  deleteActive.value = !deleteActive.value;
+};
+
 // 모달 관련
 const src = ref('');
 
@@ -138,7 +149,7 @@ const previewImage = event => {
 
 const save = async () => {
   try {
-    // console.log(src);
+    console.log(src);
     await createAlbum({
       src: 'https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg',
       createdAt: Date.now(),

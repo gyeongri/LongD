@@ -28,14 +28,14 @@
 <script setup>
 defineProps({
   id: { type: [String, Number] },
-  limit: { type: [String, Number] }
-})
-const emit = defineEmits(['update:id', 'update:limit'])
-const changeId = (event) => {
+  limit: { type: [String, Number] },
+});
+const emit = defineEmits(['update:id', 'update:limit']);
+const changeId = event => {
   setTimeout(() => {
-    emit('update:id', event.target.value)
-  }, 500)
-}
+    emit('update:id', event.target.value);
+  }, 500);
+};
 </script>
 
 <style lang="scss" scoped></style>

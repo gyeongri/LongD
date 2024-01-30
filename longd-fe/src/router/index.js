@@ -1,16 +1,21 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import GalleryListView from '@/views/gallery/GalleryListView.vue'
-import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue'
-import GalleryCreateView from '@/views/gallery/GalleryCreateView.vue'
-import ViduMainView from '@/views/openvidu/ViduMainView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import GalleryListView from '@/views/gallery/GalleryListView.vue';
+import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
+import GalleryCreateView from '@/views/gallery/GalleryCreateView.vue';
+import CalendarView from '@/views/calendar/CalendarView.vue';
+import CalendarView2 from '@/views/calendar/CalendarView2.vue';
+import ViduMainView from '@/views/openvidu/ViduMainView.vue';
+import ClosedView from '../views/main/ClosedView.vue';
+import LoginSignUpView from '../views/main/LoginSignUpView.vue';
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
       name: 'Home',
-      component: HomeView
+      component: HomeView,
     },
     {
       path: '/about',
@@ -18,29 +23,49 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/AboutView.vue'),
     },
     {
       path: '/gallery',
       name: 'GalleryList',
-      component: GalleryListView
+      component: GalleryListView,
     },
     {
       path: '/gallery/:id',
       name: 'GalleryDetail',
-      component: GalleryDetailView
+      component: GalleryDetailView,
     },
     {
       path: '/gallery/create',
       name: 'GalleryCreate',
-      component: GalleryCreateView
+      component: GalleryCreateView,
     },
     {
-      path: '/vidu/',
+      path: '/calendar',
+      name: 'Calendar',
+      component: CalendarView,
+    },
+    {
+      path: '/calendar2',
+      name: 'Calendar2',
+      component: CalendarView2,
+    },
+    {
+      path: '/vidumain/',
       name: 'ViduMain',
-      component: ViduMainView
-    }
-  ]
-})
+      component: ViduMainView,
+    },
+    {
+      path: '/closed/',
+      name: 'Closed',
+      component: ClosedView,
+    },
+    {
+      path: '/login/',
+      name: 'Login',
+      component: LoginSignUpView,
+    },
+  ],
+});
 
-export default router
+export default router;
