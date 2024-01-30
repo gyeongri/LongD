@@ -4,7 +4,7 @@
 
 <script setup>
 import GalleryDetailCard from '@/components/gallery/GalleryDetailCard.vue';
-import { getAlbumById } from '@/api/albums';
+import { getAlbumById } from '@/util/api/albums';
 import { useRoute } from 'vue-router';
 import { ref } from 'vue';
 

@@ -69,8 +69,8 @@ import AppPagination from '@/components/app/AppPagination.vue';
 import AppGrid from '@/components/app/AppGrid.vue';
 import { ref, computed, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
-import { getAlbums } from '@/api/albums';
-import { createAlbum } from '@/api/albums';
+import { getAlbums } from '@/util/api/albums';
+import { createAlbum } from '@/util/api/albums';
 
 const router = useRouter();
 

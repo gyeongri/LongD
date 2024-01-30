@@ -114,6 +114,7 @@ const calendarOptions = ref({
   ],
   initialView: 'dayGridMonth',
   initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed, 이걸로 저장하는 느낌을 줄 수 있을 듯
+
   editable: true,
   selectable: true,
   selectMirror: true,
@@ -185,4 +186,3 @@ b {
   margin: 0 auto;
 }
 </style>
-../../composables/event-utils
