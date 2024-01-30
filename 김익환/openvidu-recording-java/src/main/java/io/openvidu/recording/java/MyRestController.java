@@ -32,6 +32,7 @@ import io.openvidu.java.client.Session;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class MyRestController {
 
 	// OpenVidu object as entrypoint of the SDK
@@ -95,11 +96,12 @@ public class MyRestController {
 
 		// Role associated to this user
 		OpenViduRole role = OpenViduRole.PUBLISHER;
-
+		System.out.println("[get-token] sessionName : " + sessionName);
 		// Build connectionProperties object with the serverData and the role
 		ConnectionProperties connectionProperties = new ConnectionProperties.Builder().type(ConnectionType.WEBRTC)
 				.role(role).data("user_data").build();
 
+		System.out.println("[get-token] connectionProperties : " + connectionProperties.getData().toString() + "\n[get-token] role : "+connectionProperties.getRole());
 		JsonObject responseJson = new JsonObject();
 
 		if (this.mapSessions.get(sessionName) != null) {
@@ -109,13 +111,13 @@ public class MyRestController {
 
 				// Generate a new token with the recently created connectionProperties
 				String token = this.mapSessions.get(sessionName).createConnection(connectionProperties).getToken();
-
+				System.out.println("10000");
 				// Update our collection storing the new token
 				this.mapSessionNamesTokens.get(sessionName).put(token, role);
-
+				System.out.println("20000");
 				// Prepare the response with the token
 				responseJson.addProperty("0", token);
-
+				System.out.println("getToken");
 				// Return the response to the client
 				return new ResponseEntity<>(responseJson, HttpStatus.OK);
 
@@ -133,19 +135,20 @@ public class MyRestController {
 		}
 
 		// New session
-		System.out.println("New session " + sessionName);
+		System.out.println("[get-token] New session : " + sessionName);
 		try {
 
 			// Create a new OpenVidu Session
 			Session session = this.openVidu.createSession();
+			System.out.println("[get-token] session : " + session.getSessionId());
 			// Generate a new token with the recently created connectionProperties
 			String token = session.createConnection(connectionProperties).getToken();
-
+			System.out.println("[get-token] token : "+token);
 			// Store the session and the token in our collections
 			this.mapSessions.put(sessionName, session);
 			this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
 			this.mapSessionNamesTokens.get(sessionName).put(token, role);
-
+			System.out.println("[get-token] mapSessionNames : ");
 			// Prepare the response with the sessionId and the token
 			responseJson.addProperty("0", token);
 
@@ -311,15 +314,21 @@ public class MyRestController {
 		boolean hasAudio = (boolean) params.get("hasAudio");
 		boolean hasVideo = (boolean) params.get("hasVideo");
 
-		RecordingProperties properties = new RecordingProperties.Builder().outputMode(outputMode).hasAudio(hasAudio)
-				.hasVideo(hasVideo).build();
+		RecordingProperties properties = new RecordingProperties.Builder()
+				.hasAudio(hasAudio)
+				.hasVideo(hasVideo)
+				.outputMode(outputMode).build();
 
 		System.out.println("Starting recording for session " + sessionId + " with properties {outputMode=" + outputMode
 				+ ", hasAudio=" + hasAudio + ", hasVideo=" + hasVideo + "}");
-
+		System.out.println("방가방가요");
 		try {
+			System.out.println("방가방가1");
 			Recording recording = this.openVidu.startRecording(sessionId, properties);
+			System.out.println("방가방가2");
 			this.sessionRecordings.put(sessionId, true);
+			System.out.println("방가방가3");
+
 			return new ResponseEntity<>(recording, HttpStatus.OK);
 		} catch (OpenViduJavaClientException | OpenViduHttpException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -328,12 +337,12 @@ public class MyRestController {
 
 	@RequestMapping(value = "/recording/stop", method = RequestMethod.POST)
 	public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) throws IOException {
-		String recordingId = (String) params.get("recordingId");
-//		String connectionId= (String) params.get("connectionId");
-//		String coupleId=(String) params.get("coupleId");
+		String recordingId = (String) params.get("recording");
+		String connectionId= (String) params.get("connectionId");
+		String coupleId=(String) params.get("coupleId");
 		System.out.println("Stoping recording | {recordingId}=" + recordingId);
-//		System.out.println("Stoping recording | {connectionId}=" + connectionId);
-//		System.out.println("Stoping recording | {coupleId}=" + coupleId);
+		System.out.println("Stoping recording | {connectionId}=" + connectionId);
+		System.out.println("Stoping recording | {coupleId}=" + coupleId);
 
 		try {
 			System.out.println("try들어옴?");
@@ -404,7 +413,7 @@ public class MyRestController {
 			System.out.println(recordUrlDto.toString());
 			this.sessionRecordings.remove(recording.getSessionId());
 			this.openVidu.deleteRecording(recordingId);
-			return new ResponseEntity<>(recordUrlDto, HttpStatus.OK);
+			return new ResponseEntity<>(recordingId, HttpStatus.OK);
 		} catch (OpenViduJavaClientException | OpenViduHttpException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
