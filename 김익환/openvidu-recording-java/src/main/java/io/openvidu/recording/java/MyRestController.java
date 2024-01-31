@@ -355,31 +355,35 @@ public class MyRestController {
 //			//unzip
 //			//C:\SSAFY
 			//지금은 다운로드 위치를 C:\SSAFY로 고정해놔서 이렇게 씁니다.
-			String zipPath= "C:"+File.separator+"SSAFY"+File.separator+sessionId+File.separator+sessionId+".zip";
+			//상대경로를 사용할 수 없기때문에 C:\SSAFY로 하겠습니다
+			String zipPath= "C:"+File.separator+"SSAFY"+File.separator+"testVideo"+File.separator+sessionId+File.separator+sessionId+".zip";
+			System.out.println("이건 zip파일 위치!"+zipPath);
 			File zipFile=new File(zipPath);
 			//압축 해제한 위치
-			String upzipDir="C:"+File.separator+"SSAFY"+File.separator+sessionId+File.separator;
+			String upzipDir="C:"+File.separator+"SSAFY"+File.separator+"testVideo"+File.separator+sessionId+File.separator;
 
-			ZipInputStream zis=new ZipInputStream(new FileInputStream(zipPath));
-			ZipEntry ze=zis.getNextEntry();
-			long videoCreateTime=ze.getTime();
-			while (ze!=null){
-				String entryName=ze.getName();
-				System.out.print("Extracting " + entryName + " -> " + upzipDir + File.separator +  entryName + "...");
-				// C:\SSAFY/myvideo
-				File f=new File(upzipDir+File.separator+entryName);
-				//경로로 이동할 수 없으면 경로에 맞게 폴더를 생성함
-				f.getParentFile().mkdirs();
-				FileOutputStream fos = new FileOutputStream(f);
-				int len;
-				byte buffer[] = new byte[1024];
-				while ((len = zis.read(buffer)) > 0) {
-					fos.write(buffer, 0, len);
+			ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath));
+			ZipEntry ze = zis.getNextEntry();
+
+			while (ze != null) {
+				String entryName = ze.getName();
+				if (entryName.endsWith(".webm")) { // .mp4 확장자 파일만 처리
+					System.out.print("Extracting " + entryName + " -> " + upzipDir + File.separator +  entryName + "...");
+					File f=new File(".."+File.separator+"myVideo"+File.separator+entryName);
+//					File f = new File(upzipDir + File.separator + entryName);
+					f.getParentFile().mkdirs(); // 필요한 경우 디렉토리 생성
+
+					FileOutputStream fos = new FileOutputStream(f);
+					int len;
+					byte buffer[] = new byte[1024];
+					while ((len = zis.read(buffer)) > 0) {
+						fos.write(buffer, 0, len);
+					}
+					fos.close();
+					System.out.println("OK!");
+				} else {
+					System.out.println(entryName + "는 .webm 확장자가 아니므로 건너뜁니다.");
 				}
-				fos.close();
-				System.out.println("OK!");
-
-
 
 				ze = zis.getNextEntry();
 			}
