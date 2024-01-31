@@ -1,5 +1,5 @@
 <template>
-  <div v-show="!logOutPage && !closedPage" class="navbar bg-base-100">
+  <div v-show="mainDisplayStore.isVisible" class="navbar bg-base-100">
     <div>
       <RouterLink class="btn btn-ghost text-xl" :to="{ name: 'Home' }"
         >롱디</RouterLink
@@ -29,24 +29,24 @@
         <li @click="logOut()">
           <span>로그아웃</span>
         </li>
+        <li>
+          <details>
+            <summary>profile</summary>
+            <ul class="p-2 bg-base-100 rounded-t-none">
+              <li><RouterLink :to="{ name: 'Home' }">Home</RouterLink></li>
+              <li><RouterLink :to="{ name: 'About' }">About</RouterLink></li>
+            </ul>
+          </details>
+        </li>
       </ul>
-      <!-- 드롭다운 형식인거 -->
-      <!-- <li>
-            <details>
-              <summary>profile</summary>
-              <ul class="p-2 bg-base-100 rounded-t-none">
-                <li><RouterLink :to="{ name: 'Home' }">Home</RouterLink></li>
-                <li><RouterLink :to="{ name: 'About' }">About</RouterLink></li>
-              </ul>
-            </details>
-          </li> -->
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { logout } from '@/utils/api/user';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 
 const router = useRouter();
@@ -54,13 +54,20 @@ const mainDisplayStore = useMainDisplayStore();
 
 // const closedPage = ref(false);
 const lockPage = () => {
-  mainDisplayStore.closedPage.value = true;
+  mainDisplayStore.closedPage = true;
   router.push({ name: 'Closed' });
 };
 // const logOutPage = ref(false);
 const logOut = () => {
-  mainDisplayStore.logOutPage.value = true;
-  router.push({ name: 'Login' });
+  mainDisplayStore.logOutPage = true;
+  logout(
+    () => {
+      router.push({ name: 'Login' });
+    },
+    fail => {
+      console.log('sendinfo 오류 : ' + fail);
+    },
+  );
 };
 </script>
 
@@ -68,10 +75,5 @@ const logOut = () => {
 .image {
   width: 40px;
   height: 40px;
-}
-
-.togglebox {
-  width: 200px;
-  height: 200px;
 }
 </style>
