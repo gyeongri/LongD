@@ -23,6 +23,15 @@
             ><img class="image" alt="ViduMain" src="/static/img/im.png"
           /></RouterLink>
         </li>
+        <li>
+          <RouterLink :to="{ name: 'TestMap' }"
+            >맵TEST</RouterLink>
+        </li>
+        <li>
+          <RouterLink :to="{ name: 'Map' }"
+            ><img class="image" alt="Map" src="/static/img/1.png"
+          /></RouterLink>
+        </li>
         <li @click="lockPage()">
           <span>화면잠금</span>
         </li>
