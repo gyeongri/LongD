@@ -18,6 +18,9 @@
         :id="items[2].id"
       ></GalleryCard>
     </div>
+    <button @click="showAlert" class="btn btn-outline btn-primary">
+      Hello world
+    </button>
   </div>
 </template>
 
@@ -25,12 +28,17 @@
 import { getAlbums } from '@/utils/api/albums';
 import { ref, watchEffect } from 'vue';
 import GalleryCard from '@/components/gallery/GalleryCard.vue';
+import Swal from 'sweetalert2';
 const items = ref([]);
 
 const params = ref({
   _sort: 'createdAt', // 무엇을
   _order: 'desc', // 내림차순
 });
+
+const showAlert = () => {
+  Swal.fire('Hello Vue world!!!');
+};
 
 const fetchAlbums = async () => {
   try {

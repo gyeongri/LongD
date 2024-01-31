@@ -29,23 +29,21 @@
         <li @click="logOut()">
           <span>로그아웃</span>
         </li>
+        <li>
+          <details>
+            <summary>profile</summary>
+            <ul class="p-2 bg-base-100 rounded-t-none">
+              <li><RouterLink :to="{ name: 'Home' }">Home</RouterLink></li>
+              <li><RouterLink :to="{ name: 'About' }">About</RouterLink></li>
+            </ul>
+          </details>
+        </li>
       </ul>
-      <!-- 드롭다운 형식인거 -->
-      <!-- <li>
-            <details>
-              <summary>profile</summary>
-              <ul class="p-2 bg-base-100 rounded-t-none">
-                <li><RouterLink :to="{ name: 'Home' }">Home</RouterLink></li>
-                <li><RouterLink :to="{ name: 'About' }">About</RouterLink></li>
-              </ul>
-            </details>
-          </li> -->
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 
