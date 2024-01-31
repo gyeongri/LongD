@@ -5,6 +5,12 @@ import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
 import GalleryCreateView from '@/views/gallery/GalleryCreateView.vue';
 import CalendarView from '@/views/calendar/CalendarView.vue';
 import CalendarView2 from '@/views/calendar/CalendarView2.vue';
+import ViduMainView from '@/views/openvidu/ViduMainView.vue';
+import ClosedView from '../views/main/ClosedView.vue';
+import LoginSignUpView from '../views/main/LoginSignUpView.vue';
+import RequiredInfoView from '../views/main/RequiredInfoView.vue';
+import ConnectCodeView from '../views/main/ConnectCodeView.vue';
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -45,6 +51,31 @@ const router = createRouter({
       path: '/calendar2',
       name: 'Calendar2',
       component: CalendarView2,
+    },
+    {
+      path: '/vidumain/',
+      name: 'ViduMain',
+      component: ViduMainView,
+    },
+    {
+      path: '/closed/',
+      name: 'Closed',
+      component: ClosedView,
+    },
+    {
+      path: '/login/',
+      name: 'Login',
+      component: LoginSignUpView,
+    },
+    {
+      path: '/requiredinfo/',
+      name: 'RequiredInfo',
+      component: RequiredInfoView,
+    },
+    {
+      path: '/connectcode/',
+      name: 'ConnectCode',
+      component: ConnectCodeView,
     },
   ],
 });
