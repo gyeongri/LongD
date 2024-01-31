@@ -25,4 +25,9 @@ function sendinfo(param, success, fail) {
 function BaseInfo(success, fail) {
   userApi.get(`/user/registInfo`).then(success).catch(fail);
 }
-export { userApi, sendinfo, BaseInfo };
+
+function logout(success, fail) {
+  userApi.post(`/user/customlogout`).then(success).catch(fail);
+}
+
+export { userApi, sendinfo, BaseInfo, logout };
