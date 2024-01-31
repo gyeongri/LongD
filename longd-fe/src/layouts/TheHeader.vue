@@ -32,14 +32,14 @@
       </ul>
       <!-- 드롭다운 형식인거 -->
       <!-- <li>
-          <details>
-            <summary>profile</summary>
-            <ul class="p-2 bg-base-100 rounded-t-none">
-              <li><RouterLink :to="{ name: 'Home' }">Home</RouterLink></li>
-              <li><RouterLink :to="{ name: 'About' }">About</RouterLink></li>
-            </ul>
-          </details>
-        </li> -->
+            <details>
+              <summary>profile</summary>
+              <ul class="p-2 bg-base-100 rounded-t-none">
+                <li><RouterLink :to="{ name: 'Home' }">Home</RouterLink></li>
+                <li><RouterLink :to="{ name: 'About' }">About</RouterLink></li>
+              </ul>
+            </details>
+          </li> -->
     </div>
   </div>
 </template>
@@ -47,17 +47,19 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useMainDisplayStore } from '@/stores/maindisplay.js';
 
 const router = useRouter();
+const mainDisplayStore = useMainDisplayStore();
 
-const closedPage = ref(false);
+// const closedPage = ref(false);
 const lockPage = () => {
-  closedPage.value = true;
+  mainDisplayStore.closedPage.value = true;
   router.push({ name: 'Closed' });
 };
-const logOutPage = ref(false);
+// const logOutPage = ref(false);
 const logOut = () => {
-  logOutPage.value = true;
+  mainDisplayStore.logOutPage.value = true;
   router.push({ name: 'Login' });
 };
 </script>

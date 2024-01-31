@@ -41,7 +41,8 @@ import { ref } from 'vue';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { INITIAL_EVENTS, createEventId } from '@/composables/event-utils';
+
+import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils';
 import AppModal from '@/components/app/AppModal.vue';
 
 // 계획 작성 메소드

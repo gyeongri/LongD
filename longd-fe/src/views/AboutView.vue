@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { getAlbums } from '@/util/api/albums';
+import { getAlbums } from '@/utils/api/albums';
 import { ref, watchEffect } from 'vue';
 import GalleryCard from '@/components/gallery/GalleryCard.vue';
 const items = ref([]);
