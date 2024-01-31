@@ -2,7 +2,7 @@
   <ov-videoconference> </ov-videoconference>
   <div v-if="viduStore.publisher">
     <video ref="videoElement" autoplay></video>
-    <canvas
+    <!-- <canvas
       ref="canvas"
       class="canvas"
       width="640"
@@ -10,7 +10,7 @@
       @mousedown="startDrawing"
       @mouseup="stopDrawing"
       @mousemove="draw"
-    ></canvas>
+    ></canvas> -->
   </div>
   <button @click="check">여기</button>
   <br />
