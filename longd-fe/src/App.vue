@@ -1,7 +1,7 @@
 <template>
   <TheHeader></TheHeader>
-  <ViduMainView class="hihi"></ViduMainView>
   <TheView></TheView>
+  <ViduMainView class="hihi"></ViduMainView>
 </template>
 <script setup>
 import TheHeader from '@/layouts/TheHeader.vue';
@@ -12,7 +12,7 @@ import ViduMainView from './views/openvidu/ViduMainView.vue';
 <style scoped>
 .hihi {
   visibility: hidden;
-  height: 1px;
+  height: 0.2px;
   width: 1px;
   display: flex;
 }

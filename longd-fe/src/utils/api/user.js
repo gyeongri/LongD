@@ -11,13 +11,13 @@ const userApi = axios.create({
   },
 });
 
-const sendinfo2 = function (param) {
-  return userApi.post('/user/modify', JSON.stringify(param));
-};
-sendinfo2.then(success).catch(error => {
-  console.error(error);
-  throw error;
-});
+// const sendinfo2 = function (param) {
+//   return userApi.post('/user/modify', JSON.stringify(param));
+// };
+// sendinfo2.then(success).catch(error => {
+//   console.error(error);
+//   throw error;
+// });
 function sendinfo(param, success, fail) {
   userApi.post(`/user/modify`, JSON.stringify(param)).then(success).catch(fail);
 }
@@ -25,4 +25,8 @@ function sendinfo(param, success, fail) {
 function BaseInfo(success, fail) {
   userApi.get(`/user/registInfo`).then(success).catch(fail);
 }
-export { userApi, sendinfo, BaseInfo };
+
+function logout(success, fail) {
+  userApi.post(`/user/customlogout`).then(success).catch(fail);
+}
+export { userApi, sendinfo, BaseInfo, logout };
