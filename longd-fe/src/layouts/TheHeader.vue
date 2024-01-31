@@ -46,6 +46,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { logout } from '@/utils/api/user';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 
 const router = useRouter();
@@ -59,7 +60,14 @@ const lockPage = () => {
 // const logOutPage = ref(false);
 const logOut = () => {
   mainDisplayStore.logOutPage = true;
-  router.push({ name: 'Login' });
+  logout(
+    () => {
+      router.push({ name: 'Login' });
+    },
+    fail => {
+      console.log('sendinfo 오류 : ' + fail);
+    },
+  );
 };
 </script>
 
@@ -67,10 +75,5 @@ const logOut = () => {
 .image {
   width: 40px;
   height: 40px;
-}
-
-.togglebox {
-  width: 200px;
-  height: 200px;
 }
 </style>
