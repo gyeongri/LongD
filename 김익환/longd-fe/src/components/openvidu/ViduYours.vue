@@ -4,7 +4,7 @@
   </div>
 
   <button @click="enterPiPMode">pip변신</button>
-  <button @check="click">여기</button>
+  <button @click="click">여기</button>
 </template>
 
 <script setup>
@@ -14,7 +14,7 @@ const viduStore = useViduStore();
 const videoElement = ref();
 const click = function () {
   console.log('ViduYours 엘리먼트 생성1');
-  viduStore.publisher.addVideoElement(videoElement.value);
+  viduStore.subscriber.addVideoElement(videoElement.value);
 };
 watch(
   // 첫 번째 인자: 감시할 데이터
