@@ -29,7 +29,7 @@ public class SecurityConfig{
 
         http.cors(httpSecurityCorsConfigurer -> corsConfig.corsConfigurationSource());
 
-        http.formLogin(formLogin ->formLogin.loginPage("/")
+        http.formLogin(formLogin ->formLogin.loginPage("/user/customlogin")
                 );
 
         http.httpBasic((basic) -> basic.disable());
@@ -41,7 +41,7 @@ public class SecurityConfig{
                         .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().authenticated());
 
-        http.logout((logoutConfig) -> logoutConfig.logoutUrl("/user/customlogout").logoutSuccessUrl("http://192.168.100.188:5173/"));
+//        http.logout((logoutConfig) -> logoutConfig.logoutUrl("/user/customlogout").logoutSuccessUrl("http://192.168.100.188:5173/"));
 
         return http.build();
     }

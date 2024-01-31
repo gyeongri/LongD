@@ -18,7 +18,7 @@ public class User implements OAuth2Response {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = null;
 
-    private int coupleListId = 0;
+    private Integer coupleListId = null;
     private String userId = "NULL방지";
     private String emailId = "NULL방지";
     private String emailDomain = "NULL방지";

@@ -1,25 +1,15 @@
 package com.longd.longd.user.controller;
 
-
-import com.longd.longd.user.db.dto.CustomOAuth2User;
-import com.longd.longd.user.db.dto.NaverResponse;
-import com.longd.longd.user.db.dto.OAuth2Response;
 import com.longd.longd.user.db.entity.User;
-import com.longd.longd.user.db.repository.UserRepository;
 import com.longd.longd.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
@@ -35,6 +25,11 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @GetMapping("/checklogin")
+    public void checklogin () {
+
+    }
 
     @GetMapping("/state")
     public ResponseEntity<?> getloginstate() {
@@ -56,7 +51,8 @@ public class UserController {
             System.out.println("회원이 있음");
         } else {
             //회원이 없음 회원가입 필요
-            redirectView = new RedirectView("http://192.168.100.188:5173/regist");
+            //수정필요
+            redirectView = new RedirectView("http://192.168.100.188:5173/requiredinfo");
         }
 
         return redirectView;
@@ -76,7 +72,7 @@ public class UserController {
     @ApiOperation(value = "로그인 페이지", notes = "로그인 페이지 접속")
     //로그인 권한이 없을경우 해당 페이지로 계속 redirect됨
     public RedirectView customlogin() {
-        RedirectView redirectView = new RedirectView("http://192.168.100.188:5173/loginPage");
+        RedirectView redirectView = new RedirectView("http://192.168.100.188:5173/login");
         System.out.println("??");
         return redirectView;
     }
