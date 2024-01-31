@@ -1,7 +1,11 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { OpenVidu } from 'openvidu-browser';
+<<<<<<< HEAD:longd-fe/src/stores/vidu.js
 import { viduapi } from '@/utils/api/index.js';
+=======
+import { viduapi } from '@/api/index.js';
+>>>>>>> geunryeol:전근렬/longd-fe/src/stores/vidu.js
 export const useViduStore = defineStore('vidu', () => {
   const OV = ref(null);
   const session = ref(null);

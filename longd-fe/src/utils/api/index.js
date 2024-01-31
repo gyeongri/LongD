@@ -22,6 +22,7 @@ const api2 = axios.create({
     // 다른 헤더를 필요에 따라 설정할 수 있습니다.
   },
 });
+<<<<<<< HEAD:longd-fe/src/utils/api/index.js
 const viduapi = axios.create({
   baseURL: 'https://localhost:5000/recording-java/api/',
   headers: {
@@ -30,3 +31,6 @@ const viduapi = axios.create({
   },
 });
 export { api, api2, viduapi };
+=======
+export { api, api2 };
+>>>>>>> geunryeol:전근렬/longd-fe/src/utils/api/index.js

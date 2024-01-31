@@ -21,6 +21,15 @@
     <button @click="showAlert" class="btn btn-outline btn-primary">
       Hello world
     </button>
+<<<<<<< HEAD:longd-fe/src/views/AboutView.vue
+=======
+    <button @click="showAlert2" class="btn btn-outline btn-primary">
+      Hello world
+    </button>
+    <button @click="showCombinedAlert" class="btn btn-outline btn-primary">
+      Hello world
+    </button>
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/AboutView.vue
   </div>
 </template>
 
@@ -36,8 +45,69 @@ const params = ref({
   _order: 'desc', // 내림차순
 });
 
+<<<<<<< HEAD:longd-fe/src/views/AboutView.vue
 const showAlert = () => {
   Swal.fire('Hello Vue world!!!');
+=======
+const showCombinedAlert = async () => {
+  let isSave = false;
+  const result = await Swal.fire({
+    title: 'Do you want to save the changes?',
+    input: 'textarea',
+    inputLabel: 'Message',
+    inputPlaceholder: 'Type your message here...',
+    inputAttributes: {
+      'aria-label': 'Type your message here',
+    },
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: 'Save',
+    denyButtonText: `Don't save`,
+  });
+
+  if (result.isConfirmed) {
+    isSave = true;
+    Swal.fire('Saved!', '', 'success');
+  } else if (result.isDenied) {
+    Swal.fire('Changes are not saved', '', 'info');
+  }
+
+  if (isSave && result.value) {
+    console.log(result.value);
+  }
+};
+
+const showAlert2 = async () => {
+  const { value: text } = await Swal.fire({
+    input: 'textarea',
+    inputLabel: 'Message',
+    inputPlaceholder: 'Type your message here...',
+    inputAttributes: {
+      'aria-label': 'Type your message here',
+    },
+    showCancelButton: true,
+  });
+  if (text) {
+    Swal.fire(text);
+  }
+};
+
+const showAlert = async () => {
+  Swal.fire({
+    title: 'Do you want to save the changes?',
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: 'Save',
+    denyButtonText: `Don't save`,
+  }).then(result => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      Swal.fire('Saved!', '', 'success');
+    } else if (result.isDenied) {
+      Swal.fire('Changes are not saved', '', 'info');
+    }
+  });
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/AboutView.vue
 };
 
 const fetchAlbums = async () => {

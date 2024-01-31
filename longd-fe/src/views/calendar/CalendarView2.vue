@@ -20,20 +20,6 @@
       </FullCalendar>
     </div>
   </div>
-  <AppModal :open="isModalOpen" modalId="calendarId">
-    <template v-slot:title>추억 내용을 등록하세요</template>
-    <template v-slot:body>
-      <div class="mb-4">{{ currentClickInfoId }}</div>
-    </template>
-    <template v-slot:footer>
-      <button @click="closeModal" class="btn btn-outline btn-primary mx-2">
-        취소
-      </button>
-      <button @click="confirmDeleteEvent" class="btn btn-outline btn-primary">
-        삭제
-      </button>
-    </template>
-  </AppModal>
 </template>
 
 <script setup>
@@ -41,46 +27,88 @@ import { ref } from 'vue';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+<<<<<<< HEAD:longd-fe/src/views/calendar/CalendarView2.vue
 
 import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils';
 import AppModal from '@/components/app/AppModal.vue';
+=======
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/calendar/CalendarView2.vue
 
-// 계획 작성 메소드
-const handleDateSelect = selectInfo => {
-  let title = prompt('새로운 추억을 입력해주세요.');
-  let calendarApi = selectInfo.view.calendar;
+import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils';
 
-  calendarApi.unselect(); // clear date selection
+import Swal from 'sweetalert2';
 
+const titleAlert = async () => {
+  const { value: title } = await Swal.fire({
+    title: '당신의 추억을 입력해주세요.',
+    input: 'text',
+    inputLabel: '당신의 추억 제목',
+    inputPlaceholder: '추억을 입력해주세요.',
+  });
   if (title) {
-    calendarApi.addEvent({
-      id: createEventId(),
-      title,
-      start: selectInfo.startStr,
-      end: selectInfo.endStr,
-      allDay: selectInfo.allDay,
-    });
+    Swal.fire('Saved!', '', 'success');
+    return title;
   }
 };
 
-// 모달을 열고 닫는 상태 변수
-const isModalOpen = ref(false);
-// 클릭된 이벤트 정보 저장 변수
-let currentClickInfo = null;
-let currentClickInfoId = null;
-
-// 모달을 열기 위한 메소드
-// 현재 클릭된 이벤트 정보 저장도 해줌.
-// 추가적으로 모달을 열 때 백으로 부터 해당 id의 정보도 불러오기(axios)
-const openModal = clickInfo => {
-  currentClickInfo = clickInfo;
-  currentClickInfoId = currentClickInfo.event.id;
-  isModalOpen.value = true;
+// 추억 작성 메소드
+const handleDateSelect = selectInfo => {
+  titleAlert().then(res => {
+    let title = res;
+    let calendarApi = selectInfo.view.calendar;
+    calendarApi.unselect(); // clear date selection
+    if (title) {
+      calendarApi.addEvent({
+        id: createEventId(),
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        allDay: selectInfo.allDay,
+      });
+    }
+  });
 };
 
-// 모달을 닫기 위한 메소드
-const closeModal = () => {
-  isModalOpen.value = false;
+// 내가 이벤트를 클릭했을 시
+const handleEventClick = clickInfo => {
+  console.log(clickInfo.event.id);
+  contentAlert(clickInfo);
+};
+
+// 클릭된 이벤트 정보 저장 변수
+let currentClickInfo = null;
+// let currentClickInfoId = null;
+
+const contentAlert = async clickInfo => {
+  currentClickInfo = clickInfo;
+  // currentClickInfoId = currentClickInfo.event.id;
+  let isSave = false;
+  const result = await Swal.fire({
+    title: '추억내용',
+    input: 'textarea',
+    inputLabel: '',
+    inputPlaceholder: '당신의 추억내용을 써주세요.',
+    inputAttributes: {
+      'aria-label': 'Type your message here',
+    },
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: '저장',
+    denyButtonText: '삭제',
+    cancelButtonText: '취소',
+  });
+
+  if (result.isConfirmed) {
+    isSave = true;
+    Swal.fire('Saved!', '', 'success');
+  } else if (result.isDenied) {
+    Swal.fire('삭제되었습니다.', '', 'error');
+    confirmDeleteEvent();
+  }
+
+  if (isSave && result.value) {
+    console.log(result.value);
+  }
 };
 
 // 이벤트 삭제 관련 메소드
@@ -91,16 +119,6 @@ const confirmDeleteEvent = () => {
   ) {
     currentClickInfo.event.remove();
   }
-  closeModal(); // 모달 닫기
-};
-
-const handleEventClick = clickInfo => {
-  console.log(clickInfo.event.id);
-  // if (confirm(`정말로 '${clickInfo.event.title}'를 삭제하시겠습니까?`)) {
-  //   clickInfo.event.remove();
-  // }
-  // 모달 열기
-  openModal(clickInfo);
 };
 
 const handleEvents = events => {
@@ -115,7 +133,21 @@ const calendarOptions = ref({
   ],
   initialView: 'dayGridMonth',
   initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed, 이걸로 저장하는 느낌을 줄 수 있을 듯
+<<<<<<< HEAD:longd-fe/src/views/calendar/CalendarView2.vue
 
+=======
+  customButtons: {
+    saveButton: {
+      text: '저장하기',
+      click: function () {
+        alert('clicked the custom button!');
+      },
+    },
+  },
+  headerToolbar: {
+    right: 'prev,next today saveButton',
+  },
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/calendar/CalendarView2.vue
   editable: true,
   selectable: true,
   selectMirror: true,

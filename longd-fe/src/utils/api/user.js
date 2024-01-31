@@ -25,9 +25,13 @@ function sendinfo(param, success, fail) {
 function BaseInfo(success, fail) {
   userApi.get(`/user/registInfo`).then(success).catch(fail);
 }
+<<<<<<< HEAD:longd-fe/src/utils/api/user.js
 
 function logout(success, fail) {
   userApi.post(`/user/customlogout`).then(success).catch(fail);
 }
 
 export { userApi, sendinfo, BaseInfo, logout };
+=======
+export { userApi, sendinfo, BaseInfo };
+>>>>>>> geunryeol:전근렬/longd-fe/src/utils/api/user.js

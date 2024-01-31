@@ -17,12 +17,37 @@
       </div>
       <div class="group">
         <input
+<<<<<<< HEAD:longd-fe/src/views/main/ClosedView.vue
           v-for="(password, index) in passwords"
           :key="index"
           v-model="passwords[index]"
           @input="handleInput(index)"
           maxlength="1"
           :class="`password-input${index + 1}`"
+=======
+          v-model="passwords[0]"
+          @input="handleInput(0)"
+          maxlength="1"
+          class="password-input1"
+        />
+        <input
+          v-model="passwords[1]"
+          @input="handleInput(1)"
+          maxlength="1"
+          class="password-input2"
+        />
+        <input
+          v-model="passwords[2]"
+          @input="handleInput(2)"
+          maxlength="1"
+          class="password-input3"
+        />
+        <input
+          v-model="passwords[3]"
+          @input="handleInput(3)"
+          maxlength="1"
+          class="password-input4"
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/main/ClosedView.vue
         />
       </div>
     </div>
@@ -30,6 +55,7 @@
 </template>
 
 <script setup>
+<<<<<<< HEAD:longd-fe/src/views/main/ClosedView.vue
 import { ref, reactive, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
@@ -39,6 +65,12 @@ import Swal from 'sweetalert2';
 
 const mainDisplayStore = useMainDisplayStore();
 const router = useRouter();
+=======
+import { ref, reactive } from 'vue';
+// import { watch } from 'vue';
+// import { useFocus } from '@vueuse/core';
+
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/main/ClosedView.vue
 const passwords = reactive(['', '', '', '']);
 const inputRefs = ref([]);
 // const finalPasswords = ref('')
@@ -48,6 +80,7 @@ const handleInput = index => {
   if (passwords[index] && index < 3) {
     inputRefs.value.push(passwords[index]);
     passwords[index] = '❤️';
+<<<<<<< HEAD:longd-fe/src/views/main/ClosedView.vue
     // watch(passwords[index], ('','❤️') => {
     //   if ('') {
     //     passwords[index].focus();
@@ -69,6 +102,26 @@ const handleInput = index => {
     inputRefs.value = [];
     console.log(`Password:${passwords.value}`, inputRefs.value.join(''));
     // }
+=======
+    // watch(focused, focused => {
+    //   if (focused) console.log('input element has been focused');
+    //   else console.log('input element has lost focus');
+    // });
+
+    passwords[`${index + 1}`].focus();
+  } else if (passwords[index]) {
+    inputRefs.value.push(passwords[index]);
+    passwords[index] = '❤️';
+    // if (inputRefs.value.join('') == '회원 화면잠금 비밀번호랑 같으면') {
+    // closedPage.value = false
+    // 이거 가지고 와야한다(Header에 저장해놓은거임)
+    // 화면 빠져나갈 수 있게(전 단계로 돌리기) replace
+    // } else {
+    // 알림창 띄우기(틀렸다고)
+    // 화면잠금화면으로 다시 만들기
+    // }
+    console.log('Password:', inputRefs.value.join(''));
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/main/ClosedView.vue
   }
 };
 
@@ -228,8 +281,11 @@ const handleInput = index => {
   line-height: 200px;
   font-size: 30px;
 }
+<<<<<<< HEAD:longd-fe/src/views/main/ClosedView.vue
 
 /* .heart-fadeout {
   opacity: 0;
 } */
+=======
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/main/ClosedView.vue
 </style>

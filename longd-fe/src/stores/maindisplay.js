@@ -6,8 +6,13 @@ export const useMainDisplayStore = defineStore(
   () => {
     const closedPage = ref(false);
     const logOutPage = ref(false);
+<<<<<<< HEAD:longd-fe/src/stores/maindisplay.js
     const isVisible = computed(() => !logOutPage.value && !closedPage.value);
     return { closedPage, logOutPage, isVisible };
+=======
+
+    return { closedPage, logOutPage };
+>>>>>>> geunryeol:전근렬/longd-fe/src/stores/maindisplay.js
   },
   { persist: true },
 );

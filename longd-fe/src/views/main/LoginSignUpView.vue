@@ -25,6 +25,7 @@
           <!-- <img class="btng" alt="Btng" src="btng-1.png" /> -->
           <div class="text-wrapper-2">Login / Sign Up</div>
           <div class="loginbox">
+<<<<<<< HEAD:longd-fe/src/views/main/LoginSignUpView.vue
             <a :href="VITE_VUE_API_URL + '/oauth2/authorization/kakao'">
               <img class="image1" alt="kakao" src="/static/img/kakao.png" />
             </a>
@@ -32,6 +33,15 @@
               <img class="image2" alt="naver" src="/static/img/naver.png" />
             </a>
             <a :href="VITE_VUE_API_URL + '/oauth2/authorization/google'">
+=======
+            <a :href="VITE_BASE_IP + '/oauth2/authorization/kakao'">
+              <img class="image1" alt="kakao" src="/static/img/kakao.png" />
+            </a>
+            <a :href="VITE_BASE_IP + '/oauth2/authorization/naver'">
+              <img class="image2" alt="naver" src="/static/img/naver.png" />
+            </a>
+            <a :href="VITE_BASE_IP + '/oauth2/authorization/google'">
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/main/LoginSignUpView.vue
               <img class="image" alt="google" src="/static/img/google.png" />
             </a>
             <!-- <a href=""><img class="image" alt="kakao" src="kakao.png" /></a> -->
@@ -43,7 +53,11 @@
 </template>
 
 <script setup>
+<<<<<<< HEAD:longd-fe/src/views/main/LoginSignUpView.vue
 const { VITE_VUE_API_URL } = import.meta.env;
+=======
+const { VITE_BASE_IP } = import.meta.env;
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/main/LoginSignUpView.vue
 </script>
 
 <style scoped>

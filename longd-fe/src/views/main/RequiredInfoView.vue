@@ -36,6 +36,10 @@
     </p>
 
     <button @click="send">정보 가입 해버리기</button>
+<<<<<<< HEAD:longd-fe/src/views/main/RequiredInfoView.vue
+=======
+    {{ Info_state }}
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/main/RequiredInfoView.vue
   </div>
 </template>
 
@@ -65,7 +69,11 @@ const send = () => {
     data => {
       //success
       console.log('sendinfo 성공');
+<<<<<<< HEAD:longd-fe/src/views/main/RequiredInfoView.vue
       router.push({ name: 'ConnectCode' });
+=======
+      router.push({ name: 'loginPage' });
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/main/RequiredInfoView.vue
     },
     error => {
       console.log('sendinfo 오류 : ' + error);
@@ -74,6 +82,7 @@ const send = () => {
 };
 </script>
 
+<<<<<<< HEAD:longd-fe/src/views/main/RequiredInfoView.vue
 <style scoped>
 input {
   border: 1px black solid;
@@ -82,3 +91,6 @@ button {
   border: 1px black solid;
 }
 </style>
+=======
+<style scoped></style>
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/main/RequiredInfoView.vue

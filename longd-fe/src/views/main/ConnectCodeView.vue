@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD:longd-fe/src/views/main/ConnectCodeView.vue
   <p>상대의 정보를 입력하세요!(동일한 사람인지 확인하기!)</p>
   <div>
     <p>이름 : <input type="text" /></p>
@@ -16,6 +17,8 @@
     </p>
     <button @click="choiceDate">제출</button>
   </div>
+=======
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/main/ConnectCodeView.vue
   <!-- <div class="desktop">
     <div class="div">
       <div class="long-d">
@@ -43,6 +46,7 @@
   </div> -->
 </template>
 
+<<<<<<< HEAD:longd-fe/src/views/main/ConnectCodeView.vue
 <script setup>
 import Swal from 'sweetalert2';
 
@@ -61,6 +65,9 @@ const choiceDate = async () => {
   }
 };
 </script>
+=======
+<script setup></script>
+>>>>>>> geunryeol:전근렬/longd-fe/src/views/main/ConnectCodeView.vue
 
 <style scoped>
 .desktop {
