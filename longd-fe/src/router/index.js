@@ -8,6 +8,8 @@ import CalendarView2 from '@/views/calendar/CalendarView2.vue';
 import ViduMainView from '@/views/openvidu/ViduMainView.vue';
 import ClosedView from '../views/main/ClosedView.vue';
 import LoginSignUpView from '../views/main/LoginSignUpView.vue';
+import RequiredInfoView from '../views/main/RequiredInfoView.vue';
+import ConnectCodeView from '../views/main/ConnectCodeView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,6 +66,16 @@ const router = createRouter({
       path: '/login/',
       name: 'Login',
       component: LoginSignUpView,
+    },
+    {
+      path: '/requiredinfo/',
+      name: 'RequiredInfo',
+      component: RequiredInfoView,
+    },
+    {
+      path: '/connectcode/',
+      name: 'ConnectCode',
+      component: ConnectCodeView,
     },
   ],
 });

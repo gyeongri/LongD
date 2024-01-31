@@ -43,7 +43,6 @@
 </template>
 
 <script setup>
-
 const { VITE_BASE_IP } = import.meta.env;
 </script>
 

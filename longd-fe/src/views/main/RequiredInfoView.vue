@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import { BaseInfo, sendinfo } from '@/util/api/user';
+import { BaseInfo, sendinfo } from '@/utils/api/user';
 import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 

@@ -11,13 +11,13 @@ const userApi = axios.create({
   },
 });
 
-const sendinfo2 = function (param) {
-  return userApi.post('/user/modify', JSON.stringify(param));
-};
-sendinfo2.then(success).catch(error => {
-  console.error(error);
-  throw error;
-});
+// const sendinfo2 = function (param) {
+//   return userApi.post('/user/modify', JSON.stringify(param));
+// };
+// sendinfo2.then(success).catch(error => {
+//   console.error(error);
+//   throw error;
+// });
 function sendinfo(param, success, fail) {
   userApi.post(`/user/modify`, JSON.stringify(param)).then(success).catch(fail);
 }

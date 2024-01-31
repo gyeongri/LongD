@@ -1,5 +1,5 @@
 <template>
-  <div class="desktop">
+  <!-- <div class="desktop">
     <div class="div">
       <div class="long-d">
         여러분의 장거리 연애 도우미
@@ -8,21 +8,22 @@
       </div>
       <div class="text-wrapper">연결 CODE</div>
       <div class="text-wrapper-2">연결할래요</div>
-      <div class="text-wrapper-3">CE829SAD29</div>
+      <div class="text-wrapper-3">랜덤코드 나올 수 있도록 하기</div>
       <div class="overlap-group">
         <div class="text-wrapper-4">코드를 입력하세요</div>
         <img class="vector" alt="Vector" src="vector-353.svg" />
-      </div>
-      <Component
+      </div> -->
+  <!-- 버튼으로 바꾸기 -->
+  <!-- <Component
         class="component-1"
         corner="circle"
         divClassName="component-instance"
         text="제출"
         type="seconday"
-      />
-      <img class="ph-copy-thin" alt="Ph copy thin" src="ph-copy-thin.svg" />
-    </div>
+      /> -->
+  <!-- <img class="ph-copy-thin" alt="Ph copy thin" src="ph-copy-thin.svg" />
   </div>
+  </div> -->
 </template>
 
 <script setup></script>
