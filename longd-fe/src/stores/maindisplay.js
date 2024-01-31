@@ -6,8 +6,8 @@ export const useMainDisplayStore = defineStore(
   () => {
     const closedPage = ref(false);
     const logOutPage = ref(false);
-
-    return { closedPage, logOutPage };
+    const isVisible = computed(() => !logOutPage.value && !closedPage.value);
+    return { closedPage, logOutPage, isVisible };
   },
   { persist: true },
 );

@@ -47,9 +47,13 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { useMainDisplayStore } from '@/stores/maindisplay.js';
 // import { watch } from 'vue';
 // import { useFocus } from '@vueuse/core';
 
+const mainDisplayStore = useMainDisplayStore();
+const router = useRouter();
 const passwords = reactive(['', '', '', '']);
 const inputRefs = ref([]);
 // const finalPasswords = ref('')
@@ -63,11 +67,14 @@ const handleInput = index => {
     //   if (focused) console.log('input element has been focused');
     //   else console.log('input element has lost focus');
     // });
-
     passwords[`${index + 1}`].focus();
   } else if (passwords[index]) {
     inputRefs.value.push(passwords[index]);
     passwords[index] = '❤️';
+    // 이거 라우터 백으로 만들어야한다 지금은 홈으로 가는거!
+    router.push({ name: 'Home' });
+    // 헤더 보이게 위함!
+    mainDisplayStore.closedPage = false;
     // if (inputRefs.value.join('') == '회원 화면잠금 비밀번호랑 같으면') {
     // closedPage.value = false
     // 이거 가지고 와야한다(Header에 저장해놓은거임)

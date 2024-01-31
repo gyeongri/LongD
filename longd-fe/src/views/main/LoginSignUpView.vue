@@ -25,13 +25,13 @@
           <!-- <img class="btng" alt="Btng" src="btng-1.png" /> -->
           <div class="text-wrapper-2">Login / Sign Up</div>
           <div class="loginbox">
-            <a :href="VITE_BASE_IP + '/oauth2/authorization/kakao'">
+            <a :href="VITE_VUE_API_URL + '/oauth2/authorization/kakao'">
               <img class="image1" alt="kakao" src="/static/img/kakao.png" />
             </a>
-            <a :href="VITE_BASE_IP + '/oauth2/authorization/naver'">
+            <a :href="VITE_VUE_API_URL + '/oauth2/authorization/naver'">
               <img class="image2" alt="naver" src="/static/img/naver.png" />
             </a>
-            <a :href="VITE_BASE_IP + '/oauth2/authorization/google'">
+            <a :href="VITE_VUE_API_URL + '/oauth2/authorization/google'">
               <img class="image" alt="google" src="/static/img/google.png" />
             </a>
             <!-- <a href=""><img class="image" alt="kakao" src="kakao.png" /></a> -->
@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-const { VITE_BASE_IP } = import.meta.env;
+const { VITE_VUE_API_URL } = import.meta.env;
 </script>
 
 <style scoped>
