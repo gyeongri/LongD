@@ -366,6 +366,7 @@ public class MyRestController {
 			while (ze!=null){
 				String entryName=ze.getName();
 				System.out.print("Extracting " + entryName + " -> " + upzipDir + File.separator +  entryName + "...");
+				// C:\SSAFY/myvideo
 				File f=new File(upzipDir+File.separator+entryName);
 				//경로로 이동할 수 없으면 경로에 맞게 폴더를 생성함
 				f.getParentFile().mkdirs();
@@ -377,11 +378,14 @@ public class MyRestController {
 				}
 				fos.close();
 				System.out.println("OK!");
+
+
+
 				ze = zis.getNextEntry();
 			}
 			zis.closeEntry();
 			zis.close();
-//
+
 //			//파일 옮기기
 //
 //			//json 읽어보자잇
@@ -412,7 +416,7 @@ public class MyRestController {
 			RecordUrlDto recordUrlDto=new RecordUrlDto(recording,"123");
 			System.out.println(recordUrlDto.toString());
 			this.sessionRecordings.remove(recording.getSessionId());
-			this.openVidu.deleteRecording(recordingId);
+//			this.openVidu.deleteRecording(recordingId);
 			return new ResponseEntity<>(recordingId, HttpStatus.OK);
 		} catch (OpenViduJavaClientException | OpenViduHttpException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

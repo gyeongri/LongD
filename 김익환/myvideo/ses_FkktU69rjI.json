@@ -1,0 +1,34 @@
+{
+  "createdAt": 1706672886979,
+  "id": "ses_FkktU69rjI",
+  "name": "ses_FkktU69rjI",
+  "sessionId": "ses_FkktU69rjI",
+  "files": [
+    {
+      "name": "str_CAM_LpTc_con_A4IicjZqO8.webm",
+      "connectionId": "con_A4IicjZqO8",
+      "streamId": "str_CAM_LpTc_con_A4IicjZqO8",
+      "size": 131052,
+      "clientData": "",
+      "serverData": "user_data",
+      "hasAudio": true,
+      "hasVideo": true,
+      "typeOfVideo": "CAMERA",
+      "startTimeOffset": 42,
+      "endTimeOffset": 2159
+    },
+    {
+      "name": "str_CAM_OhkJ_con_DsZLtq9VNN.webm",
+      "connectionId": "con_DsZLtq9VNN",
+      "streamId": "str_CAM_OhkJ_con_DsZLtq9VNN",
+      "size": 126130,
+      "clientData": "",
+      "serverData": "user_data",
+      "hasAudio": true,
+      "hasVideo": true,
+      "typeOfVideo": "CAMERA",
+      "startTimeOffset": 42,
+      "endTimeOffset": 2159
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "createdAt": 1706672773017,
+  "id": "ses_XpaPhRvVEY",
+  "name": "ses_XpaPhRvVEY",
+  "sessionId": "ses_XpaPhRvVEY",
+  "files": [
+    {
+      "name": "str_CAM_D5D9_con_HRgsss5K4D.webm",
+      "connectionId": "con_HRgsss5K4D",
+      "streamId": "str_CAM_D5D9_con_HRgsss5K4D",
+      "size": 147112,
+      "clientData": "",
+      "serverData": "user_data",
+      "hasAudio": true,
+      "hasVideo": true,
+      "typeOfVideo": "CAMERA",
+      "startTimeOffset": 39,
+      "endTimeOffset": 2629
+    },
+    {
+      "name": "str_CAM_DkKR_con_TscJcur270.webm",
+      "connectionId": "con_TscJcur270",
+      "streamId": "str_CAM_DkKR_con_TscJcur270",
+      "size": 133537,
+      "clientData": "",
+      "serverData": "user_data",
+      "hasAudio": true,
+      "hasVideo": true,
+      "typeOfVideo": "CAMERA",
+      "startTimeOffset": 39,
+      "endTimeOffset": 2629
+    }
+  ]
+}
