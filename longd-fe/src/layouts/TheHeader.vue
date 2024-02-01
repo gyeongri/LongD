@@ -46,7 +46,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { logout } from '@/utils/api/user';
+import { logout } from '@/utils/api/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 
 const router = useRouter();

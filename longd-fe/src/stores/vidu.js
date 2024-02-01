@@ -67,8 +67,8 @@ export const useViduStore = defineStore('vidu', () => {
           session.value = null;
           // numVideos.value = 0;
           //서버에의해 샤따내렸을 때 칸안보이게
-          document.getElementById('join').style.display = 'block';
-          document.getElementById('session').style.display = 'none';
+          // document.getElementById('join').style.display = 'block';
+          // document.getElementById('session').style.display = 'none';
         }
       });
 

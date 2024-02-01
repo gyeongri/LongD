@@ -29,5 +29,4 @@ function BaseInfo(success, fail) {
 function logout(success, fail) {
   userApi.post(`/user/customlogout`).then(success).catch(fail);
 }
-
 export { userApi, sendinfo, BaseInfo, logout };

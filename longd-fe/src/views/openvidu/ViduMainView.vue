@@ -1,6 +1,9 @@
 <template>
   <div class="desktop">
-    <button @click="join(coupleid)">통화하기</button>
+    <button v-if="!viduStore.publisher" @click="join(coupleid)">
+      통화하기
+    </button>
+    <button v-else @click="disconnect()">통화끊기</button>
 
     <div class="div">
       <ViduMine />
@@ -21,6 +24,13 @@ const viduStore = useViduStore();
 const coupleid = ref('aa');
 const join = function (coupleid) {
   viduStore.joinSession(coupleid);
+};
+const disconnect = function () {
+  viduStore.removeUser();
+  viduStore.leaveSession();
+  viduStore.subscriber = '';
+  viduStore.publisher = '';
+  viduStore.publisherTest = '';
 };
 </script>
 
