@@ -12,6 +12,7 @@
     "db": "json-server --watch db.json --port 5000"
   },
   "dependencies": {
+    "@fawmi/vue-google-maps": "^0.9.79",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
