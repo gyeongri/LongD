@@ -65,9 +65,9 @@ const handleInput = index => {
     } else {
       Swal.fire('비밀번호가 틀립니다!');
     }
+    console.log(`Password:${passwords}`, inputRefs.value.join(''));
     passwords.value = ['', '', '', ''];
     inputRefs.value = [];
-    console.log(`Password:${passwords.value}`, inputRefs.value.join(''));
     // }
   }
 };

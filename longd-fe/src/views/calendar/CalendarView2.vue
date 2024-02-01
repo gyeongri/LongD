@@ -27,6 +27,7 @@ import { ref } from 'vue';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { setCalendarInfo } from '@/utils/api/calendar';
 
 import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils';
 
@@ -57,7 +58,7 @@ const handleDateSelect = selectInfo => {
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
+        // allDay: selectInfo.allDay,
       });
     }
   });
@@ -119,6 +120,19 @@ const handleEvents = events => {
   currentEvents.value = events;
 };
 
+const saveTitle = async () => {
+  try {
+    console.log(data);
+    await setCalendarInfo({
+      data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const data = ref({});
+
 // Variables
 const calendarOptions = ref({
   plugins: [
@@ -150,6 +164,41 @@ const calendarOptions = ref({
   eventChange:
   eventRemove:
   */
+  eventAdd: function (obj) {
+    // 이벤트가 추가되면 발생하는 이벤트
+    // console.log(obj.event._def.title);
+    // console.log(obj.event._instance.range.start);
+    // console.log(obj.event._instance.range.end);
+
+    data.value.title = obj.event._def.title;
+    data.value.start = obj.event._instance.range.start;
+    data.value.end = obj.event._instance.range.end;
+
+    console.log(data.value);
+    saveTitle(data);
+  },
+  eventChange: function (obj) {
+    // 이벤트가 수정되면 발생하는 이벤트
+    // console.log(obj.event._def.title);
+    // console.log(obj.event._instance.range.start);
+    // console.log(obj.event._instance.range.end);
+    data.value.title = obj.event._def.title;
+    data.value.start = obj.event._instance.range.start;
+    data.value.end = obj.event._instance.range.end;
+
+    console.log(data.value);
+  },
+  eventRemove: function (obj) {
+    // 이벤트가 삭제되면 발생하는 이벤트
+    // console.log(obj.event._def.title);
+    // console.log(obj.event._instance.range.start);
+    // console.log(obj.event._instance.range.end);
+    data.value.title = obj.event._def.title;
+    data.value.start = obj.event._instance.range.start;
+    data.value.end = obj.event._instance.range.end;
+
+    console.log(data.value);
+  },
 });
 
 const currentEvents = ref([]);
