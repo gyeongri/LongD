@@ -1,4 +1,8 @@
 <template>
+  <div>
+    <p>원하는 장소 검색</p>
+    <input type="text" v-model="where" />
+  </div>
   <GoogleMap
     :api-key="googleApiKey"
     style="width: 100%; height: 500px"
@@ -13,41 +17,32 @@
         :key="i"
       >
         <InfoWindow>
-          <!-- <input type="text" v-model="where" />
-          <h1>{{ where }}</h1> -->
-          <h1>💖놀러갈 곳💖</h1>
-          <!-- <div id="contet">
-          <div id="siteNotice"></div>
-          <h1 id="firstHeading" class="firstHeading">💖내 사랑💖</h1>
-          <div id="bodyContent">
-            <p>보고싶어</p>
-          </div>
-        </div> -->
+          <h1>{{ where }}</h1>
         </InfoWindow>
       </Marker>
     </MarkerCluster>
   </GoogleMap>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue';
+<script setup>
+import { ref } from 'vue';
 import { GoogleMap, Marker, MarkerCluster, InfoWindow } from 'vue3-google-map';
+import { useDropZone } from '@vueuse/core';
 
-export default defineComponent({
-  components: { GoogleMap, Marker, MarkerCluster, InfoWindow },
-  setup() {
-    const where = ref('');
-    const googleApiKey = ref(import.meta.env.VITE_GOOGLE_REST_API_KEY);
-    const center = { lat: 36.8971999, lng: 127.5349361 };
-    const locations = [
-      { lat: 36.10684456115392, lng: 128.41835497890136 },
-      { lat: 37.555899571774724, lng: 127.00524613483742 },
-    ];
-
-    return { where, googleApiKey, center, locations };
-  },
-});
+const where = ref('');
+const googleApiKey = ref(import.meta.env.VITE_GOOGLE_REST_API_KEY);
+const center = { lat: 36.8971999, lng: 127.5349361 };
+const locations = [
+  { lat: 36.10684456115392, lng: 128.41835497890136 },
+  { lat: 37.555899571774724, lng: 127.00524613483742 },
+];
 </script>
+
+<style scoped>
+input {
+  border: 1px black solid;
+}
+</style>
 
 <!-- <template>
   <div id="map"></div>

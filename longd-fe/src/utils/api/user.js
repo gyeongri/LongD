@@ -29,4 +29,11 @@ function BaseInfo(success, fail) {
 function logout(success, fail) {
   userApi.post(`/user/customlogout`).then(success).catch(fail);
 }
-export { userApi, sendinfo, BaseInfo, logout };
+
+// 호출시 로그인 상태를 확인합니다.
+// 미 로그인시, "로그인 되어 있지 않음" 상태 반환, 로그인 되어있을경우 회원정보 객체 반환
+function loginstate(success, fail) {
+  userApi.get('/user/state').then(success).catch(fail);
+}
+
+export { userApi, sendinfo, BaseInfo, logout, loginstate };
