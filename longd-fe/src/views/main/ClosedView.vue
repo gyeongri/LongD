@@ -7,7 +7,7 @@
           <br />
           비밀번호를 잊어버리셨다면?
         </span>
-        <span class="span">비밀번호초기화</span>
+        <button @click="removepassword()" class="span">비밀번호초기화</button>
       </p>
       <div class="text-wrapper-2">비밀번호 입력</div>
       <div class="long-d">
@@ -41,7 +41,8 @@ const mainDisplayStore = useMainDisplayStore();
 const router = useRouter();
 const passwords = reactive(['', '', '', '']);
 const inputRefs = ref([]);
-// const finalPasswords = ref('')
+const realPasswords = ref('1234');
+// 프로필에서 사용자가 바꾼 번호로 설정해주기!
 // const { focused } = useFocus(passwords);
 
 const handleInput = index => {
@@ -59,19 +60,22 @@ const handleInput = index => {
     passwords[index] = '❤️';
     console.log(passwords);
     // if (passwords == ['❤️', '❤️', '❤️', '❤️']) {
-    if (inputRefs.value.join('') == 1234) {
+    if (inputRefs.value.join('') == realPasswords.value) {
       router.go(-1);
       mainDisplayStore.closedPage = false;
     } else {
       Swal.fire('비밀번호가 틀립니다!');
     }
+    console.log(`Password:${passwords}`, inputRefs.value.join(''));
     passwords.value = ['', '', '', ''];
     inputRefs.value = [];
-    console.log(`Password:${passwords.value}`, inputRefs.value.join(''));
     // }
   }
 };
-
+const removepassword = () => {
+  realPasswords.value = '0413';
+  // 여기 0413말고 사용자 생일로 바꿀 수 있게
+};
 // 관찰자 써서 그대로 넣을 수 있게 하는 것!
 // watch(passwords, (newValue, oldValue) => {
 //   if (newValue) {

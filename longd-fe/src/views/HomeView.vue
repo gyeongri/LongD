@@ -314,10 +314,10 @@
 
 .image .heart-suit {
   height: 43px;
-  left: 400px;
+  left: 85px;
   object-fit: cover;
-  position: fixed;
-  top: 290px;
+  position: relative;
+  top: 20px;
   width: 42px;
 }
 .box .img {

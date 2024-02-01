@@ -6,10 +6,12 @@ import GalleryCreateView from '@/views/gallery/GalleryCreateView.vue';
 import CalendarView from '@/views/calendar/CalendarView.vue';
 import CalendarView2 from '@/views/calendar/CalendarView2.vue';
 import ViduMainView from '@/views/openvidu/ViduMainView.vue';
-import ClosedView from '../views/main/ClosedView.vue';
-import LoginSignUpView from '../views/main/LoginSignUpView.vue';
-import RequiredInfoView from '../views/main/RequiredInfoView.vue';
-import ConnectCodeView from '../views/main/ConnectCodeView.vue';
+import TestMapView from '@/views/map/TestMapView.vue';
+import MapView from '@/views/map/MapView.vue';
+import ClosedView from '@/views/main/ClosedView.vue';
+import LoginSignUpView from '@/views/main/LoginSignUpView.vue';
+import RequiredInfoView from '@/views/main/RequiredInfoView.vue';
+import ConnectCodeView from '@/views/main/ConnectCodeView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,27 +55,38 @@ const router = createRouter({
       component: CalendarView2,
     },
     {
-      path: '/vidumain/',
+      path: '/vidumain',
       name: 'ViduMain',
       component: ViduMainView,
     },
     {
-      path: '/closed/',
+
+      path: '/map',
+      name: 'Map',
+      component: MapView,
+    },
+    {
+      path: '/testmap',
+      name: 'TestMap',
+      component: TestMapView,
+    },
+    {
+      path: '/closed',
       name: 'Closed',
       component: ClosedView,
     },
     {
-      path: '/login/',
+      path: '/login',
       name: 'Login',
       component: LoginSignUpView,
     },
     {
-      path: '/requiredinfo/',
+      path: '/requiredinfo',
       name: 'RequiredInfo',
       component: RequiredInfoView,
     },
     {
-      path: '/connectcode/',
+      path: '/connectcode',
       name: 'ConnectCode',
       component: ConnectCodeView,
     },
