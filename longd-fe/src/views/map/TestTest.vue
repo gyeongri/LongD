@@ -1,7 +1,7 @@
-<template>
+<!-- <template>
   <div>
     <p>원하는 장소 검색 : <input type="text" v-model="where" /></p>
-    <!-- <button @click="search(where)">입력</button> -->
+    <button @click="search(where)">입력</button>
   </div>
   <div id="googleMap" style="height: 600px; width: 750px"></div>
 </template>
@@ -105,4 +105,4 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped></style> -->
