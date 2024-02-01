@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { OpenVidu } from 'openvidu-browser';
-import { viduapi } from '@/api/index.js';
+import { viduapi } from '@/utils/api/index.js';
 export const useViduStore = defineStore('vidu', () => {
   const OV = ref(null);
   const session = ref(null);
@@ -67,8 +67,8 @@ export const useViduStore = defineStore('vidu', () => {
           session.value = null;
           // numVideos.value = 0;
           //서버에의해 샤따내렸을 때 칸안보이게
-          document.getElementById('join').style.display = 'block';
-          document.getElementById('session').style.display = 'none';
+          // document.getElementById('join').style.display = 'block';
+          // document.getElementById('session').style.display = 'none';
         }
       });
 

@@ -4,32 +4,32 @@
   </div>
 
   <button @click="enterPiPMode">pip변신</button>
-  <button @check="click">여기</button>
+  <button @click="check">여기</button>
 </template>
 
 <script setup>
-import { computed, watch, ref } from 'vue';
+import { computed, watch, ref, onMounted } from 'vue';
 import { useViduStore } from '@/stores/vidu.js';
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
 const viduStore = useViduStore();
 const videoElement = ref();
-const click = function () {
-  viduStore.subscriber.value.addVideoElement(videoElement.value);
+const check = function () {
+  console.log(viduStore.hasSubscriber);
+  viduStore.subscriber.addVideoElement(videoElement.value);
 };
-watch(
-  // 첫 번째 인자: 감시할 데이터
-  () => viduStore.hasSubscriber,
 
-  // 두 번째 인자: 데이터가 변경될 때 실행될 콜백 함수
-  (newValue, oldValue) => {
-    // newValue: 변경된 데이터
-    // oldValue: 변경되기  전의 데이터
-
-    // 변경될 때 실행할 로직 작성
-    if (newValue || oldValue) {
-      viduStore.subscriber.addVideoElement(videoElement.value);
-    }
-  },
-);
+onMounted(() => {
+  viduStore.subscriber.addVideoElement(videoElement.value);
+});
+// watch(
+//   () => viduStore.hasSubscriber,
+//   (newValue, oldValue) => {
+//     console.log('김익환');
+//     if (viduStore.hasSubscriber) {
+//       viduStore.subscriber.addVideoElement(videoElement.value);
+//     }
+//   },
+// );
 
 const enterPiPMode = async () => {
   try {
@@ -42,6 +42,17 @@ const enterPiPMode = async () => {
     console.error('PiP 모드 진입 중 오류가 발생했습니다:', error);
   }
 };
+
+onBeforeRouteLeave((to, from, next) => {
+  if (videoElement.value) {
+    enterPiPMode();
+    setTimeout(() => {
+      next();
+    }, 50);
+  } else {
+    next();
+  }
+});
 </script>
 
 <style scoped>

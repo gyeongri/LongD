@@ -1,4 +1,21 @@
 <template>
+  <p>상대의 정보를 입력하세요!(동일한 사람인지 확인하기!)</p>
+  <div>
+    <p>이름 : <input type="text" /></p>
+    <p>
+      생일(8자리) :
+      <input type="text" />
+    </p>
+    <p>
+      이메일(도메인포함) :
+      <input type="text" />
+    </p>
+    <p>
+      상대가 설정한 연결코드 :
+      <input type="text" />
+    </p>
+    <button @click="choiceDate">제출</button>
+  </div>
   <!-- <div class="desktop">
     <div class="div">
       <div class="long-d">
@@ -26,7 +43,24 @@
   </div> -->
 </template>
 
-<script setup></script>
+<script setup>
+import Swal from 'sweetalert2';
+
+const choiceDate = async () => {
+  const { value: date } = await Swal.fire({
+    title: '여러분이 처음 만난 날을 입력해주세요.',
+    input: 'date',
+    didOpen: () => {
+      const today = new Date().toISOString();
+      Swal.getInput().min = today.split('T')[0];
+    },
+  });
+  if (date) {
+    Swal.fire('아래 날짜가 맞나요?', date);
+    // 화면 전환(DB로 보내주고 - 이거는 메인화면에서 날짜 설정한 거 써야해..!)
+  }
+};
+</script>
 
 <style scoped>
 .desktop {

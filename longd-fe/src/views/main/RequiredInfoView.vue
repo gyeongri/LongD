@@ -36,7 +36,6 @@
     </p>
 
     <button @click="send">정보 가입 해버리기</button>
-    {{ Info_state }}
   </div>
 </template>
 
@@ -66,7 +65,7 @@ const send = () => {
     data => {
       //success
       console.log('sendinfo 성공');
-      router.push({ name: 'loginPage' });
+      router.push({ name: 'ConnectCode' });
     },
     error => {
       console.log('sendinfo 오류 : ' + error);
@@ -75,4 +74,11 @@ const send = () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+input {
+  border: 1px black solid;
+}
+button {
+  border: 1px black solid;
+}
+</style>
