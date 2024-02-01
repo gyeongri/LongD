@@ -17,6 +17,7 @@
           <h1>{{ where }}</h1> -->
           <h1>💖놀러갈 곳💖</h1>
           <!-- <div id="contet">
+
           <div id="siteNotice"></div>
           <h1 id="firstHeading" class="firstHeading">💖내 사랑💖</h1>
           <div id="bodyContent">
@@ -43,12 +44,10 @@ export default defineComponent({
       { lat: 36.10684456115392, lng: 128.41835497890136 },
       { lat: 37.555899571774724, lng: 127.00524613483742 },
     ];
-
     return { where, googleApiKey, center, locations };
   },
 });
 </script>
-
 <!-- <template>
   <div id="map"></div>
 </template>

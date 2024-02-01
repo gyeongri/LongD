@@ -60,6 +60,7 @@ const handleInput = index => {
     passwords[index] = '❤️';
     console.log(passwords);
     // if (passwords == ['❤️', '❤️', '❤️', '❤️']) {
+
     if (inputRefs.value.join('') == realPasswords.value) {
       router.go(-1);
       mainDisplayStore.closedPage = false;

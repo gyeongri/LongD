@@ -37,6 +37,24 @@ import GalleryCard from '@/components/gallery/GalleryCard.vue';
 import Swal from 'sweetalert2';
 const items = ref([]);
 
+// 주어진 객체
+const data = {
+  coupleListId: 1,
+  title: 'ㅇㅁㄴ',
+  dataStart: new Date('2024-02-12T09:00:00'),
+  dataEnd: new Date('2024-02-15T09:00:00'),
+};
+
+// 필요한 필드만을 가진 새로운 객체 생성
+const newData = {
+  coupleListId: data.coupleListId,
+  title: data.title,
+  dataStart: data.dataStart,
+  dataEnd: data.dataEnd,
+};
+
+console.log(newData);
+
 const params = ref({
   _sort: 'createdAt', // 무엇을
   _order: 'desc', // 내림차순
