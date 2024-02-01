@@ -1,5 +1,6 @@
 package com.longd.longd.coupleList.controller;
 
+import com.longd.longd.coupleList.db.entity.CoupleList;
 import com.longd.longd.coupleList.service.CoupleListService;
 import com.longd.longd.user.db.entity.User;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,26 @@ public class CoupleListController {
     public ResponseEntity<?> setCoupleList(@RequestBody User user) {
         try {
             return ResponseEntity.status(200).body(coupleListService.setCoupleList(user));
+        } catch (Exception e) {
+            log.error(e.toString());
+            return ResponseEntity.status(503).body(null);
+        }
+    }
+
+    @PostMapping("/modify")
+    public ResponseEntity<?> modifyCoupleList(@RequestBody CoupleList coupleList) {
+        try {
+            return ResponseEntity.status(200).body(coupleListService.modifyCoupleList(coupleList));
+        } catch (Exception e) {
+            log.error(e.toString());
+            return ResponseEntity.status(503).body(null);
+        }
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<?> getCoupleList() {
+        try {
+            return ResponseEntity.status(200).body(coupleListService.getCoupleListInfo());
         } catch (Exception e) {
             log.error(e.toString());
             return ResponseEntity.status(503).body(null);

@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface CoupleListRepository extends JpaRepository<CoupleList, Integer> {
 
-    public Optional<CoupleList> findByUserIdAAndUserIdB(Integer userIdA, Integer userIdB);
+    public Optional<CoupleList> findByUserIdAAndUserIdB(int userIdA, int userIdB);
+
 }

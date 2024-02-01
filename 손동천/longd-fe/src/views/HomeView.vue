@@ -1,5 +1,4 @@
 <template>
-  {{ login_state }}
   <div class="box">
     <div class="group">
       <div class="overlap">
@@ -76,33 +75,29 @@
 </template>
 
 <script setup>
-//임시 내용입니다.
-import { checkloginstate } from '@/api/user';
-import { checkLogin } from '@/utils/api/user';
-import { ref, onMounted } from 'vue';
+import { onMounted } from 'vue';
+import { loginstate } from '@/utils/api/user';
+import { useRouter } from 'vue-router';
 
-const login_state = ref('로그인 안되어있음');
+const router = useRouter();
 
 onMounted(() => {
-  checkLogin(
+  loginstate(
     success => {
-      console.log('loginCheck success' + success);
+      if (success.data === '롱디에 로그인 되어 있지 않음') {
+        //     홈 실행시 로그인 여부를 체크해서 안되있으면 로그인 화면으로 팅궈냅니다
+        //     '롱디에 로그인 되어 있지 않음' <<< 요거 문구 수정하면안됩니다 문구에 반응하는거임
+        console.log('로그인 안되어있다.');
+        router.push({ name: 'Login' });
+      } else {
+        console.log('로그인 되어있다', success.data);
+      }
     },
     error => {
-      console.log('loginCheck error' + error);
-    },
-  );
-
-  checkloginstate(
-    data => {
-      login_state.value = data;
-    },
-    error => {
-      console.log('onMounted 오류 : ' + error);
+      console.log('error') + error;
     },
   );
 });
-//임시 내용 끝
 </script>
 
 <style scoped>
@@ -343,10 +338,10 @@ onMounted(() => {
 
 .image .heart-suit {
   height: 43px;
-  left: 400px;
+  left: 85px;
   object-fit: cover;
-  position: fixed;
-  top: 290px;
+  position: relative;
+  top: 20px;
   width: 42px;
 }
 .box .img {

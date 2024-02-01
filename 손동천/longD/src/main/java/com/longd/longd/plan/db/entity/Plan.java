@@ -22,7 +22,7 @@ public class Plan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id = null;
 
-    private Integer coupleList_Id;
+    private Integer coupleListId;
     private LocalDate dateStart;
     private LocalDate dateEnd;
     private String title;
