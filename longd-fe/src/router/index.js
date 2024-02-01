@@ -60,6 +60,7 @@ const router = createRouter({
       component: ViduMainView,
     },
     {
+
       path: '/map',
       name: 'Map',
       component: MapView,

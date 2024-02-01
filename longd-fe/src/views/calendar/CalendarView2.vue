@@ -27,6 +27,7 @@ import { ref, onMounted } from 'vue';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+
 import {
   setCalendarInfo,
   updateCalendarInfo,
@@ -35,7 +36,6 @@ import {
 } from '@/utils/api/calendar';
 
 // import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils';
-
 import Swal from 'sweetalert2';
 
 const titleAlert = async () => {
@@ -164,7 +164,6 @@ const changeCalendar = async () => {
     console.log(err);
   }
 };
-
 const deleteCalendar = async () => {
   try {
     console.log('삭제');

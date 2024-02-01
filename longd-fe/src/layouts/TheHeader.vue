@@ -23,6 +23,7 @@
             ><img class="image" alt="ViduMain" src="/static/img/im.png"
           /></RouterLink>
         </li>
+
         <li>
           <RouterLink :to="{ name: 'TestMap' }"
             >맵TEST</RouterLink>

@@ -12,7 +12,6 @@
       @mousemove="draw"
     ></canvas>
   </div>
-  <button @click="captureAndSave">캡쳐</button>
   <button @click="check">여기</button>
   <br />
   <button @click="viduStore.startRecording">녹화</button>
@@ -23,7 +22,7 @@
 </template>
 
 <script setup>
-import { computed, watch, ref } from 'vue';
+import { computed, watch, ref, onMounted } from 'vue';
 import { useViduStore } from '@/stores/vidu.js';
 
 const viduStore = useViduStore();
@@ -31,7 +30,11 @@ const videoElement = ref(null);
 const canvas = ref(null);
 const isDrawing = ref(false);
 const selectedColor = ref('#000000'); // 초기 색상은 검은색
-
+onMounted(() => {
+  if (viduStore.publisherTest) {
+    viduStore.publisher.addVideoElement(videoElement.value);
+  }
+});
 watch(
   () => viduStore.publisherTest,
   (newValue, oldValue) => {

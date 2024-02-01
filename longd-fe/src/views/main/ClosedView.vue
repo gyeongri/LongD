@@ -77,7 +77,6 @@ const removepassword = () => {
   realPasswords.value = '0413';
   // 여기 0413말고 사용자 생일로 바꿀 수 있게
 };
-
 // 관찰자 써서 그대로 넣을 수 있게 하는 것!
 // watch(passwords, (newValue, oldValue) => {
 //   if (newValue) {
