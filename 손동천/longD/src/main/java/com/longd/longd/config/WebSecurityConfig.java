@@ -15,6 +15,7 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.addAllowedOrigin("http://192.168.100.188:5173");
+        config.addAllowedOrigin("http://192.168.100.103:5173");
         config.addAllowedOrigin("http://192.168.100.188:3000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");

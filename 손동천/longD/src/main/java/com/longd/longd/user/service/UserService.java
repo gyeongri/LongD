@@ -6,8 +6,9 @@ import java.util.Optional;
 
 public interface UserService {
 
+    public void userReigst(User user);
     public void userDelete();
-    public void userModify(User updateInfo);
+//    public void userModify(User updateInfo);
     public Optional<User> userState();
 
     public User BaseInfo();

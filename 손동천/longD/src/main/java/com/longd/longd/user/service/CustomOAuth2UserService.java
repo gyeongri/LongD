@@ -43,6 +43,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             return null;
         }
 
+
         return new CustomOAuth2User(oAuth2Response, "ROLE_USER");
 
     }

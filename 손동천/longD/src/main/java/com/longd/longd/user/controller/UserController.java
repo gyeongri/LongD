@@ -4,6 +4,7 @@ import com.longd.longd.user.db.entity.User;
 import com.longd.longd.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,69 +20,71 @@ import java.util.Optional;
 
 @Api(value = "유저 API", tags = {"User"})
 @RestController
-@CrossOrigin(origins = { "http://192.168.100.188:3000", "http://192.168.100.188:5173" }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE} , maxAge = 6000)
+@Slf4j
+@CrossOrigin(origins = { "http://192.168.100.188:3000", "http://192.168.100.188:5173", "http://192.168.100.103:5173"  }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE} , maxAge = 6000)
 @RequestMapping("/user")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @GetMapping("/checklogin")
-    public void checklogin () {
-
-    }
-
+    //API 명세서 등록 완료 02-01
     @GetMapping("/state")
     public ResponseEntity<?> getloginstate() {
-        Optional<User> user = userService.userState();
+        Optional<User> OptionalUser = userService.userState();
 
-        if (user == null) {
-            return ResponseEntity.status(200).body("로그인 되어 있지 않음");
+        if (OptionalUser == null) {
+            return ResponseEntity.status(200).body("롱디에 로그인 되어 있지 않음");
         } else {
+            User user = OptionalUser.get();
             return ResponseEntity.status(200).body(user);
         }
     }
 
     @GetMapping("/checkregist")
     public RedirectView getRegistInstance() {
-        Optional<User> user = userService.userState();
+        //로그인 성공시에만 진입하는 경로
+        Optional<User> optionalUser = userService.userState();
         RedirectView redirectView = new RedirectView("http://192.168.100.188:5173/");
-        if(user.isPresent()) {
+        if(optionalUser.isPresent()) {
             //회원이 있음
-            System.out.println("회원이 있음");
+            System.out.println(optionalUser.get().toString());
         } else {
             //회원이 없음 회원가입 필요
-            //수정필요
             redirectView = new RedirectView("http://192.168.100.188:5173/requiredinfo");
         }
 
         return redirectView;
     }
 
-    @PostMapping("/modify")
-    public void setInfo(@RequestBody User user) {
-        userService.userModify(user);
+    //API 명세서 등록 완료 02-01
+    @PostMapping("/regist")
+    public void setUserRegist(@RequestBody User user) {
+        userService.userReigst(user);
     }
 
+    //API 명세서 등록 완료 02-01
     @GetMapping("/delete")
     public void userDelete() {
         userService.userDelete();
     }
 
+    //API 명세서 등록 완료 02-01
     @GetMapping("/customlogin")
-    @ApiOperation(value = "로그인 페이지", notes = "로그인 페이지 접속")
+    @ApiOperation(value = "로그인 페이지 접속", notes = "로그인 권한이 없을경우 여기로 팅겨서 RedirectView 됨")
     //로그인 권한이 없을경우 해당 페이지로 계속 redirect됨
     public RedirectView customlogin() {
         RedirectView redirectView = new RedirectView("http://192.168.100.188:5173/login");
-        System.out.println("??");
+        log.debug("권한이 없는 페이지로 이동하였음");
         return redirectView;
     }
 
+    //API 명세서 등록 완료 02-01
     @PostMapping("/customlogout")
     //위 경로 실행시 로그아웃 처리됨
     public String logout() {
         System.out.println("로그아웃 요청하였음");
-        return "asdf";
+        return "logout test 이 메세지가 나오면 백엔드에 문의하세요";
     }
 
     @GetMapping("/logout/success")
@@ -92,26 +95,9 @@ public class UserController {
         return redirectView;
     }
 
-    @GetMapping("/info")
-    @ResponseBody
-    public String getinfo() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        System.out.println("authentication" + authentication.toString());
-        if (authentication == null) {
-            System.out.println("사용자가 로그인되지 않았습니다.");
-            return "회원정보 없음";
-        } else {
-            System.out.println("사용자가 로그인되었습니다.");
-        }
-        String username = authentication.getName();
 
-        System.out.println("이름" + username);
 
-//        return ResponseEntity.status(200).body(authentication);
-        return username;
-    }
-
+    //API 명세서 등록 완료 02-01
     @GetMapping("/registInfo")
     public User setRegistInfo() {
         User user = new User();
@@ -126,5 +112,32 @@ public class UserController {
         return null;
     }
 
+
+
+//  수정 배제중
+//    @PostMapping("/modify")
+//    public void setInfo(@RequestBody User user) {
+//        userService.userModify(user);
+//    }
+
+//    @GetMapping("/info")
+//    @ResponseBody
+//    public String getinfo() {
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        Authentication authentication = context.getAuthentication();
+//        System.out.println("authentication" + authentication.toString());
+//        if (authentication == null) {
+//            System.out.println("사용자가 로그인되지 않았습니다.");
+//            return "회원정보 없음";
+//        } else {
+//            System.out.println("사용자가 로그인되었습니다.");
+//        }
+//        String username = authentication.getName();
+//
+//        System.out.println("이름" + username);
+//
+////        return ResponseEntity.status(200).body(authentication);
+//        return username;
+//    }
 }
 

@@ -37,11 +37,12 @@ public class SecurityConfig{
         http.oauth2Login((oauth2) -> oauth2.userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig.userService(customOAuth2UserService)).defaultSuccessUrl("/user/checkregist"));
 
         http.authorizeHttpRequests((auth) ->
-                auth.requestMatchers("/", "/oauth2/**", "/login/**", "/user/customlogout","/user/customlogin", "/user/state", "/user/checkregist").permitAll()
-                        .requestMatchers("/user/**").hasRole("USER")
-                        .anyRequest().authenticated());
+//                auth.requestMatchers("/", "/oauth2/**", "/login/**", "/user/**", "/calendar/**",).permitAll()
+////                        .requestMatchers("/user/**").hasRole("USER")
+//                        .anyRequest().authenticated());
+                auth.requestMatchers("/").permitAll().anyRequest().permitAll());
 
-//        http.logout((logoutConfig) -> logoutConfig.logoutUrl("/user/customlogout").logoutSuccessUrl("http://192.168.100.188:5173/"));
+        http.logout((logoutConfig) -> logoutConfig.logoutUrl("/user/customlogout").logoutSuccessUrl("http://192.168.100.188:5173/"));
 
         return http.build();
     }

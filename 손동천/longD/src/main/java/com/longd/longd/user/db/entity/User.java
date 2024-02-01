@@ -5,30 +5,30 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Map;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @NoArgsConstructor
 public class User implements OAuth2Response {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id = null;
+    private Integer id = null;
 
     private Integer coupleListId = null;
     private String userId = "NULL방지";
-    private String emailId = "NULL방지";
-    private String emailDomain = "NULL방지";
-    private String password = "NULL방지";    //보안처리 필요 or 필요할까 ?
+    private String email = "NULL방지";
     private String provider = "NULL방지";
     private String name = "NULL방지";
     private String nickname = "NULL방지";
     private String addressNation = "NULL방지";
     private String addressCity;
-    private String address_detail;
+    private String addressDetail;
     private String birth = "NULL방지";
     private String birthYear = "NULL방지";
     private String birthMonth = "NULL방지";
@@ -37,7 +37,8 @@ public class User implements OAuth2Response {
     private String profilePicture;
     private String profileMessage;
     private String position;
-    private String passwordSimple = "NULL방지";  //보안처리 필요
+    private Integer passwordSimple;  //보안처리 필요
+    private Integer code;
     //private String accessToken;
     //private String refreshToken;
 
@@ -45,11 +46,6 @@ public class User implements OAuth2Response {
     @Override
     public String getProviderId() {
         return getUserId();
-    }
-
-    @Override
-    public String getEmail() {
-        return getEmailId() + "@" + getEmailDomain();
     }
 
     @Override

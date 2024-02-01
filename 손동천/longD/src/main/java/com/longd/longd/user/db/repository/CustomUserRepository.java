@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface CustomUserRepository {
     public Optional<User> findByUserId(String userId);
-    public Optional<User> findByEmailIdAndEmailDomain(String emailId, String emailDomain);
+
 }

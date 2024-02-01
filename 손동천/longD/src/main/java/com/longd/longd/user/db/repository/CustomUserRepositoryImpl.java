@@ -30,13 +30,4 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
         return user.stream().findAny();
     }
 
-    @Override
-    public Optional<User> findByEmailIdAndEmailDomain(String emailId, String emailDomain) {
-        List<User> user = entityManager.createQuery(
-                "select u from User u where u.emailId = :emailId and u.emailDomain = :emailDomain", User.class)
-                .setParameter("emailId", emailId).setParameter("emailDomain", emailDomain)
-                .getResultList();
-
-        return user.stream().findAny();
-    }
 }

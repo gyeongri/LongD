@@ -3,6 +3,7 @@ package com.longd.longd.user.service;
 import com.longd.longd.user.db.dto.CustomOAuth2User;
 import com.longd.longd.user.db.entity.User;
 import com.longd.longd.user.db.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,11 +15,23 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService{
 
     @Autowired
     UserRepository userRepository;
+
+    public void userReigst(User user) {
+        log.info(user.toString());
+        if(user.getBirth() == null) {
+            log.error("생일이 없어서 화면잠금 비밀번호 저장 실패");
+        } else {
+            //혹시 0228이면 어떻게 될까 ?
+            user.setPasswordSimple(Integer.parseInt(user.getBirth().substring(4)));
+        }
+        userRepository.save(user);
+    }
 
     public void userDelete() {
 
@@ -38,25 +51,8 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-    @Override
-    public void userModify(User updateInfo) {
 
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
 
-        if (info.getProviderId().equals(updateInfo.getProviderId())) {
-            //로그인 정보와 수정하려는 사람 일치
-            String[] email = updateInfo.getEmail().split("@");
-            updateInfo.setEmailId(email[0]);
-            updateInfo.setEmailDomain(email[1]);
-            userRepository.save(updateInfo);
-        } else {
-            //로그인 정보와 수정하려는 사람이 불일치
-            System.out.println("userModify 오류");
-        }
-
-    }
 
     public Optional<User> userState() {
         SecurityContext context = SecurityContextHolder.getContext();
@@ -100,4 +96,22 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
+//    @Override
+//        public void userModify(User updateInfo) {
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        Authentication authentication = context.getAuthentication();
+//        CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
+//
+//        if (info.getProviderId().equals(updateInfo.getProviderId())) {
+//            //로그인 정보와 수정하려는 사람 일치
+//            String[] email = updateInfo.getEmail().split("@");
+//            updateInfo.setEmailId(email[0]);
+//            updateInfo.setEmailDomain(email[1]);
+//            userRepository.save(updateInfo);
+//        } else {
+//            //로그인 정보와 수정하려는 사람이 불일치
+//            System.out.println("userModify 오류");
+//        }
+//
+//    }
 }
