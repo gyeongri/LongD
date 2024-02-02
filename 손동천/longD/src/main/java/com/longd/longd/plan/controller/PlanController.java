@@ -19,6 +19,7 @@ public class PlanController {
     @Autowired
     PlanSerivce planSerivce;
 
+    //POST MAN 검증 완료
     @PostMapping("/add")
     public ResponseEntity<Boolean> planAdd(@RequestBody Plan plan) {
         boolean body = planSerivce.setPlan(plan);
@@ -30,6 +31,7 @@ public class PlanController {
         //false 시 오류
     }
 
+    //POST MAN 검증 완료
     @GetMapping("/get/{coupleListId}")
     public ResponseEntity<?> getPlan(@PathVariable int coupleListId) {
         List<Plan> plan = planSerivce.getPlan(coupleListId);

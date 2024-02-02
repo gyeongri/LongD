@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface PlanInfoRepository extends JpaRepository<PlanInfo, Integer>, CustomPlanInfoRepository {
 
-    List<PlanInfo> findByCoupleListId(int coupleListId);
+    List<PlanInfo> findByPlanId(int planId);
     public Optional<PlanInfo> findById(int id);
 }

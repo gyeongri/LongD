@@ -83,6 +83,7 @@ public class UserServiceImpl implements UserService{
     public User BaseInfo() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
+        System.out.println(authentication.toString());
         CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
 
         System.out.println(info.getAuthorities().stream().toArray().toString());

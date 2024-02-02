@@ -32,7 +32,7 @@ public class CalendarServiceImpl implements CalendarService {
         }
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인 user.get().getCoupleListId() == calendar.getCoupleListId()
         //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
-        if( ( user.isPresent() && user.get().getCoupleListId() == calendar.getCoupleListId() ) || calendar.getCoupleListId() == 1 ) {
+        if( ( user != null && user.get().getCoupleListId() == calendar.getCoupleListId() ) || calendar.getCoupleListId() == 1 ) {
             calendarRepository.save(calendar);
             return true;
         } else {
@@ -48,7 +48,7 @@ public class CalendarServiceImpl implements CalendarService {
         log.info("조회 진행");
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인
         //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
-        if( ( user.isPresent() && user.get().getCoupleListId() == coupleListId ) || coupleListId == 1 ) {
+        if( ( user != null && user.get().getCoupleListId() == coupleListId ) || coupleListId == 1 ) {
             return calendarRepository.findByCoupleListId(coupleListId);
         } else {
             return null;
@@ -73,7 +73,7 @@ public class CalendarServiceImpl implements CalendarService {
         calendar = calendarRepository.findById(id).get();
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인
         //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
-        if( ( user.isPresent() && user.get().getCoupleListId() == calendar.getCoupleListId() ) || calendar.getCoupleListId() == 1 ) {
+        if( ( user != null && user.get().getCoupleListId() == calendar.getCoupleListId() ) || calendar.getCoupleListId() == 1 ) {
             calendarRepository.delete(calendar);
             return true;
         } else {

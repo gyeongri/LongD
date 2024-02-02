@@ -1,8 +1,6 @@
 package com.longd.longd.plan.db.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +13,7 @@ import java.time.LocalDate;
 @Setter
 @Slf4j
 @ToString
+@Entity
 @NoArgsConstructor
 public class Plan {
 

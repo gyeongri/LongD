@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PlanInfoService {
 
-    public List<PlanInfo> getPlanInfo(int coupleListId);
+    public List<PlanInfo> getPlanInfo(int planId);
 
     public boolean setPlanInfo(PlanInfo planInfo);
 

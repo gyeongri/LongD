@@ -1,5 +1,6 @@
 package com.longd.longd.plan.db.entity;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @Setter
 @Slf4j
 @ToString
+@Entity
 @NoArgsConstructor
 public class PlanInfo {
 
@@ -25,7 +27,7 @@ public class PlanInfo {
     private Integer planId;
     private String title;
     private String infoType;
-    private String order;
+    private String MyOrder;
     private String titleUrl;
     private LocalDate date;
     private Long latitude;

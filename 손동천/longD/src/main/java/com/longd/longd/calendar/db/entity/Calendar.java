@@ -27,6 +27,7 @@ public class Calendar {
     private Integer type; // 기념일 속성, (1은 생일, 2은 병원예약 처럼)
     private String title; // 제목
     private String content; // 내용
+    private String color;
 
 
 }
