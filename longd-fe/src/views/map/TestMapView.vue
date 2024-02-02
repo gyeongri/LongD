@@ -68,7 +68,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useDropZone, useEventListener } from '@vueuse/core'
+// import { useDropZone, useEventListener } from '@vueuse/core'
 
 const filesData = ref<{ name: string, size: number, type: string, lastModified: number }[]>([])
 // const imageFilesData = ref<{ name: string, size: number, type: string, lastModified: number }[]>([])

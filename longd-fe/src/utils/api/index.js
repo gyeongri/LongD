@@ -24,7 +24,7 @@ const api2 = axios.create({
 });
 
 const viduapi = axios.create({
-  baseURL: 'https://localhost:5000/recording-java/api/',
+  baseURL: 'https://localhost:5000/recording-java/api',
   headers: {
     'Content-Type': 'application/json',
     Authorization: 'Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU',
