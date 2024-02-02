@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import HomeView from '@/views/HomeView.vue';
+import ProfileView from '@/views/main/ProfileView.vue';
 import GalleryListView from '@/views/gallery/GalleryListView.vue';
 import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
 import GalleryCreateView from '@/views/gallery/GalleryCreateView.vue';
@@ -28,6 +29,11 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: ProfileView,
     },
     {
       path: '/gallery',
@@ -60,7 +66,6 @@ const router = createRouter({
       component: ViduMainView,
     },
     {
-
       path: '/map',
       name: 'Map',
       component: MapView,
