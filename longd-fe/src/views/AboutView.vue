@@ -24,6 +24,9 @@
     <button @click="showAlert2" class="btn btn-outline btn-primary">
       Hello world
     </button>
+    <button @click="showAlert3" class="btn btn-outline btn-primary">
+      Hello world
+    </button>
     <button @click="showCombinedAlert" class="btn btn-outline btn-primary">
       Hello world
     </button>
@@ -88,36 +91,76 @@ const showCombinedAlert = async () => {
   }
 };
 
-const showAlert2 = async () => {
-  const { value: text } = await Swal.fire({
-    input: 'textarea',
-    inputLabel: 'Message',
-    inputPlaceholder: 'Type your message here...',
-    inputAttributes: {
-      'aria-label': 'Type your message here',
-    },
+const showAlert3 = async () => {
+  const { value: title } = await Swal.fire({
+    title: '당신의 추억을 입력해주세요.',
+    input: 'text',
+    inputLabel: '당신의 추억 제목',
+    inputPlaceholder: '추억을 입력해주세요.',
     showCancelButton: true,
   });
-  if (text) {
-    Swal.fire(text);
+
+  const { value: color } = await Swal.fire({
+    title: 'Select color',
+    input: 'select',
+    inputOptions: {
+      red: 'red',
+      orange: 'orange',
+      yellow: 'yellow',
+      green: 'green',
+      blue: 'blue',
+      indigo: 'indigo',
+      violet: 'violet',
+      purple: 'purple',
+      pink: 'pink',
+      brown: 'brown',
+      black: 'black',
+    },
+    inputPlaceholder: 'Select a color',
+    showCancelButton: true,
+  });
+  if (title && color) {
+    Swal.fire('Saved!', '', 'success');
+  }
+  return [title, color];
+};
+
+const showAlert2 = async () => {
+  const { value: color } = await Swal.fire({
+    title: 'Select color',
+    input: 'select',
+    inputOptions: {
+      red: 'red',
+      orange: 'orange',
+      yellow: 'yellow',
+      green: 'green',
+      blue: 'blue',
+      indigo: 'indigo',
+      violet: 'violet',
+      purple: 'purple',
+      pink: 'pink',
+      brown: 'brown',
+      black: 'black',
+    },
+    inputPlaceholder: 'Select a color',
+    showCancelButton: true,
+  });
+  if (color) {
+    Swal.fire(`You selected: ${color}`);
   }
 };
 
 const showAlert = async () => {
-  Swal.fire({
-    title: 'Do you want to save the changes?',
-    showDenyButton: true,
-    showCancelButton: true,
-    confirmButtonText: 'Save',
-    denyButtonText: `Don't save`,
-  }).then(result => {
-    /* Read more about isConfirmed, isDenied below */
-    if (result.isConfirmed) {
-      Swal.fire('Saved!', '', 'success');
-    } else if (result.isDenied) {
-      Swal.fire('Changes are not saved', '', 'info');
-    }
+  const { value: title } = await Swal.fire({
+    title: '당신의 추억을 입력해주세요.',
+    input: 'text',
+    inputLabel: '당신의 추억 제목',
+    inputPlaceholder: '추억을 입력해주세요.',
   });
+  if (title) {
+    Swal.fire('Saved!', '', 'success');
+    return title;
+  }
 };
 
 const fetchAlbums = async () => {

@@ -1,5 +1,8 @@
 <template>
   <div class="desktop">
+    <!-- <div>
+      화면공유하면 이거 살려서 컴포넌트 구성
+    </div> -->
     <button v-if="!viduStore.publisher" @click="join(coupleid)">
       통화하기
     </button>

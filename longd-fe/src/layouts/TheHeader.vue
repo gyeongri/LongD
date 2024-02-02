@@ -12,9 +12,8 @@
             ><img class="image" alt="Gallery" src="/static/img/image.png"
           /></RouterLink>
         </li>
-        <li><RouterLink :to="{ name: 'Calendar' }">Calendar</RouterLink></li>
         <li>
-          <RouterLink :to="{ name: 'Calendar2' }"
+          <RouterLink :to="{ name: 'Calendar' }"
             ><img class="image" alt="Calendar" src="/static/img/2x.png"
           /></RouterLink>
         </li>
@@ -23,9 +22,9 @@
             ><img class="image" alt="ViduMain" src="/static/img/im.png"
           /></RouterLink>
         </li>
+
         <li>
-          <RouterLink :to="{ name: 'TestMap' }"
-            >맵TEST</RouterLink>
+          <RouterLink :to="{ name: 'TestMap' }">맵TEST</RouterLink>
         </li>
         <li>
           <RouterLink :to="{ name: 'Map' }"
