@@ -21,7 +21,6 @@ import java.util.Optional;
 @Api(value = "유저 API", tags = {"User"})
 @RestController
 @Slf4j
-@CrossOrigin(origins = { "http://192.168.100.188:3000", "http://192.168.100.188:5173", "http://192.168.100.103:5173", "http://192.168.100.102:5173"  }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE} , maxAge = 6000)
 @RequestMapping("/user")
 public class UserController {
 
@@ -115,10 +114,10 @@ public class UserController {
 
 
 //  수정 배제중
-//    @PostMapping("/modify")
-//    public void setInfo(@RequestBody User user) {
-//        userService.userModify(user);
-//    }
+    @PostMapping("/add")
+    public void setInfo(@RequestBody User user) {
+        userService.userReigst(user);
+    }
 
 //    @GetMapping("/info")
 //    @ResponseBody
