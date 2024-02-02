@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const { VITE_VUE_API_URL } = import.meta.env;
+const { VITE_VUE_API_URL, VITE_BASE_IP } = import.meta.env;
 
 const userApi = axios.create({
   withCredentials: true,
   baseURL: VITE_VUE_API_URL,
   headers: {
-    'Access-Control-Allow-Origin': 'http://localhost:5173',
+    'Access-Control-Allow-Origin': VITE_BASE_IP,
     'Content-Type': 'application/json;charset=utf-8',
   },
 });
@@ -19,7 +19,7 @@ const userApi = axios.create({
 //   throw error;
 // });
 function sendinfo(param, success, fail) {
-  userApi.post(`/user/modify`, JSON.stringify(param)).then(success).catch(fail);
+  userApi.post(`/user/add`, JSON.stringify(param)).then(success).catch(fail);
 }
 
 function BaseInfo(success, fail) {
