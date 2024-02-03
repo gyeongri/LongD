@@ -44,13 +44,13 @@ public class UserController {
     public RedirectView getRegistInstance() {
         //로그인 성공시에만 진입하는 경로
         Optional<User> optionalUser = userService.userState();
-        RedirectView redirectView = new RedirectView("http://192.168.100.102:5173/");
+        RedirectView redirectView = new RedirectView("http://192.168.100.188:5173/");
         if(optionalUser.isPresent()) {
             //회원이 있음
             System.out.println(optionalUser.get().toString());
         } else {
             //회원이 없음 회원가입 필요
-            redirectView = new RedirectView("http://192.168.100.102:5173/requiredinfo");
+            redirectView = new RedirectView("http://192.168.100.188:5173/requiredinfo");
         }
 
         return redirectView;
