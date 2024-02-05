@@ -21,4 +21,4 @@ RUN npm run build
 RUN rm -rf node_modules
 
 # 애플리케이션 실행을 위한 명령어
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]
