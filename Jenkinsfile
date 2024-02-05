@@ -61,7 +61,7 @@ pipeline {
                     sh 'ls -al'
                     sh 'chmod +x ./gradlew'
                     sh './gradlew build'
-                    sh "docker build -t ${DOCKER_IMAGE_NAME_BE}"
+                    sh "docker build -t ${DOCKER_IMAGE_NAME_BE} -f ${PROJECT_PATH}/longD-BE/Dockerfile ${PROJECT_PATH}/longD-BE"
                 }
                 echo 'Build image...'
             }
