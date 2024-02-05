@@ -15,9 +15,30 @@ export const useViduStore = defineStore('vidu', () => {
   const test2 = ref(null);
   const videoContainer = ref(null);
   const publisherTest = ref(false);
+  const isAudioMuted = ref(false);
+  const isVideoOff = ref(false);
+  const volume = ref(50);
+  const toggleAudio = () => {
+    if (publisher.value) {
+      isAudioMuted.value = !isAudioMuted.value;
+      publisher.value.publishAudio(!isAudioMuted.value);
+    }
+  };
+
+  const toggleVideo = () => {
+    if (publisher.value) {
+      isVideoOff.value = !isVideoOff.value;
+      publisher.value.publishVideo(!isVideoOff.value);
+    }
+  };
+
+  const adjustVolume = () => {
+    if (publisher.value && publisher.value.element) {
+      publisher.value.element.volume = volume.value / 100; // 볼륨을 0~1 사이 값으로 조절
+    }
+  };
   //세션들어가기
   const joinSession = function (coupleid) {
-    console.log();
     //토큰부터받아오고
     getToken(coupleid).then(token => {
       OV.value = new OpenVidu();
@@ -149,7 +170,7 @@ export const useViduStore = defineStore('vidu', () => {
     console.log('hihibyby', coupleid);
     sessionName.value = coupleid;
     return viduapi
-      .post('get-token', { sessionName: sessionName.value })
+      .post('/get-token', { sessionName: sessionName.value })
       .then(res => {
         console.log(res.data[0]);
         token.value = res.data[0];
@@ -280,5 +301,8 @@ export const useViduStore = defineStore('vidu', () => {
     stopRecording,
     removeUser,
     leaveSession,
+    toggleAudio,
+    toggleVideo,
+    adjustVolume,
   };
 });

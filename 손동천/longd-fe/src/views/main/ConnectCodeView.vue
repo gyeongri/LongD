@@ -1,52 +1,111 @@
 <template>
-  <p>상대의 정보를 입력하세요!(동일한 사람인지 확인하기!)</p>
-  <div>
-    <p>이름 : <input type="text" /></p>
-    <p>
-      생일(8자리) :
-      <input type="text" />
-    </p>
-    <p>
-      이메일(도메인포함) :
-      <input type="text" />
-    </p>
-    <p>
-      상대가 설정한 연결코드 :
-      <input type="text" />
-    </p>
-    <button @click="choiceDate">제출</button>
-  </div>
-  <!-- <div class="desktop">
-    <div class="div">
-      <div class="long-d">
-        여러분의 장거리 연애 도우미
-        <br />
-        Long-:D
+  <div class="isolate bg-white px-6 py-15 sm:py-15 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        상대방과 연결하기
+      </h2>
+      <p class="mt-2 text-lg leading-8 text-gray-600">
+        상대의 정보를 입력해주세요! 나의 정보가 아닌 상대의 정보를 입력해야
+        연결이 됩니다. 둘 중 한 명만 입력하면 됩니다.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+      <div class="sm:col-span-2">
+        <label
+          for="name"
+          class="block text-sm font-semibold leading-6 text-gray-900"
+          >상대의 이름</label
+        >
+        <div class="mt-2.5">
+          <input
+            type="text"
+            v-model="checkInfo.name"
+            name="name"
+            id="name"
+            autocomplete="name"
+            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          />
+        </div>
       </div>
-      <div class="text-wrapper">연결 CODE</div>
-      <div class="text-wrapper-2">연결할래요</div>
-      <div class="text-wrapper-3">랜덤코드 나올 수 있도록 하기</div>
-      <div class="overlap-group">
-        <div class="text-wrapper-4">코드를 입력하세요</div>
-        <img class="vector" alt="Vector" src="vector-353.svg" />
-      </div> -->
-  <!-- 버튼으로 바꾸기 -->
-  <!-- <Component
-        class="component-1"
-        corner="circle"
-        divClassName="component-instance"
-        text="제출"
-        type="seconday"
-      /> -->
-  <!-- <img class="ph-copy-thin" alt="Ph copy thin" src="ph-copy-thin.svg" />
+    </div>
+    <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+      <div class="sm:col-span-2">
+        <label
+          for="birth"
+          class="block text-sm font-semibold leading-6 text-gray-900"
+          >상대의 생년월일</label
+        >
+        <div class="mt-2.5">
+          <input
+            type="date"
+            v-model="checkInfo.birth"
+            name="birth"
+            id="birth"
+            autocomplete="birth"
+            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+      <div class="sm:col-span-2">
+        <label
+          for="email"
+          class="block text-sm font-semibold leading-6 text-gray-900"
+          >상대의 이메일</label
+        >
+        <div class="mt-2.5">
+          <input
+            type="email"
+            v-model="checkInfo.email"
+            name="email"
+            id="email"
+            autocomplete="email"
+            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+      <div class="sm:col-span-2">
+        <label
+          for="code"
+          class="block text-sm font-semibold leading-6 text-gray-900"
+          >상대가 전달해 준 연결코드</label
+        >
+        <div class="mt-2.5">
+          <input
+            type="text"
+            v-model="checkInfo.code"
+            name="code"
+            id="code"
+            autocomplete="code"
+            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="mt-10">
+      <button
+        @click="choiceDate"
+        class="block w-full rounded-md bg-stone-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-600"
+      >
+        제출
+      </button>
+    </div>
   </div>
-  </div> -->
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import router from '@/router';
 import Swal from 'sweetalert2';
 
+const checkInfo = ref({});
+
 const choiceDate = async () => {
+  // 백으로 보내주기 확인차원에서!
+  // if 이름, 생일, 이메일, 연결코드가 동일하면 아래 실행, 동일하지 않으면 틀렸다고 뜨기
   const { value: date } = await Swal.fire({
     title: '여러분이 처음 만난 날을 입력해주세요.',
     input: 'date',
@@ -58,134 +117,13 @@ const choiceDate = async () => {
   if (date) {
     Swal.fire('아래 날짜가 맞나요?', date);
     // 화면 전환(DB로 보내주고 - 이거는 메인화면에서 날짜 설정한 거 써야해..!)
+  } else {
+    Swal.fire('날짜가 입력되지 않았어요.');
   }
+  // 날짜 입력된 후에 가능하도록 하기!
+  // 로그인이 되어있을테니까 바로 로그인 되도록 하고 홈으로 옮길게요!
+  router.push({ name: 'Home' });
 };
 </script>
 
-<style scoped>
-.desktop {
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-}
-
-.desktop .div {
-  background-color: #ffffff;
-  height: 1024px;
-  position: relative;
-  width: 1440px;
-}
-
-.desktop .long-d {
-  color: var(--x-7-xu-6-0k);
-  font-family: 'Inter-ExtraLight', Helvetica;
-  font-size: 64px;
-  font-weight: 200;
-  left: 214px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 250px;
-  width: 1012px;
-}
-
-.desktop .text-wrapper {
-  color: #3b3b3b;
-  font-family: 'Inika-Regular', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 296px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 587px;
-  width: 230px;
-}
-
-.desktop .text-wrapper-2 {
-  color: #3b3b3b;
-  font-family: 'Inika-Regular', Helvetica;
-  font-size: 30px;
-  font-weight: 400;
-  left: 296px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 672px;
-  width: 230px;
-}
-
-.desktop .text-wrapper-3 {
-  color: #000000;
-  font-family: 'Inter-ExtraLight', Helvetica;
-  font-size: 30px;
-  font-weight: 200;
-  left: 609px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 588px;
-  width: 264px;
-}
-
-.desktop .overlap-group {
-  height: 60px;
-  left: 547px;
-  position: absolute;
-  top: 662px;
-  width: 388px;
-}
-
-.desktop .text-wrapper-4 {
-  color: #0000004c;
-  font-family: 'Inter-ExtraLight', Helvetica;
-  font-size: 30px;
-  font-weight: 200;
-  left: 62px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 0;
-  width: 264px;
-}
-
-.desktop .vector {
-  height: 9px;
-  left: 0;
-  position: absolute;
-  top: 48px;
-  width: 388px;
-}
-
-.desktop .component-1 {
-  border-color: #d9d9d9 !important;
-  display: flex !important;
-  height: 48px !important;
-  left: 991px !important;
-  position: absolute !important;
-  top: 673px !important;
-  width: 110px !important;
-}
-
-.desktop .component-instance {
-  margin-bottom: -2.5px !important;
-  margin-left: -19.5px !important;
-  margin-right: -19.5px !important;
-  margin-top: -8.5px !important;
-}
-
-.desktop .ph-copy-thin {
-  height: 70px;
-  left: 1008px;
-  position: absolute;
-  top: 573px;
-  width: 55px;
-}
-</style>
+<style scoped></style>

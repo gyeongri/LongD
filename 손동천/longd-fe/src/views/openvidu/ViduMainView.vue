@@ -7,6 +7,9 @@
       통화하기
     </button>
     <button v-else @click="disconnect()">통화끊기</button>
+    <button @click="viduStore.toggleAudio">음소거키고끄고</button>
+    <button @click="viduStore.toggleVideo">화면키고끄고</button>
+    <!-- <button v-else @click="disconnect()">볼륨조절</button> -->
 
     <div class="div">
       <ViduMine />

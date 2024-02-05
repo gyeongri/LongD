@@ -44,16 +44,18 @@
               </div>
             </div>
             <div class="group-2">
-              <img
-                class="ellipse"
-                alt="Ellipse"
-                src="/static/img/ellipse-658.png"
-              />
-              <img
-                class="img"
-                alt="Ellipse"
-                src="/static/img/ellipse-659.png"
-              />
+              <RouterLink :to="{ name: 'Profile' }"
+                ><img
+                  class="img"
+                  alt="Ellipse"
+                  src="/static/img/ellipse-659.png"
+              /></RouterLink>
+              <RouterLink :to="{ name: 'Profile' }">
+                <img
+                  class="ellipse"
+                  alt="Ellipse"
+                  src="/static/img/ellipse-658.png"
+              /></RouterLink>
               <div class="image">
                 <img
                   class="heart-suit"
@@ -78,8 +80,10 @@
 import { onMounted } from 'vue';
 import { loginstate } from '@/utils/api/user';
 import { useRouter } from 'vue-router';
+import { useMainDisplayStore } from '@/stores/maindisplay.js';
 
 const router = useRouter();
+const mainDisplayStore = useMainDisplayStore();
 
 onMounted(() => {
   loginstate(
@@ -88,6 +92,8 @@ onMounted(() => {
         //     홈 실행시 로그인 여부를 체크해서 안되있으면 로그인 화면으로 팅궈냅니다
         //     '롱디에 로그인 되어 있지 않음' <<< 요거 문구 수정하면안됩니다 문구에 반응하는거임
         console.log('로그인 안되어있다.');
+        mainDisplayStore.logOutPage = true;
+        // 로그아웃 되어)
         router.push({ name: 'Login' });
       } else {
         console.log('로그인 되어있다', success.data);
@@ -384,11 +390,3 @@ onMounted(() => {
   width: 182px;
 }
 </style>
-
-<!-- <template>
-  <div>일단 이게 홈화면 대체</div>
-</template>
-
-<script setup></script>
-
-<style scoped></style> -->

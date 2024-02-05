@@ -1,108 +1,344 @@
 <template>
   <div>
-    <p>원하는 장소 검색</p>
+    <!-- 검색 입력창 -->
     <input type="text" v-model="where" />
+
+    <!-- 지도 표시 -->
+    <div id="googleMap" style="height: 600px; width: 750px"></div>
+
+    <!-- 검색 결과 표시 -->
+    <div id="results">
+      <h2>검색 결과</h2>
+      <ul>
+        <!-- 검색 결과 클릭 시 handleResultClick 함수 호출 -->
+        <li
+          v-for="place in searchResults"
+          :key="place.id"
+          @click="handleResultClick(place)"
+        >
+          <strong>{{ place.name }}</strong
+          ><br />
+          {{ place.address }}
+          <!-- 장소 상세 정보 확인 버튼 -->
+          <button @click="showDetailModal(place)">자세히 보기</button>
+          <button @click="planStore.addHopeList(place)">❤</button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 선택한 장소의 상세 정보 모달 -->
+    <div v-if="selectedPlace">
+      <h2>{{ selectedPlace.name }}</h2>
+      <p>주소: {{ selectedPlace.address }}</p>
+      <p>위도: {{ selectedPlace.latitude }}</p>
+      <p>경도: {{ selectedPlace.longitude }}</p>
+      <!-- 모달 닫기 버튼 -->
+      <button @click="closeDetailModal">닫기</button>
+    </div>
   </div>
-  <GoogleMap
-    :api-key="googleApiKey"
-    style="width: 100%; height: 500px"
-    :center="center"
-    :zoom="8"
-    language="kor"
-  >
-    <MarkerCluster>
-      <Marker
-        v-for="(location, i) in locations"
-        :options="{ position: location }"
-        :key="i"
-      >
-        <InfoWindow>
-          <h1>{{ where }}</h1>
-        </InfoWindow>
-      </Marker>
-    </MarkerCluster>
-  </GoogleMap>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { GoogleMap, Marker, MarkerCluster, InfoWindow } from 'vue3-google-map';
-import { useDropZone } from '@vueuse/core';
-
+import { onMounted, ref } from 'vue';
+import { usePlanStore } from '@/stores/plan.js';
+const planStore = usePlanStore();
+// 기본 좌표 설정
+const defaultCenter = { lat: 36.8971999, lng: 127.5349361 };
+const map = ref(null);
 const where = ref('');
-const googleApiKey = ref(import.meta.env.VITE_GOOGLE_REST_API_KEY);
-const center = { lat: 36.8971999, lng: 127.5349361 };
-const locations = [
-  { lat: 36.10684456115392, lng: 128.41835497890136 },
-  { lat: 37.555899571774724, lng: 127.00524613483742 },
-];
-</script>
+const searchResults = ref([]);
+const selectedPlace = ref(null);
 
-<style scoped>
-input {
-  border: 1px black solid;
-}
-</style>
-<!-- <template>
-  <div id="map"></div>
-</template>
+let infowindow = null; // 전역 변수로 infowindow 선언
 
-<script setup>
-import { ref, onMounted } from 'vue';
+// 초기 지도 설정 함수
+const initMap = async () => {
+  let mapCenter;
 
-const initMap = () => {
-  const map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 37.5400456, lng: 126.9921017 },
-    zoom: 10
+  // 현재 위치 가져오기 시도
+  try {
+    mapCenter = await getCurrentLocation();
+  } catch (error) {
+    console.error(error);
+    // 현재 위치를 가져올 수 없으면 기본 좌표로 설정
+    mapCenter = defaultCenter;
+  }
+
+  // 구글 지도 객체 생성
+  map.value = new google.maps.Map(document.getElementById('googleMap'), {
+    center: mapCenter,
+    zoom: 15,
   });
 
-  const malls = [
-    { label: "C", name: "코엑스몰", lat: 37.5115557, lng: 127.0595261 },
-    { label: "G", name: "고투몰", lat: 37.5062379, lng: 127.0050378 },
-    { label: "D", name: "동대문시장", lat: 37.566596, lng: 127.007702 },
-    { label: "I", name: "IFC몰", lat: 37.5251644, lng: 126.9255491 },
-    { label: "L", name: "롯데월드타워몰", lat: 37.5125585, lng: 127.1025353 },
-    { label: "M", name: "명동지하상가", lat: 37.563692, lng: 126.9822107 },
-    { label: "T", name: "타임스퀘어", lat: 37.5173108, lng: 126.9033793 }
-  ];
-
-  const bounds = new google.maps.LatLngBounds();
-  const infoWindow = new google.maps.InfoWindow();
-
-  malls.forEach(({ label, name, lat, lng }) => {
-    const marker = new google.maps.Marker({
-      position: { lat, lng },
-      label,
-      map
-    });
-    bounds.extend(marker.position);
-
-    marker.addListener("click", () => {
-      map.panTo(marker.position);
-      infoWindow.setContent(name);
-      infoWindow.open({
-        anchor: marker,
-        map
-      });
-    });
+  // 사용자 위치를 나타내는 마커 추가
+  const userLocationMarker = new google.maps.Marker({
+    position: mapCenter,
+    map: map.value,
+    title: 'Your location',
+    icon: {
+      url: '/star.png',
+      scaledSize: new google.maps.Size(80, 80),
+    },
   });
 
-  map.fitBounds(bounds);
+  // 검색 상자 초기화
+  initSearchBox();
 };
 
-onMounted(() => {
-  // Ensure the Google Maps API is loaded before initializing the map
-  if (typeof google !== 'undefined' && google.maps) {
-    initMap();
-  } else {
-    // You might want to add some error handling if the API is not loaded
-    console.error("Google Maps API not loaded.");
+// 검색 상자 초기화 함수
+const initSearchBox = () => {
+  const input = document.querySelector('input');
+  const searchBox = new google.maps.places.SearchBox(input);
+  input.style.width = '300px';
+  input.style.height = '50px';
+
+  // 지도의 검색 박스 위치 설정
+  map.value.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  // 지도의 bounds가 변경될 때마다 검색 상자의 bounds 업데이트
+  map.value.addListener('bounds_changed', () => {
+    searchBox.setBounds(map.value.getBounds());
+  });
+
+  // 검색 상자의 장소가 변경될 때마다 실행
+  searchBox.addListener('places_changed', () => {
+    const places = searchBox.getPlaces();
+
+    if (places.length === 0) {
+      return;
+    }
+
+    const bounds = new google.maps.LatLngBounds();
+    searchResults.value = [];
+
+    places.forEach(place => {
+      if (place.geometry && place.geometry.location) {
+        const marker = new google.maps.Marker({
+          map: map.value,
+          title: place.name,
+          position: place.geometry.location,
+        });
+
+        bounds.extend(place.geometry.location);
+
+        marker.addListener('click', () => {
+          // 기존의 infowindow가 있으면 닫기
+          if (infowindow) {
+            infowindow.close();
+          }
+
+          // infowindow 생성 및 열기
+          infowindow = new google.maps.InfoWindow({
+            content: `<strong>${place.name}</strong><br>${place.formatted_address}<br><button id="detailButton">자세히 보기</button>`,
+          });
+          infowindow.open(map.value, marker);
+
+          // infowindow의 DOM이 준비되면 버튼에 이벤트 추가
+          infowindow.addListener('domready', () => {
+            const detailButton = document.getElementById('detailButton');
+            if (detailButton) {
+              detailButton.addEventListener('click', () => {
+                // 상세 정보 모달 열기
+                showDetailModal(place);
+              });
+            }
+          });
+
+          // 마커의 위치를 지도의 중심으로 설정
+          map.value.setCenter(marker.getPosition());
+
+          // 선택한 장소 정보 설정
+          selectedPlace.value = {
+            name: place.name,
+            address: place.formatted_address,
+            latitude: place.geometry.location.lat(),
+            longitude: place.geometry.location.lng(),
+          };
+
+          // 지도를 클릭된 마커 위치로 확대
+          map.value.setZoom(18); // 원하는 확대 레벨로 조절
+        });
+
+        searchResults.value.push({
+          id: place.id,
+          name: place.name,
+          address: place.formatted_address,
+          geometry: place.geometry,
+        });
+      }
+    });
+
+    map.value.fitBounds(bounds);
+  });
+};
+
+// 주변 장소 검색 함수
+const searchPlaces = center => {
+  const request = {
+    location: center,
+    radius: '3000',
+    type: ['cafe'],
+  };
+
+  const service = new google.maps.places.PlacesService(map.value);
+  service.nearbySearch(request, (results, status) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+      results.forEach(result => {
+        const marker = new google.maps.Marker({
+          position: result.geometry.location,
+          map: map.value,
+          icon: {
+            url: '/static/img/heart-suit.png',
+            scaledSize: new google.maps.Size(50, 50),
+          },
+        });
+
+        marker.addListener('click', () => {
+          // 기존의 infowindow가 있으면 닫기
+          if (infowindow) {
+            infowindow.close();
+          }
+
+          // infowindow 생성 및 열기
+          infowindow = new google.maps.InfoWindow({
+            content: `<strong>${result.name}</strong><br>${result.vicinity}`,
+          });
+          infowindow.open(map.value, marker);
+
+          map.value.setCenter(marker.getPosition());
+
+          // 선택한 장소 정보 설정
+          selectedPlace.value = {
+            name: result.name,
+            address: result.vicinity,
+            latitude: result.geometry.location.lat(),
+            longitude: result.geometry.location.lng(),
+          };
+          map.value.setZoom(18); // 원하는 확대 레벨로 조절
+        });
+
+        // 결과 창에 추가
+        searchResults.value.push({
+          id: result.id,
+          name: result.name,
+          address: result.vicinity,
+        });
+      });
+    }
+  });
+};
+
+// 현재 위치 가져오기 함수
+const getCurrentLocation = async () => {
+  if (!navigator.geolocation) {
+    console.error('이 브라우저에서는 Geolocation이 지원되지 않습니다.');
+    throw new Error('Geolocation이 지원되지 않습니다.');
   }
+
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  })
+    .then(position => {
+      return {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+    })
+    .catch(error => {
+      console.error('현재 위치를 가져올 수 없습니다.');
+      throw error;
+    });
+};
+
+// 검색 결과 클릭 처리 함수
+const handleResultClick = place => {
+  console.log(place); // 확인을 위한 로그
+
+  // 기존의 infowindow가 있으면 닫기
+  if (infowindow) {
+    infowindow.close();
+  }
+
+  // infowindow 생성 및 열기
+  infowindow = new google.maps.InfoWindow({
+    content: `<strong>${place.name}</strong><br>${place.formatted_address}<br><button id="detailButton">자세히 보기</button>`,
+  });
+  infowindow.open(map.value);
+
+  // infowindow의 DOM이 준비되면 버튼에 이벤트 추가
+  infowindow.addListener('domready', () => {
+    const detailButton = document.getElementById('detailButton');
+    if (detailButton) {
+      detailButton.addEventListener('click', () => {
+        // 상세 정보 모달 열기
+        showDetailModal(place);
+      });
+    }
+  });
+
+  // 지도를 클릭된 위치로 확대
+  map.value.setZoom(18); // 원하는 확대 레벨로 조절
+  map.value.panTo(place.geometry.location);
+
+  // 선택한 장소 정보 설정
+  selectedPlace.value = {
+    name: place.name,
+    address: place.formatted_address,
+    latitude: place.geometry.location.lat(),
+    longitude: place.geometry.location.lng(),
+  };
+};
+
+// 모달 닫기 함수
+const closeDetailModal = () => {
+  selectedPlace.value = null;
+};
+
+// 모달 열기 함수
+const showDetailModal = place => {
+  selectedPlace.value = place;
+};
+
+// 컴포넌트가 마운트되었을 때 실행
+onMounted(async () => {
+  await initMap();
 });
 </script>
 
-<style>
-#map {
-  height: 500px;
+<style scoped>
+#pac-input {
+  width: 300px;
 }
-</style> -->
+
+#results {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+div[aria-hidden='true'] {
+  display: none;
+}
+
+div[aria-hidden='false'] {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+div[aria-hidden='false'] > div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+</style>
