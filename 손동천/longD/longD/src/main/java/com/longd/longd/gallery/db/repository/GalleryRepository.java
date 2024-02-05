@@ -10,4 +10,6 @@ import java.util.List;
 public interface GalleryRepository extends JpaRepository<Gallery, Integer> {
 
     public List<Gallery> findByCoupleList_Id(int id);
+
+    public List<Gallery> findByCoupleList_IdAndFolderName(int id, String folderName);
 }

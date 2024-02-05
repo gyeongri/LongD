@@ -14,9 +14,19 @@
   </div>
   <!-- <button @click="check">여기 이제 이거 필요없음 </button> -->
   <br />
-  <button @click="viduStore.startRecording">녹화</button>
+
+  <button @click="viduStore.startRecording">
+    <font-awesome-icon icon="fa-solid fa-record-vinyl" size="2x" color="red" />
+  </button>
   <br />
-  <button @click="viduStore.stopRecording">중단</button>
+  <button @click="viduStore.stopRecording">
+    <font-awesome-icon
+      icon="fa-solid fa-record-vinyl"
+      size="2x"
+      fade
+      color="red"
+    />
+  </button>
   <br />
   <button @click="enterPiPMode">pip변신</button>
 </template>

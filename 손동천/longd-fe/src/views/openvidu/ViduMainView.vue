@@ -7,8 +7,72 @@
       통화하기
     </button>
     <button v-else @click="disconnect()">통화끊기</button>
-    <button @click="viduStore.toggleAudio">음소거키고끄고</button>
-    <button @click="viduStore.toggleVideo">화면키고끄고</button>
+    <label class="swap" @click="viduStore.toggleAudio">
+      <!-- this hidden checkbox controls the state -->
+      <input type="checkbox" />
+
+      <!-- volume on icon -->
+      <div class="icon-container swap-on">
+        <font-awesome-icon
+          icon="fa-solid fa-volume-high"
+          size="lg"
+          class="text-white"
+        />
+      </div>
+
+      <!-- volume off icon -->
+      <div class="icon-container swap-off">
+        <font-awesome-icon
+          icon="fa-solid fa-volume-xmark"
+          size="lg"
+          class="text-white"
+        />
+      </div>
+    </label>
+    <label class="swap">
+      <!-- this hidden checkbox controls the state -->
+      <input type="checkbox" />
+
+      <!-- call on icon -->
+      <div class="icon-container swap-on rectangle-icon">
+        <font-awesome-icon
+          icon="fa-solid fa-phone"
+          size="lg"
+          class="text-white"
+        />
+      </div>
+
+      <!-- call off icon -->
+      <div class="icon-container swap-off rectangle-icon">
+        <font-awesome-icon
+          icon="fa-solid fa-phone-slash"
+          size="lg"
+          class="text-white"
+        />
+      </div>
+    </label>
+    <label class="swap" @click="viduStore.toggleVideo">
+      <!-- this hidden checkbox controls the state -->
+      <input type="checkbox" />
+
+      <!-- video on icon -->
+      <div class="icon-container swap-on">
+        <font-awesome-icon
+          icon="fa-solid fa-video"
+          size="lg"
+          class="text-white"
+        />
+      </div>
+
+      <!-- video off icon -->
+      <div class="icon-container swap-off">
+        <font-awesome-icon
+          icon="fa-solid fa-video-slash"
+          size="lg"
+          class="text-white"
+        />
+      </div>
+    </label>
     <!-- <button v-else @click="disconnect()">볼륨조절</button> -->
 
     <div class="div">
@@ -72,5 +136,30 @@ const disconnect = function () {
   position: absolute;
   top: 177px;
   width: 493px;
+}
+
+.icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  background-color: #d9d9d9;
+}
+.icon-container font-awesome-icon {
+  font-size: 24px;
+}
+
+.rectangle-icon {
+  width: 60px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: rgb(243, 65, 65);
+}
+
+.rectangle-icon font-awesome-icon {
+  font-size: 24px;
 }
 </style>

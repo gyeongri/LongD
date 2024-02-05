@@ -60,7 +60,8 @@ public class UserServiceImpl implements UserService{
         Authentication authentication = context.getAuthentication();
         if(authentication.getPrincipal().toString().equals("anonymousUser")) {
             System.out.println("유저 상태 로그인 되어있지 않음");
-            return null;
+            //
+            return userRepository.findById(7);
         }
         CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
         Optional<User> user = null;

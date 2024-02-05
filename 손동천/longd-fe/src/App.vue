@@ -1,7 +1,9 @@
 <template>
-  <TheHeader></TheHeader>
-  <TheView></TheView>
-  <ViduMainView class="hihi"></ViduMainView>
+  <div class="container mx-auto">
+    <TheHeader></TheHeader>
+    <TheView></TheView>
+    <ViduMainView class="hihi"></ViduMainView>
+  </div>
 </template>
 <script setup>
 import TheHeader from '@/layouts/TheHeader.vue';

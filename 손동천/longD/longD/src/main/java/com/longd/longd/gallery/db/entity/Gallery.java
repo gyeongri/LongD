@@ -34,7 +34,6 @@ public class Gallery {
     private String pathUrl;
     private String title;
     private String content;
-    private Integer type;
     private LocalDateTime date;
     private String category;
 

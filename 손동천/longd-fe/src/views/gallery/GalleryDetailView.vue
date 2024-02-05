@@ -11,7 +11,9 @@ import { ref } from 'vue';
 // route의 파라미터에서 id 추출
 const route = useRoute();
 const id = route.params.id;
+// const folderName = route.params.folderName;
 
+// 현재 item 조회
 const item = ref([]);
 const fetchAlbum = () => {
   getAlbumById(id)
