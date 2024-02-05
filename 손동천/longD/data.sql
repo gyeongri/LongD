@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: longdi_beta
+-- Host: 127.0.0.1    Database: longd_beta
 -- ------------------------------------------------------
--- Server version	8.0.34
+-- Server version	8.0.33
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -201,7 +201,6 @@ CREATE TABLE `gallery` (
   `path_url` varchar(512) NOT NULL,
   `title` varchar(45) DEFAULT NULL,
   `content` varchar(45) DEFAULT NULL,
-  `type` int NOT NULL,
   `date` datetime(6) DEFAULT NULL,
   `category` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -209,7 +208,7 @@ CREATE TABLE `gallery` (
   KEY `fk_plan_id` (`plan_id`),
   CONSTRAINT `fk_plan_id` FOREIGN KEY (`plan_id`) REFERENCES `plan` (`id`),
   CONSTRAINT `gallery_ibfk_1` FOREIGN KEY (`couple_list_id`) REFERENCES `couple_list` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +217,7 @@ CREATE TABLE `gallery` (
 
 LOCK TABLES `gallery` WRITE;
 /*!40000 ALTER TABLE `gallery` DISABLE KEYS */;
-INSERT INTO `gallery` VALUES (1,1,2,NULL,NULL,NULL,NULL,'https://picsum.photos/200/300',NULL,NULL,1,NULL,NULL),(2,1,2,NULL,NULL,NULL,NULL,'https://picsum.photos/200/300',NULL,NULL,2,NULL,NULL),(4,1,2,NULL,NULL,NULL,NULL,'https://picsum.photos/200/300',NULL,NULL,4,NULL,NULL),(5,1,2,NULL,NULL,NULL,NULL,'https://picsum.photos/200/300',NULL,NULL,5,NULL,NULL);
+INSERT INTO `gallery` VALUES (5,1,2,'테스트','2024-01-05',NULL,NULL,'https://picsum.photos/200/300',NULL,NULL,NULL,NULL),(7,1,NULL,'팔몰','2024-01-25',NULL,NULL,'https://picsum.photos/200/300',NULL,NULL,NULL,NULL),(8,1,NULL,NULL,'2024-02-07',NULL,NULL,'https://picsum.photos/200/300',NULL,NULL,NULL,NULL),(9,1,NULL,NULL,'2024-01-11',NULL,NULL,'https://picsum.photos/200/300',NULL,NULL,NULL,NULL),(10,1,NULL,NULL,'2024-02-01',NULL,NULL,'https://picsum.photos/200/300',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `gallery` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -456,7 +455,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   KEY `couple_list_id` (`couple_list_id`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`couple_list_id`) REFERENCES `couple_list` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -465,7 +464,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (3,NULL,'1','a','kakao','a','a','a','a','a','1996-02-28',NULL,NULL,NULL,'a',NULL,NULL,'a',1234,1234,NULL),(4,NULL,'2','b','b','b','b','b','b','b','1994-04-05',NULL,NULL,NULL,'b',NULL,NULL,'b',4321,4321,NULL),(6,3,'NULL방지','bona3377@knu.ac.kr','NULL방지','ㅇㅇㅇ','ㅇㅇ','NULL방지',NULL,NULL,'2024-02-14','NULL방지','NULL방지','NULL방지','NULL방지',NULL,NULL,NULL,214,13,NULL),(7,3,'3299671981','abcd@abcd.com','kakao','손동천','닉네임','NULL방지',NULL,NULL,'2024-02-01','NULL방지','NULL방지','NULL방지','남성',NULL,NULL,NULL,201,1234,NULL);
+INSERT INTO `user` VALUES (3,NULL,'1','a','kakao','a','a','a','a','a','1996-02-28',NULL,NULL,NULL,'a',NULL,NULL,'a',1234,1234,NULL),(4,NULL,'2','b','b','b','b','b','b','b','1994-04-05',NULL,NULL,NULL,'b',NULL,NULL,'b',4321,4321,NULL),(6,3,'NULL방지','bona3377@knu.ac.kr','NULL방지','ㅇㅇㅇ','ㅇㅇ','NULL방지',NULL,NULL,'2024-02-14','NULL방지','NULL방지','NULL방지','NULL방지',NULL,NULL,NULL,214,13,NULL),(7,3,'3299671981','abcd@abcd.com','kakao','손동천','닉네임','NULL방지',NULL,NULL,'2024-02-01','NULL방지','NULL방지','NULL방지','남성',NULL,NULL,NULL,201,1234,NULL),(9,NULL,'NULL방지','study-min@naver.com','NULL방지','이정민','공주','NULL방지',NULL,NULL,'2024-02-01','NULL방지','NULL방지','NULL방지','NULL방지',NULL,NULL,NULL,201,11,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -478,4 +477,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-05  0:12:03
+-- Dump completed on 2024-02-05 18:00:47
