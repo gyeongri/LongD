@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
 import ProfileView from '@/views/main/ProfileView.vue';
+import ProfileCorrectionView from '@/views/main/ProfileCorrectionView.vue';
+import ProfilePartnerView from '@/views/main/ProfilePartnerView.vue';
 import GalleryListView from '@/views/gallery/GalleryListView.vue';
 import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
 import CalendarView from '@/views/calendar/CalendarView.vue';
@@ -22,6 +24,16 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/requiredinfo',
+      name: 'RequiredInfo',
+      component: RequiredInfoView,
+    },
+    {
+      path: '/connectcode',
+      name: 'ConnectCode',
+      component: ConnectCodeView,
+    },
+    {
       path: '/about',
       name: 'About',
       // route level code-splitting
@@ -33,6 +45,16 @@ const router = createRouter({
       path: '/profile',
       name: 'Profile',
       component: ProfileView,
+    },
+    {
+      path: '/profile/correction',
+      name: 'profileCorrection',
+      component: ProfileCorrectionView,
+    },
+    {
+      path: '/profile/partner',
+      name: 'PartnerInfo',
+      component: ProfilePartnerView,
     },
     {
       path: '/gallery',
@@ -78,16 +100,6 @@ const router = createRouter({
       path: '/login',
       name: 'Login',
       component: LoginSignUpView,
-    },
-    {
-      path: '/requiredinfo',
-      name: 'RequiredInfo',
-      component: RequiredInfoView,
-    },
-    {
-      path: '/connectcode',
-      name: 'ConnectCode',
-      component: ConnectCodeView,
     },
   ],
 });

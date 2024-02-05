@@ -51,7 +51,7 @@
                   src="/static/img/ellipse-659.png"
               /></RouterLink>
 
-              <RouterLink :to="{ name: 'Profile' }">
+              <RouterLink :to="{ name: 'PartnerInfo' }">
                 <img
                   class="ellipse"
                   alt="Ellipse"
@@ -98,7 +98,7 @@ onMounted(() => {
         // 로그아웃 되어)
         router.push({ name: 'Login' });
       } else {
-        console.log('로그인 되어있다', success.data);
+        console.log('롱디에 로그인 되어있다', success.data);
       }
     },
     error => {

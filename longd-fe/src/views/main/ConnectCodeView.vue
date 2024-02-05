@@ -111,7 +111,7 @@ const choiceDate = async () => {
     input: 'date',
     didOpen: () => {
       const today = new Date().toISOString();
-      Swal.getInput().min = today.split('T')[0];
+      Swal.getInput().min = today;
     },
   });
   if (date) {

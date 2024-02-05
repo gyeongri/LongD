@@ -5,9 +5,17 @@
     <link rel="icon" href="/star.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Long D</title>
-    <script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6K_KfMdWj2AaRTSov1lOJQQzlBuF9SAA1&libraries=places&callback=initMap">
-</script>
+    <script type="module">
+      const { VITE_GOOGLE_REST_API_KEY } = import.meta.env;
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${VITE_GOOGLE_REST_API_KEY}&libraries=places&callback=initMap`;
+      document.head.appendChild(script);
+    </script>
+    <!-- <script async
+      const { VITE_GOOGLE_REST_API_KEY } = import.meta.env;
+    src=`https://maps.googleapis.com/maps/api/js?key=${VITE_GOOGLE_REST_API_KEY}&libraries=places&callback=initMap`>
+</script> -->
   </head>
   <body>
     <div id="app"></div>

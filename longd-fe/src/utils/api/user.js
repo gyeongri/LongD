@@ -22,6 +22,10 @@ function sendinfo(param, success, fail) {
   userApi.post(`/user/add`, JSON.stringify(param)).then(success).catch(fail);
 }
 
+function partnerinfo(success, fail) {
+  userApi.get(`/couplelist/partner/get`).then(success).catch(fail);
+}
+
 function BaseInfo(success, fail) {
   userApi.get(`/user/registInfo`).then(success).catch(fail);
 }
@@ -31,9 +35,9 @@ function logout(success, fail) {
 }
 
 // 호출시 로그인 상태를 확인합니다.
-// 미 로그인시, "로그인 되어 있지 않음" 상태 반환, 로그인 되어있을경우 회원정보 객체 반환
+// 미 로그인시, "롱디에 로그인 되어 있지 않음" 상태 반환, 로그인 되어있을경우 회원정보 객체 반환
 function loginstate(success, fail) {
   userApi.get('/user/state').then(success).catch(fail);
 }
 
-export { userApi, sendinfo, BaseInfo, logout, loginstate };
+export { userApi, sendinfo, partnerinfo, BaseInfo, logout, loginstate };

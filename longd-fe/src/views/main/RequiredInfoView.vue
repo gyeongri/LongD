@@ -13,9 +13,19 @@
     <form action="#" method="POST" class="mx-auto mt-10 max-w-xl sm:mt-10">
       <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
         <div>
-          <label for="img">프로필 사진 업로드</label>
-
-          <input type="file" name="img" id="img" autocomplete="img" />
+          <label class="btn btn-primary" for="img">프로필 사진 업로드</label>
+          <input
+            type="file"
+            id="img"
+            autocomplete="img"
+            @change="fileUpload"
+            hidden
+          />
+          <img
+            v-if="Info_state.profile_picture"
+            :src="Info_state.profile_picture"
+            alt="Uploaded Image"
+          />
         </div>
         <!-- ID -->
         <div class="sm:col-span-2">
@@ -127,12 +137,17 @@
             class="block text-sm font-semibold leading-6 text-gray-900"
             >거주국</label
           >
-          <!-- <select v-model="Info_state.addressNation" id="addressNation" name="addressNation" class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"> -->
           <select
+            v-model="Info_state.address_nation"
             id="addressNation"
             name="addressNation"
             class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
           >
+            <!-- <select
+            id="addressNation"
+            name="addressNation"
+            class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+          > -->
             <option selected disabled>나라를 골라주세요</option>
             <option value="한국">한국</option>
             <option value="영국">영국</option>
@@ -146,6 +161,7 @@
           >
           <!-- 나중에 나라 고르면 도시 선택하도록 만들기 -->
           <select
+            v-model="Info_state.address_city"
             id="addressCity"
             name="addressCity"
             class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
@@ -225,6 +241,23 @@ const mainDisplayStore = useMainDisplayStore();
 const Info_state = ref({});
 const codeCheck = ref();
 
+const fileUpload = event => {
+  const file = event.target.files[0];
+  // 파일을 가지고오기
+  if (file) {
+    // FileReader를 사용하여 이미지를 읽어와 imageUrl에 할당
+    const reader = new FileReader();
+    // FileReader 객체 생성(파일을 비동기적으로 읽어오는 것)
+    reader.onload = () => {
+      // 파일의 읽기 작업이 완료되었을 때 실행할 함수
+      Info_state.value.profile_picture = reader.result;
+      // Base64로 인코딩된 문자열을 ref객체에 넣기
+    };
+    reader.readAsDataURL(file);
+    // 파일을 Base64로 인코딩하여 데이터 URL로 변환
+  }
+};
+
 onMounted(() => {
   BaseInfo(
     data => {
@@ -254,13 +287,13 @@ const send = () => {
           router.push({ name: 'ConnectCode' });
         },
         error => {
-          console.log(
-            Info_state.value.nickname,
-            Info_state.value.name,
-            Info_state.value.email,
-            Info_state.value.birth,
-            Info_state.value.code,
-          );
+          // console.log(
+          //   Info_state.value.nickname,
+          //   Info_state.value.name,
+          //   Info_state.value.email,
+          //   Info_state.value.birth,
+          //   Info_state.value.code,
+          // );
           console.log('sendinfo 오류 : ' + error);
         },
       );
