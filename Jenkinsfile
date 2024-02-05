@@ -71,7 +71,7 @@ pipeline {
              stage('Build FE image'){
                  steps {
                      dir("${DIRECTORY_NAME2}"){
-                          sh "docker build -t ${DOCKER_IMAGE_NAME_FE} ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
+                          sh "docker build -t ${DOCKER_IMAGE_NAME_FE}"
                      }
                  }
              }
