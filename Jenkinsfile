@@ -76,8 +76,8 @@ pipeline {
                  }
              }
 
-        //이전 컨테이너 삭제? 이미지 삭제?
-        stage('Remove Previous container') {
+        //BE 이전 컨테이너 삭제? 이미지 삭제?
+        stage('Remove Previous BE Container') {
             steps {
                 script {
                     try {
@@ -89,14 +89,35 @@ pipeline {
                 }
             }
         }
-				//새 컨테이너 실행
-        stage('Run New image') {
+
+        //FE이전 컨테이너 삭제? 이미지 삭제?
+        stage('Remove Previous FE Container') {
+            steps {
+                script {
+                    try {
+                        sh "docker stop ${DOCKER_IMAGE_NAME_FE}"
+                        sh "docker rm ${DOCKER_IMAGE_NAME_FE}"
+                    } catch (e) {
+                        echo 'fail to stop and remove container'
+                    }
+                }
+            }
+        }
+		//새 BE 컨테이너 실행
+        stage('Run New BE image') {
             steps {
                 sh "docker run --name ${DOCKER_IMAGE_NAME_BE} -d -p 3000:3000 ${DOCKER_IMAGE_NAME_BE}"
-                echo 'Run New member image'
+                echo 'Run New BE image'
             }
         }
 
+		//새 FE 컨테이너 실행
+        stage('Run New FE image') {
+            steps {
+                sh "docker run --name ${DOCKER_IMAGE_NAME_FE} -d -p 3001:3001 ${DOCKER_IMAGE_NAME_FE}"
+                echo 'Run New FE image'
+            }
+        }
 
     }
 }
