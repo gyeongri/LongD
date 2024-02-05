@@ -1,25 +1,37 @@
 <template>
   <div class="isolate bg-white px-6 py-15 sm:py-15 lg:px-8">
-    <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-        상대방과 연결하기
-      </h2>
-      <p class="mt-2 text-lg leading-8 text-gray-600">
-        상대의 정보를 입력해주세요! 나의 정보가 아닌 상대의 정보를 입력해야
-        연결이 됩니다. 둘 중 한 명만 입력하면 됩니다.
-      </p>
+    <h1>프로필 페이지</h1>
+    <!-- [GET] /user/state 를 통해 현재 로그인한 정보를 획득하여 제작 -->
+    <!-- 프로필 사진 -->
+
+    <!-- 상태 메세지 -->
+    <div class="sm:col-span-2">
+      <label
+        for="message"
+        class="block text-sm font-semibold leading-6 text-gray-900"
+        >상태 메세지</label
+      >
+      <div class="mt-2.5">
+        <textarea
+          name="message"
+          id="message"
+          rows="4"
+          class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        ></textarea>
+      </div>
     </div>
+    <!-- 이름 -->
     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
       <div class="sm:col-span-2">
         <label
           for="name"
           class="block text-sm font-semibold leading-6 text-gray-900"
-          >상대의 이름</label
+          >이름</label
         >
         <div class="mt-2.5">
           <input
             type="text"
-            v-model="checkInfo.name"
+            v-model="myprofile.name"
             name="name"
             id="name"
             autocomplete="name"
@@ -28,17 +40,18 @@
         </div>
       </div>
     </div>
+    <!-- 생년월일 -->
     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
       <div class="sm:col-span-2">
         <label
           for="birth"
           class="block text-sm font-semibold leading-6 text-gray-900"
-          >상대의 생년월일</label
+          >생년월일</label
         >
         <div class="mt-2.5">
           <input
             type="date"
-            v-model="checkInfo.birth"
+            v-model="myprofile.birth"
             name="birth"
             id="birth"
             autocomplete="birth"
@@ -47,17 +60,18 @@
         </div>
       </div>
     </div>
+    <!-- 이메일 -->
     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
       <div class="sm:col-span-2">
         <label
           for="email"
           class="block text-sm font-semibold leading-6 text-gray-900"
-          >상대의 이메일</label
+          >이메일</label
         >
         <div class="mt-2.5">
           <input
             type="email"
-            v-model="checkInfo.email"
+            v-model="myprofile.email"
             name="email"
             id="email"
             autocomplete="email"
@@ -66,25 +80,30 @@
         </div>
       </div>
     </div>
+    <!-- 화면잠금 비밀번호 -->
     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
       <div class="sm:col-span-2">
         <label
-          for="code"
+          for="closedPassword"
           class="block text-sm font-semibold leading-6 text-gray-900"
-          >상대가 전달해 준 연결코드</label
+          >화면잠금 비밀번호</label
         >
         <div class="mt-2.5">
+          <!-- v-for를 써서 myprofile.closedPassword 해야한다 -->
           <input
-            type="text"
-            v-model="checkInfo.code"
-            name="code"
-            id="code"
-            autocomplete="code"
+            type="number"
+            min="0"
+            max="9"
+            v-model="password"
+            name="closedPassword[index]"
+            id="closedPassword"
+            autocomplete="closedPassword"
             class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
         </div>
       </div>
     </div>
+    <!-- 제출 -->
     <div class="mt-10">
       <button
         @click="choiceDate"
@@ -97,32 +116,27 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import router from '@/router';
+import { loginstate } from '@/utils/api/user';
 import Swal from 'sweetalert2';
 
-const checkInfo = ref({});
+const myprofile = ref({});
 
-const choiceDate = async () => {
-  // 백으로 보내주기 확인차원에서!
-  // if 이름, 생일, 이메일, 연결코드가 동일하면 아래 실행, 동일하지 않으면 틀렸다고 뜨기
-  const { value: date } = await Swal.fire({
-    title: '여러분이 처음 만난 날을 입력해주세요.',
-    input: 'date',
-    didOpen: () => {
-      const today = new Date().toISOString();
-      Swal.getInput().min = today.split('T')[0];
+onMounted(() => {
+  loginstate(
+    data => {
+      if (data === '로그인 되어 있지 않음') {
+        router.push({ name: 'Login' });
+      } else {
+        myprofile.value = data.data;
+      }
     },
-  });
-  if (date) {
-    Swal.fire('아래 날짜가 맞나요?', date);
-    // 화면 전환(DB로 보내주고 - 이거는 메인화면에서 날짜 설정한 거 써야해..!)
-  } else {
-    Swal.fire('날짜가 입력되지 않았어요.');
-  }
-  // 날짜 입력된 후에 가능하도록 하기!
-  router.push({ name: 'Home' });
-};
+    error => {
+      console.log('Profile을 가져올 수 없습니다.', error);
+    },
+  );
+});
 </script>
 
 <style scoped></style>

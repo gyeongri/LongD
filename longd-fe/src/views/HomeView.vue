@@ -44,11 +44,12 @@
               </div>
             </div>
             <div class="group-2">
-              <img
-                class="ellipse"
-                alt="Ellipse"
-                src="/static/img/ellipse-658.png"
-              />
+              <RouterLink :to="{ name: 'Profile' }">
+                <img
+                  class="ellipse"
+                  alt="Ellipse"
+                  src="/static/img/ellipse-658.png"
+              /></RouterLink>
               <img
                 class="img"
                 alt="Ellipse"
@@ -384,11 +385,3 @@ onMounted(() => {
   width: 182px;
 }
 </style>
-
-<!-- <template>
-  <div>일단 이게 홈화면 대체</div>
-</template>
-
-<script setup></script>
-
-<style scoped></style> -->

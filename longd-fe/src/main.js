@@ -16,13 +16,33 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 /* import specific icons */
-import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
+import {
+  faUserSecret,
+  faPhone,
+  faPhoneSlash,
+  faVolumeXmark,
+  faVolumeLow,
+  faVideo,
+  faVideoSlash,
+  faVolumeHigh,
+  faRecordVinyl,
+} from '@fortawesome/free-solid-svg-icons';
 
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 /* add icons to the library */
-library.add(faUserSecret);
+library.add(
+  faUserSecret,
+  faPhone,
+  faPhoneSlash,
+  faVolumeXmark,
+  faVolumeLow,
+  faVolumeHigh,
+  faVideo,
+  faVideoSlash,
+  faRecordVinyl,
+);
 
 app.use(createPinia());
 app.use(router);

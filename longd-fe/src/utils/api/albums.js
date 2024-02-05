@@ -1,5 +1,6 @@
 import { api2 } from '.';
 
+// 여기도 folderName을 추가해주면 됨!!
 export function getAlbums(params) {
   return api2.get('/', { params });
 }

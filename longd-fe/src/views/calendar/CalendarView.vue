@@ -38,6 +38,7 @@ import {
 // import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils';
 import Swal from 'sweetalert2';
 
+// 추억 작성 및 색깔 선정 알림창
 const titleAlert = async () => {
   const { value: title } = await Swal.fire({
     title: '당신의 추억을 입력해주세요.',
@@ -74,7 +75,7 @@ const titleAlert = async () => {
   }
 };
 
-// 추억 작성 메소드
+// 추억 작성 메소드 발동 (캘린더의 Date 클릭시)
 const handleDateSelect = selectInfo => {
   titleAlert().then(res => {
     let title = res.title;
@@ -104,6 +105,7 @@ const handleEventClick = clickInfo => {
 let currentClickInfo = null;
 // let currentClickInfoId = null;
 
+// id를 통한 현재 내용 찾기
 const getContentById = function (dataArray, findId) {
   for (const key in dataArray) {
     if (dataArray[key].id == findId) {
@@ -113,17 +115,18 @@ const getContentById = function (dataArray, findId) {
   return '';
 };
 
+// 추억 내용 알림창
 const contentAlert = async clickInfo => {
   currentClickInfo = clickInfo;
   // currentClickInfoId = currentClickInfo.event.id;
 
-  console.log('확인');
-  console.log(dateList.value);
-  console.log(clickInfo.event.id);
+  // console.log('확인');
+  // console.log(dateList.value);
+  // console.log(clickInfo.event.id);
 
   const content = getContentById(dateList.value, clickInfo.event.id);
 
-  console.log(content);
+  // console.log(content);
 
   let isSave = false;
   const inputValue = content;
@@ -175,12 +178,15 @@ const confirmDeleteEvent = () => {
   }
 };
 
+// 현재 이벤트들 파악(사실 없어도 되긴 할듯)
 const handleEvents = events => {
   currentEvents.value = events;
 };
 
+// 이벤트들 리스트
 let dateList = ref([]);
 
+// DB로 부터 이벤트들 조회
 const getCalendar = async () => {
   try {
     console.log(1);
@@ -193,6 +199,7 @@ const getCalendar = async () => {
   }
 };
 
+// DB 생성
 const saveCalendarTitle = async () => {
   try {
     console.log(date);
@@ -205,6 +212,7 @@ const saveCalendarTitle = async () => {
   }
 };
 
+// DB 수정
 const changeCalendar = async () => {
   try {
     console.log('수정');
@@ -217,6 +225,8 @@ const changeCalendar = async () => {
     console.log(err);
   }
 };
+
+// DB 삭제
 const deleteCalendar = async () => {
   try {
     console.log('삭제');
@@ -228,6 +238,7 @@ const deleteCalendar = async () => {
   }
 };
 
+// 이벤트
 const date = {
   coupleListId: 1,
   id: 0,
@@ -237,9 +248,10 @@ const date = {
   color: '',
 };
 
+// 현재 이벤트들 (없어도 되긴할듯)
 const currentEvents = ref([]);
 
-// Variables
+// 캘린더 옵션
 const calendarOptions = ref({
   plugins: [
     dayGridPlugin,
