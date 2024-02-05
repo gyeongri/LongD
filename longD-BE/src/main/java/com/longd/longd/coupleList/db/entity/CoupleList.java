@@ -1,9 +1,6 @@
 package com.longd.longd.coupleList.db.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,8 +18,8 @@ public class CoupleList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id = null;
-    private Integer userIdA;
-    private Integer userIdB;
+    private Integer userFirst;
+    private Integer userSecond;
     private LocalDate startDay;
     private Integer oneQA_index;
     private String coupleImgUrl;

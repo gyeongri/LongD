@@ -1,0 +1,53 @@
+package com.longd.longd.gallery.controller;
+
+import com.longd.longd.gallery.db.entity.Gallery;
+import com.longd.longd.gallery.db.entity.GalleryCategory;
+import com.longd.longd.gallery.service.GalleryCategoryService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@Slf4j
+@RequestMapping("/galleryCategory")
+public class GalleryCategoryController {
+
+    @Autowired
+    GalleryCategoryService galleryCategoryService;
+
+    @GetMapping("/getList/{coupleListId}")
+    public ResponseEntity<?> getGalleryCategoryList(@PathVariable int coupleListId) {
+        try {
+            List<GalleryCategory> list = galleryCategoryService.getGalleryCategory(coupleListId);
+            return ResponseEntity.status(200).body(list);
+        } catch (Exception e) {
+            log.error(e.toString());
+            return ResponseEntity.status(503).body(e.toString());
+        }
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> setGalleryInfo(@RequestBody GalleryCategory galleryCategory) {
+        try {
+            boolean tmp = galleryCategoryService.setGalleryCategory(galleryCategory);
+            return ResponseEntity.status(200).body(tmp);
+        } catch (Exception e) {
+            log.error(e.toString());
+            return ResponseEntity.status(503).body(e.toString());
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteGalleryInfo(@PathVariable int id) {
+        try {
+            boolean tmp = galleryCategoryService.deleteGalleryCategory(id);
+            return ResponseEntity.status(200).body(tmp);
+        } catch (Exception e) {
+            log.error(e.toString());
+            return ResponseEntity.status(503).body(e.toString());
+        }
+    }
+}

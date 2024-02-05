@@ -1,8 +1,7 @@
 package com.longd.longd.plan.db.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.longd.longd.coupleList.db.entity.CoupleList;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +14,7 @@ import java.time.LocalDate;
 @Setter
 @Slf4j
 @ToString
+@Entity
 @NoArgsConstructor
 public class Plan {
 
@@ -22,7 +22,10 @@ public class Plan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id = null;
 
-    private Integer coupleList_Id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "COUPLE_LIST_ID")
+    private CoupleList coupleList;
+//    private Integer coupleListId;
     private LocalDate dateStart;
     private LocalDate dateEnd;
     private String title;

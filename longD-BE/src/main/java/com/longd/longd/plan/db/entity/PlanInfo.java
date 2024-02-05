@@ -1,8 +1,6 @@
 package com.longd.longd.plan.db.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +13,7 @@ import java.time.LocalDate;
 @Setter
 @Slf4j
 @ToString
+@Entity
 @NoArgsConstructor
 public class PlanInfo {
 
@@ -22,10 +21,13 @@ public class PlanInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id = null;
 
-    private Integer planId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PLAN_ID")
+    private Plan plan;
+    //private Integer planId;
     private String title;
     private String infoType;
-    private String order;
+    private String MyOrder;
     private String titleUrl;
     private LocalDate date;
     private Long latitude;

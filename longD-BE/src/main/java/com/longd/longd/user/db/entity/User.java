@@ -38,6 +38,7 @@ public class User implements OAuth2Response {
     private String profileMessage;
     private String position;
     private Integer passwordSimple;  //보안처리 필요
+    private String state_message;
     private Integer code;
     //private String accessToken;
     //private String refreshToken;

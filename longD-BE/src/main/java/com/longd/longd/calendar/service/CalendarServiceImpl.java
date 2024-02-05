@@ -23,11 +23,16 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public boolean calendarInfoAdd(Calendar calendar) {
-        //Optional<User> user = userService.userState();
+        Optional<User> user = userService.userState();
         System.out.println(calendar.toString());
-        log.info("등록 진행");
+        if( calendar.getId() == null) {
+            log.info("등록 진행");
+        } else {
+            log.info("수정 진행");
+        }
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인 user.get().getCoupleListId() == calendar.getCoupleListId()
-        if( 1 == calendar.getCoupleListId() ) {
+        //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
+        if( ( user != null && user.get().getCoupleListId() == calendar.getCoupleListId() ) || calendar.getCoupleListId() == 1 ) {
             calendarRepository.save(calendar);
             return true;
         } else {
@@ -37,21 +42,21 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public List<Calendar> calendarGetInfo(int coupleId) {
+    public List<Calendar> calendarGetInfo(int coupleListId) {
 
         Optional<User> user = userService.userState();
         log.info("조회 진행");
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인
-        //user.get().getCoupleListId()
-        if( 1 == coupleId ) {
-            return calendarRepository.findByCoupleListId(coupleId);
+        //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
+        if( ( user != null && user.get().getCoupleListId() == coupleListId ) || coupleListId == 1 ) {
+            return calendarRepository.findByCoupleListId(coupleListId);
         } else {
             return null;
         }
     }
 
     @Override
-    public Calendar modifycalendarInfo(Integer id, Calendar updateInfo) {
+    public Calendar modifycalendarInfo(int id, Calendar updateInfo) {
         // 왜썻더라
         log.info("수정 진행");
         Optional<Calendar> calendar = calendarRepository.findById(id);
@@ -60,13 +65,15 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public boolean deletecalendarInfo(Integer id) {
-        //Optional<User> user = userService.userState();
+    public boolean deletecalendarInfo(int id) {
+        Optional<User> user = userService.userState();
         log.info("삭제 실행");
         Calendar calendar = new Calendar();
         calendar.setId(id);
+        calendar = calendarRepository.findById(id).get();
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인
-        if( 1 == 1 ) {
+        //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
+        if( ( user != null && user.get().getCoupleListId() == calendar.getCoupleListId() ) || calendar.getCoupleListId() == 1 ) {
             calendarRepository.delete(calendar);
             return true;
         } else {

@@ -21,7 +21,6 @@ import java.util.Optional;
 @Api(value = "유저 API", tags = {"User"})
 @RestController
 @Slf4j
-@CrossOrigin(origins = { "http://192.168.100.188:3000", "http://192.168.100.188:5173", "http://192.168.100.103:5173"  }, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE} , maxAge = 6000)
 @RequestMapping("/user")
 public class UserController {
 
@@ -45,21 +44,21 @@ public class UserController {
     public RedirectView getRegistInstance() {
         //로그인 성공시에만 진입하는 경로
         Optional<User> optionalUser = userService.userState();
-        RedirectView redirectView = new RedirectView("http://192.168.100.188:5173/");
+        RedirectView redirectView = new RedirectView("http://192.168.100.102:5173/");
         if(optionalUser.isPresent()) {
             //회원이 있음
             System.out.println(optionalUser.get().toString());
         } else {
             //회원이 없음 회원가입 필요
-            redirectView = new RedirectView("http://192.168.100.188:5173/requiredinfo");
+            redirectView = new RedirectView("http://192.168.100.102:5173/requiredinfo");
         }
 
         return redirectView;
     }
 
     //API 명세서 등록 완료 02-01
-    @PostMapping("/regist")
-    public void setUserRegist(@RequestBody User user) {
+    @PostMapping("/add")
+    public void setInfo(@RequestBody User user) {
         userService.userReigst(user);
     }
 
@@ -115,10 +114,7 @@ public class UserController {
 
 
 //  수정 배제중
-//    @PostMapping("/modify")
-//    public void setInfo(@RequestBody User user) {
-//        userService.userModify(user);
-//    }
+
 
 //    @GetMapping("/info")
 //    @ResponseBody

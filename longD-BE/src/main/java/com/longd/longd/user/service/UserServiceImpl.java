@@ -28,7 +28,8 @@ public class UserServiceImpl implements UserService{
             log.error("생일이 없어서 화면잠금 비밀번호 저장 실패");
         } else {
             //혹시 0228이면 어떻게 될까 ?
-            user.setPasswordSimple(Integer.parseInt(user.getBirth().substring(4)));
+            String[] tmp = user.getBirth().split("-");
+            user.setPasswordSimple(Integer.parseInt(tmp[1] + tmp[2]));
         }
         userRepository.save(user);
     }
@@ -59,7 +60,8 @@ public class UserServiceImpl implements UserService{
         Authentication authentication = context.getAuthentication();
         if(authentication.getPrincipal().toString().equals("anonymousUser")) {
             System.out.println("유저 상태 로그인 되어있지 않음");
-            return null;
+            //
+            return userRepository.findById(7);
         }
         CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
         Optional<User> user = null;
@@ -83,6 +85,7 @@ public class UserServiceImpl implements UserService{
     public User BaseInfo() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
+        System.out.println(authentication.toString());
         CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
 
         System.out.println(info.getAuthorities().stream().toArray().toString());
@@ -96,22 +99,4 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
-//    @Override
-//        public void userModify(User updateInfo) {
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        Authentication authentication = context.getAuthentication();
-//        CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
-//
-//        if (info.getProviderId().equals(updateInfo.getProviderId())) {
-//            //로그인 정보와 수정하려는 사람 일치
-//            String[] email = updateInfo.getEmail().split("@");
-//            updateInfo.setEmailId(email[0]);
-//            updateInfo.setEmailDomain(email[1]);
-//            userRepository.save(updateInfo);
-//        } else {
-//            //로그인 정보와 수정하려는 사람이 불일치
-//            System.out.println("userModify 오류");
-//        }
-//
-//    }
 }
