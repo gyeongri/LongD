@@ -63,19 +63,20 @@ pipeline {
                     sh './gradlew build'
                     sh "docker build -t ${DOCKER_IMAGE_NAME_BE} -f ${PROJECT_PATH}/longD-BE/Dockerfile ${PROJECT_PATH}/longD-BE"
                 }
-                echo 'Build BE image...'
+                echo 'Build image...'
             }
+        }
 
-            steps {
+
+             stage('Build FE image'){
+                 steps {
                      dir("${DIRECTORY_NAME2}"){
                           sh "docker build -t ${DOCKER_IMAGE_NAME_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
                      }
                  }
-                 echo 'Build FE image...'
-        }
+             }
 
-
-        //이전 이미지로 만든 컨테이너 삭제
+        //BE 이전 컨테이너 삭제? 이미지 삭제?
         stage('Remove Previous BE Container') {
             steps {
                 script {
@@ -83,29 +84,35 @@ pipeline {
                         sh "docker stop ${DOCKER_IMAGE_NAME_BE}"
                         sh "docker rm ${DOCKER_IMAGE_NAME_BE}"
                     } catch (e) {
-                        echo 'fail to stop and remove BE container'
+                        echo 'fail to stop and remove container'
                     }
                 }
             }
+        }
 
+        //FE이전 컨테이너 삭제? 이미지 삭제?
+        stage('Remove Previous FE Container') {
             steps {
                 script {
                     try {
                         sh "docker stop ${DOCKER_IMAGE_NAME_FE}"
                         sh "docker rm ${DOCKER_IMAGE_NAME_FE}"
                     } catch (e) {
-                        echo 'fail to stop and remove FE container'
+                        echo 'fail to stop and remove container'
                     }
                 }
             }
         }
-
-      //새 컨테이너 실행
+      //새 BE 컨테이너 실행
         stage('Run New BE image') {
             steps {
                 sh "docker run --name ${DOCKER_IMAGE_NAME_BE} -d -p 3000:3000 ${DOCKER_IMAGE_NAME_BE}"
                 echo 'Run New BE image'
             }
+        }
+
+      //새 FE 컨테이너 실행
+        stage('Run New FE image') {
             steps {
                 sh "docker run --name ${DOCKER_IMAGE_NAME_FE} -d -p 3001:3001 ${DOCKER_IMAGE_NAME_FE}"
                 echo 'Run New FE image'
