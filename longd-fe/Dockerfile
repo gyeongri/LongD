@@ -18,7 +18,7 @@ RUN npm install
 RUN npm run build
 
 # 빌드된 애플리케이션을 제외한 파일 제거
-RUN rm -rf node_modules
+#RUN rm -rf node_modules
 
 # 애플리케이션 실행을 위한 명령어
 CMD ["npm", "run", "dev"]
