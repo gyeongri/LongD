@@ -68,14 +68,13 @@ pipeline {
         }
 
 
-//             stage('Build FE image'){
-//                 steps {
-//                     dir("${DIRECTORY_NAME2}"){
-//                          sh "docker build -t ${DOCKER_IMAGE_NAME_FE} ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
-//                     }
-//                 }
-//
-//             }
+             stage('Build FE image'){
+                 steps {
+                     dir("${DIRECTORY_NAME2}"){
+                          sh "docker build -t ${DOCKER_IMAGE_NAME_FE} ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
+                     }
+                 }
+             }
 
         //이전 컨테이너 삭제? 이미지 삭제?
         stage('Remove Previous container') {
