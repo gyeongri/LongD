@@ -8,16 +8,22 @@
     </GalleryFilter>
 
     <div class="flex items-center space-x-4">
-      <button v-if="deleteActive" class="btn btn-outline btn-primary">
+      <button
+        v-if="deleteActive"
+        @click="removeItems"
+        class="btn btn-outline btn-primary"
+      >
         삭제
       </button>
       <AppDropdown>
         <template v-slot>
           <li onclick="gallery_create.showModal()">
-            <a>open modal</a>
+            <a>추가</a>
           </li>
-          <li @click="goCreate"><a>사진 추가</a></li>
-          <li @click="toggleDelete"><a>사진 삭제</a></li>
+          <li v-if="!deleteActive" @click="toggleDelete"><a>삭제</a></li>
+          <li v-if="deleteActive" @click="toggleDelete">
+            <a>삭제 취소 </a>
+          </li>
         </template>
       </AppDropdown>
     </div>
@@ -29,7 +35,8 @@
         :src="item.src"
         :id="item.id"
         :deleteActive="deleteActive"
-        @click="goDetail(item.id)"
+        @click="goDetail(folderName, item.id)"
+        @checkedEvent="totalCheckedEvent"
       ></GalleryCard>
     </template>
   </AppGrid>
@@ -37,19 +44,46 @@
   <AppModal modalId="gallery_create">
     <template v-slot:title>사진을 등록하세요</template>
     <template v-slot:body>
-      <div class="mb-4">
-        <GalleryCard v-if="src" :src="src" />
-        <GalleryCard v-else :src="defaultImage" />
-        <input
-          type="file"
-          class="file-input file-input-bordered file-input-primary w-full max-w-xs"
-          @change="previewImage"
-        />
+      <div class="grid grid-cols-3 gap-4">
+        <!-- 이미지 미리보기 -->
+        <div
+          v-for="(image, index) in imagePreviews"
+          :key="index"
+          class="relative"
+        >
+          <img :src="image" class="w-full h-auto" alt="Preview" />
+          <button
+            @click="removeImage(index)"
+            class="absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full"
+          >
+            X
+          </button>
+        </div>
       </div>
     </template>
+
     <template v-slot:footer>
-      <button class="btn btn-outline btn-primary mx-2">취소</button>
-      <button @click="save" class="btn btn-outline btn-primary">저장</button>
+      <!-- 파일 업로드 입력 필드 -->
+      <label for="file-upload" class="btn btn-outline btn-primary mt-4">
+        파일 선택하기
+      </label>
+      <input
+        id="file-upload"
+        type="file"
+        multiple
+        @change="handleFileChange"
+        class="hidden"
+      />
+      <button
+        @click="uploadImages"
+        :disabled="imagePreviews.length === 0"
+        class="btn btn-outline btn-primary mx-2"
+      >
+        등록하기
+      </button>
+      <button @click="cancelImages" class="btn btn-outline btn-primary mx-2">
+        취소
+      </button>
     </template>
   </AppModal>
 
@@ -68,12 +102,14 @@ import GalleryCard from '@/components/gallery/GalleryCard.vue';
 import AppPagination from '@/components/app/AppPagination.vue';
 import AppGrid from '@/components/app/AppGrid.vue';
 import { ref, computed, watchEffect } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { getAlbums } from '@/utils/api/albums';
-import { createAlbum } from '@/utils/api/albums';
+// import { createAlbum } from '@/utils/api/albums';
 
+const route = useRoute();
 const router = useRouter();
 
+// 조회 관련 파라미터
 const params = ref({
   _sort: 'createdAt', // 무엇을
   _order: 'desc', // 내림차순
@@ -82,24 +118,47 @@ const params = ref({
   id_like: '', // 해당 요소 검색 기능
 });
 
+// 페이지네이션에서 페이지의 수는 전체 item 수로 결정남
 const totalCount = ref(0);
 const pageCount = computed(() =>
   Math.ceil(totalCount.value / params.value._limit),
 );
 
+// 한 화면에 보이는 item 갯수 제한 조절
 const changeLimit = value => {
   params.value._limit = value;
   params.value._page = 1; // 갯수 제한이 바뀔 때마다 첫 페이지로 가도록
 };
 
-const items = ref([]);
+// 삭제 체크된 id 배열
+const totalChecked = ref([]);
 
+// emit으로 보낸 데이터 받을 때의 표본
+// card에서 보낸 데이터를 보고 check 여부 판단하여 배열에 추가해줌
+const totalCheckedEvent = data => {
+  if (data.checked) {
+    // data.checked가 true이면 totalChecked 배열에 data.id 추가
+    totalChecked.value.push(data.id);
+  } else {
+    // data.checked가 false이면 totalChecked 배열에서 data.id 제거
+    const index = totalChecked.value.indexOf(data.id);
+    if (index !== -1) {
+      totalChecked.value.splice(index, 1);
+    }
+  }
+  console.log(totalChecked.value);
+};
+
+// 해당 폴더의 리스트 조회
+const items = ref([]);
 const fetchAlbums = async () => {
   try {
     const { data, headers } = await getAlbums(params.value);
     items.value = data;
     totalCount.value = headers['x-total-count'];
     // console.log(data);
+    // 이거 활용해서 분류에 이용하기!!!!
+    console.log(route.params.folderName);
   } catch (err) {
     console.err(err);
   }
@@ -108,56 +167,83 @@ const fetchAlbums = async () => {
 // watchEffect는 watch와 동일하지만 처음에 한번 바로 실행해주는 점이 다름
 watchEffect(fetchAlbums);
 
-const goDetail = id => {
-  router.push({
-    name: 'GalleryDetail',
-    params: {
-      id,
-    },
-  });
+// 현재 폴더명
+const folderName = route.params.folderName;
+
+// 상세 페이지로 이동
+const goDetail = (folderName, id) => {
+  // deleteActive가 false인 경우에만 goDetail 함수 실행
+  if (!deleteActive.value) {
+    router.push({
+      name: 'GalleryDetail',
+      params: {
+        folderName,
+        id,
+      },
+    });
+  }
 };
 
-const goCreate = () => {
-  router.push({
-    name: 'GalleryCreate',
-  });
-};
-
+// 삭제 버튼 활성화 여부
 const deleteActive = ref(false);
 
+// 삭제 버튼 토글
 const toggleDelete = () => {
   deleteActive.value = !deleteActive.value;
+  totalChecked.value = []; // totalChecked 리스트를 빈 배열로 설정
 };
 
-// 모달 관련
-const src = ref('');
+// 삭제 체크 표시된 item들 삭제
+const removeItems = () => {
+  if (confirm('정말로 삭제하시겠습니까?') === false) {
+    return;
+  }
+  // 삭제 메소드만 넣으면 끝
+  // 근데 왜 체크 표시 안 없어질 것 같지???
+  deleteActive.value = !deleteActive.value;
+  totalChecked.value = []; // totalChecked 리스트를 빈 배열로 설정
+  console.log('삭제');
+};
 
-const defaultImage = '/src/assets/images/icon_upload.png'; // 디폴트 이미지 경로
+// 생성 모달 관련
+const imagePreviews = ref([]); // 이미지 미리보기를 위한 배열
 
-const previewImage = event => {
-  const file = event.target.files[0];
-  if (file) {
+const handleFileChange = event => {
+  const files = event.target.files;
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
     const reader = new FileReader();
     reader.onload = () => {
-      src.value = reader.result;
+      imagePreviews.value.push(reader.result); // 이미지 미리보기 배열에 추가
     };
     reader.readAsDataURL(file);
-  } else {
-    src.value = '';
   }
 };
 
-const save = async () => {
-  try {
-    console.log(src);
-    await createAlbum({
-      src: 'https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg',
-      createdAt: Date.now(),
-    });
-    router.push({ name: 'GalleryList' });
-  } catch (err) {
-    console.log(err);
+const removeImage = index => {
+  imagePreviews.value.splice(index, 1); // 이미지 미리보기 삭제
+};
+
+const uploadImages = async () => {
+  const formData = new FormData();
+  for (let i = 0; i < imagePreviews.value.length; i++) {
+    formData.append('images[]', imagePreviews.value[i]);
   }
+
+  try {
+    // 서버로 이미지 전송하는 API 호출
+    // await axios.post('/api/upload', formData);
+    // 이미지 업로드 후 이미지 미리보기 배열 초기화
+    imagePreviews.value = [];
+    alert('Images uploaded successfully!');
+  } catch (error) {
+    console.error('Error uploading images:', error);
+  }
+};
+
+// 취소했을 때도 미리보기 남아있는 것을 방지하기 위함
+const cancelImages = () => {
+  imagePreviews.value = [];
 };
 
 // // 참고 (데이터 전송 관련 방법 2가지)
