@@ -42,7 +42,7 @@ public class SecurityConfig{
 //                        .anyRequest().authenticated());
                 auth.requestMatchers("/").permitAll().anyRequest().permitAll());
 
-        http.logout((logoutConfig) -> logoutConfig.logoutUrl("/user/customlogout").logoutSuccessUrl("http://192.168.100.188:5173/"));
+        http.logout((logoutConfig) -> logoutConfig.logoutUrl("/user/customlogout").logoutSuccessUrl("http://192.168.0.2:5173/"));
 
         return http.build();
     }
