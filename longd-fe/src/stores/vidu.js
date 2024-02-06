@@ -2,6 +2,7 @@ import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { OpenVidu } from 'openvidu-browser';
 import { viduapi } from '@/utils/api/index.js';
+import Swal from 'sweetalert2';
 export const useViduStore = defineStore('vidu', () => {
   const OV = ref(null);
   const session = ref(null);
@@ -226,6 +227,21 @@ export const useViduStore = defineStore('vidu', () => {
       })
       .then(res => {
         console.log('녹화시작성공');
+        // 녹화 성공 알림
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          didOpen: toast => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: 'success',
+          title: '녹화가 시작되었습니다.',
+        });
         forceRecordingId.value = res.data.id;
         console.log(`forceRecordingId : ${res.data.id}`);
       })
@@ -243,6 +259,21 @@ export const useViduStore = defineStore('vidu', () => {
       })
       .then(res => {
         //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
+        // 녹화 완료 알림
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          didOpen: toast => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
+        });
+        Toast.fire({
+          icon: 'success',
+          title: '녹화가 완료되었습니다.',
+        });
         console.log('녹화완료');
       })
       .catch(error => {

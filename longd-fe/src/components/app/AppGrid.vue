@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-3 grid-rows-3 gap-3">
+  <div class="grid grid-cols-3 gap-2">
     <div v-for="(item, index) in items" :key="index" :class="colClass">
       <slot :item="item" :index="index"></slot>
     </div>

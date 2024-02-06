@@ -1,8 +1,9 @@
 <template>
+  
   <div v-if="viduStore.publisher">
-    <video ref="videoElement" autoplay></video>
+    <video ref="videoElement" autoplay class="rounded-lg"></video>
     <input type="color" v-model="selectedColor" />
-    <canvas
+    <!-- <canvas
       ref="canvas"
       class="canvas"
       width="640"
@@ -10,25 +11,12 @@
       @mousedown="startDrawing"
       @mouseup="stopDrawing"
       @mousemove="draw"
-    ></canvas>
+    ></canvas> -->
   </div>
   <!-- <button @click="check">여기 이제 이거 필요없음 </button> -->
   <br />
 
-  <button @click="viduStore.startRecording">
-    <font-awesome-icon icon="fa-solid fa-record-vinyl" size="2x" color="red" />
-  </button>
   <br />
-  <button @click="viduStore.stopRecording">
-    <font-awesome-icon
-      icon="fa-solid fa-record-vinyl"
-      size="2x"
-      fade
-      color="red"
-    />
-  </button>
-  <br />
-  <button @click="enterPiPMode">pip변신</button>
 </template>
 
 <script setup>
