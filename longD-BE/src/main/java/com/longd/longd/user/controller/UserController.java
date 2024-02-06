@@ -31,12 +31,17 @@ public class UserController {
     @GetMapping("/state")
     public ResponseEntity<?> getloginstate() {
         Optional<User> OptionalUser = userService.userState();
-
-        if (OptionalUser == null) {
-            return ResponseEntity.status(200).body("롱디에 로그인 되어 있지 않음");
-        } else {
-            User user = OptionalUser.get();
-            return ResponseEntity.status(200).body(user);
+        log.info(OptionalUser.get().toString());
+        try {
+            if (OptionalUser == null) {
+                return ResponseEntity.status(200).body("롱디에 로그인 되어 있지 않음");
+            } else {
+                User user = OptionalUser.get();
+                return ResponseEntity.status(200).body(user);
+            }
+        } catch (Exception e) {
+            log.info(e.toString());
+            return ResponseEntity.status(503).body(e.toString());
         }
     }
 
@@ -108,7 +113,7 @@ public class UserController {
     @GetMapping("/test")
     public String gettest() {
 
-        return null;
+        return "테스트페이지";
     }
 
 
