@@ -3,7 +3,7 @@ pipeline {
     environment {
         DOCKER = 'sudo docker'
 
-        // Dockerfile이 위치한 경로
+        // Dockerfile이 위치한 경로 
         DOCKERFILE_PATH = './Dockerfile'
 
         // 생성할 Docker 이미지 이름 - BE
