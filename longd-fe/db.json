@@ -1,0 +1,204 @@
+{
+  "folders": [
+    {
+      "id": 1,
+      "folderName": "일물"
+    },
+    {
+      "id": 2,
+      "folderName": "이물"
+    },
+    {
+      "id": 3,
+      "folderName": "삼물"
+    },
+    {
+      "id": 4,
+      "folderName": "사물"
+    },
+    {
+      "id": 5,
+      "folderName": "오물"
+    },
+    {
+      "id": 6,
+      "folderName": "육물"
+    },
+    {
+      "id": 7,
+      "folderName": "칠물"
+    },
+    {
+      "id": 8,
+      "folderName": "팔물"
+    },
+    {
+      "folderName": "구물",
+      "id": 9
+    },
+    {
+      "folderName": "십물",
+      "id": 10
+    },
+    {
+      "folderName": "십일물",
+      "id": 11
+    },
+    {
+      "folderName": "십이물",
+      "id": 12
+    }
+  ],
+  "albums": [
+    {
+      "id": 1,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704090339606
+    },
+    {
+      "id": 2,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704090339605
+    },
+    {
+      "id": 3,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704090339604
+    },
+    {
+      "id": 4,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704090339603
+    },
+    {
+      "id": 5,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704090339602
+    },
+    {
+      "id": 6,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704090339601
+    },
+    {
+      "id": 7,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704090339600
+    },
+    {
+      "id": 8,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704162153247
+    },
+    {
+      "id": 9,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704162153246
+    },
+    {
+      "id": 10,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704162153245
+    },
+    {
+      "id": 11,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704162153244
+    },
+    {
+      "id": 12,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704162153243
+    },
+    {
+      "id": 13,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704162153242
+    },
+    {
+      "id": 14,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704162153241
+    },
+    {
+      "id": 15,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704532690957
+    },
+    {
+      "id": 16,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704532690956
+    },
+    {
+      "id": 17,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704532690955
+    },
+    {
+      "id": 18,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704532690954
+    },
+    {
+      "id": 19,
+      "folderName": "사물",
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1704532690953
+    },
+    {
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1706427286124,
+      "folderName": "사물",
+      "id": 20
+    },
+    {
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1706487366474,
+      "folderName": "사물",
+      "id": 21
+    },
+    {
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1706489639845,
+      "folderName": "사물",
+      "id": 22
+    },
+    {
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1706489683776,
+      "folderName": "사물",
+      "id": 23
+    },
+    {
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1706498244115,
+      "folderName": "사물",
+      "id": 24
+    },
+    {
+      "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
+      "createdAt": 1706504808399,
+      "folderName": "사물",
+      "id": 25
+    }
+  ]
+}
