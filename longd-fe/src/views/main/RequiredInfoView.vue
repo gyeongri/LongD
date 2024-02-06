@@ -185,7 +185,7 @@
           >
           <div class="mt-2.5">
             <input
-              type="text"
+              type="number"
               v-model="Info_state.code"
               name="code"
               id="code"
