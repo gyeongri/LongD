@@ -12,8 +12,7 @@
       </h3>
       <div class="mt-2.5">
         <img
-          v-if="partnerInfo.profilePicture"
-          :src="getImageUrl(partnerInfo.value.profilePicture)"
+          :src=getImageUrl
           alt="상대 이미지"
         />
         <!-- {{ partnerInfo.profilePicture }} -->
@@ -63,9 +62,11 @@ const partnerInfo = ref({});
 const goHome = () => {
   router.push({ name: 'Home' });
 };
-const getImageUrl = base64String => {
-  return `data:image/jpeg;base64,${base64String}`;
-};
+const reader = new FileReader();
+const getImageUrl = reader.readAsDataURL(partnerInfo.value.profilePicture);
+// const getImageUrl = base64String => {
+//   return `data:image/jpeg;base64,${base64String}`;
+// };
 
 onMounted(() => {
   partnerinfo(

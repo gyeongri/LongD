@@ -10,8 +10,7 @@
     <!-- 프로필 사진 -->
     <div>
       <img
-        v-if="myprofile.profilePicture"
-        :src="getImageUrl(myprofile.profilePicture)"
+        :src=getImageUrl
         alt="MyImage"
       />
     </div>
@@ -108,9 +107,12 @@ const myprofile = ref({});
 const goHome = () => {
   router.push({ name: 'Home' });
 };
-const getImageUrl = base64String => {
-  return `data:image/jpeg;base64,${base64String}`;
-};
+const reader = new FileReader();
+const getImageUrl = reader.readAsDataURL(myprofile.value.profilePicture);
+// const getImageUrl = base64String => {
+//   return `data:image/jpeg;base64,${base64String}`;
+// };
+
 
 onMounted(() => {
   loginstate(
