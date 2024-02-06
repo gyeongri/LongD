@@ -40,4 +40,26 @@ function loginstate(success, fail) {
   userApi.get('/user/state').then(success).catch(fail);
 }
 
-export { userApi, sendinfo, partnerinfo, BaseInfo, logout, loginstate };
+function coupleMatching(success, fail) {
+  userApi.post(`/couplelist/add`).then(success).catch(fail);
+}
+
+function coupleDataGet(success, fail) {
+  userApi.get(`/couplelist/get`).then(success).catch(fail);
+}
+
+function coupleDataModify(success, fail) {
+  userApi.post(`/couplelist/modify`).then(success).catch(fail);
+}
+
+export {
+  userApi,
+  sendinfo,
+  partnerinfo,
+  BaseInfo,
+  logout,
+  loginstate,
+  coupleMatching,
+  coupleDataGet,
+  coupleDataModify,
+};
