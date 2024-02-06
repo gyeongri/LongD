@@ -127,6 +127,7 @@ onMounted(() => {
           // reader.onload = () => {
           //   myprofile.value.profilePicture = reader.result;
           // };
+          reader.onload
           reader.readAsDataURL(myprofile.value.profilePicture);
         }
       }
