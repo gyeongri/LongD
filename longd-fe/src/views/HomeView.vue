@@ -48,14 +48,14 @@
                 ><img
                   class="img"
                   alt="Ellipse"
-                  src="/static/img/ellipse-659.png"
+                  :src="myprofile.profilePicture"
               /></RouterLink>
 
               <RouterLink :to="{ name: 'PartnerInfo' }">
                 <img
                   class="ellipse"
                   alt="Ellipse"
-                  src="/static/img/ellipse-658.png"
+                  :src="partnerInfo.profilePicture"
               /></RouterLink>
 
               <div class="image">
@@ -70,7 +70,7 @@
         </div>
         <div class="overlap-wrapper">
           <div class="div-wrapper">
-            <div class="text-wrapper-3">D+365</div>
+            <div class="text-wrapper-3">D+{{coupleDday}}</div>
           </div>
         </div>
       </div>
@@ -83,9 +83,17 @@ import { onMounted } from 'vue';
 import { loginstate } from '@/utils/api/user';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
+import dayjs from 'dayjs';
 
 const router = useRouter();
+const myprofile = ref({});
+const partnerInfo = ref({});
+const coupleInfo = ref({})
 const mainDisplayStore = useMainDisplayStore();
+
+const today = dayjs().format("YYYY-MM-DD")
+const startDay = dayjs(coupleInfo.value.startDay)
+const coupleDday = today.diff(startDay, "day")
 
 onMounted(() => {
   loginstate(
@@ -99,12 +107,28 @@ onMounted(() => {
         router.push({ name: 'Login' });
       } else {
         console.log('롱디에 로그인 되어있다', success.data);
+        myprofile.value = success.data;
       }
     },
     error => {
       console.log('error') + error;
     },
   );
+  partnerinfo(
+    data => {
+      partnerInfo.value = data.data;
+    },
+    error => {
+      console.log('Partner Info 가져오기 안됨', error);
+    },
+  );
+  coupleDataGet(
+    data => {
+      coupleInfo.value = data.data
+    },
+    error => {
+      console.log('Couple Info 가져오기 안됨', error);
+    })
 });
 </script>
 

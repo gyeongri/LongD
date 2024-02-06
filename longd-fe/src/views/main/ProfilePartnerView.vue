@@ -62,27 +62,11 @@ const partnerInfo = ref({});
 const goHome = () => {
   router.push({ name: 'Home' });
 };
-// const reader = new FileReader();
-// const getImageUrl = () => {
-//   reader.onload
-//   reader.readAsDataURL(partnerInfo.value.profilePicture);
-// }
-// const getImageUrl = base64String => {
-//   return `data:image/jpeg;base64,${base64String}`;
-// };
 
 onMounted(() => {
   partnerinfo(
     data => {
       partnerInfo.value = data.data;
-      if (partnerInfo.value.profilePicture) {
-          const reader = new FileReader();
-          // reader.onload = () => {
-          //   myprofile.value.profilePicture = reader.result;
-          // };
-          reader.onload
-          reader.readAsDataURL(partnerInfo.value.profilePicture);
-        }
     },
     error => {
       console.log('Partner Info 가져오기 안됨', error);

@@ -107,14 +107,6 @@ const myprofile = ref({});
 const goHome = () => {
   router.push({ name: 'Home' });
 };
-// const reader = new FileReader();
-// const getImageUrl = () => {
-//   reader.onload
-//   return reader.readAsDataURL(myprofile.value.profilePicture);
-// }
-// const getImageUrl = base64String => {
-//   return `data:image/jpeg;base64,${base64String}`;
-// };
 
 
 onMounted(() => {
@@ -125,14 +117,6 @@ onMounted(() => {
       } else {
         myprofile.value = data.data;
         console.log(data.data);
-        if (myprofile.value.profilePicture) {
-          const reader = new FileReader();
-          // reader.onload = () => {
-          //   myprofile.value.profilePicture = reader.result;
-          // };
-          reader.onload
-          reader.readAsDataURL(myprofile.value.profilePicture);
-        }
       }
     },
     error => {
