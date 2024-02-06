@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface GalleryCategoryService {
 
-    public List<GalleryCategory> getGalleryCategory(int coupleListId);
+    public List<String> getGalleryCategory(int coupleListId);
     public boolean setGalleryCategory(GalleryCategory galleryCategory);
     public boolean deleteGalleryCategory(int id);
 }
