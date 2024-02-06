@@ -108,7 +108,10 @@ const goHome = () => {
   router.push({ name: 'Home' });
 };
 const reader = new FileReader();
-const getImageUrl = reader.readAsDataURL(myprofile.value.profilePicture);
+const getImageUrl = () => {
+  reader.onload
+  reader.readAsDataURL(myprofile.value.profilePicture);
+}
 // const getImageUrl = base64String => {
 //   return `data:image/jpeg;base64,${base64String}`;
 // };
