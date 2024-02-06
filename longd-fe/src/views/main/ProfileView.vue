@@ -10,7 +10,7 @@
     <!-- 프로필 사진 -->
     <div>
       <img
-        :src=getImageUrl
+        :src="myprofile.profilePicture"
         alt="MyImage"
       />
     </div>
@@ -107,11 +107,11 @@ const myprofile = ref({});
 const goHome = () => {
   router.push({ name: 'Home' });
 };
-const reader = new FileReader();
-const getImageUrl = () => {
-  reader.onload
-  reader.readAsDataURL(myprofile.value.profilePicture);
-}
+// const reader = new FileReader();
+// const getImageUrl = () => {
+//   reader.onload
+//   return reader.readAsDataURL(myprofile.value.profilePicture);
+// }
 // const getImageUrl = base64String => {
 //   return `data:image/jpeg;base64,${base64String}`;
 // };
