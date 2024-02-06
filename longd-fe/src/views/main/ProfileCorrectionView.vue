@@ -12,8 +12,8 @@
       <label class="btn btn-primary" for="uploadImage">이미지 업로드</label>
       <input type="file" id="uploadImage" @change="fileUpload" hidden />
       <img
-        v-if="myprofile.profile_picture"
-        :src="myprofile.profile_picture"
+        v-if="myprofile.profilePicture"
+        :src="myprofile.profilePicture"
         alt="Uploaded Image"
       />
     </div>
@@ -27,7 +27,7 @@
       >
       <div class="mt-2.5">
         <textarea
-          v-model="myprofile.profile_message"
+          v-model="myprofile.profileMessage"
           name="message"
           id="message"
           rows="4"
@@ -113,7 +113,7 @@
             type="number"
             min="0"
             max="9"
-            v-model="myprofile.password_simple"
+            v-model="myprofile.passwordSimple"
             name="closedPassword[index]"
             id="closedPassword"
             autocomplete="closedPassword"
@@ -152,18 +152,18 @@ const fileUpload = event => {
     // FileReader를 사용하여 이미지를 읽어와 imageUrl에 할당
     const reader = new FileReader();
     // FileReader 객체 생성(파일을 비동기적으로 읽어오는 것)
-    console.log(file)
+    console.log(file);
     reader.onload = () => {
       // 파일의 읽기 작업이 완료되었을 때 실행할 함수
-      myprofile.value.profile_picture = reader.result;
-      console.log(reader.result)
-      console.log(reader)
+      myprofile.value.profilePicture = reader.result;
+      console.log(reader.result);
+      console.log(reader);
       // Base64로 인코딩된 문자열을 ref객체에 넣기
     };
     reader.readAsDataURL(file);
     // 파일을 Base64로 인코딩하여 데이터 URL로 변환
   }
-  console.log(myprofile.value.profile_picture);
+  console.log(myprofile.value.profilePicture);
 };
 
 onMounted(() => {
@@ -173,10 +173,10 @@ onMounted(() => {
         router.push({ name: 'Login' });
       } else {
         console.log('이건 된다.');
-        console.log(data)
-        console.log(data.data)
-        console.log(data.data.user)
-        console.log(data.user)
+        console.log(data);
+        console.log(data.data);
+        console.log(data.data.user);
+        console.log(data.user);
         myprofile.value = data.data;
       }
     },

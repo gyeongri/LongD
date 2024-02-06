@@ -22,8 +22,8 @@
             hidden
           />
           <img
-            v-if="Info_state.profile_picture"
-            :src="Info_state.profile_picture"
+            v-if="Info_state.profilePicture"
+            :src="Info_state.profilePicture"
             alt="Uploaded Image"
           />
         </div>
@@ -250,7 +250,7 @@ const fileUpload = event => {
     // FileReader 객체 생성(파일을 비동기적으로 읽어오는 것)
     reader.onload = () => {
       // 파일의 읽기 작업이 완료되었을 때 실행할 함수
-      Info_state.value.profile_picture = reader.result;
+      Info_state.value.profilePicture = reader.result;
       // Base64로 인코딩된 문자열을 ref객체에 넣기
     };
     reader.readAsDataURL(file);

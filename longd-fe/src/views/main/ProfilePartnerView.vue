@@ -12,11 +12,11 @@
       </h3>
       <div class="mt-2.5">
         <img
-          v-if="partnerInfo.profile_picture"
-          :src="getImageUrl(partnerInfo.value.profile_picture)"
+          v-if="partnerInfo.profilePicture"
+          :src="getImageUrl(partnerInfo.value.profilePicture)"
           alt="상대 이미지"
         />
-        <!-- {{ partnerInfo.profile_picture }} -->
+        <!-- {{ partnerInfo.profilePicture }} -->
       </div>
     </div>
 
@@ -27,7 +27,7 @@
       <div class="mt-2.5">
         <span
           class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          >{{ partnerInfo.profile_message }}</span
+          >{{ partnerInfo.profileMessage }}</span
         >
       </div>
     </div>

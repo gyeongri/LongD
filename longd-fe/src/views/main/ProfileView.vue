@@ -10,8 +10,8 @@
     <!-- 프로필 사진 -->
     <div>
       <img
-        v-if="myprofile.profile_picture"
-        :src="getImageUrl(myprofile.profile_picture)"
+        v-if="myprofile.profilePicture"
+        :src="getImageUrl(myprofile.profilePicture)"
         alt="MyImage"
       />
     </div>
@@ -24,7 +24,7 @@
         >상태 메세지</label
       >
       <div class="mt-2.5">
-        {{ myprofile.profile_message }}
+        {{ myprofile.profileMessage }}
       </div>
     </div>
 
@@ -81,7 +81,7 @@
         <div class="mt-2.5">
           <!-- v-for를 써서 myprofile.closedPassword 해야한다 -->
           <!-- 초기 비밀번호면 myprofile.passwordSimple로 넣도록 해야하는지..? 아니면 화면잠금에서 생일로 설정했다가 이거는 다시 비밀번호변경할때만 바꾸는건지? -->
-          {{ myprofile.password_simple }}
+          {{ myprofile.passwordSimple }}
         </div>
       </div>
     </div>
@@ -120,12 +120,12 @@ onMounted(() => {
       } else {
         myprofile.value = data.data;
         console.log(data.data);
-        if (myprofile.value.profile_picture) {
+        if (myprofile.value.profilePicture) {
           const reader = new FileReader();
           // reader.onload = () => {
-          //   myprofile.value.profile_picture = reader.result;
+          //   myprofile.value.profilePicture = reader.result;
           // };
-          reader.readAsDataURL(myprofile.value.profile_picture);
+          reader.readAsDataURL(myprofile.value.profilePicture);
         }
       }
     },
