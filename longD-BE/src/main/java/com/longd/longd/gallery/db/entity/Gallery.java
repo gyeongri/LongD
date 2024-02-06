@@ -37,5 +37,7 @@ public class Gallery {
     private LocalDateTime date;
     private String category;
 
+    @Transient
+    private transient int size;
 
 }

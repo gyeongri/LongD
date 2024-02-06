@@ -36,13 +36,20 @@ public class GalleryServiceImpl implements GalleryService {
             Sort sort = null;
             if( _order != null) {
                 if (_order.equals("desc")) sort = Sort.by(Sort.Direction.DESC, _sort);
-                else if (_order.equals(("ASC"))) sort = Sort.by(Sort.Direction.DESC, _sort);
+                else if (_order.equals(("ASC"))) sort = Sort.by(Sort.Direction.ASC, _sort);
             }
             List<Gallery> list = galleryRepository.findByCoupleList_IdAndFolderName(coupleListId, folderName, sort);
             List<Gallery> listResult = new ArrayList<>();
-            for(int i = 0; i < _limit; i++) {
-                listResult.add(list.get((_page-1)*_limit + i));
+            if( list.size() < _limit*_page ) {
+                for (int i = 0; i < list.size()%_limit; i++) {
+                    listResult.add(list.get((_page - 1) * _limit + i));
+                }
+            } else {
+                for (int i = 0; i < _limit; i++) {
+                    listResult.add(list.get((_page - 1) * _limit + i));
+                }
             }
+            listResult.get(0).setSize(list.size());
             return listResult;
         } else {
             return null;
@@ -59,13 +66,20 @@ public class GalleryServiceImpl implements GalleryService {
             Sort sort = null;
             if( _order != null) {
                 if (_order.equals("desc")) sort = Sort.by(Sort.Direction.DESC, _sort);
-                else if (_order.equals(("ASC"))) sort = Sort.by(Sort.Direction.DESC, _sort);
+                else if (_order.equals(("ASC"))) sort = Sort.by(Sort.Direction.ASC, _sort);
             }
             List<Gallery> list = galleryRepository.findByCoupleList_Id(coupleListId, sort);
             List<Gallery> listResult = new ArrayList<>();
-            for(int i = 0; i < _limit; i++) {
-                listResult.add(list.get((_page-1)*_limit + i));
+            if( list.size() < _limit*_page ) {
+                for (int i = 0; i < list.size()%_limit; i++) {
+                    listResult.add(list.get((_page - 1) * _limit + i));
+                }
+            } else {
+                for (int i = 0; i < _limit; i++) {
+                    listResult.add(list.get((_page - 1) * _limit + i));
+                }
             }
+            listResult.get(0).setSize(list.size());
             return listResult;
         } else {
             return null;
