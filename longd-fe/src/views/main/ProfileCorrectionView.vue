@@ -156,6 +156,8 @@ const fileUpload = event => {
     reader.onload = () => {
       // 파일의 읽기 작업이 완료되었을 때 실행할 함수
       myprofile.value.profile_picture = reader.result;
+      console.log(reader.result)
+      console.log(reader)
       // Base64로 인코딩된 문자열을 ref객체에 넣기
     };
     reader.readAsDataURL(file);
@@ -171,6 +173,10 @@ onMounted(() => {
         router.push({ name: 'Login' });
       } else {
         console.log('이건 된다.');
+        console.log(data)
+        console.log(data.data)
+        console.log(data.data.user)
+        console.log(data.user)
         myprofile.value = data.data;
       }
     },
