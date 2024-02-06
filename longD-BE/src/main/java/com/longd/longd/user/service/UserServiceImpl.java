@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService{
     public Optional<User> userState() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
+        log.info(authentication.toString());
         if(authentication.getPrincipal().toString().equals("anonymousUser")) {
             System.out.println("유저 상태 로그인 되어있지 않음");
             return null;
