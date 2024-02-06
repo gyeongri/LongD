@@ -73,7 +73,7 @@ public class UserController {
     @ApiOperation(value = "로그인 페이지 접속", notes = "로그인 권한이 없을경우 여기로 팅겨서 RedirectView 됨")
     //로그인 권한이 없을경우 해당 페이지로 계속 redirect됨
     public RedirectView customlogin() {
-        RedirectView redirectView = new RedirectView("http://192.168.100.188:5173/login");
+        RedirectView redirectView = new RedirectView("http://i10d206.p.ssafy.io:5173/login");
         log.debug("권한이 없는 페이지로 이동하였음");
         return redirectView;
     }
@@ -89,7 +89,7 @@ public class UserController {
     @GetMapping("/logout/success")
     //로그아웃 완료시 이동하는 경로
     public RedirectView logoutSuccess() {
-        RedirectView redirectView = new RedirectView("http://192.168.100.188:5173/");
+        RedirectView redirectView = new RedirectView("http://i10d206.p.ssafy.io:5173/");
         System.out.println("로그아웃 성공");
         return redirectView;
     }
