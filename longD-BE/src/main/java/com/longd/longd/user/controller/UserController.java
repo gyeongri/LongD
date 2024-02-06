@@ -31,7 +31,6 @@ public class UserController {
     @GetMapping("/state")
     public ResponseEntity<?> getloginstate() {
         Optional<User> OptionalUser = userService.userState();
-        log.info(OptionalUser.get().toString());
         try {
             if (OptionalUser == null) {
                 return ResponseEntity.status(200).body("롱디에 로그인 되어 있지 않음");
