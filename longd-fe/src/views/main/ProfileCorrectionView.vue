@@ -152,6 +152,7 @@ const fileUpload = event => {
     // FileReader를 사용하여 이미지를 읽어와 imageUrl에 할당
     const reader = new FileReader();
     // FileReader 객체 생성(파일을 비동기적으로 읽어오는 것)
+    console.log(file)
     reader.onload = () => {
       // 파일의 읽기 작업이 완료되었을 때 실행할 함수
       myprofile.value.profile_picture = reader.result;
