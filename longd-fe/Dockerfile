@@ -1,5 +1,6 @@
-# 사용할 Node.js 버전 지정
-FROM node:20.10.0
+
+# Node.js 버전 지정
+FROM node:20.10.0 AS build
 
 # 작업 디렉토리 설정
 WORKDIR /app
@@ -16,8 +17,17 @@ RUN npm install
 # Vue 프로젝트 빌드
 RUN npm run build
 
-# 빌드된 애플리케이션을 제외한 파일 제거
-#RUN rm -rf node_modules
+# Nginx를 이용하여 정적 파일 서빙
+FROM nginx:latest
 
-# 애플리케이션 실행을 위한 명령어
-CMD ["npm", "run", "dev"]
+# Nginx 설정 파일 복사
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# 빌드된 애플리케이션을 Nginx에 복사
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# 80번 포트 열기
+EXPOSE 80
+
+# Nginx 실행
+CMD ["nginx", "-g", "daemon off;"]

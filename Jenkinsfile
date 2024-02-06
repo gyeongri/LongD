@@ -13,7 +13,7 @@ pipeline {
         DOCKER_IMAGE_NAME_FE = 'longd-front-image'
 
         //BE 디렉터리명
-      DIRECTORY_NAME1 = 'longD-BE'
+        DIRECTORY_NAME1 = 'longD-BE'
 
       //FE 디렉터리명
         DIRECTORY_NAME2 = 'longd-fe'
