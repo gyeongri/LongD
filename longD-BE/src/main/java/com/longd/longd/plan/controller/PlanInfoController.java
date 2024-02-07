@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
-@RequestMapping("/api/plan/info")
+@RequestMapping("/plan/info")
 public class PlanInfoController {
 
     @Autowired

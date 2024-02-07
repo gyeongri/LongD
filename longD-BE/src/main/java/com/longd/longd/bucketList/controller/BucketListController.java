@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/api/bucket")
+@RequestMapping("/bucket")
 public class BucketListController {
 
     @Autowired
