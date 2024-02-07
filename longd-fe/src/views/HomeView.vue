@@ -44,16 +44,17 @@
               </div>
             </div>
             <div class="group-2">
-              <img
-                class="ellipse"
-                alt="Ellipse"
-                src="/static/img/ellipse-658.png"
-              />
-              <img
-                class="img"
-                alt="Ellipse"
-                src="/static/img/ellipse-659.png"
-              />
+              <RouterLink :to="{ name: 'Profile' }"
+                ><img class="img" alt="Ellipse" :src="myprofile.profilePicture"
+              /></RouterLink>
+
+              <RouterLink :to="{ name: 'PartnerInfo' }">
+                <img
+                  class="ellipse"
+                  alt="Ellipse"
+                  :src="partnerInfo.profilePicture"
+              /></RouterLink>
+
               <div class="image">
                 <img
                   class="heart-suit"
@@ -66,7 +67,7 @@
         </div>
         <div class="overlap-wrapper">
           <div class="div-wrapper">
-            <div class="text-wrapper-3">D+365</div>
+            <div class="text-wrapper-3">D+{{ coupleDday }}</div>
           </div>
         </div>
       </div>
@@ -75,11 +76,21 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-import { loginstate } from '@/utils/api/user';
+import { ref, onMounted } from 'vue';
+import { loginstate, partnerinfo, coupleDataGet } from '@/utils/api/user';
 import { useRouter } from 'vue-router';
+import { useMainDisplayStore } from '@/stores/maindisplay.js';
+import dayjs from 'dayjs';
 
 const router = useRouter();
+const myprofile = ref({});
+const partnerInfo = ref({});
+const coupleInfo = ref({});
+const mainDisplayStore = useMainDisplayStore();
+
+const today = dayjs();
+const startDay = dayjs(coupleInfo.value.startDay);
+const coupleDday = today.diff(startDay, 'day');
 
 onMounted(() => {
   loginstate(
@@ -88,13 +99,32 @@ onMounted(() => {
         //     홈 실행시 로그인 여부를 체크해서 안되있으면 로그인 화면으로 팅궈냅니다
         //     '롱디에 로그인 되어 있지 않음' <<< 요거 문구 수정하면안됩니다 문구에 반응하는거임
         console.log('로그인 안되어있다.');
+        mainDisplayStore.logOutPage = true;
+        // 로그아웃 되어)
         router.push({ name: 'Login' });
       } else {
-        console.log('로그인 되어있다', success.data);
+        console.log('롱디에 로그인 되어있다', success.data);
+        myprofile.value = success.data;
       }
     },
     error => {
       console.log('error') + error;
+    },
+  );
+  partnerinfo(
+    data => {
+      partnerInfo.value = data.data;
+    },
+    error => {
+      console.log('Partner Info 가져오기 안됨', error);
+    },
+  );
+  coupleDataGet(
+    data => {
+      coupleInfo.value = data.data;
+    },
+    error => {
+      console.log('Couple Info 가져오기 안됨', error);
     },
   );
 });
@@ -384,11 +414,3 @@ onMounted(() => {
   width: 182px;
 }
 </style>
-
-<!-- <template>
-  <div>일단 이게 홈화면 대체</div>
-</template>
-
-<script setup></script>
-
-<style scoped></style> -->

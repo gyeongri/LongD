@@ -1,8 +1,8 @@
 <template>
   <div v-if="viduStore.publisher">
-    <video ref="videoElement" autoplay></video>
-    <input type="color" v-model="selectedColor" />
-    <canvas
+    <video ref="videoElement" autoplay class="rounded-lg"></video>
+    <!-- <input type="color" v-model="selectedColor" /> -->
+    <!-- <canvas
       ref="canvas"
       class="canvas"
       width="640"
@@ -10,15 +10,12 @@
       @mousedown="startDrawing"
       @mouseup="stopDrawing"
       @mousemove="draw"
-    ></canvas>
+    ></canvas> -->
   </div>
   <!-- <button @click="check">여기 이제 이거 필요없음 </button> -->
   <br />
-  <button @click="viduStore.startRecording">녹화</button>
+
   <br />
-  <button @click="viduStore.stopRecording">중단</button>
-  <br />
-  <button @click="enterPiPMode">pip변신</button>
 </template>
 
 <script setup>

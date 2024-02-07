@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card card-compact w-96 bg-base-100 shadow-xl relative"
+    class="card card-compact w-50 bg-base-100 shadow-xl relative"
     style="height: 300px"
   >
     <figure class="w-full h-full relative">
@@ -14,6 +14,7 @@
           :checked="checked"
           v-if="deleteActive"
           @click.stop="toggleCheckbox"
+          :value="id"
         />
       </div>
     </figure>
@@ -25,6 +26,8 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+
+const emit = defineEmits(['checkedEvent']);
 
 const props = defineProps({
   id: {
@@ -42,6 +45,7 @@ const checked = ref(false);
 
 const toggleCheckbox = () => {
   checked.value = !checked.value;
+  emit('checkedEvent', { id: props.id, checked: checked.value });
 };
 
 // deleteActive의 변경을 감시하여 checked를 false로 설정
