@@ -58,7 +58,7 @@ pipeline {
                 sh 'ls -al'
                 dir("${DIRECTORY_NAME1}") {
                     sh 'ls -al'
-                    sh 'chmod +x ./gradlew --no-daemon'
+                    sh 'chmod +x ./gradlew'
                     sh './gradlew build'
                     sh "docker build --no-cache -t ${DOCKER_IMAGE_NAME_BE} -f ${PROJECT_PATH}/longD-BE/Dockerfile ${PROJECT_PATH}/longD-BE"
                 }
