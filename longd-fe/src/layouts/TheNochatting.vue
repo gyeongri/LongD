@@ -1,7 +1,5 @@
 <template>
-  <main>
-    <RouterView></RouterView>
-  </main>
+  <div class="h-[864px]">Nochatting</div>
 </template>
 
 <script setup></script>

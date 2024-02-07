@@ -15,7 +15,7 @@ import { ref } from 'vue';
 const route = useRoute();
 const router = useRouter();
 const id = route.params.id;
-// const folderName = route.params.folderName;
+const folderName = route.params.folderName;
 
 // 현재 item 조회
 const item = ref([]);
@@ -32,6 +32,8 @@ const fetchAlbum = () => {
 
 fetchAlbum();
 
+// 뒤로가기 버튼
+// 만약에 안되면 folderName부터 의심할 것!!
 const goList = () => {
   router.push({
     name: 'GalleryList',

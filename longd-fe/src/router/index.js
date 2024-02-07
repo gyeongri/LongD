@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
 import ProfileView from '@/views/main/ProfileView.vue';
-import ProfileCorrectionView from '@/views/main/ProfileCorrectionView.vue';
-import ProfilePartnerView from '@/views/main/ProfilePartnerView.vue';
 import GalleryListView from '@/views/gallery/GalleryListView.vue';
 import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
 import CalendarView from '@/views/calendar/CalendarView.vue';
@@ -14,7 +12,7 @@ import LoginSignUpView from '@/views/main/LoginSignUpView.vue';
 import RequiredInfoView from '@/views/main/RequiredInfoView.vue';
 import ConnectCodeView from '@/views/main/ConnectCodeView.vue';
 import GalleryFolderView from '@/views/gallery/GalleryFolderView.vue';
-import ChatMainView from '@/views/chat/ChatMainView.vue';
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -22,16 +20,6 @@ const router = createRouter({
       path: '/',
       name: 'Home',
       component: HomeView,
-    },
-    {
-      path: '/requiredinfo',
-      name: 'RequiredInfo',
-      component: RequiredInfoView,
-    },
-    {
-      path: '/connectcode',
-      name: 'ConnectCode',
-      component: ConnectCodeView,
     },
     {
       path: '/about',
@@ -45,16 +33,6 @@ const router = createRouter({
       path: '/profile',
       name: 'Profile',
       component: ProfileView,
-    },
-    {
-      path: '/profile/correction',
-      name: 'profileCorrection',
-      component: ProfileCorrectionView,
-    },
-    {
-      path: '/profile/partner',
-      name: 'PartnerInfo',
-      component: ProfilePartnerView,
     },
     {
       path: '/gallery',
@@ -102,9 +80,14 @@ const router = createRouter({
       component: LoginSignUpView,
     },
     {
-      path: '/chat',
-      name: 'chat',
-      component: ChatMainView,
+      path: '/requiredinfo',
+      name: 'RequiredInfo',
+      component: RequiredInfoView,
+    },
+    {
+      path: '/connectcode',
+      name: 'ConnectCode',
+      component: ConnectCodeView,
     },
   ],
 });

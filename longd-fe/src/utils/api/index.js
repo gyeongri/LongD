@@ -32,7 +32,6 @@ const api3 = axios.create({
   },
 });
 
-//오픈비듀스프링과 통신용
 const viduapi = axios.create({
   baseURL: 'https://localhost:5000/recording-java/api',
   headers: {
@@ -40,9 +39,7 @@ const viduapi = axios.create({
     Authorization: 'Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU',
   },
 });
-
-//스톰프스프링과 통신용
 const stompApi = axios.create({
   baseURL: 'http://localhost:8080',
-})
-export { api, api2, api3, viduapi,stompApi };
+});
+export { api, api2, api3, viduapi, stompApi };
