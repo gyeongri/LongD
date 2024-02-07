@@ -1,5 +1,6 @@
 <template>
   <!-- 로그인이 되어있는 상태면 바로 홈으로 이동하게 하기!!!!!!!!!! -->
+
   <div class="isolate bg-white px-6 py-15 sm:py-15 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -43,7 +44,6 @@
               autocomplete="nickname"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-
             <!-- <input type="text" name="nickname" id="nickname" autocomplete="nickname" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
@@ -148,6 +148,7 @@
             name="addressNation"
             class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
           > -->
+
             <option selected disabled>나라를 골라주세요</option>
             <option value="한국">한국</option>
             <option value="영국">영국</option>
@@ -228,9 +229,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-
 import { ChevronDownIcon } from '@heroicons/vue/20/solid';
-
 import { BaseInfo, sendinfo } from '@/utils/api/user';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
@@ -294,6 +293,7 @@ const send = () => {
           //   Info_state.value.birth,
           //   Info_state.value.code,
           // );
+
           console.log('sendinfo 오류 : ' + error);
         },
       );

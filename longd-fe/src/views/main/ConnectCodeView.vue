@@ -122,7 +122,6 @@ const choiceDate = async () => {
   }
   // 날짜 입력된 후에 가능하도록 하기!
   // 로그인이 되어있을테니까 바로 로그인 되도록 하고 홈으로 옮길게요!
-
   router.push({ name: 'Home' });
 };
 </script>

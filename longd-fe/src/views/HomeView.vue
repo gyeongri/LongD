@@ -50,14 +50,12 @@
                   alt="Ellipse"
                   src="/static/img/ellipse-659.png"
               /></RouterLink>
-
               <RouterLink :to="{ name: 'PartnerInfo' }">
                 <img
                   class="ellipse"
                   alt="Ellipse"
                   src="/static/img/ellipse-658.png"
               /></RouterLink>
-
               <div class="image">
                 <img
                   class="heart-suit"

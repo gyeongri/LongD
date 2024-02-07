@@ -26,6 +26,7 @@ import {
   faVideoSlash,
   faVolumeHigh,
   faRecordVinyl,
+  faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -42,6 +43,10 @@ library.add(
   faVideo,
   faVideoSlash,
   faRecordVinyl,
+<<<<<<< HEAD
+=======
+  faArrowLeft,
+>>>>>>> hyunjae
 );
 
 app.use(createPinia());
