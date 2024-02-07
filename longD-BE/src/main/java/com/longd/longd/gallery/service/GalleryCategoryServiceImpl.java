@@ -10,9 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -25,16 +23,19 @@ public class GalleryCategoryServiceImpl implements GalleryCategoryService{
     GalleryCategoryRepository galleryCategoryRepository;
 
     @Override
-    public List<String> getGalleryCategory(int coupleListId) {
+    public List<Map<String, Object>> getGalleryCategory(int coupleListId) {
         Optional<User> user = userService.userState();
         log.info(" 갤러리 카테고리 전체 조회 진행");
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인
         //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
         if( ( user != null && user.get().getCoupleListId() == coupleListId ) || coupleListId == 1 ) {
             List<GalleryCategory> list = galleryCategoryRepository.findByCoupleList_Id(coupleListId);
-            List<String> tmp = new ArrayList<>();
+            List<Map<String, Object>> tmp = new ArrayList<>();
             for(int i=0; i < list.size(); i++) {
-                tmp.add(list.get(i).getCategory());
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", list.get(i).getId());
+                map.put("name", list.get(i).getCategory());
+                tmp.add(map);
             }
             return tmp;
         } else {

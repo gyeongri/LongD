@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -21,7 +22,7 @@ public class GalleryCategoryController {
     @GetMapping("/getList/{coupleListId}")
     public ResponseEntity<?> getGalleryCategoryList(@PathVariable int coupleListId) {
         try {
-            List<String> body = galleryCategoryService.getGalleryCategory(coupleListId);
+            List<Map<String, Object>> body = galleryCategoryService.getGalleryCategory(coupleListId);
             return ResponseEntity.status(200).body(body);
         } catch (Exception e) {
             log.error(e.toString());

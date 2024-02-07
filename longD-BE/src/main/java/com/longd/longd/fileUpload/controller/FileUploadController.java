@@ -13,13 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/fileUpload")
 public class FileUploadController {
 
     @Autowired
     FileUploadService fileUploadService;
 
-    @PostMapping(value = "/test", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> postImage (@RequestParam("file") MultipartFile file) {
         // 파일 이름 출력 (예제에서는 콘솔에 출력)
         System.out.println("Received file: " + file.getOriginalFilename());
@@ -29,9 +29,10 @@ public class FileUploadController {
         } catch (IOException e) {
             System.out.println(e.toString());
         }
+        if(tmp.equals("")) return ResponseEntity.status(503).body("Fail");
 
         // 성공적인 응답
-        return ResponseEntity.ok("File uploaded successfully " + tmp);
+        return ResponseEntity.ok(tmp);
     }
 
 }
