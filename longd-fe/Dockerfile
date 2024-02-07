@@ -8,7 +8,8 @@ WORKDIR /app
 # nginx 파일 위치를 변수로 설정
 #ARG NGINX_FILE=
 
-
+# nginx 설정파일
+ADD /home/ubuntu/conf /etc/nginx/conf
 # 소스 코드 복사
 COPY . .
 
