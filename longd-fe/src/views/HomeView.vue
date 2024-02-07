@@ -1,48 +1,78 @@
 <template>
+  <!-- 아이폰에 보이는 것처럼? -->
+  <!-- <div class="mockup-phone">
+    <div class="camera"></div>
+    <div class="display">
+      <div class="artboard artboard-demo phone-5">
+        <div class="overlap-wrapper">
+          <div class="div-wrapper">
+            <div class="text-wrapper-3">D+ {{ coupleDday }}</div>
+          </div>
+        </div>
+
+        <div class="group-2">
+          <RouterLink :to="{ name: 'Profile' }"
+            ><img
+              class="myProfile"
+              alt="내 프로필"
+              :src="myprofile.profilePicture"
+          /></RouterLink>
+
+          <RouterLink :to="{ name: 'PartnerInfo' }">
+            <img
+              class="partnerProfile"
+              alt="상대 프로필"
+              :src="partnerInfo.profilePicture"
+          /></RouterLink>
+
+          <div class="image">
+            <img
+              class="heart-suit"
+              alt="Heart suit"
+              src="/static/img/heart-suit.png"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- 네모모양 -->
+  <!-- <div class="artboard artboard-horizontal phone-1">
+    <div class="overlap-wrapper">
+      <div class="div-wrapper">
+        <div class="text-wrapper-3">D+ {{ coupleDday }}</div>
+      </div>
+    </div>
+
+    <div class="group-2">
+      <RouterLink :to="{ name: 'Profile' }"
+        ><img class="myProfile" alt="내 프로필" :src="myprofile.profilePicture"
+      /></RouterLink>
+
+      <RouterLink :to="{ name: 'PartnerInfo' }">
+        <img
+          class="partnerProfile"
+          alt="상대 프로필"
+          :src="partnerInfo.profilePicture"
+      /></RouterLink>
+
+      <div class="image">
+        <img
+          class="heart-suit"
+          alt="Heart suit"
+          src="/static/img/heart-suit.png"
+        />
+      </div>
+    </div>
+  </div> -->
+
+  <!-- 기존 화면 -->
   <div class="box">
     <div class="group">
       <div class="overlap">
         <div class="view">
           <div class="overlap-group">
-            <div class="overlap-group-wrapper">
-              <div class="div">
-                <div class="rectangle" />
-                <div class="overlap-2">
-                  <div class="rectangle-2" />
-                  <div class="text-wrapper">S</div>
-                </div>
-                <div class="rectangle-3" />
-                <div class="overlap-3">
-                  <div class="rectangle-4" />
-                  <div class="text-wrapper-2">M</div>
-                </div>
-                <div class="rectangle-5" />
-                <div class="overlap-4">
-                  <div class="rectangle-2" />
-                  <div class="text-wrapper">T</div>
-                </div>
-                <div class="rectangle-6" />
-                <div class="overlap-5">
-                  <div class="rectangle-2" />
-                  <div class="text-wrapper-2">T</div>
-                </div>
-                <div class="rectangle-7" />
-                <div class="overlap-6">
-                  <div class="rectangle-2" />
-                  <div class="text-wrapper-2">F</div>
-                </div>
-                <div class="rectangle-8" />
-                <div class="overlap-7">
-                  <div class="rectangle-2" />
-                  <div class="text-wrapper-2">S</div>
-                </div>
-                <div class="rectangle-9" />
-                <div class="overlap-8">
-                  <div class="rectangle-2" />
-                  <div class="text-wrapper-2">W</div>
-                </div>
-              </div>
-            </div>
             <div class="group-2">
               <RouterLink :to="{ name: 'Profile' }"
                 ><img
@@ -70,7 +100,7 @@
         </div>
         <div class="overlap-wrapper">
           <div class="div-wrapper">
-            <div class="text-wrapper-3">D+{{ coupleDday }}</div>
+            <div class="text-wrapper-3">D+ {{ coupleDday }}</div>
           </div>
         </div>
       </div>
@@ -99,11 +129,8 @@ onMounted(() => {
   loginstate(
     success => {
       if (success.data === '롱디에 로그인 되어 있지 않음') {
-        //     홈 실행시 로그인 여부를 체크해서 안되있으면 로그인 화면으로 팅궈냅니다
-        //     '롱디에 로그인 되어 있지 않음' <<< 요거 문구 수정하면안됩니다 문구에 반응하는거임
         console.log('로그인 안되어있다.');
         mainDisplayStore.logOutPage = true;
-        // 로그아웃 되어)
         router.push({ name: 'Login' });
       } else {
         console.log('롱디에 로그인 되어있다', success.data);
@@ -134,6 +161,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* .artboard {
+  border: 1px, solid, black;
+} */
+
 .box {
   height: 740px;
   width: 612px;
@@ -163,18 +194,10 @@ onMounted(() => {
 .box .overlap-group {
   background-image: url(/static/img/frame.png);
   background-size: 100% 100%;
-  height: 728px;
+  height: 650px;
   left: -4px;
   position: relative;
   width: 620px;
-}
-
-.box .overlap-group-wrapper {
-  height: 94px;
-  left: 33px;
-  position: absolute;
-  top: 607px;
-  width: 568px;
 }
 
 .box .div {
