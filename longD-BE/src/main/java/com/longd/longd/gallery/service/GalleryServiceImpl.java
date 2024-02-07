@@ -61,7 +61,9 @@ public class GalleryServiceImpl implements GalleryService {
                     listResult.add(list.get((_page - 1) * _limit + i));
                 }
             }
-            listResult.get(0).setSize(list.size());
+            if( list.size() > 0 ) {
+                listResult.get(0).setSize(list.size());
+            }
             return listResult;
         } else {
             return null;
@@ -91,7 +93,9 @@ public class GalleryServiceImpl implements GalleryService {
                     listResult.add(list.get((_page - 1) * _limit + i));
                 }
             }
-            listResult.get(0).setSize(list.size());
+            if( list.size() > 0 ) {
+                listResult.get(0).setSize(list.size());
+            }
             return listResult;
         } else {
             return null;
