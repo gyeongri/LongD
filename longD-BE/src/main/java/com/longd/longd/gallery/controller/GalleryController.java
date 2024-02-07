@@ -1,6 +1,7 @@
 package com.longd.longd.gallery.controller;
 
 import com.longd.longd.coupleList.db.entity.CoupleList;
+import com.longd.longd.gallery.db.dto.GallerySaveDto;
 import com.longd.longd.gallery.db.entity.Gallery;
 import com.longd.longd.gallery.service.GalleryService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/gallery")
+@RequestMapping("/api/gallery")
 public class GalleryController {
 
     @Autowired
@@ -46,11 +47,10 @@ public class GalleryController {
     }
 
     @PostMapping("/add/{coupleListId}")
-    public ResponseEntity<?> setGalleryInfo(@RequestBody Gallery gallery, @PathVariable int coupleListId) {
+    public ResponseEntity<?> setGalleryInfo(@RequestBody GallerySaveDto gallerySaveDto, @PathVariable int coupleListId) {
         try {
-            gallery.setCoupleList(new CoupleList());
-            gallery.getCoupleList().setId(coupleListId);
-            boolean tmp = galleryService.setGallery(gallery);
+            gallerySaveDto.setCoupleListId(coupleListId);
+            boolean tmp = galleryService.setGallery(gallerySaveDto);
             return ResponseEntity.status(200).body(tmp);
         } catch (Exception e) {
             log.error(e.toString());

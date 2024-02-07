@@ -1,7 +1,10 @@
 package com.longd.longd.gallery.service;
 
 
+import com.longd.longd.coupleList.db.entity.CoupleList;
+import com.longd.longd.gallery.db.dto.GallerySaveDto;
 import com.longd.longd.gallery.db.entity.Gallery;
+import com.longd.longd.gallery.db.entity.GalleryCategory;
 import com.longd.longd.gallery.db.repository.GalleryRepository;
 import com.longd.longd.user.db.entity.User;
 import com.longd.longd.user.service.UserService;
@@ -102,17 +105,27 @@ public class GalleryServiceImpl implements GalleryService {
     }
 
     @Override
-    public boolean setGallery(Gallery gallery) {
+    public boolean setGallery(GallerySaveDto gallerySaveDto) {
         Optional<User> user = userService.userState();
-        if( gallery.getId() == null ) {
+        if( gallerySaveDto.getId() == null ) {
             log.info("등록 진행");
         } else {
             log.info("수정 진행");
         }
-        log.info(gallery.toString());
+        log.info(gallerySaveDto.toString());
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인 user.get().getCoupleListId() == gallery.getCoupleListId()
         //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
-        if( ( user != null && user.get().getCoupleListId() == gallery.getCoupleList().getId() ) || gallery.getCoupleList().getId() == 1 ) {
+        if( ( user != null && user.get().getCoupleListId() == gallerySaveDto.getCoupleListId() ) || gallerySaveDto.getCoupleListId() == 1 ) {
+            //생성
+            Gallery gallery = new Gallery();
+            gallery.setCoupleList(new CoupleList());
+            gallery.setGalleryCategory(new GalleryCategory());
+
+            //세팅
+            gallery.setId(gallerySaveDto.getId());  //등록의 경우 null이 세팅됨
+            gallery.getCoupleList().setId(gallerySaveDto.getCoupleListId());
+            gallery.getGalleryCategory().setId(gallerySaveDto.getCategoryId());
+            gallery.setPathUrl(gallerySaveDto.getPathUrl());
             galleryRepository.save(gallery);
             return true;
         } else {
