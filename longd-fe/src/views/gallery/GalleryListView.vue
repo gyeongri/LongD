@@ -12,7 +12,6 @@
       >
       </GalleryFilter>
 
-
       <div class="flex items-center space-x-4">
         <button
           v-if="deleteActive"
@@ -137,7 +136,6 @@ const params = ref({
   _order: 'desc', // 내림차순
   // id_like: '', // 해당 요소 검색 기능
 });
-
 
 // 조회 관련 파라미터(폴더별)
 const params2 = ref({
@@ -332,11 +330,6 @@ const uploadImages = async () => {
   } catch (error) {
     console.error('Error uploading images:', error);
   }
-};
-
-// 취소했을 때도 미리보기 남아있는 것을 방지하기 위함
-const cancelImages = () => {
-  imagePreviews.value = [];
 };
 
 // folder화면으로 가기

@@ -38,11 +38,7 @@ const viduapi = axios.create({
     Authorization: 'Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU',
   },
 });
-<<<<<<< HEAD
-export { api, api2, api3, viduapi };
-=======
 const stompApi = axios.create({
   baseURL: 'http://localhost:8080',
 });
 export { api, api2, api3, viduapi, stompApi };
->>>>>>> hyunjae

@@ -43,10 +43,7 @@ library.add(
   faVideo,
   faVideoSlash,
   faRecordVinyl,
-<<<<<<< HEAD
-=======
   faArrowLeft,
->>>>>>> hyunjae
 );
 
 app.use(createPinia());
