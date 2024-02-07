@@ -3,17 +3,17 @@
     <div class="flex items-center space-x-4">
       <AppDropdown>
         <template v-slot>
-          <li @click="folderCreate"><a>폴더 추가</a></li>
+          <li @click="folderCreate"><a>폴더 생성</a></li>
           <li @click="folderDelete"><a>폴더 삭제</a></li>
         </template>
       </AppDropdown>
     </div>
   </div>
 
-  <GalleryFolderGrid :items="folders">
+  <GalleryFolderGrid :items="folders" @totalView="totalView">
     <template v-slot="{ item }">
-      <p :id="item.id" @click="goList(item.folderName)">
-        {{ item.folderName }}
+      <p :id="item.id" @click="goList(item)">
+        {{ item }}
       </p>
     </template>
   </GalleryFolderGrid>
@@ -24,16 +24,16 @@ import AppDropdown from '@/components/app/AppDropdown.vue';
 import GalleryFolderGrid from '@/components/gallery/GalleryFolderGrid.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { getFolders } from '@/utils/api/folders';
+import { getGalleryFolderName } from '@/utils/api/albums';
 import Swal from 'sweetalert2';
-import { createFolder } from '@/utils/api/folders';
+import { createFolder } from '@/utils/api/albums';
 
 const router = useRouter();
 
-const params = ref({
-  _sort: 'id', // 무엇을
-  _order: 'desc', // 내림차순
-});
+// const params = ref({
+//   _sort: 'id', // 무엇을
+//   _order: 'desc', // 내림차순
+// });
 
 // 폴더 생성
 const folderCreate = async () => {
@@ -48,8 +48,9 @@ const folderCreate = async () => {
     fetchFolders();
     try {
       console.log(title);
-      await createFolder({ folderName: title });
+      await createFolder({ category: title });
       // 새로고침 해야 추가되는 현상있음
+      // 조회 박으면 해결될 것
       router.push({ name: 'GalleryFolder' });
     } catch (error) {
       console.log(error);
@@ -59,14 +60,14 @@ const folderCreate = async () => {
 
 // 폴더 리스트
 const folders = ref([]);
-
+const coupleId = 1;
 // 폴더 리스트 가져오기
 const fetchFolders = async () => {
   try {
-    const { data } = await getFolders(params.value);
+    const { data } = await getGalleryFolderName(coupleId);
     folders.value = data;
     console.log('------------------');
-    console.log(data);
+    console.log(folders.value);
   } catch (err) {
     console.err(err);
   }
@@ -75,6 +76,15 @@ const fetchFolders = async () => {
 onMounted(() => {
   fetchFolders();
 });
+
+const totalView = () => {
+  router.push({
+    name: 'GalleryList',
+    params: {
+      folderName: '전체보기',
+    },
+  });
+};
 
 // 해당 폴더의 사진 리스트 보러가기
 const goList = folderName => {

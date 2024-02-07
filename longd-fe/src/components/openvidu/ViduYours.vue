@@ -1,6 +1,6 @@
 <template>
   <div>
-    <video ref="videoElement" autoplay></video>
+    <video class="rounded-lg" ref="videoElement" autoplay></video>
   </div>
 
   <button @click="enterPiPMode">pip변신</button>

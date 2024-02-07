@@ -23,7 +23,7 @@ const api2 = axios.create({
   },
 });
 
-// 임시(가상의) DB 용(albums)
+// 임시(가상의) DB 용(folders)
 const api3 = axios.create({
   baseURL: 'http://localhost:5000/folders', // API의 기본 URL을 여기에 설정합니다.
   headers: {

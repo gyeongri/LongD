@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card card-compact w-96 bg-base-100 shadow-xl relative"
+    class="card card-compact w-50 bg-base-100 shadow-xl relative"
     style="height: 300px"
   >
     <figure class="w-full h-full relative">
