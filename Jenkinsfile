@@ -58,9 +58,9 @@ pipeline {
                 sh 'ls -al'
                 dir("${DIRECTORY_NAME1}") {
                     sh 'ls -al'
-                    sh 'chmod +x ./gradlew'
+                    sh 'chmod +x ./gradlew --no-daemon'
                     sh './gradlew build'
-                    sh "docker build --no-cache -t ${DOCKER_CONTAINER_NAME_BE} -f ${PROJECT_PATH}/longD-BE/Dockerfile ${PROJECT_PATH}/longD-BE"
+                    sh "docker build --no-cache -t ${DOCKER_IMAGE_NAME_BE} -f ${PROJECT_PATH}/longD-BE/Dockerfile ${PROJECT_PATH}/longD-BE"
                 }
                 echo 'Build image...'
             }
@@ -68,10 +68,10 @@ pipeline {
 
 
          stage('Build FE image'){
-             steps {
+             steps {s
                  dir("${DIRECTORY_NAME2}"){
                       sh "ls"
-                      sh "docker build -t ${DOCKER_CONTAINER_NAME_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
+                      sh "docker build -t ${DOCKER_IMAGE_NAME_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
 
                  }
              }
