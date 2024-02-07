@@ -116,7 +116,7 @@ pipeline {
         stage('Run New FE image') {
             steps {
                 //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                sh "docker run --name ${DOCKER_CONTAINER_NAME_FE} -d -p 3001:3001 ${DOCKER_IMAGE_NAME_FE} -v /usr:/home/ubuntu/nginx longd-frontend"
+                sh "docker run --name ${DOCKER_CONTAINER_NAME_FE} -d -p 3001:3001 ${DOCKER_IMAGE_NAME_FE} -v /home/ubuntu/nginx:/usr longd-frontend"
 //                 sh "docker cp longd-frontend:/usr/share/nginx /home/ubuntu/nginx/conf"
                 echo 'Run New FE image'
             }

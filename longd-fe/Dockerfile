@@ -25,7 +25,7 @@ RUN npm run build
 FROM nginx:latest
 
 # Nginx 설정 파일 복사
-# COPY /var/jenkins_home/workspace/LongD-develop/longd-fe/fe-nginx.conf /etc/nginx/nginx.conf
+#COPY /home/ubuntu/conf/fe-nginx.conf /etc/nginx/nginx.conf
 
 
 
