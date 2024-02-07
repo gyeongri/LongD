@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/fileUpload")
 public class FileUploadController {
@@ -38,6 +37,5 @@ public class FileUploadController {
         // 성공적인 응답
         return ResponseEntity.ok(tmp);
     }
-
 
 }
