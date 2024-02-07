@@ -27,7 +27,28 @@
           {{ place.address }}
           <!-- 장소 상세 정보 확인 버튼 -->
           <button @click="showDetailModal(place)">자세히 보기</button>
-          <button @click="planStore.addHopeList(place)">❤</button>
+          
+          <!-- 누르면 아래가 보이는 형태로 만드는 게 더 좋지 않을까? -->
+          <div class="collapse bg-base-200">
+            <input type="checkbox" /> 
+            <div class="collapse-title text-xl font-medium">
+              <strong>{{ place.name }}</strong><br/>
+              {{ place.address }}
+              <button @click="planStore.addHopeList(place)">❤</button>
+              <!-- 여기는 좋아요버튼 한 거 만들기 -->
+            </div>
+          <div class="collapse-content"> 
+            <!-- 상세내용 넣기 이거는 수정해야해!-->
+            <div v-if="selectedPlace">
+              <p>주소: {{ selectedPlace.address }}</p>
+              <p>위도: {{ selectedPlace.latitude }}</p>
+              <p>경도: {{ selectedPlace.longitude }}</p>
+            </div>
+          </div>
+        </div>
+
+
+
         </li>
       </ul>
     </div>
@@ -49,7 +70,7 @@ import { onMounted, ref } from 'vue';
 import { usePlanStore } from '@/stores/plan.js';
 const planStore = usePlanStore();
 // 기본 좌표 설정
-const defaultCenter = { lat: 36.8971999, lng: 127.5349361 };
+const defaultCenter = { lat: 36.10680122096389, lng: 128.4178078082704 };
 const map = ref(null);
 const where = ref('');
 const searchResults = ref([]);
@@ -324,7 +345,7 @@ onMounted(async () => {
 #results {
   margin-top: 20px;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid black;
 }
 
 div[aria-hidden='true'] {

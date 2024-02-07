@@ -46,14 +46,14 @@
             <div class="group-2">
               <RouterLink :to="{ name: 'Profile' }"
                 ><img
-                  class="myProfile"
+                  class="myProfile rounded-full"
                   alt="내 프로필"
                   :src="myprofile.profilePicture"
               /></RouterLink>
 
               <RouterLink :to="{ name: 'PartnerInfo' }">
                 <img
-                  class="partnerProfile"
+                  class="partnerProfile rounded-full"
                   alt="상대 프로필"
                   :src="partnerInfo.profilePicture"
               /></RouterLink>

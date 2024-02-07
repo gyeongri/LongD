@@ -16,8 +16,11 @@
         ></label>
         <div class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
           <!-- Sidebar content here -->
-          <RouterLink :to="{ name: 'MapSearch' }">장소검색</RouterLink>
-          <RouterLink :to="{ name: 'MapPlan' }">일정짜기</RouterLink>
+          <div class="test">
+          <button class="btn btn-outline btn-error"><RouterLink :to="{ name: 'MapSearch' }">장소검색</RouterLink></button>
+          <button class="btn btn-outline btn-error"><RouterLink :to="{ name: 'MapPlan' }">일정짜기</RouterLink></button>
+          </div>
+          <RouterView></RouterView>
         </div>
       </div>
     </div>
@@ -27,7 +30,7 @@
 <script setup></script>
 
 <style scoped>
-.menu {
+.menu .test {
   display: flex;
 }
 </style>

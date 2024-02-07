@@ -89,22 +89,26 @@ const router = createRouter({
       path: '/map',
       name: 'Map',
       component: MapView,
+      children:[
+        {
+          path: 'search',
+          name: 'MapSearch',
+          component: MapSearch,
+        },
+        {
+          path: 'plan',
+          name: 'MapPlan',
+          component: MapPlan,
+        },
+      ]
+      // children 안 path에는 /를 사용하면 안된다 => 절대경로가 되어버려서!
+      // children 안에 children을 만들 수도 있다!
     },
     {
       path: '/testmap',
       name: 'TestMap',
       component: TestMapView,
-    },
-    {
-      path: '/map/search',
-      name: 'MapSearch',
-      component: MapSearch,
-    },
-    {
-      path: '/map/plan',
-      name: 'MapPlan',
-      component: MapPlan,
-    },
+    },   
     {
       path: '/plan/detail',
       name: 'PlanDetail',
