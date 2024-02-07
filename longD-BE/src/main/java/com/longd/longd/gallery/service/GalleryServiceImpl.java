@@ -1,5 +1,6 @@
 package com.longd.longd.gallery.service;
 
+
 import com.longd.longd.gallery.db.entity.Gallery;
 import com.longd.longd.gallery.db.repository.GalleryRepository;
 import com.longd.longd.user.db.entity.User;
@@ -26,19 +27,19 @@ public class GalleryServiceImpl implements GalleryService {
     GalleryRepository galleryRepository;
 
     @Override
-    public List<Gallery> getGalleryFolderList(int coupleListId, int _limit, int _page, String folderName, String _sort, String _order, String id_like) {
+    public List<Gallery> getGalleryCategoryName(int coupleListId, int _limit, int _page, String categoryName, String _sort, String _order, String id_like) {
         Optional<User> user = userService.userState();
-        log.info(" 갤러리 폴더명으로 전체 조회 진행");
+        log.info(" 갤러리 카테고리명으로 전체 조회 진행");
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인
         //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
-        log.info("폴더이름" + folderName);
+        log.info("카테고리" + categoryName);
         if( ( user != null && user.get().getCoupleListId() == coupleListId ) || coupleListId == 1 ) {
             Sort sort = null;
             if( _order != null) {
                 if (_order.equals("desc")) sort = Sort.by(Sort.Direction.DESC, _sort);
                 else if (_order.equals(("ASC"))) sort = Sort.by(Sort.Direction.ASC, _sort);
             }
-            List<Gallery> list = galleryRepository.findByCoupleList_IdAndFolderName(coupleListId, folderName, sort);
+            List<Gallery> list = galleryRepository.findByCoupleList_IdAndGalleryCategory_Category(coupleListId, categoryName, sort);
             List<Gallery> listResult = new ArrayList<>();
             if( list.size() < _limit*_page ) {
                 for (int i = 0; i < list.size()%_limit; i++) {

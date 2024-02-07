@@ -27,7 +27,10 @@ public class Gallery {
     @JoinColumn(name = "PLAN_ID")
     private Plan plan;
 
-    private String folderName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "GALLERY_CATEGORY_ID")
+    private GalleryCategory galleryCategory;
+
     private LocalDate createDate;
     private String place;
     private String tag;
@@ -35,7 +38,7 @@ public class Gallery {
     private String title;
     private String content;
     private LocalDateTime date;
-    private String category;
+
 
     @Transient
     private transient int size;

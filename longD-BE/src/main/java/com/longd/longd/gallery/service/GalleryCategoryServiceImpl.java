@@ -1,5 +1,6 @@
 package com.longd.longd.gallery.service;
 
+import com.longd.longd.coupleList.db.entity.CoupleList;
 import com.longd.longd.gallery.db.entity.Gallery;
 import com.longd.longd.gallery.db.entity.GalleryCategory;
 import com.longd.longd.gallery.db.repository.GalleryCategoryRepository;
@@ -9,8 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -23,13 +23,21 @@ public class GalleryCategoryServiceImpl implements GalleryCategoryService{
     GalleryCategoryRepository galleryCategoryRepository;
 
     @Override
-    public List<GalleryCategory> getGalleryCategory(int coupleListId) {
+    public List<Map<String, Object>> getGalleryCategory(int coupleListId) {
         Optional<User> user = userService.userState();
         log.info(" 갤러리 카테고리 전체 조회 진행");
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인
         //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
         if( ( user != null && user.get().getCoupleListId() == coupleListId ) || coupleListId == 1 ) {
-            return galleryCategoryRepository.findByCoupleList_Id(coupleListId);
+            List<GalleryCategory> list = galleryCategoryRepository.findByCoupleList_Id(coupleListId);
+            List<Map<String, Object>> tmp = new ArrayList<>();
+            for(int i=0; i < list.size(); i++) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("name", list.get(i).getCategory());
+                map.put("id", list.get(i).getId());
+                tmp.add(map);
+            }
+            return tmp;
         } else {
             return null;
         }
@@ -44,6 +52,8 @@ public class GalleryCategoryServiceImpl implements GalleryCategoryService{
             log.info("수정 진행");
         }
         log.info(galleryCategory.toString());
+        galleryCategory.setCoupleList(new CoupleList());
+        galleryCategory.getCoupleList().setId(1);
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인 user.get().getCoupleListId() == gallery.getCoupleListId()
         //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
         if( ( user != null && user.get().getCoupleListId() == galleryCategory.getCoupleList().getId() ) || galleryCategory.getCoupleList().getId() == 1 ) {
