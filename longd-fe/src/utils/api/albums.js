@@ -1,8 +1,8 @@
 import { api } from '.';
 
 // 현재 커플의 갤러리 폴더 이름 리스트를 DB에서 불러옵니다.
-export function getGalleryFolderName(coupleId) {
-  return api.get(`/galleryCategory/getList/${coupleId}`);
+export function getGalleryFolderName(coupleId, params) {
+  return api.get(`/gallery/getList/${coupleId}`, { params });
 }
 
 // 현재 커플의 갤러리 전체를 DB에서 불러옵니다.
