@@ -39,11 +39,11 @@
             </div>
           <div class="collapse-content"> 
             <!-- 상세내용 넣기 이거는 수정해야해!-->
-            <div v-if="selectedPlace">
-              <p>주소: {{ selectedPlace.address }}</p>
-              <p>위도: {{ selectedPlace.latitude }}</p>
-              <p>경도: {{ selectedPlace.longitude }}</p>
-            </div>
+            <!-- <div v-if="place"> -->
+              <p>주소: {{ place.address }}</p>
+              <p>위도: {{ place.geometry.location.lat() }}</p>
+              <p>경도: {{ place.geometry.location.lng() }}</p>
+            <!-- </div> -->
           </div>
         </div>
 
@@ -310,7 +310,7 @@ const handleResultClick = place => {
   // 선택한 장소 정보 설정
   selectedPlace.value = {
     name: place.name,
-    address: place.formatted_address,
+    address: place.address,
     latitude: place.geometry.location.lat(),
     longitude: place.geometry.location.lng(),
   };
