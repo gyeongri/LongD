@@ -45,13 +45,16 @@
             </div>
             <div class="group-2">
               <RouterLink :to="{ name: 'Profile' }"
-                ><img class="img" alt="Ellipse" :src="myprofile.profilePicture"
+                ><img
+                  class="myProfile"
+                  alt="내 프로필"
+                  :src="myprofile.profilePicture"
               /></RouterLink>
 
               <RouterLink :to="{ name: 'PartnerInfo' }">
                 <img
-                  class="ellipse"
-                  alt="Ellipse"
+                  class="partnerProfile"
+                  alt="상대 프로필"
                   :src="partnerInfo.profilePicture"
               /></RouterLink>
 
@@ -77,7 +80,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { loginstate } from '@/utils/api/user';
+import { loginstate, partnerinfo, coupleDataGet } from '@/utils/api/user';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import dayjs from 'dayjs';
@@ -358,7 +361,7 @@ onMounted(() => {
   width: 216px;
 }
 
-.box .ellipse {
+.box .partnerProfile {
   height: 80px;
   left: 136px;
   position: absolute;
@@ -374,7 +377,7 @@ onMounted(() => {
   top: 20px;
   width: 42px;
 }
-.box .img {
+.box .myProfile {
   height: 80px;
   left: 0;
   position: absolute;
