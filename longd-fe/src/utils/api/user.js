@@ -16,7 +16,7 @@ function sendinfo(param, success, fail) {
 }
 
 function partnerinfo(success, fail) {
-  userApi.get(`/couplelist/partner/get`).then(success).catch(fail);
+  userApi.get(`/couplelist/partnerInfo/get`).then(success).catch(fail);
 }
 
 function BaseInfo(success, fail) {

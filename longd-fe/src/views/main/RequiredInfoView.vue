@@ -243,6 +243,8 @@ const Info_state = ref({});
 const codeCheck = ref();
 
 const fileUpload = event => {
+  console.log(event.target.files[0]);
+  console.log(event.target.files);
   uploadImage(
     event.target.files[0],
     success => {

@@ -1,18 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
-import ProfileView from '@/views/main/ProfileView.vue';
-import ProfileCorrectionView from '@/views/main/ProfileCorrectionView.vue';
-import ProfilePartnerView from '@/views/main/ProfilePartnerView.vue';
+import ProfileView from '@/components/main/ProfileView.vue';
+import ProfileCorrectionView from '@/components/main/ProfileCorrectionView.vue';
+import ProfilePartnerView from '@/components/main/ProfilePartnerView.vue';
 import GalleryListView from '@/views/gallery/GalleryListView.vue';
 import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
 import CalendarView from '@/views/calendar/CalendarView.vue';
 import ViduMainView from '@/views/openvidu/ViduMainView.vue';
 import TestMapView from '@/views/map/TestMapView.vue';
 import MapView from '@/views/map/MapView.vue';
+import MapSearch from '@/components/plan/MapSearch.vue';
+import MapPlan from '@/components/plan/MapPlan.vue';
+import PlanList from '@/components/plan/PlanList.vue';
+import PlanDetail from '@/components/plan/PlanDetail.vue';
 import ClosedView from '@/views/main/ClosedView.vue';
 import LoginSignUpView from '@/views/main/LoginSignUpView.vue';
 import RequiredInfoView from '@/views/main/RequiredInfoView.vue';
-import ConnectCodeView from '@/views/main/ConnectCodeView.vue';
+import ConnectCodeView from '@/components/main/ConnectCodeView.vue';
 import GalleryFolderView from '@/views/gallery/GalleryFolderView.vue';
 
 const router = createRouter({
@@ -90,6 +94,26 @@ const router = createRouter({
       path: '/testmap',
       name: 'TestMap',
       component: TestMapView,
+    },
+    {
+      path: '/map/search',
+      name: 'MapSearch',
+      component: MapSearch,
+    },
+    {
+      path: '/map/plan',
+      name: 'MapPlan',
+      component: MapPlan,
+    },
+    {
+      path: '/plan/detail',
+      name: 'PlanDetail',
+      component: PlanDetail,
+    },
+    {
+      path: '/plan/list',
+      name: 'PlanList',
+      component: PlanList,
     },
     {
       path: '/closed',

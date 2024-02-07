@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watchEffect } from 'vue';
 import { loginstate, partnerinfo, coupleDataGet } from '@/utils/api/user';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
@@ -91,9 +91,9 @@ const partnerInfo = ref({});
 const coupleInfo = ref({});
 const mainDisplayStore = useMainDisplayStore();
 
-const today = dayjs();
-const startDay = dayjs(coupleInfo.value.startDay);
-const coupleDday = today.diff(startDay, 'day');
+const today = ref(dayjs());
+const startDay = ref();
+const coupleDday = ref();
 
 onMounted(() => {
   loginstate(
@@ -125,11 +125,18 @@ onMounted(() => {
   coupleDataGet(
     data => {
       coupleInfo.value = data.data;
+      console.log(coupleInfo.value.startDay);
+      startDay.value = dayjs(coupleInfo.value?.startDay);
+      console.log(startDay.value);
     },
     error => {
       console.log('Couple Info 가져오기 안됨', error);
     },
   );
+});
+
+watchEffect(() => {
+  coupleDday.value = today.value.diff(startDay.value, 'day');
 });
 </script>
 
