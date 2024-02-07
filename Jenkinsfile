@@ -2,19 +2,18 @@ pipeline {
     agent any
     environment {
         DOCKER = 'sudo docker'
-
         // Dockerfile이 위치한 경로 
         DOCKERFILE_PATH = './Dockerfile'
-
-        // 생성할 Docker 이미지 이름 - BE
+        // 생성할 Docker 이미지 이름 - BE,FE
         DOCKER_IMAGE_NAME_BE = 'longd-back-image'
-
-        // 생성할 Docker 이미지 이름 - FE
         DOCKER_IMAGE_NAME_FE = 'longd-front-image'
+        // 생성할 Docker 컨테이너 이름 - BE,FE
+        DOCKER_CONTAINER_NAME_BE = 'longd-backend'
+        DOCKER_CONTAINER_NAME_FE = 'longd-backend'
+
 
         //BE 디렉터리명
         DIRECTORY_NAME1 = 'longD-BE'
-
       //FE 디렉터리명
         DIRECTORY_NAME2 = 'longd-fe'
 
@@ -61,7 +60,7 @@ pipeline {
                     sh 'ls -al'
                     sh 'chmod +x ./gradlew'
                     sh './gradlew build'
-                    sh "docker build -t ${DOCKER_IMAGE_NAME_BE} -f ${PROJECT_PATH}/longD-BE/Dockerfile ${PROJECT_PATH}/longD-BE"
+                    sh "docker build -t ${DOCKER_CONTAINER_NAME_BE} -f ${PROJECT_PATH}/longD-BE/Dockerfile ${PROJECT_PATH}/longD-BE"
                 }
                 echo 'Build image...'
             }
@@ -72,18 +71,18 @@ pipeline {
                  steps {
                      dir("${DIRECTORY_NAME2}"){
                           sh "ls"
-                          sh "docker build -t ${DOCKER_IMAGE_NAME_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
+                          sh "docker build -t ${DOCKER_CONTAINER_NAME_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
                      }
                  }
              }
 
-        //BE 이전 컨테이너 삭제? 이미지 삭제?
+        //BE - 이전 컨테이너 삭제
         stage('Remove Previous BE Container') {
             steps {
                 script {
                     try {
-                        sh "docker stop ${DOCKER_IMAGE_NAME_BE}"
-                        sh "docker rm ${DOCKER_IMAGE_NAME_BE}"
+                        sh "docker stop ${DOCKER_CONTAINER_NAME_BE}"
+                        sh "docker rm ${DOCKER_CONTAINER_NAME_BE}"
                     } catch (e) {
                         echo 'fail to stop and remove container'
                     }
@@ -91,13 +90,13 @@ pipeline {
             }
         }
 
-        //FE이전 컨테이너 삭제? 이미지 삭제?
+        //FE - 이전 컨테이너 삭제
         stage('Remove Previous FE Container') {
             steps {
                 script {
                     try {
-                        sh "docker stop ${DOCKER_IMAGE_NAME_FE}"
-                        sh "docker rm ${DOCKER_IMAGE_NAME_FE}"
+                        sh "docker stop ${DOCKER_CONTAINER_NAME_FE}"
+                        sh "docker rm ${DOCKER_CONTAINER_NAME_FE}"
                     } catch (e) {
                         echo 'fail to stop and remove container'
                     }
@@ -107,7 +106,7 @@ pipeline {
       //새 BE 컨테이너 실행
         stage('Run New BE image') {
             steps {
-                sh "docker run --name ${DOCKER_IMAGE_NAME_BE} -d -p 3000:3000 ${DOCKER_IMAGE_NAME_BE}"
+                sh "docker run --name ${DOCKER_CONTAINER_NAME_BE} -d -p 3000:3000 ${DOCKER_IMAGE_NAME_BE}"
                 echo 'Run New BE image'
             }
         }
@@ -115,7 +114,7 @@ pipeline {
       //새 FE 컨테이너 실행
         stage('Run New FE image') {
             steps {
-                sh "docker run --name ${DOCKER_IMAGE_NAME_FE} -d -p 3001:3001 ${DOCKER_IMAGE_NAME_FE}"
+                sh "docker run --name ${DOCKER_CONTAINER_NAME_FE} -d -p 3001:3001 ${DOCKER_IMAGE_NAME_FE}"
                 echo 'Run New FE image'
             }
         }
