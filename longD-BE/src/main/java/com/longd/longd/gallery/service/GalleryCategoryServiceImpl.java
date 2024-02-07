@@ -33,8 +33,8 @@ public class GalleryCategoryServiceImpl implements GalleryCategoryService{
             List<Map<String, Object>> tmp = new ArrayList<>();
             for(int i=0; i < list.size(); i++) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("id", list.get(i).getId());
                 map.put("name", list.get(i).getCategory());
+                map.put("id", list.get(i).getId());
                 tmp.add(map);
             }
             return tmp;
