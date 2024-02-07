@@ -27,7 +27,7 @@ RUN npm run build
 FROM nginx:latest
 
 # Nginx 설정 파일 복사
-COPY /home/ubuntu/nginx /etc/nginx/conf
+COPY /home/ubuntu/nginx /usr/share/nginx
 
 
 
