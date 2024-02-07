@@ -18,7 +18,7 @@ pipeline {
         DIRECTORY_NAME2 = 'longd-fe'
 
         PROJECT_PATH = '/var/jenkins_home/workspace/LongD-develop'
-       
+
        //현재 위치
        // currentDir = pwd()
 
@@ -72,6 +72,7 @@ pipeline {
                      dir("${DIRECTORY_NAME2}"){
                           sh "ls"
                           sh "docker build -t ${DOCKER_CONTAINER_NAME_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
+//                           sh "docker run -v /ubuntu/home:/container/dir longd-frontend"
                      }
                  }
              }
