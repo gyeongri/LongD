@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,34 +27,17 @@ public class FileUploadServiceImpl implements FileUploadService {
         return random+originName;
     }
 
-
     @Override
-    public String uploadImageToS3(MultipartFile image) throws IOException {
-        String originName = image.getOriginalFilename(); //원본 이미지 이름
-        String ext = originName.substring(originName.lastIndexOf(".")); //확장자
-        String changedName = changedImageName(originName); //새로 생성된 이미지 이름
-        ObjectMetadata metadata = new ObjectMetadata(); //메타데이터
-        metadata.setContentType("image/"+ext);
-        try {
-            PutObjectResult putObjectResult = amazonS3.putObject(new PutObjectRequest(
-                    bucketName, changedName, image.getInputStream(), metadata
-            ).withCannedAcl(CannedAccessControlList.PublicRead));
+    public List<String> uploadObjectToS3Many(List<MultipartFile> files) throws IOException {
 
-        } catch (IOException e) {
-            throw new IOException(); //커스텀 예외 던짐.
-        }
+        // 허용할 MIME 타입들 설정 (이미지, 동영상 파일만 허용하는 경우)
+        List<String> allowedMimeTypes = List.of("image/jpeg", "image/png", "image/gif", "video/mp4", "video/webm", "video/ogg", "video/3gpp", "video/x-msvideo", "video/quicktime");
 
-        return amazonS3.getUrl(bucketName, changedName).toString(); //데이터베이스에 저장할 이미지가 저장된 주소
-
-    }
-
-    @Override
-    public String uploadImageToS3Many(List<MultipartFile> image) throws IOException {
         StringBuilder originNames = new StringBuilder();
         StringBuilder exts = new StringBuilder();
         StringBuilder changedNames = new StringBuilder();
-        StringBuilder Urls = new StringBuilder();
-        for(MultipartFile file : image) {
+        List<String> Urls = new ArrayList<>();
+        for(MultipartFile file : files) {
 
             String originName = file.getOriginalFilename(); //원본 이미지 이름
             originNames.append(originName + "\n");
@@ -62,7 +46,17 @@ public class FileUploadServiceImpl implements FileUploadService {
             String changedName = changedImageName(originName); //새로 생성된 이미지 이름
             changedNames.append(changedName + "\n");
             ObjectMetadata metadata = new ObjectMetadata(); //메타데이터
-            metadata.setContentType("image/"+ext);
+            metadata.setContentLength(file.getSize()); // 파일 크기 명시
+
+            // 업로드된 파일의 MIME 타입 확인
+            String fileContentType = file.getContentType();
+
+            if (!allowedMimeTypes.contains(fileContentType)) {
+                // 허용되지 않는 MIME 타입의 파일은 처리하지 않음
+                throw new IllegalArgumentException("Unsupported file type");
+            }
+
+            metadata.setContentType(fileContentType);
             try {
                 PutObjectResult putObjectResult = amazonS3.putObject(new PutObjectRequest(
                         bucketName, changedName, file.getInputStream(), metadata
@@ -72,9 +66,9 @@ public class FileUploadServiceImpl implements FileUploadService {
                 throw new IOException(); //커스텀 예외 던짐.
             }
 
-            Urls.append(amazonS3.getUrl(bucketName, changedName).toString() + "\n");
+            Urls.add(amazonS3.getUrl(bucketName, changedName).toString() + "\n");
 
         }
-        return Urls.toString();
+        return Urls;
     }
 }

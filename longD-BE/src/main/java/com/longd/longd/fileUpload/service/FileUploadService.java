@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface FileUploadService {
 
-    public String uploadImageToS3(MultipartFile image) throws IOException;
-
-    public String uploadImageToS3Many(List<MultipartFile> image) throws IOException;
+    public List<String> uploadObjectToS3Many(List<MultipartFile> files) throws IOException;
 
 }
