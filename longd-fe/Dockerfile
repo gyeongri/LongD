@@ -9,7 +9,8 @@ WORKDIR /app
 #ARG NGINX_FILE=
 
 # nginx 설정파일
-ADD /home/ubuntu/nginx/* /usr/share/nginx/conf
+ADD longd-fe/nginx/* /usr/share/nginx/conf
+
 # 소스 코드 복사
 COPY . .
 

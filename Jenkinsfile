@@ -66,6 +66,7 @@ pipeline {
              steps {
                  dir("${DIRECTORY_NAME2}"){
                       sh "ls"
+                      sh "cp -r /home/ubuntu/nginx /var/jenkins_home/workspace/LongD-develop/longd-fe/"
                       sh "docker build -t ${DOCKER_IMAGE_NAME_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
 
                  }
