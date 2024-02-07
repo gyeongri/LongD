@@ -88,7 +88,7 @@ const partnerInfo = ref({});
 const coupleInfo = ref({});
 const mainDisplayStore = useMainDisplayStore();
 
-const today = dayjs().format('YYYY-MM-DD');
+const today = dayjs();
 const startDay = dayjs(coupleInfo.value.startDay);
 const coupleDday = today.diff(startDay, 'day');
 
