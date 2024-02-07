@@ -31,18 +31,12 @@ pipeline {
             steps {
                 checkout scm
                 echo 'Checkout Scm'
-
-
             post {
-                    success { 
-                        sh 'echo "Successfully Cloned Repository"'
-                    }
-                    failure {
-                        sh 'echo "Fail Cloned Repository"'
-                    }
-                }
+                    success { sh 'echo "Successfully Cloned Repository"'}
+                    failure { sh 'echo "Fail Cloned Repository"'}
+                  }
+            }
         }
- 
     //현재 디렉토리 위치 출력
         stage('Print Current Directory') {
             steps {
