@@ -9,7 +9,7 @@ pipeline {
         DOCKER_IMAGE_NAME_FE = 'longd-front-image'
         // 생성할 Docker 컨테이너 이름 - BE,FE
         DOCKER_CONTAINER_NAME_BE = 'longd-backend'
-        DOCKER_CONTAINER_NAME_FE = 'longd-backend'
+        DOCKER_CONTAINER_NAME_FE = 'longd-frontend'
 
 
         //BE 디렉터리명
