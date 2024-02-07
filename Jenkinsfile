@@ -119,6 +119,5 @@ pipeline {
                 echo 'Run New FE image'
             }
         }
-
     }
 }
