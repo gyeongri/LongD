@@ -115,7 +115,7 @@ pipeline {
       //새 FE 컨테이너 실행
         stage('Run New FE image') {
             steps {
-                sh "docker run --name ${DOCKER_IMAGE_NAME_FE} -d -p 3001:5173 ${DOCKER_IMAGE_NAME_FE}"
+                sh "docker run --name ${DOCKER_IMAGE_NAME_FE} -d -p 3001:3001 ${DOCKER_IMAGE_NAME_FE}"
                 echo 'Run New FE image'
             }
         }
