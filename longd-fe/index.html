@@ -5,7 +5,7 @@
     <link rel="icon" href="/star.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Long D</title>
-    <script type="module">
+    <script>
       const { VITE_GOOGLE_REST_API_KEY } = import.meta.env;
       const script = document.createElement('script');
       script.async = true;
@@ -20,6 +20,8 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
   </body>
 </html>
 

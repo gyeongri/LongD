@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-3 grid-rows-3 gap-3">
     <div>
-      <p>전체보기</p>
+      <p @click="totalView">전체보기</p>
     </div>
     <div>
       <p>추억영상함</p>
@@ -23,6 +23,11 @@ defineProps({
     default: 'col-span-1',
   },
 });
+const emit = defineEmits(['totalView']);
+
+const totalView = () => {
+  emit('totalView');
+};
 </script>
 
 <style lang="scss" scoped></style>

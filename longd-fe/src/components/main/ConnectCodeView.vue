@@ -158,6 +158,7 @@ const choiceDate = async () => {
       // router.push({ name: 'ConnectCode' });
     },
   );
+
 };
 </script>
 

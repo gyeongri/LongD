@@ -50,14 +50,12 @@
                   alt="내 프로필"
                   :src="myprofile.profilePicture"
               /></RouterLink>
-
               <RouterLink :to="{ name: 'PartnerInfo' }">
                 <img
                   class="partnerProfile rounded-full"
                   alt="상대 프로필"
                   :src="partnerInfo.profilePicture"
               /></RouterLink>
-
               <div class="image">
                 <img
                   class="heart-suit"

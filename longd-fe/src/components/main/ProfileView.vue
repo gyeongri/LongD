@@ -102,6 +102,7 @@
 import { ref, onMounted } from 'vue';
 import router from '@/router';
 import { loginstate } from '@/utils/api/user';
+import Swal from 'sweetalert2';
 
 const myprofile = ref({});
 const goHome = () => {
@@ -124,7 +125,6 @@ onMounted(() => {
     },
   );
 });
-
 const correctionDate = () => {
   router.push({ name: 'profileCorrection' });
 };
