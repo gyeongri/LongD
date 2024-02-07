@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,6 +33,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         String changedName = changedImageName(originName); //새로 생성된 이미지 이름
         ObjectMetadata metadata = new ObjectMetadata(); //메타데이터
         metadata.setContentType("image/"+ext);
+        System.out.println(bucketName);
         try {
             PutObjectResult putObjectResult = amazonS3.putObject(new PutObjectRequest(
                     bucketName, changedName, image.getInputStream(), metadata
@@ -45,36 +45,5 @@ public class FileUploadServiceImpl implements FileUploadService {
 
         return amazonS3.getUrl(bucketName, changedName).toString(); //데이터베이스에 저장할 이미지가 저장된 주소
 
-    }
-
-    @Override
-    public String uploadImageToS3Many(List<MultipartFile> image) throws IOException {
-        StringBuilder originNames = new StringBuilder();
-        StringBuilder exts = new StringBuilder();
-        StringBuilder changedNames = new StringBuilder();
-        StringBuilder Urls = new StringBuilder();
-        for(MultipartFile file : image) {
-
-            String originName = file.getOriginalFilename(); //원본 이미지 이름
-            originNames.append(originName + "\n");
-            String ext = originName.substring(originName.lastIndexOf(".")); //확장자
-            exts.append(ext + "\n");
-            String changedName = changedImageName(originName); //새로 생성된 이미지 이름
-            changedNames.append(changedName + "\n");
-            ObjectMetadata metadata = new ObjectMetadata(); //메타데이터
-            metadata.setContentType("image/"+ext);
-            try {
-                PutObjectResult putObjectResult = amazonS3.putObject(new PutObjectRequest(
-                        bucketName, changedName, file.getInputStream(), metadata
-                ).withCannedAcl(CannedAccessControlList.PublicRead));
-
-            } catch (IOException e) {
-                throw new IOException(); //커스텀 예외 던짐.
-            }
-
-            Urls.append(amazonS3.getUrl(bucketName, changedName).toString() + "\n");
-
-        }
-        return Urls.toString();
     }
 }
