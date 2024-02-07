@@ -90,6 +90,7 @@ const fetchFolders = async () => {
           params2.value,
         );
         folderFirstItem.value.push(data2);
+        // data3같은거 만들어서 필요한 것만 보내기
         console.log('-----hh-----');
         console.log(folderFirstItem.value);
       } catch (err) {
