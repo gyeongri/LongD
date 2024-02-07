@@ -26,9 +26,7 @@ public class User implements OAuth2Response {
     private String provider = "NULL방지";
     private String name = "NULL방지";
     private String nickname = "NULL방지";
-    private String addressNation = "NULL방지";
-    private String addressCity;
-    private String addressDetail;
+    private String address = "NULL방지";
     private String birth = "NULL방지";
     private String birthYear = "NULL방지";
     private String birthMonth = "NULL방지";
