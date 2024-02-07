@@ -9,7 +9,7 @@ WORKDIR /app
 #ARG NGINX_FILE=
 
 # nginx 설정파일
-ADD longd-fe/nginx/* /usr/share/nginx/conf
+# ADD longd-fe/nginx/* /usr/share/nginx/conf
 
 # 소스 코드 복사
 COPY . .
@@ -27,7 +27,7 @@ RUN npm run build
 FROM nginx:latest
 
 # Nginx 설정 파일 복사
-#COPY /home/ubuntu/conf/fe-nginx.conf /etc/nginx/nginx.conf
+COPY /home/ubuntu/nginx /etc/nginx/conf
 
 
 

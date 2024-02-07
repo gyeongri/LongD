@@ -61,17 +61,28 @@ pipeline {
             }
         }
 
+         stage('ADD NginX conf to FE'){
+             steps {
+                 dir("${DIRECTORY_NAME2}"){
+                      sh "ls"
+                      sh "cp -r /home/ubuntu/nginx /var/jenkins_home/workspace/LongD-develop/longd-fe/"
+//                       sh "docker build -t ${DOCKER_IMAGE_NAME_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
+
+                 }
+             }
+         }
 
          stage('Build FE image'){
              steps {
                  dir("${DIRECTORY_NAME2}"){
                       sh "ls"
-                      sh "cp -r /home/ubuntu/nginx /var/jenkins_home/workspace/LongD-develop/longd-fe/"
                       sh "docker build -t ${DOCKER_IMAGE_NAME_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
 
                  }
              }
          }
+
+
 
         //BE - 이전 컨테이너 삭제
         stage('Remove Previous BE Container') {
