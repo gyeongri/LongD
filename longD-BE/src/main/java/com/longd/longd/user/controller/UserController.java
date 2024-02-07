@@ -21,7 +21,7 @@ import java.util.Optional;
 @Api(value = "유저 API", tags = {"User"})
 @RestController
 @Slf4j
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired

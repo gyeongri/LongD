@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/api/calendar")
+@RequestMapping("/calendar")
 public class CalendarController {
 
 
