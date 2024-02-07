@@ -10,30 +10,41 @@
     </div>
   </div>
 
-  <GalleryFolderGrid :items="folders" @totalView="totalView">
+  <GalleryFolderGrid :items="folderFirstItem" @totalView="totalView">
     <template v-slot="{ item }">
-      <p :id="item.id" @click="goList(item)">
-        {{ item }}
+      <p :id="item.id" @click="goList(item.name)">
+        {{ item.name }}
       </p>
     </template>
   </GalleryFolderGrid>
 </template>
+
+folderFirstItem : id 폴더명 첫번째사진
+folders : id 폴더명
 
 <script setup>
 import AppDropdown from '@/components/app/AppDropdown.vue';
 import GalleryFolderGrid from '@/components/gallery/GalleryFolderGrid.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { getGalleryFolderName } from '@/utils/api/albums';
+import { getGalleryFolderName, getGalleryFolderList } from '@/utils/api/albums';
 import Swal from 'sweetalert2';
 import { createFolder } from '@/utils/api/albums';
-
+import { useGalleryStore } from '@/stores/gallery.js';
 const router = useRouter();
+const galleryStore = useGalleryStore();
 
-// const params = ref({
-//   _sort: 'id', // 무엇을
-//   _order: 'desc', // 내림차순
-// });
+// {{ item[0].pathUrl }}
+// {{ item[0].galleryCategory.category }}
+
+// 조회 관련 파라미터(폴더별)
+const params2 = ref({
+  _limit: 1, // 몇개씩 조회
+  _page: 1, // 현재 페이지를 조회
+  _sort: 'id', // 무엇을
+  _order: 'desc', // 내림차순
+  categoryName: '', // 조회할 폴더 이름
+});
 
 // 폴더 생성
 const folderCreate = async () => {
@@ -45,12 +56,12 @@ const folderCreate = async () => {
   });
   if (title) {
     Swal.fire('Saved!', '', 'success');
-    fetchFolders();
     try {
       console.log(title);
       await createFolder({ category: title });
       // 새로고침 해야 추가되는 현상있음
       // 조회 박으면 해결될 것
+      fetchFolders();
       router.push({ name: 'GalleryFolder' });
     } catch (error) {
       console.log(error);
@@ -60,21 +71,43 @@ const folderCreate = async () => {
 
 // 폴더 리스트
 const folders = ref([]);
-const coupleId = 1;
+const coupleId = ref(1);
+const folderFirstItem = ref([]);
+
 // 폴더 리스트 가져오기
 const fetchFolders = async () => {
   try {
-    const { data } = await getGalleryFolderName(coupleId);
+    const { data } = await getGalleryFolderName(coupleId.value);
     folders.value = data;
+
+    for (const folder of data) {
+      // params2.value.categoryName = folder.name;
+      // console.log(params2.value.categoryName);
+      try {
+        params2.value.categoryName = folder.name;
+        const { data: data2 } = await getGalleryFolderList(
+          coupleId.value,
+          params2.value,
+        );
+        folderFirstItem.value.push(data2);
+        console.log('-----hh-----');
+        console.log(folderFirstItem.value);
+      } catch (err) {
+        console.error(err);
+        console.error('가져올 데이터가 없습니다.');
+      }
+    }
+
     console.log('------------------');
-    console.log(folders.value);
+    // console.log(folders.value);
   } catch (err) {
-    console.err(err);
+    console.error(err);
   }
 };
 
 onMounted(() => {
   fetchFolders();
+  galleryStore.addFolderNameList(coupleId.value);
 });
 
 const totalView = () => {
