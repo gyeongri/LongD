@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@RequestMapping("/galleryCategory")
+@RequestMapping("/api/galleryCategory")
 public class GalleryCategoryController {
 
     @Autowired

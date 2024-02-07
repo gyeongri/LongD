@@ -21,7 +21,7 @@ import java.util.Optional;
 @Api(value = "유저 API", tags = {"User"})
 @RestController
 @Slf4j
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -112,7 +112,7 @@ public class UserController {
     @GetMapping("/test")
     public String gettest() {
 
-        return "테스트페이지";
+        return "테스트페이지 Ver2.0";
     }
 
 

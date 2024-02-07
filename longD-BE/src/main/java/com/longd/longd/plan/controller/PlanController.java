@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/plan")
+@RequestMapping("/api/plan")
 public class PlanController {
 
     @Autowired

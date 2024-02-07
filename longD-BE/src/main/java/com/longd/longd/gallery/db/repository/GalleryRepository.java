@@ -17,6 +17,8 @@ public interface GalleryRepository extends JpaRepository<Gallery, Integer> {
 
     public List<Gallery> findByCoupleList_IdAndGalleryCategory_Category(int id, String category, Sort sort);
 
+    public List<Gallery> findByGalleryCategory_Id(int id);
+
 //    @Query("SELECT g FROM Gallery g ORDER BY sort DESC")
 //    public List<Gallery> findByCoupleList_IdAndFolderNameOrder(int id, String folderName, @Param("sort") String sort);
 }

@@ -1,7 +1,9 @@
 package com.longd.longd.user.service;
 
 import com.longd.longd.user.db.dto.CustomOAuth2User;
+import com.longd.longd.user.db.entity.NationList;
 import com.longd.longd.user.db.entity.User;
+import com.longd.longd.user.db.repository.NationListRepository;
 import com.longd.longd.user.db.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,6 +24,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    NationListRepository nationListRepository;
 
     public void userReigst(User user) {
         log.info(user.toString());
@@ -97,6 +103,10 @@ public class UserServiceImpl implements UserService{
         user.setProvider(info.getProvider());
 
         return user;
+    }
+
+    public List<NationList> getNationList() {
+        return nationListRepository.findAll();
     }
 
 }
