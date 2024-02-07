@@ -27,6 +27,8 @@ FROM nginx:latest
 # Nginx 설정 파일 복사
 # COPY /var/jenkins_home/workspace/LongD-develop/longd-fe/fe-nginx.conf /etc/nginx/nginx.conf
 
+
+
 # 빌드된 애플리케이션을 Nginx에 복사
 COPY --from=build /app/dist /usr/share/nginx/html
 
