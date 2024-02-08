@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,11 @@ public class ChatRoomController {
     @Autowired
     private ChatMessageService chatMessageService;
 
+    @GetMapping("/test")
+    public String roomDetail(Model model, @PathVariable int roomId) {
+        model.addAttribute("roomId", roomId);
+        return "/chat/room";
+    }
     @PostMapping("/room")
     public ResponseEntity<?> createChatRoom(@RequestBody ChatRoomCreateRequest request) {
         try {
