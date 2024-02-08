@@ -145,8 +145,8 @@ const goHome = () => {
 };
 
 const fileUpload = event => {
-    const formData = new FormData();
-    formData.append("file", event.target.files[0]);
+  const formData = new FormData();
+  formData.append('file', event.target.files[0]);
   uploadImage(
     formData,
     success => {

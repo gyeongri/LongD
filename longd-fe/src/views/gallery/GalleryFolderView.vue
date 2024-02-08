@@ -10,7 +10,6 @@
     </div>
   </div>
 
-
   <GalleryFolderGrid :items="folders" @totalView="totalView">
     <template v-slot="{ item }">
       <p :id="item.id" @click="goList(item.name)">
