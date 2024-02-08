@@ -17,6 +17,7 @@ public class CorsConfig {
         config.addAllowedOrigin("http://localhost:5173"); // 허용할 출처
         config.addAllowedOrigin("http://i10d206.p.ssafy.io:3001/"); // 허용할 출처
         config.addAllowedOrigin("https://i10d206.p.ssafy.io:3001/"); // 허용할 출처
+        config.addAllowedOrigin("http://172.28.192.1:5173/"); // 허용할 출처
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
