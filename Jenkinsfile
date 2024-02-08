@@ -53,15 +53,15 @@ pipeline {
         }
 
 
-         stage('Build FE image'){
-             steps {
-                 dir("${DIRECTORY_FE}"){
-                      sh "ls"
-                      sh "docker build -t ${MAIN_IMAGE_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
-
-                 }
-             }
-         }
+//          stage('Build FE image'){
+//              steps {
+//                  dir("${DIRECTORY_FE}"){
+//                       sh "ls"
+//                       sh "docker build -t ${MAIN_IMAGE_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
+//
+//                  }
+//              }
+//          }
 
 
         //         //FE - 이전 컨테이너 삭제
