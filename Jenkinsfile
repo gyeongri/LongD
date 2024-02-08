@@ -208,5 +208,23 @@ pipeline {
                 echo 'Run New FE image'
             }
         }
+
+            stage('Build') {
+                    steps {
+                        // Vue.js 애플리케이션 빌드
+                        sh 'npm install'
+                        sh 'npm run build'
+                    }
+                }
+                stage('Deploy') {
+                    steps {
+                        // 빌드된 애플리케이션을 배포할 서버에 복사
+                        sh 'scp -r dist/* user@server:/path/to/deploy'
+                    }
+                }
+
+
+
+
     }
 }
