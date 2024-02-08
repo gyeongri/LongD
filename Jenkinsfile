@@ -64,7 +64,8 @@ pipeline {
 //jenkins 컨테이너 내에 /home/nginx 폴더로 복사하기 위함.
         stage('Copy nginx conf to Jenkins Container') {
             steps {
-                sh 'docker cp /home/ubuntu/nginx jenkins:/home/'
+
+                sh 'docker cp /home/ubuntu/jenkins-data/nginx jenkins:/var/jenkins_home/home/'
             }
         }
 
