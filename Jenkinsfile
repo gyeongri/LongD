@@ -61,13 +61,35 @@ pipeline {
             }
         }
 
-//jenkins 컨테이너 내에 /home/nginx 폴더로 복사하기 위함.
-        stage('Copy nginx conf to Jenkins Container') {
-            steps {
 
-                sh 'docker cp /home/ubuntu/jenkins-data/nginx jenkins:/home/'
+        //BE - 이전 컨테이너 삭제
+        stage('Remove Previous BE Container') {
+            steps {
+                script {
+                    try {
+                        sh "docker stop ${DOCKER_CONTAINER_NAME_BE}"
+                        sh "docker rm ${DOCKER_CONTAINER_NAME_BE}"
+                    } catch (e) {
+                        echo 'fail to stop and remove container'
+                    }
+                }
             }
         }
+
+      //새 BE 컨테이너 실행
+        stage('Run New BE image') {
+            steps {
+                sh "docker run --name ${DOCKER_CONTAINER_NAME_BE} -d -p 3000:3000 ${DOCKER_IMAGE_NAME_BE}"
+                echo 'Run New BE image'
+            }
+        }
+// //jenkins 컨테이너 내에 /home/nginx 폴더로 복사하기 위함.
+//         stage('Copy nginx conf to Jenkins Container') {
+//             steps {
+//
+//                 sh "${DOCKER} cp /home/ubuntu/jenkins-data/nginx jenkins:/var/jenkins_home/"
+//             }
+//         }
 
 //          stage('ADD NginX conf to FE'){
 //              steps {
@@ -92,19 +114,7 @@ pipeline {
 
 
 
-        //BE - 이전 컨테이너 삭제
-        stage('Remove Previous BE Container') {
-            steps {
-                script {
-                    try {
-                        sh "docker stop ${DOCKER_CONTAINER_NAME_BE}"
-                        sh "docker rm ${DOCKER_CONTAINER_NAME_BE}"
-                    } catch (e) {
-                        echo 'fail to stop and remove container'
-                    }
-                }
-            }
-        }
+
 
         //FE - 이전 컨테이너 삭제
         stage('Remove Previous FE Container') {
@@ -119,13 +129,7 @@ pipeline {
                 }
             }
         }
-      //새 BE 컨테이너 실행
-        stage('Run New BE image') {
-            steps {
-                sh "docker run --name ${DOCKER_CONTAINER_NAME_BE} -d -p 3000:3000 ${DOCKER_IMAGE_NAME_BE}"
-                echo 'Run New BE image'
-            }
-        }
+
 
       //새 FE 컨테이너 실행
         stage('Run New FE image') {
