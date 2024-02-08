@@ -66,7 +66,7 @@ public class FileUploadServiceImpl implements FileUploadService {
                 throw new IOException(); //커스텀 예외 던짐.
             }
 
-            Urls.add(amazonS3.getUrl(bucketName, changedName).toString() + "\n");
+            Urls.add(amazonS3.getUrl(bucketName, changedName).toString());
 
         }
         return Urls;
