@@ -14,11 +14,15 @@ pipeline {
         CHAT_IMAGE_BE = 'longd-chat-image'
         CHAT_CONTAINER_BE = 'longd-chat'
 
+        OPENVIDU_IMAGE_BE = 'longd-openvidu-image'
+        OPENVIDU_CONTAINER_BE = 'longd-openvidu'
+
 
 
         DIRECTORY_BE = 'longD-BE' //BE 디렉터리명
         DIRECTORY_FE = 'longd-fe' //FE 디렉터리명
-        DIRECTORY_CHAT = 'longD-chat' //FE 디렉터리명
+        DIRECTORY_CHAT = 'longD-chat' //CHAT 디렉터리명
+        DIRECTORY_OPENVIDU = 'longd-openvidu' //OPENVIDU 디렉터리명
 
 
         PROJECT_PATH = '/var/jenkins_home/workspace/LongD-develop'
@@ -39,7 +43,7 @@ pipeline {
             post {
                     success { sh 'echo "Successfully Cloned Repository"'}
                     failure { sh 'echo "Fail Cloned Repository"'}
-                 }
+                }
 
         }
     //현재 디렉토리 위치 출력
@@ -54,7 +58,44 @@ pipeline {
 
 
 /////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+        stage('Build main openvidu image') {
+            steps {
+                sh 'ls -al'
+                dir("${DIRECTORY_OPENVIDU}") {
+                    sh 'ls -al'
+                    sh 'chmod +x ./gradlew'
+                    sh './gradlew build'
+                    sh "docker build -t ${OPENVIDU_IMAGE_BE} -f ${PROJECT_PATH}/longd-openvidu/Dockerfile ${PROJECT_PATH}/longd-openvidu"
+                }
+                echo 'Build openvidu image...'
+            }
+        }
 
+
+        //BE - 이전 컨테이너 삭제
+        stage('Remove Previous openvidu BE Container') {
+            steps {
+                script {
+                    try {
+                        sh "docker stop ${OPENVIDU_CONTAINER_BE}"
+                        sh "docker rm ${OPENVIDU_CONTAINER_BE}"
+                    } catch (e) {
+                        echo 'fail to stop and remove openvidu container'
+                    }
+                }
+            }
+        }
+
+      //새 BE 컨테이너 실행
+        stage('Run New main openvidu image') {
+            steps {
+                sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 3003:3003 ${OPENVIDU_IMAGE_BE}"
+                echo 'Run New openvidu BE image'
+            }
+        }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////
         stage('Build main BE image') {
@@ -136,15 +177,16 @@ pipeline {
                 echo 'Run New BE chat image'
             }
         }
-         stage('Build FE image'){
-             steps {
-                 dir("${DIRECTORY_FE}"){
-                      sh "ls"
-                      sh "docker build -t ${MAIN_IMAGE_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
 
-                 }
-             }
-         }
+        stage('Build FE image'){
+            steps {
+                dir("${DIRECTORY_FE}"){
+                    sh "ls"
+                    sh "docker build -t ${MAIN_IMAGE_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
+
+                }
+            }
+        }
 
 
         //FE - 이전 컨테이너 삭제
@@ -173,20 +215,6 @@ pipeline {
         }
 //////////////////////////////////////////////////////////////////////////////////////////
 
-
-//             stage('Build') {
-//                     steps {
-//                         // Vue.js 애플리케이션 빌드
-//                         sh 'npm install'
-//                         sh 'npm run build'
-//                     }
-//                 }
-//                 stage('Deploy') {
-//                     steps {
-//                         // 빌드된 애플리케이션을 배포할 서버에 복사
-//                         sh 'scp -r dist/* user@server:/path/to/deploy'
-//                     }
-//                 }
 
 
 
