@@ -1,13 +1,16 @@
 <template>
   <div>
-  <label class="btn btn-primary" for="img">메인 사진 변경</label>
-  <input type="file" id="img" autocomplete="img" @change="changImg" hidden/>
+    <label class="btn btn-primary" for="img">메인 사진 변경</label>
+    <input type="file" id="img" autocomplete="img" @change="changImg" hidden />
   </div>
   <div class="box">
     <div class="overlap">
       <div class="view">
         <!-- 여기는 배경 사진들어가는 곳 -->
-        <div class="overlap-group" :style="{backgroundImage : `url(${backGroundImg})`}">
+        <div
+          class="overlap-group"
+          :style="{ backgroundImage: `url(${backGroundImg})` }"
+        >
           <!-- 프로필 -->
           <div class="group-2">
             <RouterLink :to="{ name: 'Profile' }"
@@ -32,15 +35,14 @@
           </div>
         </div>
       </div>
-<!-- 디데이 -->
-        <div class="overlap-wrapper">
-          <div class="div-wrapper">
-            <div class="text-wrapper-3">D+{{ coupleDday }}</div>
-          </div>
+      <!-- 디데이 -->
+      <div class="overlap-wrapper">
+        <div class="div-wrapper">
+          <div class="text-wrapper-3">D+{{ coupleDday }}</div>
         </div>
       </div>
     </div>
-
+  </div>
 </template>
 
 <script setup>
@@ -61,13 +63,14 @@ const today = ref(dayjs());
 const startDay = ref();
 const coupleDday = ref();
 
-const backGroundImg = ref('/static/img/couple.jpg')
+const backGroundImg = ref('/static/img/couple.jpg');
 const changImg = event => {
-    const formData = new FormData();
-    formData.append("file", event.target.files[0]);
+  const formData = new FormData();
+  formData.append('file', event.target.files[0]);
   uploadImage(
     formData,
     success => {
+      console.log(success.data);
       backGroundImg.value = success.data;
     },
     error => {
