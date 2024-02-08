@@ -1,6 +1,4 @@
 <template>
-  <!-- 로그인이 되어있는 상태면 바로 홈으로 이동하게 하기!!!!!!!!!! -->
-
   <div class="isolate bg-white px-6 py-15 sm:py-15 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -242,35 +240,17 @@ const Info_state = ref({});
 const codeCheck = ref();
 
 const fileUpload = event => {
-  console.log(event.target.files[0]);
-  console.log(event.target.files);
+  const formData = new FormData();
+  formData.append('file', event.target.files[0]);
   uploadImage(
-    event.target.files[0],
+    formData,
     success => {
       Info_state.value.profilePicture = success.data;
-      console.log(success);
-      console.log(success.data);
-      console.log(Info_state.value.profilePicture);
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);
     },
   );
-
-  // const file = event.target.files[0];
-  // // 파일을 가지고오기
-  // if (file) {
-  //   // FileReader를 사용하여 이미지를 읽어와 imageUrl에 할당
-  //   const reader = new FileReader();
-  //   // FileReader 객체 생성(파일을 비동기적으로 읽어오는 것)
-  //   reader.onload = () => {
-  //     // 파일의 읽기 작업이 완료되었을 때 실행할 함수
-  //     Info_state.value.profilePicture = reader.result;
-  //     // Base64로 인코딩된 문자열을 ref객체에 넣기
-  //   };
-  //   reader.readAsDataURL(file);
-  //   // 파일을 Base64로 인코딩하여 데이터 URL로 변환
-  // }
 };
 
 onMounted(() => {
@@ -296,20 +276,11 @@ const send = () => {
       sendinfo(
         Info_state.value,
         data => {
-          //success
           console.log('sendinfo 성공');
           mainDisplayStore.logOutPage = false;
           router.push({ name: 'ConnectCode' });
         },
         error => {
-          // console.log(
-          //   Info_state.value.nickname,
-          //   Info_state.value.name,
-          //   Info_state.value.email,
-          //   Info_state.value.birth,
-          //   Info_state.value.code,
-          // );
-
           console.log('sendinfo 오류 : ' + error);
         },
       );
