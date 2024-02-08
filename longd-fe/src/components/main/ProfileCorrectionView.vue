@@ -145,12 +145,12 @@ const goHome = () => {
 };
 
 const fileUpload = event => {
-    const formData = new FormData();
-    formData.append("file", event.target.files[0]);
+  const formData = new FormData();
+  formData.append('file', event.target.files[0]);
   uploadImage(
     formData,
     success => {
-      myprofile.value.profilePicture = success.data;
+      myprofile.value.profilePicture = success.data[0];
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);

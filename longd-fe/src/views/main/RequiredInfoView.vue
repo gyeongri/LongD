@@ -242,12 +242,12 @@ const Info_state = ref({});
 const codeCheck = ref();
 
 const fileUpload = event => {
-    const formData = new FormData();
-    formData.append("file", event.target.files[0]);
+  const formData = new FormData();
+  formData.append('file', event.target.files[0]);
   uploadImage(
     formData,
     success => {
-      Info_state.value.profilePicture = success.data;
+      Info_state.value.profilePicture = success.data[0];
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);

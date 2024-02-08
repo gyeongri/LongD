@@ -63,15 +63,14 @@ const today = ref(dayjs());
 const startDay = ref();
 const coupleDday = ref();
 
-const backGroundImg = ref('/static/img/couple.jpg');
+const backGroundImg = ref('/static/img/frame.png');
 const changImg = event => {
   const formData = new FormData();
   formData.append('file', event.target.files[0]);
   uploadImage(
     formData,
     success => {
-      console.log(success.data);
-      backGroundImg.value = success.data;
+      backGroundImg.value = success.data[0];
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);
