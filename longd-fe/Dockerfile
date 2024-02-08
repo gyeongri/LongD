@@ -1,5 +1,5 @@
 # Node.js 버전 지정
-FROM node:20.10.0 AS build
+FROM node:20.10.0
 
 # 작업 디렉토리 설정
 WORKDIR /app
