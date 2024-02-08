@@ -66,7 +66,6 @@ pipeline {
             steps {
 
                 sh 'docker cp /home/ubuntu/jenkins-data/nginx jenkins:/home/'
-'
             }
         }
 
