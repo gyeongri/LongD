@@ -75,10 +75,11 @@ const changImg = event => {
     formData,
     success => {
       coupleInfo.value.coupleImgUrl = success.data[0];
-
+      console.log(coupleInfo.value);
       coupleDataModify(
         coupleInfo.value,
         success => {
+          console.log(success);
           console.log('커플정보 보내기 완료!');
         },
         error => {
