@@ -132,8 +132,6 @@ pipeline {
         stage('Build BE-chat image') {
             steps {
                 sh 'ls -al'
-
-
                 dir("${DIRECTORY_CHAT}") {
 
                     script {
@@ -145,7 +143,7 @@ pipeline {
                     sh 'ls -al'
                     sh 'chmod +x ./gradlew'
                     sh './gradlew build'
-                    sh "docker build -t ${CHAT_IMAGE_BE} -f ${PROJECT_PATH}/longD-BE/Dockerfile ${PROJECT_PATH}/longD-BE"
+                    sh "docker build -t ${CHAT_IMAGE_BE} -f ${PROJECT_PATH}/longD-chat/Dockerfile ${PROJECT_PATH}/longD-chat"
                 }
                 echo 'Build chat image...'
             }
@@ -174,7 +172,7 @@ pipeline {
             }
         }
 
-
+//////////////////////////////////////////////////////////////////////////////////////////
          stage('Build FE image'){
              steps {
                  dir("${DIRECTORY_FE}"){
@@ -205,7 +203,7 @@ pipeline {
         stage('Run New FE image') {
             steps {
                 //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 ${MAIN_IMAGE_FE} -v /home/ubuntu/nginx:/usr longd-frontend"
+                sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 ${MAIN_IMAGE_FE} -v /home/ubuntu/:/usr longd-frontend"
                 // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
                 echo 'Run New FE image'
             }

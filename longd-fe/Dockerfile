@@ -36,7 +36,7 @@ RUN npm run build
 #COPY --from=build /app/dist /usr/share/nginx/html
 
 # 80번 포트 열기
-EXPOSE 80
+EXPOSE 3001
 
 # Nginx 실행
 #CMD ["nginx", "-g", "daemon off;"]
