@@ -10,7 +10,6 @@
           'chat-start': message.senderId !== userId,
         }"
       >
-        {{ userId }}
         <div>
           <template v-if="shouldDisplayHeader(index)">
             <div class="chat-header">

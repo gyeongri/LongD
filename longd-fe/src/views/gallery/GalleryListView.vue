@@ -125,6 +125,7 @@ import {
 } from '@/utils/api/albums';
 import { useGalleryStore } from '@/stores/gallery.js';
 const galleryStore = useGalleryStore();
+
 const route = useRoute();
 const router = useRouter();
 
@@ -241,6 +242,7 @@ const toggleDelete = () => {
 
 // 삭제 체크 표시된 item들 삭제
 
+
 const removeItems = async () => {
   if (confirm('정말로 삭제하시겠습니까?') === false) {
     return;
@@ -287,21 +289,6 @@ const getCategoryId = async () => {
       console.log(categoryId);
     }
   }
-
-  try {
-    // 서버로 이미지 전송하는 API 호출
-    // await axios.post('/api/upload', formData);
-    // 이미지 업로드 후 이미지 미리보기 배열 초기화
-    imagePreviews.value = [];
-    alert('Images uploaded successfully!');
-  } catch (error) {
-    console.error('Error uploading images:', error);
-  }
-};
-
-// 취소했을 때도 미리보기 남아있는 것을 방지하기 위함
-const cancelImages = () => {
-  imagePreviews.value = [];
 };
 
 // 넣었던 사진은 또 못 넣는 버그가 있음
@@ -330,6 +317,11 @@ const uploadImages = async () => {
   } catch (error) {
     console.error('Error uploading images:', error);
   }
+};
+
+// 취소했을 때도 미리보기 남아있는 것을 방지하기 위함
+const cancelImages = () => {
+  imagePreviews.value = [];
 };
 
 // folder화면으로 가기

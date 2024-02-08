@@ -8,7 +8,6 @@
         아래 필수 정보를 확인하고, 수정 후 제출 버튼을 눌러주세요.
       </p>
     </div>
-
     <form action="#" method="POST" class="mx-auto mt-10 max-w-xl sm:mt-10">
       <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
         <div>
@@ -42,7 +41,6 @@
               autocomplete="nickname"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-            <!-- <input type="text" name="nickname" id="nickname" autocomplete="nickname" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
         <!-- 이름 -->
@@ -61,8 +59,6 @@
               autocomplete="name"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-
-            <!-- <input type="text" name="name" id="name" autocomplete="name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
         <!-- 생년월일 -->
@@ -81,8 +77,6 @@
               autocomplete="birthday"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-
-            <!-- <input @change="check" v-model="test" type="date" name="birth" id="birth" autocomplete="birthday" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
         <!-- 이메일 -->
@@ -101,8 +95,6 @@
               autocomplete="email"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-
-            <!-- <input type="email" name="email" id="email" autocomplete="email" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
         <!-- 거주국가랑 성별도 입력해야함 -->
@@ -118,7 +110,6 @@
             name="gender"
             class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           >
-            <!-- <select id="gender" name="gender" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" > -->
             <option value="선택안함">선택안함</option>
             <option value="남성">남성</option>
             <option value="여성">여성</option>
@@ -141,12 +132,6 @@
             name="addressNation"
             class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
           >
-            <!-- <select
-            id="addressNation"
-            name="addressNation"
-            class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-          > -->
-
             <option selected disabled>나라를 골라주세요</option>
             <option value="한국">한국</option>
             <option value="영국">영국</option>

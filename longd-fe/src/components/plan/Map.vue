@@ -310,7 +310,11 @@ const handleResultClick = place => {
   // 선택한 장소 정보 설정
   selectedPlace.value = {
     name: place.name,
+<<<<<<< HEAD
     address: place.address,
+=======
+    address: place.formatted_address,
+>>>>>>> geunryeol
     latitude: place.geometry.location.lat(),
     longitude: place.geometry.location.lng(),
   };

@@ -7,6 +7,7 @@ import GalleryListView from '@/views/gallery/GalleryListView.vue';
 import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
 import CalendarView from '@/views/calendar/CalendarView.vue';
 import ViduMainView from '@/views/openvidu/ViduMainView.vue';
+import ViduVideoView from '@/views/openvidu/ViduVideoView.vue';
 import TestMapView from '@/views/map/TestMapView.vue';
 import MapView from '@/views/map/MapView.vue';
 import MapSearch from '@/components/plan/MapSearch.vue';
@@ -84,6 +85,11 @@ const router = createRouter({
       path: '/vidumain',
       name: 'ViduMain',
       component: ViduMainView,
+    },
+    {
+      path: '/viduVideo',
+      name: 'ViduVideo',
+      component: ViduVideoView,
     },
     {
       path: '/map',

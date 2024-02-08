@@ -11,7 +11,7 @@
   </div>
 
 
-  <GalleryFolderGrid :items="folderFirstItem" @totalView="totalView">
+  <GalleryFolderGrid :items="folders" @totalView="totalView">
     <template v-slot="{ item }">
       <p :id="item.id" @click="goList(item.name)">
         {{ item.name }}
@@ -45,7 +45,6 @@ const params2 = ref({
   _sort: 'id', // 무엇을
   _order: 'desc', // 내림차순
   categoryName: '', // 조회할 폴더 이름
-
 });
 
 // 폴더 생성
@@ -58,7 +57,6 @@ const folderCreate = async () => {
   });
   if (title) {
     Swal.fire('Saved!', '', 'success');
-
     try {
       console.log(title);
       await createFolder({ category: title });
@@ -122,6 +120,7 @@ const totalView = () => {
     },
   });
 };
+
 // 해당 폴더의 사진 리스트 보러가기
 const goList = folderName => {
   router.push({

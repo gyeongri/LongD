@@ -62,7 +62,6 @@ const mainDisplayStore = useMainDisplayStore();
 const today = ref(dayjs());
 const startDay = ref();
 const coupleDday = ref();
-
 const backGroundImg = ref('/static/img/couple.jpg');
 const changImg = event => {
   const formData = new FormData();
