@@ -120,7 +120,7 @@ pipeline {
       //새 BE 컨테이너 실행
         stage('Run New BE-chat image') {
             steps {
-                sh "docker run --name ${CHAT_CONTAINER_BE} -d -p 3000:3000 ${CHAT_IMAGE_BE}"
+                sh "docker run --name ${CHAT_CONTAINER_BE} -d -p 5000:5000 ${CHAT_IMAGE_BE}"
                 echo 'Run New BE chat image'
             }
         }
