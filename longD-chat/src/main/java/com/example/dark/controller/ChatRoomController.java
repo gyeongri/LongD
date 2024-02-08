@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/chat")
-@CrossOrigin(originPatterns = {"http://i10d206.p.ssafy.io:3001","https://i10d206.p.ssafy.io:3001","http://localhost:5173","http://172.28.192.1:5173"})
+@CrossOrigin(originPatterns = {"http://i10d206.p.ssafy.io:3001/","https://i10d206.p.ssafy.io:3001/","http://localhost:5173/","http://172.28.192.1:5173/","http://192.168.35.112:5173/"})
 public class ChatRoomController {
 
     @Autowired

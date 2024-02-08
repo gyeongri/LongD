@@ -14,10 +14,11 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:5173"); // 허용할 출처
+        config.addAllowedOrigin("http://localhost:5173/"); // 허용할 출처
         config.addAllowedOrigin("http://i10d206.p.ssafy.io:3001/"); // 허용할 출처
         config.addAllowedOrigin("https://i10d206.p.ssafy.io:3001/"); // 허용할 출처
         config.addAllowedOrigin("http://172.28.192.1:5173/"); // 허용할 출처
+        config.addAllowedOrigin("http://192.168.35.112:5173/");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
