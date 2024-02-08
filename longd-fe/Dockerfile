@@ -35,7 +35,7 @@ RUN npm run build
 # 빌드된 애플리케이션을 Nginx에 복사
 #COPY --from=build /app/dist /usr/share/nginx/html
 
-# 80번 포트 열기 
+# 80번 포트 열기
 EXPOSE 3001
 
 # Nginx 실행
