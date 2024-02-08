@@ -58,42 +58,44 @@ pipeline {
 
 
 /////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-        stage('Build main openvidu image') {
-            steps {
-                sh 'ls -al'
-                dir("${DIRECTORY_OPENVIDU}") {
-                    sh 'ls -al'
-                    sh 'chmod +x ./gradlew'
-                    sh './gradlew build'
-                    sh "docker build -t ${OPENVIDU_IMAGE_BE} -f ${PROJECT_PATH}/longd-openvidu/Dockerfile ${PROJECT_PATH}/longd-openvidu"
-                }
-                echo 'Build openvidu image...'
-            }
-        }
+// /////////////////////////////////////////////////////////////////////////////
+//         stage('Build main openvidu image') {
+//             steps {
+//                 sh 'ls -al'
+//                 dir("${DIRECTORY_OPENVIDU}") {
+//                     sh 'ls -al'
+//                     // sh 'chmod +x ./gradlew'
+//                     // sh './gradlew build'
+//                     // sh 'RUN mvn clean install'
+//                     // sh 'RUN mvn -o package'
+//                     sh "docker build -t ${OPENVIDU_IMAGE_BE} -f ${PROJECT_PATH}/longd-openvidu/Dockerfile ${PROJECT_PATH}/longd-openvidu"
+//                 }
+//                 echo 'Build openvidu image...'
+//             }
+//         }
 
 
-        //BE - 이전 컨테이너 삭제
-        stage('Remove Previous openvidu BE Container') {
-            steps {
-                script {
-                    try {
-                        sh "docker stop ${OPENVIDU_CONTAINER_BE}"
-                        sh "docker rm ${OPENVIDU_CONTAINER_BE}"
-                    } catch (e) {
-                        echo 'fail to stop and remove openvidu container'
-                    }
-                }
-            }
-        }
+//         //BE - 이전 컨테이너 삭제
+//         stage('Remove Previous openvidu BE Container') {
+//             steps {
+//                 script {
+//                     try {
+//                         sh "docker stop ${OPENVIDU_CONTAINER_BE}"
+//                         sh "docker rm ${OPENVIDU_CONTAINER_BE}"
+//                     } catch (e) {
+//                         echo 'fail to stop and remove openvidu container'
+//                     }
+//                 }
+//             }
+//         }
 
-      //새 BE 컨테이너 실행
-        stage('Run New main openvidu image') {
-            steps {
-                sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 3003:3003 ${OPENVIDU_IMAGE_BE}"
-                echo 'Run New openvidu BE image'
-            }
-        }
+//       //새 BE 컨테이너 실행
+//         stage('Run New main openvidu image') {
+//             steps {
+//                 sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 3003:3003 ${OPENVIDU_IMAGE_BE}"
+//                 echo 'Run New openvidu BE image'
+//             }
+//         }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
