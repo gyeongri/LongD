@@ -168,7 +168,6 @@ export const useViduStore = defineStore('vidu', () => {
 
   //토큰받아오기
   const getToken = function (coupleid) {
-    console.log('hihibyby', coupleid);
     sessionName.value = coupleid;
     return viduapi
       .post('/get-token', { sessionName: sessionName.value })
