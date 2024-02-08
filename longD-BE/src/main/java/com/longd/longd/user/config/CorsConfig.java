@@ -17,7 +17,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://i10d206.p.ssafy.io:3001", "http://192.168.100.102:5173", "http://192.168.100.103:5173", "http://192.168.100.188:5173", "http://192.168.0.2:5173", "http://192.168.0.39:5173/"));
+        config.setAllowedOrigins(List.of("http://i10d206.p.ssafy.io:3001", "http://192.168.100.102:5173", "http://192.168.100.103:5173", "http://192.168.100.188:5173", "http://192.168.0.2:5173", "http://192.168.0.39:5173/", "http://192.168.100.116:5173/"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("*"));
