@@ -1,16 +1,27 @@
 <template>
   <div>
     <div class="chat-container" ref="chatContainer">
-      <div v-for="(message, index) in messages" :key="message.id">
-        <template v-if="shouldDisplayHeader(index)">
-          <div class="chat-header">
-            {{ message.senderId }}
-          </div>
-        </template>
-        <div class="chat-bubble">{{ message.content }}</div>
-        <time class="text-xs opacity-50">{{
-          getFormattedTime(message.createdAt)
-        }}</time>
+      <div
+        v-for="(message, index) in messages"
+        :key="message.id"
+        :class="{
+          chat: true,
+          'chat-end': message.senderId === userId,
+          'chat-start': message.senderId !== userId,
+        }"
+      >
+        {{ userId }}
+        <div>
+          <template v-if="shouldDisplayHeader(index)">
+            <div class="chat-header">
+              {{ message.senderId }}
+            </div>
+          </template>
+          <div class="chat-bubble">{{ message.content }}</div>
+          <time class="text-xs opacity-50">{{
+            getFormattedTime(message.createdAt)
+          }}</time>
+        </div>
       </div>
     </div>
   </div>
@@ -19,7 +30,7 @@
 <script setup>
 import { watch, ref, onMounted } from 'vue';
 const chatContainer = ref();
-
+const userId = ref('8');
 const scrollToBottom = () => {
   chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
 };
@@ -45,7 +56,7 @@ const shouldDisplayHeader = index => {
 watch(
   () => props.count,
   (newvalue, oldvalue) => {
-    setTimeout(scrollToBottom(), 500);
+    setTimeout(() => scrollToBottom(), 100);
   },
 );
 const getFormattedTime = createdAt => {
@@ -56,7 +67,7 @@ const getFormattedTime = createdAt => {
   return `${hours}:${minutes}`;
 };
 onMounted(() => {
-  setTimeout(scrollToBottom(), 5000);
+  setTimeout(() => scrollToBottom(), 100);
 });
 </script>
 
