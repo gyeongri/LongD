@@ -1,5 +1,4 @@
 <template>
-  <!-- 로그인이 되어있는 상태면 바로 홈으로 이동하게 하기!!!!!!!!!! -->
   <div class="isolate bg-white px-6 py-15 sm:py-15 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -9,7 +8,6 @@
         아래 필수 정보를 확인하고, 수정 후 제출 버튼을 눌러주세요.
       </p>
     </div>
-
     <form action="#" method="POST" class="mx-auto mt-10 max-w-xl sm:mt-10">
       <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
         <div>
@@ -43,8 +41,6 @@
               autocomplete="nickname"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-
-            <!-- <input type="text" name="nickname" id="nickname" autocomplete="nickname" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
         <!-- 이름 -->
@@ -63,8 +59,6 @@
               autocomplete="name"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-
-            <!-- <input type="text" name="name" id="name" autocomplete="name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
         <!-- 생년월일 -->
@@ -83,8 +77,6 @@
               autocomplete="birthday"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-
-            <!-- <input @change="check" v-model="test" type="date" name="birth" id="birth" autocomplete="birthday" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
         <!-- 이메일 -->
@@ -103,8 +95,6 @@
               autocomplete="email"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-
-            <!-- <input type="email" name="email" id="email" autocomplete="email" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
         <!-- 거주국가랑 성별도 입력해야함 -->
@@ -120,7 +110,6 @@
             name="gender"
             class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           >
-            <!-- <select id="gender" name="gender" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" > -->
             <option value="선택안함">선택안함</option>
             <option value="남성">남성</option>
             <option value="여성">여성</option>
@@ -143,11 +132,6 @@
             name="addressNation"
             class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
           >
-            <!-- <select
-            id="addressNation"
-            name="addressNation"
-            class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-          > -->
             <option selected disabled>나라를 골라주세요</option>
             <option value="한국">한국</option>
             <option value="영국">영국</option>
@@ -228,9 +212,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-
 import { ChevronDownIcon } from '@heroicons/vue/20/solid';
-
 import { BaseInfo, sendinfo } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
 import { useRouter } from 'vue-router';
@@ -243,33 +225,17 @@ const Info_state = ref({});
 const codeCheck = ref();
 
 const fileUpload = event => {
+  const formData = new FormData();
+  formData.append('file', event.target.files[0]);
   uploadImage(
-    event.target.files[0],
+    formData,
     success => {
-      Info_state.value.profilePicture = success.data;
-      console.log(success);
-      console.log(success.data);
-      console.log(Info_state.value.profilePicture);
+      Info_state.value.profilePicture = success.data[0];
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);
     },
   );
-
-  // const file = event.target.files[0];
-  // // 파일을 가지고오기
-  // if (file) {
-  //   // FileReader를 사용하여 이미지를 읽어와 imageUrl에 할당
-  //   const reader = new FileReader();
-  //   // FileReader 객체 생성(파일을 비동기적으로 읽어오는 것)
-  //   reader.onload = () => {
-  //     // 파일의 읽기 작업이 완료되었을 때 실행할 함수
-  //     Info_state.value.profilePicture = reader.result;
-  //     // Base64로 인코딩된 문자열을 ref객체에 넣기
-  //   };
-  //   reader.readAsDataURL(file);
-  //   // 파일을 Base64로 인코딩하여 데이터 URL로 변환
-  // }
 };
 
 onMounted(() => {
@@ -295,19 +261,11 @@ const send = () => {
       sendinfo(
         Info_state.value,
         data => {
-          //success
           console.log('sendinfo 성공');
           mainDisplayStore.logOutPage = false;
           router.push({ name: 'ConnectCode' });
         },
         error => {
-          // console.log(
-          //   Info_state.value.nickname,
-          //   Info_state.value.name,
-          //   Info_state.value.email,
-          //   Info_state.value.birth,
-          //   Info_state.value.code,
-          // );
           console.log('sendinfo 오류 : ' + error);
         },
       );

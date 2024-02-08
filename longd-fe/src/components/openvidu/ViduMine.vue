@@ -1,5 +1,4 @@
 <template>
-  
   <div v-if="viduStore.publisher">
     <video ref="videoElement" autoplay class="rounded-lg"></video>
     <input type="color" v-model="selectedColor" />

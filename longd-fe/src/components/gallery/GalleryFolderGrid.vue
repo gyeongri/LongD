@@ -23,7 +23,6 @@ defineProps({
     default: 'col-span-1',
   },
 });
-
 const emit = defineEmits(['totalView']);
 
 const totalView = () => {

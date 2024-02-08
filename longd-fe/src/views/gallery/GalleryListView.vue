@@ -94,9 +94,16 @@
   </AppModal>
   <div class="flex justify-center">
     <AppPagination
+      v-if="route.params.folderName === '전체보기'"
       :current-page="params._page"
       :page-count="pageCount"
       @page="page => (params._page = page)"
+    />
+    <AppPagination
+      v-else
+      :current-page="params2._page"
+      :page-count="pageCount"
+      @page="page => (params2._page = page)"
     />
   </div>
 </template>
@@ -108,7 +115,7 @@ import GalleryFilter from '@/components/gallery/GalleryFilter.vue';
 import GalleryCard from '@/components/gallery/GalleryCard.vue';
 import AppPagination from '@/components/app/AppPagination.vue';
 import AppGrid from '@/components/app/AppGrid.vue';
-import { ref, computed, watchEffect } from 'vue';
+import { ref, computed, watchEffect, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import {
   getGalleryTotalList,
@@ -116,18 +123,28 @@ import {
   deleteGallery,
   getGalleryFolderList,
 } from '@/utils/api/albums';
-// import { createAlbum } from '@/utils/api/albums';
+import { useGalleryStore } from '@/stores/gallery.js';
+const galleryStore = useGalleryStore();
 
 const route = useRoute();
 const router = useRouter();
 
-// 조회 관련 파라미터
+// 조회 관련 파라미터(전체)
 const params = ref({
   _limit: 6, // 몇개씩 조회
   _page: 1, // 현재 페이지를 조회
   _sort: 'id', // 무엇을
   _order: 'desc', // 내림차순
   // id_like: '', // 해당 요소 검색 기능
+});
+
+// 조회 관련 파라미터(폴더별)
+const params2 = ref({
+  _limit: 6, // 몇개씩 조회
+  _page: 1, // 현재 페이지를 조회
+  _sort: 'id', // 무엇을
+  _order: 'desc', // 내림차순
+  categoryName: route.params.folderName, // 조회할 폴더 이름
 });
 
 // 페이지네이션에서 페이지의 수는 전체 item 수로 결정남
@@ -172,22 +189,18 @@ const fetchAlbums = async () => {
       console.log(data);
       items.value = data;
       totalCount.value = data[0].size;
-      // console.log(data);
-      // 이거 활용해서 분류에 이용하기!!!!
-      console.log(route.params.folderName);
     } catch (err) {
       console.error(err);
     }
   } else {
     // 서버 켜지면 test 필요.
     // 폴더명으로 필터처리 후 조회(백에서 해줌)
+    console.log('폴더 조회');
     try {
       const { data } = await getGalleryFolderList(
         coupleId.value,
-        route.params.folderName,
-        params.value,
+        params2.value,
       );
-      console.log('폴더 조회');
       items.value = data;
       totalCount.value = data[0].size;
       // totalCount.value = data.length;
@@ -228,6 +241,8 @@ const toggleDelete = () => {
 };
 
 // 삭제 체크 표시된 item들 삭제
+
+
 const removeItems = async () => {
   if (confirm('정말로 삭제하시겠습니까?') === false) {
     return;
@@ -244,7 +259,6 @@ const removeItems = async () => {
 
 // 생성 모달 관련
 const imagePreviews = ref([]); // 이미지 미리보기를 위한 배열
-
 const handleFileChange = event => {
   const files = event.target.files;
   for (let i = 0; i < files.length; i++) {
@@ -261,11 +275,30 @@ const removeImage = index => {
   imagePreviews.value.splice(index, 1); // 이미지 미리보기 삭제
 };
 
+let categoryId = null;
+const getCategoryId = async () => {
+  // 폴더명 리스트 조회
+  await galleryStore.addFolderNameList(coupleId.value);
+  // 현재 카테고리명 찾기
+  if (route.params.folderName !== '전체보기') {
+    const folder = galleryStore.folderNameList.find(
+      folder => folder.name === route.params.folderName,
+    );
+    if (folder) {
+      categoryId = folder.id;
+      console.log(categoryId);
+    }
+  }
+};
+
+// 넣었던 사진은 또 못 넣는 버그가 있음
 const uploadImages = async () => {
   const formData = new FormData();
   for (let i = 0; i < imagePreviews.value.length; i++) {
     // formData.append('images[]', imagePreviews.value[i]);
     formData.append('pathUrl', 'https://picsum.photos/200/300');
+    formData.append('categoryId', categoryId);
+    // 카테고리 이름도 보내주기
     // console.log(formData);
     // console.log(imagePreviews.value);
     // const imageFile = formData.get('images[]');
@@ -278,6 +311,7 @@ const uploadImages = async () => {
     // 서버로 이미지 전송하는 API 호출
     await createGallery(coupleId.value, formData);
     // 이미지 업로드 후 이미지 미리보기 배열 초기화
+    console.log('사진 추가');
     imagePreviews.value = [];
     await fetchAlbums();
   } catch (error) {
@@ -296,6 +330,10 @@ const goFolder = () => {
     name: 'GalleryFolder',
   });
 };
+
+onMounted(() => {
+  getCategoryId();
+});
 
 // // 참고 (데이터 전송 관련 방법 2가지)
 // // 데이터 받는 방식 1

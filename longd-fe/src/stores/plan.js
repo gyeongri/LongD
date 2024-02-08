@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 export const usePlanStore = defineStore('plan', () => {
   const hopeList = ref([]);
-  const data = ref({}); // ref로 감싸서 생성
+  const data = ref({});
 
   const addHopeList = function (place) {
     data.value = {

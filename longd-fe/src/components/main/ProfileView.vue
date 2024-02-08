@@ -9,10 +9,7 @@
 
     <!-- 프로필 사진 -->
     <div>
-      <img
-        :src="myprofile.profilePicture"
-        alt="MyImage"
-      />
+      <img :src="myprofile.profilePicture" alt="MyImage" />
     </div>
 
     <!-- 상태 메세지 -->
@@ -95,19 +92,18 @@
       </button>
     </div>
   </div>
-  {{ myprofile }}
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import router from '@/router';
 import { loginstate } from '@/utils/api/user';
+import Swal from 'sweetalert2';
 
 const myprofile = ref({});
 const goHome = () => {
   router.push({ name: 'Home' });
 };
-
 
 onMounted(() => {
   loginstate(
@@ -124,7 +120,6 @@ onMounted(() => {
     },
   );
 });
-
 const correctionDate = () => {
   router.push({ name: 'profileCorrection' });
 };

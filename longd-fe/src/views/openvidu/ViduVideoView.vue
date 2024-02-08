@@ -1,7 +1,5 @@
 <template>
-  <main>
-    <RouterView></RouterView>
-  </main>
+  <div>같이보기 창</div>
 </template>
 
 <script setup></script>

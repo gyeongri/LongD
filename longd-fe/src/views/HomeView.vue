@@ -1,107 +1,44 @@
 <template>
-  <!-- 아이폰에 보이는 것처럼? -->
-  <!-- <div class="mockup-phone">
-    <div class="camera"></div>
-    <div class="display">
-      <div class="artboard artboard-demo phone-5">
-        <div class="overlap-wrapper">
-          <div class="div-wrapper">
-            <div class="text-wrapper-3">D+ {{ coupleDday }}</div>
-          </div>
-        </div>
-
-        <div class="group-2">
-          <RouterLink :to="{ name: 'Profile' }"
-            ><img
-              class="myProfile"
-              alt="내 프로필"
-              :src="myprofile.profilePicture"
-          /></RouterLink>
-
-          <RouterLink :to="{ name: 'PartnerInfo' }">
-            <img
-              class="partnerProfile"
-              alt="상대 프로필"
-              :src="partnerInfo.profilePicture"
-          /></RouterLink>
-
-          <div class="image">
-            <img
-              class="heart-suit"
-              alt="Heart suit"
-              src="/static/img/heart-suit.png"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <!-- 네모모양 -->
-  <!-- <div class="artboard artboard-horizontal phone-1">
-    <div class="overlap-wrapper">
-      <div class="div-wrapper">
-        <div class="text-wrapper-3">D+ {{ coupleDday }}</div>
-      </div>
-    </div>
-
-    <div class="group-2">
-      <RouterLink :to="{ name: 'Profile' }"
-        ><img class="myProfile" alt="내 프로필" :src="myprofile.profilePicture"
-      /></RouterLink>
-
-      <RouterLink :to="{ name: 'PartnerInfo' }">
-        <img
-          class="partnerProfile"
-          alt="상대 프로필"
-          :src="partnerInfo.profilePicture"
-      /></RouterLink>
-
-      <div class="image">
-        <img
-          class="heart-suit"
-          alt="Heart suit"
-          src="/static/img/heart-suit.png"
-        />
-      </div>
-    </div>
-  </div> -->
-
-  <!-- 기존 화면 -->
+  <div>
+    <label class="btn btn-primary" for="img">메인 사진 변경</label>
+    <input type="file" id="img" autocomplete="img" @change="changImg" hidden />
+  </div>
   <div class="box">
-    <div class="group">
-      <div class="overlap">
-        <div class="view">
-          <div class="overlap-group">
-            <div class="group-2">
-              <RouterLink :to="{ name: 'Profile' }"
-                ><img
-                  class="myProfile"
-                  alt="내 프로필"
-                  :src="myprofile.profilePicture"
-              /></RouterLink>
-
-              <RouterLink :to="{ name: 'PartnerInfo' }">
-                <img
-                  class="partnerProfile"
-                  alt="상대 프로필"
-                  :src="partnerInfo.profilePicture"
-              /></RouterLink>
-
-              <div class="image">
-                <img
-                  class="heart-suit"
-                  alt="Heart suit"
-                  src="/static/img/heart-suit.png"
-                />
-              </div>
+    <div class="overlap">
+      <div class="view">
+        <!-- 여기는 배경 사진들어가는 곳 -->
+        <div
+          class="overlap-group"
+          :style="{ backgroundImage: `url(${backGroundImg})` }"
+        >
+          <!-- 프로필 -->
+          <div class="group-2">
+            <RouterLink :to="{ name: 'Profile' }"
+              ><img
+                class="myProfile rounded-full"
+                alt="내 프로필"
+                :src="myprofile.profilePicture"
+            /></RouterLink>
+            <div class="image">
+              <img
+                class="heart-suit"
+                alt="Heart suit"
+                src="/static/img/heart-suit.png"
+              />
             </div>
+            <RouterLink :to="{ name: 'PartnerInfo' }">
+              <img
+                class="partnerProfile rounded-full"
+                alt="상대 프로필"
+                :src="partnerInfo.profilePicture"
+            /></RouterLink>
           </div>
         </div>
-        <div class="overlap-wrapper">
-          <div class="div-wrapper">
-            <div class="text-wrapper-3">D+ {{ coupleDday }}</div>
-          </div>
+      </div>
+      <!-- 디데이 -->
+      <div class="overlap-wrapper">
+        <div class="div-wrapper">
+          <div class="text-wrapper-3">D+{{ coupleDday }}</div>
         </div>
       </div>
     </div>
@@ -109,8 +46,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watchEffect } from 'vue';
 import { loginstate, partnerinfo, coupleDataGet } from '@/utils/api/user';
+import { uploadImage } from '@/utils/api/photo';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import dayjs from 'dayjs';
@@ -121,9 +59,23 @@ const partnerInfo = ref({});
 const coupleInfo = ref({});
 const mainDisplayStore = useMainDisplayStore();
 
-const today = dayjs();
-const startDay = dayjs(coupleInfo.value.startDay);
-const coupleDday = today.diff(startDay, 'day');
+const today = ref(dayjs());
+const startDay = ref();
+const coupleDday = ref();
+const backGroundImg = ref('/static/img/frame.png');
+const changImg = event => {
+  const formData = new FormData();
+  formData.append('file', event.target.files[0]);
+  uploadImage(
+    formData,
+    success => {
+      backGroundImg.value = success.data[0];
+    },
+    error => {
+      console.log('사진을 변환할 수 없어요.', error);
+    },
+  );
+};
 
 onMounted(() => {
   loginstate(
@@ -152,11 +104,18 @@ onMounted(() => {
   coupleDataGet(
     data => {
       coupleInfo.value = data.data;
+      console.log(coupleInfo.value.startDay);
+      startDay.value = dayjs(coupleInfo.value?.startDay);
+      console.log(startDay.value);
     },
     error => {
       console.log('Couple Info 가져오기 안됨', error);
     },
   );
+});
+
+watchEffect(() => {
+  coupleDday.value = today.value.diff(startDay.value, 'day');
 });
 </script>
 
@@ -170,19 +129,6 @@ onMounted(() => {
   width: 612px;
 }
 
-/* .box .group {
-  height: 740px;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 612px;
-} */
-
-/* .box .overlap {
-  height: 740px;
-  position: relative;
-} */
-
 .box .view {
   height: 720px;
   left: 50px;
@@ -192,188 +138,12 @@ onMounted(() => {
 }
 
 .box .overlap-group {
-  background-image: url(/static/img/frame.png);
-  background-size: 100% 100%;
-  height: 650px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
   left: -4px;
   position: relative;
-  width: 620px;
-}
-
-.box .div {
-  -webkit-backdrop-filter: blur(31.21px) brightness(100%);
-  backdrop-filter: blur(31.21px) brightness(100%);
-  background-color: #ffffff8a;
-  border: 0.78px solid;
-  border-color: #ffffff;
-  height: 94px;
-  position: relative;
-  width: 554px;
-}
-
-.box .rectangle {
-  background-color: #ffffff;
-  height: 57px;
-  left: 4px;
-  position: absolute;
-  top: 31px;
-  width: 75px;
-}
-
-.box .overlap-2 {
-  height: 24px;
-  left: 5px;
-  position: absolute;
-  top: 4px;
-  width: 75px;
-}
-
-.box .rectangle-2 {
-  background-color: #ebebeb;
-  height: 23px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 75px;
-}
-
-.box .text-wrapper {
-  color: #000000;
-  font-family: 'K2D-Bold', Helvetica;
-  font-size: 15px;
-  font-weight: 700;
-  left: 26px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 2px;
-  width: 25px;
-}
-
-.box .rectangle-3 {
-  background-color: #ffffff;
-  height: 57px;
-  left: 83px;
-  position: absolute;
-  top: 31px;
-  width: 74px;
-}
-
-.box .overlap-3 {
-  height: 24px;
-  left: 84px;
-  position: absolute;
-  top: 4px;
-  width: 74px;
-}
-
-.box .rectangle-4 {
-  background-color: #ebebeb;
-  height: 23px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 74px;
-}
-
-.box .text-wrapper-2 {
-  color: #000000;
-  font-family: 'K2D-Bold', Helvetica;
-  font-size: 15px;
-  font-weight: 700;
-  left: 25px;
-  letter-spacing: 0;
-  line-height: normal;
-  position: absolute;
-  text-align: center;
-  top: 2px;
-  width: 25px;
-}
-
-.box .rectangle-5 {
-  background-color: #ffffff;
-  height: 57px;
-  left: 160px;
-  position: absolute;
-  top: 31px;
-  width: 75px;
-}
-
-.box .overlap-4 {
-  height: 24px;
-  left: 161px;
-  position: absolute;
-  top: 4px;
-  width: 75px;
-}
-
-.box .rectangle-6 {
-  background-color: #ffffff;
-  height: 57px;
-  left: 317px;
-  position: absolute;
-  top: 31px;
-  width: 75px;
-}
-
-.box .overlap-5 {
-  height: 24px;
-  left: 318px;
-  position: absolute;
-  top: 4px;
-  width: 75px;
-}
-
-.box .rectangle-7 {
-  background-color: #ffffff;
-  height: 57px;
-  left: 395px;
-  position: absolute;
-  top: 31px;
-  width: 75px;
-}
-
-.box .overlap-6 {
-  height: 24px;
-  left: 396px;
-  position: absolute;
-  top: 4px;
-  width: 75px;
-}
-
-.box .rectangle-8 {
-  background-color: #ffffff;
-  height: 57px;
-  left: 473px;
-  position: absolute;
-  top: 31px;
-  width: 75px;
-}
-
-.box .overlap-7 {
-  height: 24px;
-  left: 474px;
-  position: absolute;
-  top: 4px;
-  width: 75px;
-}
-
-.box .rectangle-9 {
-  background-color: #ffffff;
-  height: 57px;
-  left: 239px;
-  position: absolute;
-  top: 31px;
-  width: 75px;
-}
-
-.box .overlap-8 {
-  height: 24px;
-  left: 240px;
-  position: absolute;
-  top: 4px;
-  width: 75px;
 }
 
 .box .group-2 {
