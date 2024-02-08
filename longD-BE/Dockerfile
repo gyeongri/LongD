@@ -2,7 +2,7 @@
 FROM amazoncorretto:17
 
 # jar 파일 위치를 변수로 설정
-ARG JAR_FILE=build/libs/*.jar
+ARG JAR_FILE=build/libs/longD-0.0.1-SNAPSHOT.jar
 
 # 환경변수 설정
 #ENV CUSTOM_NAME longD-BE
