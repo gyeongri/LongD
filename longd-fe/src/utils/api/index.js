@@ -22,7 +22,6 @@ const api2 = axios.create({
     // 다른 헤더를 필요에 따라 설정할 수 있습니다.
   },
 });
-
 // 임시(가상의) DB 용(folders)
 const api3 = axios.create({
   baseURL: 'http://localhost:5000/folders', // API의 기본 URL을 여기에 설정합니다.
@@ -39,4 +38,7 @@ const viduapi = axios.create({
     Authorization: 'Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU',
   },
 });
-export { api, api2, api3, viduapi };
+const stompApi = axios.create({
+  baseURL: 'http://localhost:8080',
+});
+export { api, api2, api3, viduapi, stompApi };

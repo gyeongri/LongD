@@ -75,7 +75,7 @@
         >
         <div class="mt-2.5">
           <input
-            type="text"
+            type="number"
             v-model="checkInfo.code"
             name="code"
             id="code"
@@ -99,29 +99,66 @@
 <script setup>
 import { ref } from 'vue';
 import router from '@/router';
+import {
+  coupleMatching,
+  coupleDataGet,
+  coupleDataModify,
+} from '@/utils/api/user';
 import Swal from 'sweetalert2';
 
 const checkInfo = ref({});
+const coupleData = ref({});
 
 const choiceDate = async () => {
-  // 백으로 보내주기 확인차원에서!
-  // if 이름, 생일, 이메일, 연결코드가 동일하면 아래 실행, 동일하지 않으면 틀렸다고 뜨기
-  const { value: date } = await Swal.fire({
-    title: '여러분이 처음 만난 날을 입력해주세요.',
-    input: 'date',
-    didOpen: () => {
-      const today = new Date().toISOString();
-      Swal.getInput().min = today.split('T')[0];
+  // 백으로 보내주기
+  // 이름, 생일, 이메일, 연결코드가 동일하면 아래 실행, 동일하지 않으면 틀렸다고 뜨기
+  coupleMatching(
+    checkInfo.value,
+    success => {
+      // 커플리스트 정보조회&수정
+      coupleDataGet(
+        success => {
+          coupleData.value = success.data;
+          const { value: date } = Swal.fire({
+            title: '여러분이 처음 만난 날을 입력해주세요.',
+            input: 'date',
+            didOpen: () => {
+              const today = new Date().toISOString();
+              Swal.getInput().min = today;
+            },
+          });
+          if (date) {
+            Swal.fire('아래 날짜가 맞나요?', date);
+            // 화면 전환(DB로 보내주고 - 이거는 메인화면에서 날짜 설정한 거 써야해..!)
+            coupleData.value.start_day = date;
+            console.log(date);
+            console.log(date.data);
+            coupleDataModify(
+              coupleData.value,
+              success => {
+                router.push({ name: 'Home' });
+              },
+              error => {
+                Swal.fire('수정되지않았어요!');
+              },
+            );
+          } else {
+            Swal.fire('날짜가 입력되지 않았어요.');
+          }
+          // 날짜 입력된 후에 가능하도록 하기!
+          // 로그인이 되어있을테니까 바로 로그인 되도록 하고 홈으로 옮길게요!
+        },
+        error => {
+          console.log('커플리스트 정보 조회 불가능', error);
+        },
+      );
     },
-  });
-  if (date) {
-    Swal.fire('아래 날짜가 맞나요?', date);
-    // 화면 전환(DB로 보내주고 - 이거는 메인화면에서 날짜 설정한 거 써야해..!)
-  } else {
-    Swal.fire('날짜가 입력되지 않았어요.');
-  }
-  // 날짜 입력된 후에 가능하도록 하기!
-  router.push({ name: 'Home' });
+    error => {
+      Swal.fire('일치하는 사람이 없습니다. 다시 입력해주세요.');
+      // router.push({ name: 'ConnectCode' });
+    },
+  );
+
 };
 </script>
 

@@ -1,4 +1,6 @@
 <template>
+  <!-- 로그인이 되어있는 상태면 바로 홈으로 이동하게 하기!!!!!!!!!! -->
+
   <div class="isolate bg-white px-6 py-15 sm:py-15 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -12,8 +14,19 @@
     <form action="#" method="POST" class="mx-auto mt-10 max-w-xl sm:mt-10">
       <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
         <div>
-          <label for="img">프로필 사진 업로드</label>
-          <input type="file" name="img" id="img" autocomplete="img" />
+          <label class="btn btn-primary" for="img">프로필 사진 업로드</label>
+          <input
+            type="file"
+            id="img"
+            autocomplete="img"
+            @change="fileUpload"
+            hidden
+          />
+          <img
+            v-if="Info_state.profilePicture"
+            :src="Info_state.profilePicture"
+            alt="Uploaded Image"
+          />
         </div>
         <!-- ID -->
         <div class="sm:col-span-2">
@@ -25,7 +38,7 @@
           <div class="mt-2.5">
             <input
               type="text"
-              v-model="Info_state.userId"
+              v-model="Info_state.nickname"
               name="nickname"
               id="nickname"
               autocomplete="nickname"
@@ -50,6 +63,7 @@
               autocomplete="name"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
+
             <!-- <input type="text" name="name" id="name" autocomplete="name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
@@ -69,6 +83,7 @@
               autocomplete="birthday"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
+
             <!-- <input @change="check" v-model="test" type="date" name="birth" id="birth" autocomplete="birthday" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
@@ -88,6 +103,7 @@
               autocomplete="email"
               class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
+
             <!-- <input type="email" name="email" id="email" autocomplete="email" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" /> -->
           </div>
         </div>
@@ -121,12 +137,18 @@
             class="block text-sm font-semibold leading-6 text-gray-900"
             >거주국</label
           >
-          <!-- <select v-model="Info_state.addressNation" id="addressNation" name="addressNation" class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"> -->
           <select
+            v-model="Info_state.address_nation"
             id="addressNation"
             name="addressNation"
             class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
           >
+            <!-- <select
+            id="addressNation"
+            name="addressNation"
+            class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+          > -->
+
             <option selected disabled>나라를 골라주세요</option>
             <option value="한국">한국</option>
             <option value="영국">영국</option>
@@ -140,6 +162,7 @@
           >
           <!-- 나중에 나라 고르면 도시 선택하도록 만들기 -->
           <select
+            v-model="Info_state.address_city"
             id="addressCity"
             name="addressCity"
             class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
@@ -153,7 +176,7 @@
         <!-- 이거 DB로 보내서 확인시키기 -->
         <br />
         <div class="sm:col-span-2">
-          <strong>🪄상대에게 전달할 연결코드를 정해주세요.</strong>
+          <strong>♡ 상대에게 전달할 연결코드를 정해주세요.</strong>
         </div>
         <div>
           <label
@@ -163,8 +186,8 @@
           >
           <div class="mt-2.5">
             <input
-              type="text"
-              v-model="code"
+              type="number"
+              v-model="Info_state.code"
               name="code"
               id="code"
               autocomplete="code"
@@ -208,6 +231,7 @@
 import { ref, onMounted } from 'vue';
 import { ChevronDownIcon } from '@heroicons/vue/20/solid';
 import { BaseInfo, sendinfo } from '@/utils/api/user';
+import { uploadImage } from '@/utils/api/photo';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import Swal from 'sweetalert2';
@@ -215,8 +239,39 @@ import Swal from 'sweetalert2';
 const router = useRouter();
 const mainDisplayStore = useMainDisplayStore();
 const Info_state = ref({});
-const code = ref();
 const codeCheck = ref();
+
+const fileUpload = event => {
+  console.log(event.target.files[0]);
+  console.log(event.target.files);
+  uploadImage(
+    event.target.files[0],
+    success => {
+      Info_state.value.profilePicture = success.data;
+      console.log(success);
+      console.log(success.data);
+      console.log(Info_state.value.profilePicture);
+    },
+    error => {
+      console.log('사진을 변환할 수 없어요.', error);
+    },
+  );
+
+  // const file = event.target.files[0];
+  // // 파일을 가지고오기
+  // if (file) {
+  //   // FileReader를 사용하여 이미지를 읽어와 imageUrl에 할당
+  //   const reader = new FileReader();
+  //   // FileReader 객체 생성(파일을 비동기적으로 읽어오는 것)
+  //   reader.onload = () => {
+  //     // 파일의 읽기 작업이 완료되었을 때 실행할 함수
+  //     Info_state.value.profilePicture = reader.result;
+  //     // Base64로 인코딩된 문자열을 ref객체에 넣기
+  //   };
+  //   reader.readAsDataURL(file);
+  //   // 파일을 Base64로 인코딩하여 데이터 URL로 변환
+  // }
+};
 
 onMounted(() => {
   BaseInfo(
@@ -230,13 +285,13 @@ onMounted(() => {
 });
 
 const send = () => {
-  if (code.value === codeCheck.value) {
+  if (Info_state.value.code === codeCheck.value) {
     if (
-      Info_state.value.userId &&
+      Info_state.value.nickname &&
       Info_state.value.name &&
       Info_state.value.email &&
       Info_state.value.birth &&
-      code.value
+      Info_state.value.code
     ) {
       sendinfo(
         Info_state.value,
@@ -247,6 +302,14 @@ const send = () => {
           router.push({ name: 'ConnectCode' });
         },
         error => {
+          // console.log(
+          //   Info_state.value.nickname,
+          //   Info_state.value.name,
+          //   Info_state.value.email,
+          //   Info_state.value.birth,
+          //   Info_state.value.code,
+          // );
+
           console.log('sendinfo 오류 : ' + error);
         },
       );

@@ -1,8 +1,22 @@
 <template>
   <div class="isolate bg-white px-6 py-15 sm:py-15 lg:px-8">
-    <h1>프로필 페이지</h1>
-    <!-- [GET] /user/state 를 통해 현재 로그인한 정보를 획득하여 제작 -->
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        프로필 페이지
+      </h2>
+    </div>
+    <button class="btn btn-rose" @click="goHome">돌아가기</button>
+
     <!-- 프로필 사진 -->
+    <div>
+      <label class="btn btn-primary" for="uploadImage">이미지 업로드</label>
+      <input type="file" id="uploadImage" @change="fileUpload" hidden />
+      <img
+        v-if="myprofile.profilePicture"
+        :src="myprofile.profilePicture"
+        alt="Uploaded Image"
+      />
+    </div>
 
     <!-- 상태 메세지 -->
     <div class="sm:col-span-2">
@@ -13,6 +27,7 @@
       >
       <div class="mt-2.5">
         <textarea
+          v-model="myprofile.profileMessage"
           name="message"
           id="message"
           rows="4"
@@ -20,6 +35,7 @@
         ></textarea>
       </div>
     </div>
+
     <!-- 이름 -->
     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
       <div class="sm:col-span-2">
@@ -40,6 +56,7 @@
         </div>
       </div>
     </div>
+
     <!-- 생년월일 -->
     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
       <div class="sm:col-span-2">
@@ -60,6 +77,7 @@
         </div>
       </div>
     </div>
+
     <!-- 이메일 -->
     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
       <div class="sm:col-span-2">
@@ -80,6 +98,7 @@
         </div>
       </div>
     </div>
+
     <!-- 화면잠금 비밀번호 -->
     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
       <div class="sm:col-span-2">
@@ -92,9 +111,7 @@
           <!-- v-for를 써서 myprofile.closedPassword 해야한다 -->
           <input
             type="number"
-            min="0"
-            max="9"
-            v-model="password"
+            v-model="myprofile.passwordSimple"
             name="closedPassword[index]"
             id="closedPassword"
             autocomplete="closedPassword"
@@ -103,13 +120,14 @@
         </div>
       </div>
     </div>
-    <!-- 제출 -->
+
+    <!-- 저장 -->
     <div class="mt-10">
       <button
         @click="choiceDate"
         class="block w-full rounded-md bg-stone-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-stone-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-600"
       >
-        제출
+        저장
       </button>
     </div>
   </div>
@@ -118,17 +136,52 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import router from '@/router';
-import { loginstate } from '@/utils/api/user';
-import Swal from 'sweetalert2';
+import { loginstate, sendinfo } from '@/utils/api/user';
+import { uploadImage } from '@/utils/api/photo';
 
 const myprofile = ref({});
+const goHome = () => {
+  router.push({ name: 'Home' });
+};
+
+const fileUpload = event => {
+  uploadImage(
+    event.target.files[0],
+    success => {
+      myprofile.value.profilePicture = success.data;
+      console.log(success);
+      console.log(success.data);
+      console.log(myprofile.value.profilePicture);
+    },
+    error => {
+      console.log('사진을 변환할 수 없어요.', error);
+    },
+  );
+
+  // const file = event.target.files[0];
+  // // 파일을 가지고오기
+  // if (file) {
+  //   // FileReader를 사용하여 이미지를 읽어와 imageUrl에 할당
+  //   const reader = new FileReader();
+  //   // FileReader 객체 생성(파일을 비동기적으로 읽어오는 것)
+  //   console.log(file);
+  //   reader.onload = () => {
+  //     // 파일의 읽기 작업이 완료되었을 때 실행할 함수
+  //     myprofile.value.profilePicture = reader.result;
+  //     // Base64로 인코딩된 문자열을 ref객체에 넣기
+  //   };
+  //   reader.readAsDataURL(file);
+  //   // 파일을 Base64로 인코딩하여 데이터 URL로 변환
+  // }
+};
 
 onMounted(() => {
   loginstate(
     data => {
-      if (data === '로그인 되어 있지 않음') {
+      if (data === '롱디에 로그인 되어 있지 않음') {
         router.push({ name: 'Login' });
       } else {
+        console.log('이건 된다.');
         myprofile.value = data.data;
       }
     },
@@ -137,6 +190,18 @@ onMounted(() => {
     },
   );
 });
+
+const choiceDate = () => {
+  console.log(myprofile.value);
+  sendinfo(
+    myprofile.value,
+    success => {
+      console.log('Sendinfo success!');
+      router.push({ name: 'Profile' });
+    },
+    error => console.log('sendinfo 오류 : ' + error),
+  );
+};
 </script>
 
 <style scoped></style>

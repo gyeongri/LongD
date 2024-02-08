@@ -1,16 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
-import ProfileView from '@/views/main/ProfileView.vue';
+import ProfileView from '@/components/main/ProfileView.vue';
+import ProfileCorrectionView from '@/components/main/ProfileCorrectionView.vue';
+import ProfilePartnerView from '@/components/main/ProfilePartnerView.vue';
 import GalleryListView from '@/views/gallery/GalleryListView.vue';
 import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
 import CalendarView from '@/views/calendar/CalendarView.vue';
 import ViduMainView from '@/views/openvidu/ViduMainView.vue';
+import ViduVideoView from '@/views/openvidu/ViduVideoView.vue';
 import TestMapView from '@/views/map/TestMapView.vue';
 import MapView from '@/views/map/MapView.vue';
+import MapSearch from '@/components/plan/MapSearch.vue';
+import MapPlan from '@/components/plan/MapPlan.vue';
+import PlanList from '@/components/plan/PlanList.vue';
+import PlanDetail from '@/components/plan/PlanDetail.vue';
 import ClosedView from '@/views/main/ClosedView.vue';
 import LoginSignUpView from '@/views/main/LoginSignUpView.vue';
 import RequiredInfoView from '@/views/main/RequiredInfoView.vue';
-import ConnectCodeView from '@/views/main/ConnectCodeView.vue';
+import ConnectCodeView from '@/components/main/ConnectCodeView.vue';
 import GalleryFolderView from '@/views/gallery/GalleryFolderView.vue';
 
 const router = createRouter({
@@ -20,6 +27,16 @@ const router = createRouter({
       path: '/',
       name: 'Home',
       component: HomeView,
+    },
+    {
+      path: '/requiredinfo',
+      name: 'RequiredInfo',
+      component: RequiredInfoView,
+    },
+    {
+      path: '/connectcode',
+      name: 'ConnectCode',
+      component: ConnectCodeView,
     },
     {
       path: '/about',
@@ -33,6 +50,16 @@ const router = createRouter({
       path: '/profile',
       name: 'Profile',
       component: ProfileView,
+    },
+    {
+      path: '/profile/correction',
+      name: 'profileCorrection',
+      component: ProfileCorrectionView,
+    },
+    {
+      path: '/profile/partner',
+      name: 'PartnerInfo',
+      component: ProfilePartnerView,
     },
     {
       path: '/gallery',
@@ -60,14 +87,43 @@ const router = createRouter({
       component: ViduMainView,
     },
     {
+      path: '/viduVideo',
+      name: 'ViduVideo',
+      component: ViduVideoView,
+    },
+    {
       path: '/map',
       name: 'Map',
       component: MapView,
+      children:[
+        {
+          path: 'search',
+          name: 'MapSearch',
+          component: MapSearch,
+        },
+        {
+          path: 'plan',
+          name: 'MapPlan',
+          component: MapPlan,
+        },
+      ]
+      // children 안 path에는 /를 사용하면 안된다 => 절대경로가 되어버려서!
+      // children 안에 children을 만들 수도 있다!
     },
     {
       path: '/testmap',
       name: 'TestMap',
       component: TestMapView,
+    },   
+    {
+      path: '/plan/detail',
+      name: 'PlanDetail',
+      component: PlanDetail,
+    },
+    {
+      path: '/plan/list',
+      name: 'PlanList',
+      component: PlanList,
     },
     {
       path: '/closed',
@@ -78,16 +134,6 @@ const router = createRouter({
       path: '/login',
       name: 'Login',
       component: LoginSignUpView,
-    },
-    {
-      path: '/requiredinfo',
-      name: 'RequiredInfo',
-      component: RequiredInfoView,
-    },
-    {
-      path: '/connectcode',
-      name: 'ConnectCode',
-      component: ConnectCodeView,
     },
   ],
 });

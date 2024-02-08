@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <GalleryFolderGrid :items="folderFirstItem" @totalView="totalView">
+  <GalleryFolderGrid :items="folders" @totalView="totalView">
     <template v-slot="{ item }">
       <p :id="item.id" @click="goList(item.name)">
         {{ item.name }}
@@ -18,9 +18,6 @@
     </template>
   </GalleryFolderGrid>
 </template>
-
-folderFirstItem : id 폴더명 첫번째사진
-folders : id 폴더명
 
 <script setup>
 import AppDropdown from '@/components/app/AppDropdown.vue';

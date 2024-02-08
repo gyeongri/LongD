@@ -184,4 +184,29 @@ const disconnect = function () {
 .rectangle-icon font-awesome-icon {
   font-size: 24px;
 }
+
+.icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  background-color: #d9d9d9;
+}
+.icon-container font-awesome-icon {
+  font-size: 24px;
+}
+
+.rectangle-icon {
+  width: 60px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: rgb(243, 65, 65);
+}
+
+.rectangle-icon font-awesome-icon {
+  font-size: 24px;
+}
 </style>

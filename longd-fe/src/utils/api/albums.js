@@ -1,5 +1,9 @@
 import { api } from '.';
 
+// 여기도 folderName을 추가해주면 됨!!
+export function getAlbums(params) {
+  return api.get('/', { params });
+}
 // 현재 커플의 갤러리 폴더 이름 리스트를 DB에서 불러옵니다.
 export function getGalleryFolderName(coupleId, params) {
   return api.get(`/galleryCategory/getList/${coupleId}`, { params });

@@ -12,22 +12,24 @@
             ><img class="image" alt="Gallery" src="/static/img/image.png"
           /></RouterLink>
         </li>
-        <!-- <li>
-          <RouterLink :to="{ name: 'GalleryList' }"
-            ><img class="image" alt="Gallery" src="/static/img/image.png"
-          /></RouterLink>
-        </li> -->
         <li>
           <RouterLink :to="{ name: 'Calendar' }"
             ><img class="image" alt="Calendar" src="/static/img/2x.png"
           /></RouterLink>
         </li>
         <li>
-          <RouterLink :to="{ name: 'ViduMain' }"
-            ><img class="image" alt="ViduMain" src="/static/img/im.png"
-          /></RouterLink>
+          <details>
+            <summary>
+              <img class="image" alt="ViduMain" src="/static/img/im.png" />
+            </summary>
+            <ul class="p-2 bg-base-100 rounded-t-none">
+              <li><RouterLink :to="{ name: 'ViduMain' }">main</RouterLink></li>
+              <li>
+                <RouterLink :to="{ name: 'ViduVideo' }">같이 보기</RouterLink>
+              </li>
+            </ul>
+          </details>
         </li>
-
         <li>
           <RouterLink :to="{ name: 'TestMap' }">맵TEST</RouterLink>
         </li>
