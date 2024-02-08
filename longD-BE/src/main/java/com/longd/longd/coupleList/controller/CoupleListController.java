@@ -27,15 +27,15 @@ public class CoupleListController {
         }
     }
 
-    @PostMapping("/modify")
-    public ResponseEntity<?> modifyCoupleList(@RequestBody CoupleList coupleList) {
-        try {
-            return ResponseEntity.status(200).body(coupleListService.modifyCoupleList(coupleList));
-        } catch (Exception e) {
-            log.error(e.toString());
-            return ResponseEntity.status(503).body(null);
+        @PostMapping("/modify")
+        public ResponseEntity<?> modifyCoupleList(@RequestBody CoupleList coupleList) {
+            try {
+                return ResponseEntity.status(200).body(coupleListService.modifyCoupleList(coupleList));
+            } catch (Exception e) {
+                log.error(e.toString());
+                return ResponseEntity.status(503).body(null);
+            }
         }
-    }
 
     @GetMapping("/get")
     public ResponseEntity<?> getCoupleList() {
