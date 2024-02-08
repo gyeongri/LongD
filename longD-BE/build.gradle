@@ -41,6 +41,12 @@ dependencies {
 
 	//AWS S3
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	// JAXB API
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
+	// JAXB Runtime
+	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
 }
 
 tasks.named('test') {

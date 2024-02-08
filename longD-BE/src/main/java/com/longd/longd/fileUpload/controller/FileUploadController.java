@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/fileUpload")
@@ -19,13 +21,14 @@ public class FileUploadController {
     @Autowired
     FileUploadService fileUploadService;
 
-    @PostMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> postImage (@RequestParam("file") MultipartFile file) {
+
+    @PostMapping(value = "/uploads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> postObjectMany (@RequestParam("file")List<MultipartFile> file) {
         // 파일 이름 출력 (예제에서는 콘솔에 출력)
-        System.out.println("Received file: " + file.getOriginalFilename());
-        String tmp = "";
+
+        List<String> tmp = new ArrayList<>();
         try {
-            tmp = fileUploadService.uploadImageToS3(file);
+            tmp = fileUploadService.uploadObjectToS3Many(file);
         } catch (IOException e) {
             System.out.println(e.toString());
         }
