@@ -132,7 +132,16 @@ pipeline {
         stage('Build BE-chat image') {
             steps {
                 sh 'ls -al'
+
+
                 dir("${DIRECTORY_CHAT}") {
+
+                    script {
+                        def currentDir = pwd()
+                        echo "Current Directory: ${currentDir}"
+                    }
+
+
                     sh 'ls -al'
                     sh 'chmod +x ./gradlew'
                     sh './gradlew build'
