@@ -40,5 +40,5 @@ EXPOSE 3001
 
 # Nginx 실행
 #CMD ["nginx", "-g", "daemon off;"]
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]
 
