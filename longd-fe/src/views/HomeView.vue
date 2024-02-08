@@ -108,9 +108,7 @@ onMounted(() => {
   coupleDataGet(
     data => {
       coupleInfo.value = data.data;
-      console.log(coupleInfo.value.startDay);
       startDay.value = dayjs(coupleInfo.value?.startDay);
-      console.log(startDay.value);
     },
     error => {
       console.log('Couple Info 가져오기 안됨', error);
