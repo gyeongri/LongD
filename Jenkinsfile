@@ -65,7 +65,7 @@ pipeline {
         stage('Copy nginx conf to Jenkins Container') {
             steps {
 
-                sh 'docker cp /home/ubuntu/jenkins-data/nginx jenkins:/var/jenkins_home/home/'
+                sh 'docker cp /nginx jenkins:/home/'
             }
         }
 
