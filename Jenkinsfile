@@ -55,9 +55,16 @@ pipeline {
                     sh 'ls -al'
                     sh 'chmod +x ./gradlew'
                     sh './gradlew build'
-                    sh "docker build --no-cache -t ${DOCKER_IMAGE_NAME_BE} -f ${PROJECT_PATH}/longD-BE/Dockerfile ${PROJECT_PATH}/longD-BE"
+                    sh "docker build -t ${DOCKER_IMAGE_NAME_BE} -f ${PROJECT_PATH}/longD-BE/Dockerfile ${PROJECT_PATH}/longD-BE"
                 }
                 echo 'Build image...'
+            }
+        }
+
+//jenkins 컨테이너 내에 /home/nginx 폴더로 복사하기 위함.
+        stage('Copy nginx conf to Jenkins Container') {
+            steps {
+                sh 'docker cp /home/ubuntu/nginx jenkins:/home/'
             }
         }
 
