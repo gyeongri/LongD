@@ -54,41 +54,7 @@ pipeline {
 
 
 /////////////////////////////////////////////////////////////////////////////
-         stage('Build FE image'){
-             steps {
-                 dir("${DIRECTORY_FE}"){
-                      sh "ls"
-                      sh "docker build -t ${MAIN_IMAGE_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
 
-                 }
-             }
-         }
-
-
-        //FE - 이전 컨테이너 삭제
-        stage('Remove Previous FE Container') {
-            steps {
-                script {
-                    try {
-                        sh "docker stop ${MAIN_CONTAINER_FE}"
-                        sh "docker rm ${MAIN_CONTAINER_FE}"
-                    } catch (e) {
-                        echo 'fail to stop and remove container'
-                    }
-                }
-            }
-        }
-
-
-      //새 FE 컨테이너 실행
-        stage('Run New FE image') {
-            steps {
-                //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 ${MAIN_IMAGE_FE}"
-                // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
-                echo 'Run New FE image'
-            }
-        }
 
 /////////////////////////////////////////////////////////////////////////////
         stage('Build main BE image') {
@@ -170,7 +136,41 @@ pipeline {
                 echo 'Run New BE chat image'
             }
         }
+         stage('Build FE image'){
+             steps {
+                 dir("${DIRECTORY_FE}"){
+                      sh "ls"
+                      sh "docker build -t ${MAIN_IMAGE_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
 
+                 }
+             }
+         }
+
+
+        //FE - 이전 컨테이너 삭제
+        stage('Remove Previous FE Container') {
+            steps {
+                script {
+                    try {
+                        sh "docker stop ${MAIN_CONTAINER_FE}"
+                        sh "docker rm ${MAIN_CONTAINER_FE}"
+                    } catch (e) {
+                        echo 'fail to stop and remove container'
+                    }
+                }
+            }
+        }
+
+
+      //새 FE 컨테이너 실행
+        stage('Run New FE image') {
+            steps {
+                //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
+                sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 ${MAIN_IMAGE_FE}"
+                // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
+                echo 'Run New FE image'
+            }
+        }
 //////////////////////////////////////////////////////////////////////////////////////////
 
 
