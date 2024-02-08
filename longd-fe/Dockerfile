@@ -16,7 +16,7 @@ RUN npm install
 # Vue 프로젝트 빌드
 RUN npm run build
 
-# 3000번 포트 열기
-EXPOSE 3000
+# 3001번 포트 열기
+EXPOSE 3001
 
 CMD ["npm", "run", "dev"]
