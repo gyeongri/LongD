@@ -28,8 +28,10 @@ FROM nginx:latest
 
 # Nginx 설정 파일 복사
 #COPY var/jenkins_home/nginx/* /usr/share/nginx
-COPY jenkins_home/nginx/* /usr/share/nginx/
+# COPY jenkins_home/nginx/* /usr/share/nginx/
 
+# Jenkins 컨테이너의 파일을 복사
+COPY /var/jenkins_home/nginx /usr/share/nginx
 
 # 빌드된 애플리케이션을 Nginx에 복사
 COPY --from=build /app/dist /usr/share/nginx/html
