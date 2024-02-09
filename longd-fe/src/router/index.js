@@ -144,7 +144,7 @@ router.beforeEach((to, from, next) => {
   loginstate(
     data => {
       userStore.setUserState(data.data);
-      if (userStore.isLogin) {
+      if (!userStore.isLogin) {
         next({ name: 'Login' });
       } else {
         next();
