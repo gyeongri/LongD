@@ -3,7 +3,6 @@
     <label class="btn btn-secondary-content" for="img">메인 사진 변경</label>
     <input type="file" id="img" autocomplete="img" @change="changImg" hidden />
   </div>
-
   <div class="box">
     <div class="overlap">
       <div class="view">
