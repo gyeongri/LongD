@@ -144,11 +144,7 @@ router.beforeEach((to, from, next) => {
   loginstate(
     data => {
       userStore.setUserState(data.data);
-      if (
-        data === '롱디에 로그인 되어 있지 않음' ||
-        data === '' ||
-        data === null
-      ) {
+      if (userStore.isLogin) {
         next({ name: 'Login' });
       } else {
         next();
