@@ -55,6 +55,7 @@ import {
 } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import dayjs from 'dayjs';
 
@@ -62,6 +63,7 @@ const router = useRouter();
 const myprofile = ref({});
 const partnerInfo = ref({});
 const coupleInfo = ref({});
+const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
 
 const today = ref(dayjs());
@@ -92,21 +94,7 @@ const changImg = event => {
 };
 
 onMounted(() => {
-  loginstate(
-    success => {
-      if (success.data === '롱디에 로그인 되어 있지 않음') {
-        console.log('로그인 안되어있다.');
-        mainDisplayStore.logOutPage = true;
-        router.push({ name: 'Login' });
-      } else {
-        console.log('롱디에 로그인 되어있다', success.data);
-        myprofile.value = success.data;
-      }
-    },
-    error => {
-      console.log('error') + error;
-    },
-  );
+  myprofile.value = userStore.userState.value;
   partnerinfo(
     data => {
       partnerInfo.value = data.data;
