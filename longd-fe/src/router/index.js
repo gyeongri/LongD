@@ -147,6 +147,7 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
   loginstate(
     data => {
+<<<<<<< HEAD   (92c536 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
 <<<<<<< HEAD   (6c52bc Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
 <<<<<<< HEAD   (11bdbc Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
 <<<<<<< HEAD   (800ffe Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
@@ -181,6 +182,10 @@ router.beforeEach((to, from, next) => {
         data === null
       ) {
 >>>>>>> CHANGE (530ce4 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
+=======
+      userStore.setUserState(data.data);
+      if (!userStore.isLogin) {
+>>>>>>> CHANGE (98249b Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
         next({ name: 'Login' });
       } else {
         next();
