@@ -187,7 +187,7 @@
           >
           <div class="mt-2.5">
             <input
-              type="text"
+              type="number"
               v-model="codeCheck"
               name="codeCheck"
               id="codeCheck"
