@@ -22,7 +22,7 @@ pipeline {
         DIRECTORY_BE = 'longD-BE' //BE 디렉터리명
         DIRECTORY_FE = 'longd-fe' //FE 디렉터리명
         DIRECTORY_CHAT = 'longD-chat' //CHAT 디렉터리명
-        DIRECTORY_OPENVIDU = 'longd-openvidu' //OPENVIDU 디렉터리명
+        DIRECTORY_OPENVIDU = 'longd-openvidu-gradle' //OPENVIDU 디렉터리명
 
 
         PROJECT_PATH = '/var/jenkins_home/workspace/LongD-develop'
@@ -57,7 +57,7 @@ pipeline {
         }
 
 
-///////////////////////////////////////////////////////////////////////////// 
+/////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
         stage('Build main openvidu image') {
             steps {
