@@ -48,13 +48,13 @@ public class UserController {
     public RedirectView getRegistInstance() {
         //로그인 성공시에만 진입하는 경로
         Optional<User> optionalUser = userService.userState();
-        RedirectView redirectView = new RedirectView("http://i10d206.p.ssafy.io:3001/");
+        RedirectView redirectView = new RedirectView("https://i10d206.p.ssafy.io/");
         if(optionalUser.isPresent()) {
             //회원이 있음
             System.out.println(optionalUser.get().toString());
         } else {
             //회원이 없음 회원가입 필요
-            redirectView = new RedirectView("http://i10d206.p.ssafy.io:3001/requiredinfo");
+            redirectView = new RedirectView("https://i10d206.p.ssafy.io/");
         }
 
         return redirectView;
@@ -77,7 +77,7 @@ public class UserController {
     @ApiOperation(value = "로그인 페이지 접속", notes = "로그인 권한이 없을경우 여기로 팅겨서 RedirectView 됨")
     //로그인 권한이 없을경우 해당 페이지로 계속 redirect됨
     public RedirectView customlogin() {
-        RedirectView redirectView = new RedirectView("http://i10d206.p.ssafy.io:3001/login");
+        RedirectView redirectView = new RedirectView("https://i10d206.p.ssafy.io/login");
         log.debug("권한이 없는 페이지로 이동하였음");
         return redirectView;
     }
@@ -93,7 +93,7 @@ public class UserController {
     @GetMapping("/logout/success")
     //로그아웃 완료시 이동하는 경로
     public RedirectView logoutSuccess() {
-        RedirectView redirectView = new RedirectView("http://i10d206.p.ssafy.io:3001/");
+        RedirectView redirectView = new RedirectView("https://i10d206.p.ssafy.io/");
         System.out.println("로그아웃 성공");
         return redirectView;
     }
@@ -112,32 +112,9 @@ public class UserController {
     @GetMapping("/test")
     public String gettest() {
 
-        return "테스트페이지 Ver4.0";
+        return "테스트페이지 Ver6.0";
     }
+    
 
-
-
-//  수정 배제중
-
-
-//    @GetMapping("/info")
-//    @ResponseBody
-//    public String getinfo() {
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        Authentication authentication = context.getAuthentication();
-//        System.out.println("authentication" + authentication.toString());
-//        if (authentication == null) {
-//            System.out.println("사용자가 로그인되지 않았습니다.");
-//            return "회원정보 없음";
-//        } else {
-//            System.out.println("사용자가 로그인되었습니다.");
-//        }
-//        String username = authentication.getName();
-//
-//        System.out.println("이름" + username);
-//
-////        return ResponseEntity.status(200).body(authentication);
-//        return username;
-//    }
 }
 
