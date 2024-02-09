@@ -58,27 +58,6 @@ public class MyRestController {
 		this.openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
 	}
 
-//	@RequestMapping(value="/createRoom",method = RequestMethod.GET)
-//	public ResponseEntity<?> getRoom(@RequestParam Map<String, String> sessionName,@RequestParam Map<String,String> id) throws URISyntaxException {
-//		sName=(String)sessionName.get("sessionName");
-//		sId=(String)id.get("id");
-//		System.out.println("sessionName : "+sName+", Id : "+sId);
-//
-//		Gson gson=new Gson();
-//		JsonObject json=new JsonObject();
-//		json.addProperty("sessionName",sName);
-//		json.addProperty("id",sId);
-//		System.out.println(json);
-//
-//		URI uri=new URI("https://localhost:5000/");
-//		HttpHeaders httpHeaders=new HttpHeaders();
-//		httpHeaders.setLocation(uri);
-//		httpHeaders.add("sessionInfo",sName+","+sId);
-//
-//		return new ResponseEntity<>(httpHeaders,HttpStatus.OK);
-//
-//	}
-
 
 
 	/*******************/
@@ -110,13 +89,10 @@ public class MyRestController {
 
 				// Generate a new token with the recently created connectionProperties
 				String token = this.mapSessions.get(sessionName).createConnection(connectionProperties).getToken();
-				System.out.println("10000");
 				// Update our collection storing the new token
 				this.mapSessionNamesTokens.get(sessionName).put(token, role);
-				System.out.println("20000");
 				// Prepare the response with the token
 				responseJson.addProperty("0", token);
-				System.out.println("getToken");
 				// Return the response to the client
 				return new ResponseEntity<>(responseJson, HttpStatus.OK);
 
@@ -320,13 +296,9 @@ public class MyRestController {
 
 		System.out.println("Starting recording for session " + sessionId + " with properties {outputMode=" + outputMode
 				+ ", hasAudio=" + hasAudio + ", hasVideo=" + hasVideo + "}");
-		System.out.println("방가방가요");
 		try {
-			System.out.println("방가방가1");
 			Recording recording = this.openVidu.startRecording(sessionId, properties);
-			System.out.println("방가방가2");
 			this.sessionRecordings.put(sessionId, true);
-			System.out.println("방가방가3");
 
 			return new ResponseEntity<>(recording, HttpStatus.OK);
 		} catch (OpenViduJavaClientException | OpenViduHttpException e) {
@@ -339,12 +311,11 @@ public class MyRestController {
 		String recordingId = (String) params.get("recording");
 		String connectionId= (String) params.get("connectionId");
 		String coupleId=(String) params.get("coupleId");
-		System.out.println("Stoping recording | {recordingId}=" + recordingId);
-		System.out.println("Stoping recording | {connectionId}=" + connectionId);
-		System.out.println("Stoping recording | {coupleId}=" + coupleId);
+//		System.out.println("Stoping recording | {recordingId}=" + recordingId);
+//		System.out.println("Stoping recording | {connectionId}=" + connectionId);
+//		System.out.println("Stoping recording | {coupleId}=" + coupleId);
 
 		try {
-			System.out.println("try들어옴?");
 			Recording recording = this.openVidu.stopRecording(recordingId);
 			System.out.println("stop recording - url : "+recording.getUrl());
 
@@ -353,8 +324,8 @@ public class MyRestController {
 
 //			//unzip
 //			//C:\SSAFY
-			//지금은 다운로드 위치를 C:\SSAFY로 고정해놔서 이렇게 씁니다.
-			//상대경로를 사용할 수 없기때문에 C:\SSAFY로 하겠습니다
+			//지금은 다운로드 위치를 C:\SSAFY로 고정
+			//상대경로를 사용할 수 없기때문에 C:\SSAFY
 			String zipPath= "C:"+File.separator+"SSAFY"+File.separator+"testVideo"+File.separator+sessionId+File.separator+sessionId+".zip";
 			System.out.println("이건 zip파일 위치!"+zipPath);
 			File zipFile=new File(zipPath);
@@ -389,35 +360,6 @@ public class MyRestController {
 			zis.closeEntry();
 			zis.close();
 
-//			//파일 옮기기
-//
-//			//json 읽어보자잇
-//			Gson gson=new Gson();
-//			String jsonPath="C:"+File.separator+"SSAFY"+File.separator+sessionId+File.separator+sessionId+".json";
-//			JsonReader recordJson=new JsonReader(new FileReader(jsonPath));
-//			JsonObject jsonObject=gson.fromJson(recordJson,JsonObject.class);
-//			System.out.println(jsonObject.get("files"));
-//
-//			//Json객체 중 files이름이 같은 json객체를 가져옴
-//			JsonArray recordArray=(JsonArray) jsonObject.get("files");
-//			String recordName="";
-//			for(int i=0;i<recordArray.size();i++){
-//				JsonObject recordFile=(JsonObject) recordArray.get(i);
-//				System.out.println("recordFile : " + recordFile);
-//				//"connectionId": "con_FGTBq30WBR" 이런식으로 저장되어 있어서 "를 떼는 과정
-//				String curConnectionId=recordFile.get("connectionId").toString().replace("\"","");
-//				System.out.println("curConnectionId : "+ curConnectionId);
-//				System.out.println(connectionId.equals(curConnectionId));
-//
-//				//connectionId가 같으면
-//				if(connectionId.equals(curConnectionId)) {
-//					recordName = (String)recordFile.get("name").toString().replace("\"", "");
-//					System.out.println(recordName);
-//					break;
-//				}
-//			}
-//			RecordUrlDto recordUrlDto=new RecordUrlDto(recording,"123");
-//			System.out.println(recordUrlDto.toString());
 			this.sessionRecordings.remove(recording.getSessionId());
 			this.openVidu.deleteRecording(recordingId);
 			return new ResponseEntity<>(recordingId, HttpStatus.OK);
