@@ -147,12 +147,12 @@ router.beforeEach((to, from, next) => {
         router.push({ name: 'Login' });
       } else {
         userStore.setUserState(data.data);
+        next();
       }
     },
     error => {
       console.log('Profile을 가져올 수 없습니다.', error);
     },
   );
-  useUserStore;
 });
 export default router;
