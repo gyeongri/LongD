@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0 --port 5173",
+    "dev": "vite --host 0.0.0.0 --port 3001",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
@@ -26,7 +26,7 @@
     "@heroicons/vue": "^2.1.1",
     "@vueuse/core": "^10.7.2",
     "axios": "^1.6.6",
-    "dayjs": "^1.11.10",
+    "dayjs": "^1.11.10",  
     "html2canvas": "^1.4.1",
     "openvidu-browser": "^2.29.1",
     "pinia": "^2.1.7",
