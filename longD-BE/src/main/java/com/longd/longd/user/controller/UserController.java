@@ -54,6 +54,7 @@ public class UserController {
             System.out.println(optionalUser.get().toString());
         } else {
             //회원이 없음 회원가입 필요
+            
             redirectView = new RedirectView("https://i10d206.p.ssafy.io/requiredinfo");
         }
 
@@ -112,7 +113,7 @@ public class UserController {
     @GetMapping("/test")
     public String gettest() {
 
-        return "테스트페이지 Ver6.0";
+        return "테스트페이지 Ver7.0";
     }
     
 
