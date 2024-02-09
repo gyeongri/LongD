@@ -140,7 +140,11 @@ const router = createRouter({
   ],
 });
 router.beforeEach((to, from, next) => {
+<<<<<<< HEAD   (ae4059 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
   if (to.name === 'Login' || to.name === 'RequiredInfo') {
+=======
+  if (to.name === 'Login') {
+>>>>>>> CHANGE (5aeab5 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
     next();
     return;
   }
