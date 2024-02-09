@@ -112,32 +112,9 @@ public class UserController {
     @GetMapping("/test")
     public String gettest() {
 
-        return "테스트페이지 Ver4.0";
+        return "테스트페이지 Ver5.0";
     }
+    
 
-
-
-//  수정 배제중
-
-
-//    @GetMapping("/info")
-//    @ResponseBody
-//    public String getinfo() {
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        Authentication authentication = context.getAuthentication();
-//        System.out.println("authentication" + authentication.toString());
-//        if (authentication == null) {
-//            System.out.println("사용자가 로그인되지 않았습니다.");
-//            return "회원정보 없음";
-//        } else {
-//            System.out.println("사용자가 로그인되었습니다.");
-//        }
-//        String username = authentication.getName();
-//
-//        System.out.println("이름" + username);
-//
-////        return ResponseEntity.status(200).body(authentication);
-//        return username;
-//    }
 }
 
