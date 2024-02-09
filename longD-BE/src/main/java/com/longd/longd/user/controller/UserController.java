@@ -54,7 +54,7 @@ public class UserController {
             System.out.println(optionalUser.get().toString());
         } else {
             //회원이 없음 회원가입 필요
-            redirectView = new RedirectView("https://i10d206.p.ssafy.io/");
+            redirectView = new RedirectView("https://i10d206.p.ssafy.io/requiredinfo");
         }
 
         return redirectView;
