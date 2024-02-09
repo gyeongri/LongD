@@ -9,7 +9,10 @@
 
     <!-- 프로필 사진 -->
     <div>
-      <img :src="myprofile.profilePicture" alt="MyImage" />
+      <img
+        :src="myprofile.profilePicture"
+        alt="MyImage"
+      />
     </div>
 
     <!-- 상태 메세지 -->
@@ -92,6 +95,7 @@
       </button>
     </div>
   </div>
+  {{ myprofile }}
 </template>
 
 <script setup>
@@ -104,6 +108,7 @@ const myprofile = ref({});
 const goHome = () => {
   router.push({ name: 'Home' });
 };
+
 
 onMounted(() => {
   loginstate(

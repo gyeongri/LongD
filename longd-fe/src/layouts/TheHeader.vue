@@ -1,26 +1,29 @@
 <template>
   <div v-show="mainDisplayStore.isVisible" class="navbar bg-base-100">
-    <div>
+    <div class="navbar-start">
       <RouterLink class="btn btn-ghost text-xl" :to="{ name: 'Home' }"
         >롱디</RouterLink
       >
     </div>
-    <div>
-      <ul class="menu menu-horizontal px-1">
+    <div class="navbar-center">
+      <ul class="menu menu-horizontal font-bold">
         <li>
-          <RouterLink :to="{ name: 'GalleryFolder' }"
-            ><img class="image" alt="Gallery" src="/static/img/image.png"
-          /></RouterLink>
+          <RouterLink :to="{ name: 'GalleryFolder' }">
+            갤러리
+            <!-- <img class="image" alt="Gallery" src="/static/img/image.png"/> -->
+          </RouterLink>
         </li>
         <li>
           <RouterLink :to="{ name: 'Calendar' }"
-            ><img class="image" alt="Calendar" src="/static/img/2x.png"
-          /></RouterLink>
+            >캘린더
+            <!-- <img class="image" alt="Calendar" src="/static/img/2x.png"/> -->
+          </RouterLink>
         </li>
         <li>
           <details>
             <summary>
-              <img class="image" alt="ViduMain" src="/static/img/im.png" />
+              화상통화
+              <!-- <img class="image" alt="ViduMain" src="/static/img/im.png" /> -->
             </summary>
             <ul class="p-2 bg-base-100 rounded-t-none">
               <li><RouterLink :to="{ name: 'ViduMain' }">main</RouterLink></li>
@@ -35,9 +38,14 @@
         </li>
         <li>
           <RouterLink :to="{ name: 'Map' }"
-            ><img class="image" alt="Map" src="/static/img/1.png"
-          /></RouterLink>
+            >여행짜기
+            <!-- <img class="image" alt="Map" src="/static/img/1.png"/> -->
+          </RouterLink>
         </li>
+      </ul>
+    </div>
+    <div class="navbar-end">
+      <ul class="menu menu-horizontal font-bold">
         <li @click="lockPage()">
           <span>화면잠금</span>
         </li>

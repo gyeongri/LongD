@@ -230,7 +230,7 @@ const fileUpload = event => {
   uploadImage(
     formData,
     success => {
-      Info_state.value.profilePicture = success.data[0];
+      Info_state.value.profilePicture = success.data;
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);

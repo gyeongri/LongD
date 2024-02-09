@@ -9,7 +9,7 @@
         <!-- 여기는 배경 사진들어가는 곳 -->
         <div
           class="overlap-group"
-          :style="{ backgroundImage: `url(${coupleInfo.coupleImgUrl})` }"
+          :style="{ backgroundImage: `url(${backGroundImg})` }"
         >
           <!-- 프로필 -->
           <div class="group-2">
@@ -47,12 +47,7 @@
 
 <script setup>
 import { ref, onMounted, watchEffect } from 'vue';
-import {
-  loginstate,
-  partnerinfo,
-  coupleDataGet,
-  coupleDataModify,
-} from '@/utils/api/user';
+import { loginstate, partnerinfo, coupleDataGet } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
@@ -67,25 +62,14 @@ const mainDisplayStore = useMainDisplayStore();
 const today = ref(dayjs());
 const startDay = ref();
 const coupleDday = ref();
-
+const backGroundImg = ref('/static/img/couple.jpg');
 const changImg = event => {
   const formData = new FormData();
   formData.append('file', event.target.files[0]);
   uploadImage(
     formData,
     success => {
-      coupleInfo.value.coupleImgUrl = success.data[0];
-      console.log(coupleInfo.value);
-      coupleDataModify(
-        coupleInfo.value,
-        success => {
-          console.log(success);
-          console.log('커플정보 보내기 완료!');
-        },
-        error => {
-          console.log('커플정보 보내는 것에 실패했습니다.', error);
-        },
-      );
+      backGroundImg.value = success.data;
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);
@@ -101,6 +85,7 @@ onMounted(() => {
         //     '롱디에 로그인 되어 있지 않음' <<< 요거 문구 수정하면안됩니다 문구에 반응하는거임
         console.log('로그인 안되어있다.');
         mainDisplayStore.logOutPage = true;
+        // 로그아웃 되어)
         router.push({ name: 'Login' });
       } else {
         console.log('롱디에 로그인 되어있다', success.data);
@@ -122,10 +107,9 @@ onMounted(() => {
   coupleDataGet(
     data => {
       coupleInfo.value = data.data;
+      console.log(coupleInfo.value.startDay);
       startDay.value = dayjs(coupleInfo.value?.startDay);
-      if (!coupleInfo.value.coupleImgUrl) {
-        coupleInfo.value.coupleImgUrl = '/static/img/frame.png';
-      }
+      console.log(startDay.value);
     },
     error => {
       console.log('Couple Info 가져오기 안됨', error);
