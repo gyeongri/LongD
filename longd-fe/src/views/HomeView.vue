@@ -95,6 +95,7 @@ const changImg = event => {
 
 onMounted(() => {
   myprofile.value = userStore.userState.value;
+  console.log(myprofile.value);
   partnerinfo(
     data => {
       partnerInfo.value = data.data;
