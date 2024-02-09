@@ -114,6 +114,7 @@ public class UserController {
     public String gettest() {
 
         return "테스트페이지 Ver8.0";
+
     }
     
 
