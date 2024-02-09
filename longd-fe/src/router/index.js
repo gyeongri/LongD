@@ -148,7 +148,7 @@ router.beforeEach((to, from, next) => {
         data === '' ||
         data === null
       ) {
-        router.push({ name: 'Login' });
+        next({ name: 'Login' });
       } else {
         userStore.setUserState(data.data);
         next();
