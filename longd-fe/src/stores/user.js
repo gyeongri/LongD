@@ -1,10 +1,17 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 export const useUserStore = defineStore('user', () => {
   const userState = ref('');
   const setUserState = function (state) {
     userState.value = state;
   };
-
-  return { userState, setUserState };
+  const isLogin = computed(
+    () =>
+      !(
+        userState.value === '롱디에 로그인 되어 있지 않음' ||
+        userState.value === '' ||
+        userState.value === null
+      ),
+  );
+  return { userState, setUserState, isLogin };
 });
