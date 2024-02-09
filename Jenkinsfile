@@ -18,11 +18,10 @@ pipeline {
         OPENVIDU_CONTAINER_BE = 'longd-openvidu'
 
 
-
         DIRECTORY_BE = 'longD-BE' //BE 디렉터리명
         DIRECTORY_FE = 'longd-fe' //FE 디렉터리명
         DIRECTORY_CHAT = 'longD-chat' //CHAT 디렉터리명
-        DIRECTORY_OPENVIDU = 'longd-openvidu-gradle' //OPENVIDU 디렉터리명
+        DIRECTORY_OPENVIDU = 'longd-openvidu' //OPENVIDU 디렉터리명
 
 
         PROJECT_PATH = '/var/jenkins_home/workspace/LongD-develop'
@@ -66,7 +65,7 @@ pipeline {
 //                     sh 'ls -al'
 //                     sh 'chmod +x ./gradlew'
 //                     sh './gradlew build'
-//                     sh "docker build -t ${OPENVIDU_IMAGE_BE} -f ${PROJECT_PATH}/longd-openvidu-gradle/Dockerfile ${PROJECT_PATH}/longd-openvidu"
+//                     sh "docker build -t ${OPENVIDU_IMAGE_BE} -f ${PROJECT_PATH}/longd-openvidu-gradle/docker/Dockerfile ${PROJECT_PATH}/docker/longd-openvidu"
 //                 }
 //                 echo 'Build openvidu image...'
 //             }
@@ -178,6 +177,7 @@ pipeline {
             }
         }
 
+        //FE - 이미지 생성
         stage('Build FE image'){
             steps {
                 dir("${DIRECTORY_FE}"){

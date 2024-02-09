@@ -3,7 +3,6 @@
     <label class="btn btn-secondary-content" for="img">메인 사진 변경</label>
     <input type="file" id="img" autocomplete="img" @change="changImg" hidden />
   </div>
-
   <div class="box">
     <div class="overlap">
       <div class="view">
@@ -18,7 +17,7 @@
               ><img
                 class="myProfile rounded-full"
                 alt="내 프로필"
-                :src="myprofile.profilePicture"
+                :src="userStore?.userState?.profilePicture"
             /></RouterLink>
             <div class="image">
               <img
@@ -31,7 +30,7 @@
               <img
                 class="partnerProfile rounded-full"
                 alt="상대 프로필"
-                :src="partnerInfo.profilePicture"
+                :src="partnerInfo?.profilePicture"
             /></RouterLink>
           </div>
         </div>
@@ -48,22 +47,14 @@
 
 <script setup>
 import { ref, onMounted, watchEffect } from 'vue';
-import {
-  loginstate,
-  partnerinfo,
-  coupleDataGet,
-  coupleDataModify,
-} from '@/utils/api/user';
+import { partnerinfo, coupleDataGet, coupleDataModify } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
-import { useRouter } from 'vue-router';
-import { useMainDisplayStore } from '@/stores/maindisplay.js';
+import { useUserStore } from '@/stores/user.js';
 import dayjs from 'dayjs';
 
-const router = useRouter();
-const myprofile = ref({});
 const partnerInfo = ref({});
 const coupleInfo = ref({});
-const mainDisplayStore = useMainDisplayStore();
+const userStore = useUserStore();
 
 const today = ref(dayjs());
 const startDay = ref();
@@ -93,21 +84,6 @@ const changImg = event => {
 };
 
 onMounted(() => {
-  loginstate(
-    success => {
-      if (success.data === '롱디에 로그인 되어 있지 않음') {
-        console.log('로그인 안되어있다.');
-        mainDisplayStore.logOutPage = true;
-        router.push({ name: 'Login' });
-      } else {
-        console.log('롱디에 로그인 되어있다', success.data);
-        myprofile.value = success.data;
-      }
-    },
-    error => {
-      console.log('error') + error;
-    },
-  );
   partnerinfo(
     data => {
       partnerInfo.value = data.data;
