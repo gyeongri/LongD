@@ -147,11 +147,19 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
   loginstate(
     data => {
+<<<<<<< HEAD   (6c52bc Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
 <<<<<<< HEAD   (11bdbc Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
 <<<<<<< HEAD   (800ffe Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
 <<<<<<< HEAD   (bd1350 [BE] 로그인 경로 오타수정)
       userStore.setUserState(data.data);
       if (!userStore.isLogin) {
+=======
+      if (
+        data === '롱디에 로그인 되어 있지 않음' ||
+        data === '' ||
+        data === null
+      ) {
+>>>>>>> CHANGE (530ce4 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
 =======
       if (
         data === '롱디에 로그인 되어 있지 않음' ||
