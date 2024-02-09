@@ -1,10 +1,8 @@
 <template>
   <div>
-
     <label class="btn btn-secondary-content" for="img">메인 사진 변경</label>
     <input type="file" id="img" autocomplete="img" @change="changImg" hidden />
   </div>
-
 
   <div class="box">
     <div class="overlap">
@@ -13,7 +11,6 @@
         <div
           class="overlap-group"
           :style="{ backgroundImage: `url(${coupleInfo.coupleImgUrl})` }"
-
         >
           <!-- 프로필 -->
           <div class="group-2">
@@ -72,20 +69,6 @@ const mainDisplayStore = useMainDisplayStore();
 const today = ref(dayjs());
 const startDay = ref();
 const coupleDday = ref();
-const backGroundImg = ref('/static/img/couple.jpg');
-const changImg = event => {
-  const formData = new FormData();
-  formData.append('file', event.target.files[0]);
-  uploadImage(
-    formData,
-    success => {
-      backGroundImg.value = success.data;
-    },
-    error => {
-      console.log('사진을 변환할 수 없어요.', error);
-    },
-  );
-};
 
 const changImg = event => {
   const formData = new FormData();
