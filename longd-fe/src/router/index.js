@@ -140,64 +140,15 @@ const router = createRouter({
   ],
 });
 router.beforeEach((to, from, next) => {
-<<<<<<< HEAD   (d30322 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-<<<<<<< HEAD   (c5b1ba Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-<<<<<<< HEAD   (ae4059 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
   if (to.name === 'Login' || to.name === 'RequiredInfo') {
-=======
-  if (to.name === 'Login') {
->>>>>>> CHANGE (5aeab5 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-=======
-  if (to.name === 'Login') {
->>>>>>> CHANGE (5aeab5 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-=======
-  if (to.name === 'Login') {
->>>>>>> CHANGE (5aeab5 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
     next();
     return;
   }
   const userStore = useUserStore();
   loginstate(
     data => {
-<<<<<<< HEAD   (92c536 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-<<<<<<< HEAD   (6c52bc Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-<<<<<<< HEAD   (11bdbc Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-<<<<<<< HEAD   (800ffe Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-<<<<<<< HEAD   (bd1350 [BE] 로그인 경로 오타수정)
       userStore.setUserState(data.data);
       if (!userStore.isLogin) {
-=======
-      if (
-        data === '롱디에 로그인 되어 있지 않음' ||
-        data === '' ||
-        data === null
-      ) {
->>>>>>> CHANGE (530ce4 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-=======
-      if (
-        data === '롱디에 로그인 되어 있지 않음' ||
-        data === '' ||
-        data === null
-      ) {
->>>>>>> CHANGE (530ce4 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-=======
-      if (
-        data === '롱디에 로그인 되어 있지 않음' ||
-        data === '' ||
-        data === null
-      ) {
->>>>>>> CHANGE (530ce4 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-=======
-      if (
-        data === '롱디에 로그인 되어 있지 않음' ||
-        data === '' ||
-        data === null
-      ) {
->>>>>>> CHANGE (530ce4 Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
-=======
-      userStore.setUserState(data.data);
-      if (!userStore.isLogin) {
->>>>>>> CHANGE (98249b Merge branch 'develop' of https://i10d206.p.ssafy.io:8989/a/)
         next({ name: 'Login' });
       } else {
         next();
