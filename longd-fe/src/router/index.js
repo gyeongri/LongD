@@ -140,6 +140,10 @@ const router = createRouter({
   ],
 });
 router.beforeEach((to, from, next) => {
+  if (to.name === 'Login') {
+    next();
+    return;
+  }
   const userStore = useUserStore();
   loginstate(
     data => {
