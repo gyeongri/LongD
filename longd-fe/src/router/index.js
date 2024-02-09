@@ -19,6 +19,8 @@ import LoginSignUpView from '@/views/main/LoginSignUpView.vue';
 import RequiredInfoView from '@/views/main/RequiredInfoView.vue';
 import ConnectCodeView from '@/components/main/ConnectCodeView.vue';
 import GalleryFolderView from '@/views/gallery/GalleryFolderView.vue';
+import { useUserStore } from '@/stores/user.js';
+import { loginstate } from '@/utils/api/user';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -95,7 +97,7 @@ const router = createRouter({
       path: '/map',
       name: 'Map',
       component: MapView,
-      children:[
+      children: [
         {
           path: 'search',
           name: 'MapSearch',
@@ -106,7 +108,7 @@ const router = createRouter({
           name: 'MapPlan',
           component: MapPlan,
         },
-      ]
+      ],
       // children 안 path에는 /를 사용하면 안된다 => 절대경로가 되어버려서!
       // children 안에 children을 만들 수도 있다!
     },
@@ -114,7 +116,7 @@ const router = createRouter({
       path: '/testmap',
       name: 'TestMap',
       component: TestMapView,
-    },   
+    },
     {
       path: '/plan/detail',
       name: 'PlanDetail',
@@ -137,5 +139,20 @@ const router = createRouter({
     },
   ],
 });
-
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+  loginstate(
+    data => {
+      if (data === '롱디에 로그인 되어 있지 않음') {
+        router.push({ name: 'Login' });
+      } else {
+        userStore.setUserState(data.data);
+      }
+    },
+    error => {
+      console.log('Profile을 가져올 수 없습니다.', error);
+    },
+  );
+  useUserStore;
+});
 export default router;
