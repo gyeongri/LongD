@@ -50,11 +50,14 @@ public class UserController {
         Optional<User> optionalUser = userService.userState();
         RedirectView redirectView = new RedirectView("https://i10d206.p.ssafy.io/");
         if(optionalUser.isPresent()) {
-            //회원이 있음
+            if( optionalUser.get().getCoupleListId() == null ) {
+                //회원이나 연결코드가 등록되지 않았음
+                redirectView = new RedirectView("https://i10d206.p.ssafy.io/connectcode");
+            }
+
             System.out.println(optionalUser.get().toString());
         } else {
             //회원이 없음 회원가입 필요
-            
             redirectView = new RedirectView("https://i10d206.p.ssafy.io/requiredinfo");
         }
 
