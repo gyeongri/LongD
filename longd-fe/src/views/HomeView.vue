@@ -17,7 +17,7 @@
               ><img
                 class="myProfile rounded-full"
                 alt="내 프로필"
-                :src="myprofile.profilePicture"
+                :src="userStore?.userState?.profilePicture"
             /></RouterLink>
             <div class="image">
               <img
@@ -30,7 +30,7 @@
               <img
                 class="partnerProfile rounded-full"
                 alt="상대 프로필"
-                :src="partnerInfo.profilePicture"
+                :src="partnerInfo?.profilePicture"
             /></RouterLink>
           </div>
         </div>
@@ -47,24 +47,14 @@
 
 <script setup>
 import { ref, onMounted, watchEffect } from 'vue';
-import {
-  loginstate,
-  partnerinfo,
-  coupleDataGet,
-  coupleDataModify,
-} from '@/utils/api/user';
+import { partnerinfo, coupleDataGet, coupleDataModify } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
-import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user.js';
-import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import dayjs from 'dayjs';
 
-const router = useRouter();
-const myprofile = ref({});
 const partnerInfo = ref({});
 const coupleInfo = ref({});
 const userStore = useUserStore();
-const mainDisplayStore = useMainDisplayStore();
 
 const today = ref(dayjs());
 const startDay = ref();
@@ -94,8 +84,6 @@ const changImg = event => {
 };
 
 onMounted(() => {
-  myprofile.value = userStore.userState.value;
-  console.log(myprofile.value);
   partnerinfo(
     data => {
       partnerInfo.value = data.data;
