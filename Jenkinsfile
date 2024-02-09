@@ -181,11 +181,13 @@ pipeline {
         stage('Build FE image'){
             steps {
                 dir("${DIRECTORY_FE}"){
-                    def currentDir = pwd()
-                    echo "Current Directory: ${currentDir}"
 
                     sh "ls"
                     sh "docker build -t ${MAIN_IMAGE_FE} -f ${PROJECT_PATH}/longd-fe/Dockerfile ${PROJECT_PATH}/longd-fe"
+                    script {
+                                 def currentDir = pwd()
+                                 echo "Current Directory: ${currentDir}"
+                            }
 
                 }
             }
@@ -210,14 +212,15 @@ pipeline {
       //새 FE 컨테이너 실행
         stage('Run New FE image') {
             steps {
-
-                def currentDir = pwd()
-                echo "Current Directory: ${currentDir}"
-
                 //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
                 sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 ${MAIN_IMAGE_FE}"
                 // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
                 echo 'Run New FE image'
+
+                script {
+                             def currentDir = pwd()
+                             echo "Current Directory: ${currentDir}"
+                        }
             }
         }
 //////////////////////////////////////////////////////////////////////////////////////////
