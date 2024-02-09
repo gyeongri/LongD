@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-end">
-    <div class="flex items-center space-x-4">
+  <div class="flex justify-end mb-10 mr-10">
+    <div class="flex items-center space-x-4" style="z-index: 999">
       <AppDropdown>
         <template v-slot>
           <li @click="folderCreate"><a>폴더 생성</a></li>
@@ -10,11 +10,29 @@
     </div>
   </div>
 
-  <GalleryFolderGrid :items="folders" @totalView="totalView">
+  <GalleryFolderGrid :items="folderFirstItem" @totalView="totalView">
     <template v-slot="{ item }">
-      <p :id="item.id" @click="goList(item.name)">
-        {{ item.name }}
-      </p>
+      <div class="stack w-full h-64" @click="goList(item.folderName)">
+        <GalleryCard
+          :id="item.id"
+          :src="item.pathUrl"
+          :folderName="item.folderName"
+        >
+        </GalleryCard>
+        <GalleryCard
+          :id="item.id"
+          :src="item.pathUrl"
+          :folderName="item.folderName"
+        >
+        </GalleryCard>
+        <GalleryCard
+          :id="item.id"
+          :src="item.pathUrl"
+          :folderName="item.folderName"
+        >
+        </GalleryCard>
+      </div>
+      <p class="mt-2 ml-4">{{ item.folderName }}</p>
     </template>
   </GalleryFolderGrid>
 </template>
@@ -31,6 +49,7 @@ import { getGalleryFolderName, getGalleryFolderList } from '@/utils/api/albums';
 import Swal from 'sweetalert2';
 import { createFolder } from '@/utils/api/albums';
 import { useGalleryStore } from '@/stores/gallery.js';
+import GalleryCard from '@/components/gallery/GalleryCard.vue';
 const router = useRouter();
 const galleryStore = useGalleryStore();
 
@@ -81,26 +100,32 @@ const fetchFolders = async () => {
     folders.value = data;
 
     for (const folder of data) {
-      // params2.value.categoryName = folder.name;
-      // console.log(params2.value.categoryName);
       try {
         params2.value.categoryName = folder.name;
         const { data: data2 } = await getGalleryFolderList(
           coupleId.value,
           params2.value,
         );
-        folderFirstItem.value.push(data2);
-        // data3같은거 만들어서 필요한 것만 보내기
-        console.log('-----hh-----');
-        console.log(folderFirstItem.value);
+        let data3 = {};
+        if (data2.length === 0) {
+          console.log('데이터가 없습니다.');
+          data3 = {
+            folderName: folder.name,
+            pathUrl:
+              'https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg',
+          };
+        } else {
+          data3 = {
+            folderName: folder.name,
+            pathUrl: data2[0].pathUrl,
+          };
+        }
+        folderFirstItem.value.push(data3);
       } catch (err) {
         console.error(err);
-        console.error('가져올 데이터가 없습니다.');
       }
+      console.log(folderFirstItem.value);
     }
-
-    console.log('------------------');
-    // console.log(folders.value);
   } catch (err) {
     console.error(err);
   }

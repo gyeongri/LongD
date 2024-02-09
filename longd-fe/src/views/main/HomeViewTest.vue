@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label class="btn btn-secondary-content" for="img">메인 사진 변경</label>
+    <label class="btn btn-primary" for="img">메인 사진 변경</label>
     <input type="file" id="img" autocomplete="img" @change="changImg" hidden />
   </div>
 
@@ -8,38 +8,46 @@
     <div class="overlap">
       <div class="view">
         <!-- 여기는 배경 사진들어가는 곳 -->
-        <div
+        <div class="rectangle" />
+        <div class="imageMain">
+          <img
+            class="element"
+            alt="메인 이미지"
+            :src="coupleInfo.coupleImgUrl"
+          />
+        </div>
+        <!-- <div
           class="overlap-group"
           :style="{ backgroundImage: `url(${coupleInfo.coupleImgUrl})` }"
-        >
-          <!-- 프로필 -->
-          <div class="group-2">
-            <RouterLink :to="{ name: 'Profile' }"
-              ><img
-                class="myProfile rounded-full"
-                alt="내 프로필"
-                :src="myprofile.profilePicture"
-            /></RouterLink>
-            <div class="image">
-              <img
-                class="heart-suit"
-                alt="Heart suit"
-                src="/static/img/heart-suit.png"
-              />
-            </div>
-            <RouterLink :to="{ name: 'PartnerInfo' }">
-              <img
-                class="partnerProfile rounded-full"
-                alt="상대 프로필"
-                :src="partnerInfo.profilePicture"
-            /></RouterLink>
+        > -->
+        <!-- 프로필 -->
+        <div class="group-2">
+          <RouterLink :to="{ name: 'Profile' }"
+            ><img
+              class="myProfile rounded-full"
+              alt="내 프로필"
+              :src="myprofile.profilePicture"
+          /></RouterLink>
+          <div class="image">
+            <img
+              class="heart-suit"
+              alt="Heart suit"
+              src="/static/img/heart-suit.png"
+            />
           </div>
+          <RouterLink :to="{ name: 'PartnerInfo' }">
+            <img
+              class="partnerProfile rounded-full"
+              alt="상대 프로필"
+              :src="partnerInfo.profilePicture"
+          /></RouterLink>
         </div>
       </div>
+      <!-- </div> -->
       <!-- 디데이 -->
       <div class="overlap-wrapper">
         <div class="div-wrapper">
-          <div class="text-wrapper-3">D+{{ coupleDday }}</div>
+          <div class="text-wrapper">D+{{ coupleDday }}</div>
         </div>
       </div>
     </div>
@@ -76,9 +84,11 @@ const changImg = event => {
     formData,
     success => {
       coupleInfo.value.coupleImgUrl = success.data[0];
+      console.log(coupleInfo.value);
       coupleDataModify(
         coupleInfo.value,
         success => {
+          console.log(success);
           console.log('커플정보 보내기 완료!');
         },
         error => {
@@ -96,6 +106,8 @@ onMounted(() => {
   loginstate(
     success => {
       if (success.data === '롱디에 로그인 되어 있지 않음') {
+        //     홈 실행시 로그인 여부를 체크해서 안되있으면 로그인 화면으로 팅궈냅니다
+        //     '롱디에 로그인 되어 있지 않음' <<< 요거 문구 수정하면안됩니다 문구에 반응하는거임
         console.log('로그인 안되어있다.');
         mainDisplayStore.logOutPage = true;
         router.push({ name: 'Login' });
@@ -136,27 +148,71 @@ watchEffect(() => {
 </script>
 
 <style scoped>
-.box {
+/* .box {
   height: 740px;
   width: 612px;
+} */
+
+.box {
+  height: 833px;
+  left: 382px;
+  position: absolute;
+  top: 138px;
+  width: 612px;
 }
+
+.box .overlap {
+  height: 833px;
+  position: relative;
+}
+/* 위 두개가 화면 위치 스타일 */
 
 .box .view {
   height: 720px;
-  left: 50px;
+  /* left: 50px;
   position: absolute;
-  top: 200px;
+  top: 200px; */
   width: 612px;
 }
 
-.box .overlap-group {
+.view .rectangle {
+  background: linear-gradient(
+    180deg,
+    rgb(255, 255, 255) 0%,
+    rgb(232.7, 232.7, 232.7) 100%
+  );
+  height: 720px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 612px;
+}
+
+/* 위 두개가 폴라로이드 배경 */
+
+.imageMain {
+  height: 557px;
+  width: 554px;
+}
+
+.imageMain .element {
+  height: 557px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 554px;
+}
+
+/* 위 두개는 메인 사진 폴라로이드 안에 들어가는 거 */
+/* .box .overlap-group {
   background-size: 100%;
   background-repeat: no-repeat;
   height: 100%;
   width: 100%;
   left: -4px;
   position: relative;
-}
+} */
 
 .box .group-2 {
   height: 80px;
@@ -206,7 +262,7 @@ watchEffect(() => {
   width: 264px;
 }
 
-.box .text-wrapper-3 {
+.box .text-wrapper {
   color: #ffffff;
   font-family: 'Jura-SemiBold', Helvetica;
   font-size: 50px;
