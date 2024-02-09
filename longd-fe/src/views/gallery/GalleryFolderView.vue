@@ -19,6 +19,9 @@
   </GalleryFolderGrid>
 </template>
 
+<!-- folderFirstItem : id 폴더명 첫번째사진
+folders : id 폴더명 -->
+
 <script setup>
 import AppDropdown from '@/components/app/AppDropdown.vue';
 import GalleryFolderGrid from '@/components/gallery/GalleryFolderGrid.vue';

@@ -11,8 +11,8 @@ const instance = axios.create({
   },
 });
 
-function uploadImage(param, success, fail) {
-  instance.post(`/fileUpload/uploads`, param).then(success).catch(fail);
+function uploadImage(payload, success, fail) {
+  instance.post(`/fileUpload/uploads`, payload).then(success).catch(fail);
 }
 
 export { instance, uploadImage };

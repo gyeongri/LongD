@@ -27,28 +27,26 @@
           {{ place.address }}
           <!-- 장소 상세 정보 확인 버튼 -->
           <button @click="showDetailModal(place)">자세히 보기</button>
-          
+
           <!-- 누르면 아래가 보이는 형태로 만드는 게 더 좋지 않을까? -->
           <div class="collapse bg-base-200">
-            <input type="checkbox" /> 
+            <input type="checkbox" />
             <div class="collapse-title text-xl font-medium">
-              <strong>{{ place.name }}</strong><br/>
+              <strong>{{ place.name }}</strong
+              ><br />
               {{ place.address }}
               <button @click="planStore.addHopeList(place)">❤</button>
               <!-- 여기는 좋아요버튼 한 거 만들기 -->
             </div>
-          <div class="collapse-content"> 
-            <!-- 상세내용 넣기 이거는 수정해야해!-->
-            <div v-if="selectedPlace">
-              <p>주소: {{ selectedPlace.address }}</p>
-              <p>위도: {{ selectedPlace.latitude }}</p>
-              <p>경도: {{ selectedPlace.longitude }}</p>
+            <div class="collapse-content">
+              <!-- 상세내용 넣기 이거는 수정해야해!-->
+              <!-- <div v-if="place"> -->
+              <p>주소: {{ place.address }}</p>
+              <p>위도: {{ place.geometry.location.lat() }}</p>
+              <p>경도: {{ place.geometry.location.lng() }}</p>
+              <!-- </div> -->
             </div>
           </div>
-        </div>
-
-
-
         </li>
       </ul>
     </div>
@@ -310,7 +308,7 @@ const handleResultClick = place => {
   // 선택한 장소 정보 설정
   selectedPlace.value = {
     name: place.name,
-    address: place.formatted_address,
+    address: place.address,
     latitude: place.geometry.location.lat(),
     longitude: place.geometry.location.lng(),
   };

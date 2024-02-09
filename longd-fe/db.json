@@ -172,9 +172,6 @@
     {
       "src": "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg",
       "createdAt": 1706427286124,
-<<<<<<< HEAD:전근렬/longd-fe/db.json
-      "id": 20
-=======
       "folderName": "사물",
       "id": 20
     },
@@ -207,7 +204,6 @@
       "createdAt": 1706504808399,
       "folderName": "사물",
       "id": 25
->>>>>>> f1d41673cfc69d2c419b4645f6dfdd209d7f64bf:longd-fe/db.json
     }
   ]
 }

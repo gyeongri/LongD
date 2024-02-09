@@ -241,6 +241,8 @@ const toggleDelete = () => {
 };
 
 // 삭제 체크 표시된 item들 삭제
+
+
 const removeItems = async () => {
   if (confirm('정말로 삭제하시겠습니까?') === false) {
     return;
@@ -257,7 +259,6 @@ const removeItems = async () => {
 
 // 생성 모달 관련
 const imagePreviews = ref([]); // 이미지 미리보기를 위한 배열
-
 const handleFileChange = event => {
   const files = event.target.files;
   for (let i = 0; i < files.length; i++) {

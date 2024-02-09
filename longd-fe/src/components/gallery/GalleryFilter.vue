@@ -1,11 +1,7 @@
 <template>
   <form @submit.prevent>
     <div class="flex items-center justify-between">
-<<<<<<< HEAD:전근렬/longd-fe/src/components/gallery/GalleryFilter.vue
-      <div class="w-3/4">
-=======
       <!-- <div class="w-3/4">
->>>>>>> f1d41673cfc69d2c419b4645f6dfdd209d7f64bf:longd-fe/src/components/gallery/GalleryFilter.vue
         <input
           :value="id"
           @input="changeId"
@@ -13,13 +9,8 @@
           class="form-control"
           placeholder="id로 검색해주세요."
         />
-<<<<<<< HEAD:전근렬/longd-fe/src/components/gallery/GalleryFilter.vue
-      </div>
-      <div class="w-1/4 pl-2">
-=======
       </div> -->
       <div class="pl-2">
->>>>>>> f1d41673cfc69d2c419b4645f6dfdd209d7f64bf:longd-fe/src/components/gallery/GalleryFilter.vue
         <select
           :value="limit"
           @input="$emit('update:limit', $event.target.value)"

@@ -145,34 +145,17 @@ const goHome = () => {
 };
 
 const fileUpload = event => {
+  const formData = new FormData();
+  formData.append('file', event.target.files[0]);
   uploadImage(
-    event.target.files[0],
+    formData,
     success => {
-      myprofile.value.profilePicture = success.data;
-      console.log(success);
-      console.log(success.data);
-      console.log(myprofile.value.profilePicture);
+      myprofile.value.profilePicture = success.data[0];
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);
     },
   );
-
-  // const file = event.target.files[0];
-  // // 파일을 가지고오기
-  // if (file) {
-  //   // FileReader를 사용하여 이미지를 읽어와 imageUrl에 할당
-  //   const reader = new FileReader();
-  //   // FileReader 객체 생성(파일을 비동기적으로 읽어오는 것)
-  //   console.log(file);
-  //   reader.onload = () => {
-  //     // 파일의 읽기 작업이 완료되었을 때 실행할 함수
-  //     myprofile.value.profilePicture = reader.result;
-  //     // Base64로 인코딩된 문자열을 ref객체에 넣기
-  //   };
-  //   reader.readAsDataURL(file);
-  //   // 파일을 Base64로 인코딩하여 데이터 URL로 변환
-  // }
 };
 
 onMounted(() => {

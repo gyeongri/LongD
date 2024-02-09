@@ -19,7 +19,7 @@ import ChatInputView from '@/views/chat/ChatInputView.vue';
 import ChatDisplayView from '@/views/chat/ChatDisplayView.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { stompApi } from '@/utils/api/index.js';
-
+const { VITE_CHAT_BASE_IP } = import.meta.env;
 const coupleId = ref(77);
 const messages = reactive([]);
 const sender = ref(8);
@@ -63,7 +63,7 @@ const recvMessage = recv => {
 
 // 웹소켓 연결 매서드
 let reconnect = 0;
-const sock = ref(new SockJS('http://localhost:8080/ws/chat'));
+const sock = ref(new SockJS(`${VITE_CHAT_BASE_IP}/ws/chat`));
 const ws = ref(Stomp.over(sock.value));
 
 const connect = function () {
@@ -84,7 +84,7 @@ const connect = function () {
       if (reconnect <= 5) {
         setTimeout(() => {
           console.log('connection reconnect');
-          sock.value = new SockJS('http://localhost:8080/ws/chat');
+          sock.value = new SockJS(`${VITE_CHAT_BASE_IP}/ws/chat`);
           ws.value = Stomp.over(sock.value);
           connect();
         }, 10 * 1000);
@@ -109,4 +109,4 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>
