@@ -140,32 +140,32 @@ const router = createRouter({
     },
   ],
 });
-router.beforeEach((to, from, next) => {
-  if (to.name === 'Login' || to.name === 'RequiredInfo') {
-    next();
-    return;
-  }
-  const userStore = useUserStore();
-  loginstate(
-    data => {
-      if (data.data === '롱디에 로그인 되어 있지 않음') {
-        next({ name: 'Login' });
-        return;
-      }
-      if (data.data !== userStore.userState.value) {
-        userStore.setUserState(data.data);
-      }
-      nextTick(() => {
-        if (!userStore.isLogin) {
-          next({ name: 'Login' });
-        } else {
-          next();
-        }
-      });
-    },
-    error => {
-      console.log('Profile을 가져올 수 없습니다.', error);
-    },
-  );
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.name === 'Login' || to.name === 'RequiredInfo') {
+//     next();
+//     return;
+//   }
+//   const userStore = useUserStore();
+//   loginstate(
+//     data => {
+//       if (data.data === '롱디에 로그인 되어 있지 않음') {
+//         next({ name: 'Login' });
+//         return;
+//       }
+//       if (data.data !== userStore.userState.value) {
+//         userStore.setUserState(data.data);
+//       }
+//       nextTick(() => {
+//         if (!userStore.isLogin) {
+//           next({ name: 'Login' });
+//         } else {
+//           next();
+//         }
+//       });
+//     },
+//     error => {
+//       console.log('Profile을 가져올 수 없습니다.', error);
+//     },
+//   );
+// });
 export default router;
