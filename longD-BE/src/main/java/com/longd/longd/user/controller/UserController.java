@@ -97,7 +97,7 @@ public class UserController {
     @GetMapping("/logout/success")
     //로그아웃 완료시 이동하는 경로
     public RedirectView logoutSuccess() {
-        RedirectView redirectView = new RedirectView("https://i10d206.p.ssafy.io/");
+        RedirectView redirectView = new RedirectView("https://i10d206.p.ssafy.io/login");
         System.out.println("로그아웃 성공");
         return redirectView;
     }
