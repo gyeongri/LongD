@@ -12,7 +12,6 @@
       @mousemove="draw"
     ></canvas> -->
   </div>
-  <!-- <button @click="check">여기 이제 이거 필요없음 </button> -->
   <br />
 
   <br />
@@ -24,9 +23,9 @@ import { useViduStore } from '@/stores/vidu.js';
 
 const viduStore = useViduStore();
 const videoElement = ref(null);
-const canvas = ref(null);
-const isDrawing = ref(false);
-const selectedColor = ref('#000000'); // 초기 색상은 검은색
+// const canvas = ref(null);
+// const isDrawing = ref(false);
+// const selectedColor = ref('#000000'); // 초기 색상은 검은색
 onMounted(() => {
   if (viduStore.publisherTest) {
     viduStore.publisher.addVideoElement(videoElement.value);
@@ -40,22 +39,7 @@ watch(
     }
   },
 );
-// watch(
-//   () => viduStore.publisherTest,
-//   (newValue, oldValue) => {
-//     console.log('qwe');
-//     setTimeout(() => {
-//       console.log('시간차공격');
-//       if (viduStore.publisherTest) {
-//         viduStore.publisher.addVideoElement(videoElement.value);
-//       }
-//     }, 0);
-//   },
-// );
-// const check = function () {
-//   console.log(viduStore.publisher);
-//   viduStore.publisher.addVideoElement(videoElement.value);
-// };
+
 const enterPiPMode = async () => {
   try {
     if (document.pictureInPictureEnabled) {
@@ -67,40 +51,40 @@ const enterPiPMode = async () => {
     console.error('PiP 모드 진입 중 오류가 발생했습니다:', error);
   }
 };
-const startDrawing = () => {
-  isDrawing.value = true;
-};
+// const startDrawing = () => {
+//   isDrawing.value = true;
+// };
 
-const stopDrawing = () => {
-  isDrawing.value = false;
-  const ctx = canvas.value.getContext('2d');
-  ctx.beginPath(); // 새로운 경로 시작
-};
+// const stopDrawing = () => {
+//   isDrawing.value = false;
+//   const ctx = canvas.value.getContext('2d');
+//   ctx.beginPath(); // 새로운 경로 시작
+// };
 
-const draw = event => {
-  if (!isDrawing.value) return;
+// const draw = event => {
+//   if (!isDrawing.value) return;
 
-  const canvasElement = canvas.value;
-  const ctx = canvasElement.getContext('2d');
+//   const canvasElement = canvas.value;
+//   const ctx = canvasElement.getContext('2d');
 
-  // 마우스 위치에서 선 그리기
-  ctx.strokeStyle = 'black';
-  ctx.lineWidth = 5;
-  ctx.lineCap = 'round';
-  ctx.strokeStyle = selectedColor.value;
+//   // 마우스 위치에서 선 그리기
+//   ctx.strokeStyle = 'black';
+//   ctx.lineWidth = 5;
+//   ctx.lineCap = 'round';
+//   ctx.strokeStyle = selectedColor.value;
 
-  // 정확한 위치로 그리기
-  ctx.lineTo(
-    event.clientX - canvasElement.getBoundingClientRect().left,
-    event.clientY - canvasElement.getBoundingClientRect().top,
-  );
-  ctx.stroke();
-  ctx.beginPath(); // 새로운 경로 시작
-  ctx.moveTo(
-    event.clientX - canvasElement.getBoundingClientRect().left,
-    event.clientY - canvasElement.getBoundingClientRect().top,
-  );
-};
+//   // 정확한 위치로 그리기
+//   ctx.lineTo(
+//     event.clientX - canvasElement.getBoundingClientRect().left,
+//     event.clientY - canvasElement.getBoundingClientRect().top,
+//   );
+//   ctx.stroke();
+//   ctx.beginPath(); // 새로운 경로 시작
+//   ctx.moveTo(
+//     event.clientX - canvasElement.getBoundingClientRect().left,
+//     event.clientY - canvasElement.getBoundingClientRect().top,
+//   );
+// };
 </script>
 
 <style scoped>
