@@ -147,7 +147,7 @@ router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
   try {
     const { data } = await loginstate();
-    userStore.setUserState(data);
+    userStore.setUserState(data.data);
 
     if (!userStore.isLogin) {
       next({ name: 'Login' });
