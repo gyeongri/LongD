@@ -115,7 +115,7 @@ import { useUserStore } from '@/stores/user.js';
 import { ref } from 'vue';
 const userStore = useUserStore();
 const viduStore = useViduStore();
-const coupleid = ref(userStore.userState.value?.coupleListId);
+const coupleid = ref(userStore?.userState?.value?.coupleListId);
 const join = function (coupleid) {
   viduStore.joinSession(coupleid);
 };

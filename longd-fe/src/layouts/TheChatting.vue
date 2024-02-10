@@ -1,5 +1,4 @@
-<template>
-  <!-- h-1/4, h-3/4 - 차지할 비율을 나타냄, w-1/4도 있음(가로버전) -->
+<!-- <template>
   <div class="h-[45rem] flex flex-col">
     <ChatDisplayView
       :messages="messages"
@@ -17,7 +16,7 @@
 <script setup>
 import ChatInputView from '@/views/chat/ChatInputView.vue';
 import ChatDisplayView from '@/views/chat/ChatDisplayView.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, onUnmounted } from 'vue';
 import { stompApi } from '@/utils/api/index.js';
 const { VITE_CHAT_BASE_IP } = import.meta.env;
 
@@ -62,7 +61,6 @@ const recvMessage = recv => {
   });
 };
 
-// 웹소켓 연결 매서드
 let reconnect = 0;
 const sock = ref(new SockJS(`${VITE_CHAT_BASE_IP}/ws/chat`));
 const ws = ref(Stomp.over(sock.value));
@@ -108,6 +106,18 @@ onMounted(() => {
     });
   connect();
 });
+onUnmounted(() => {
+  if (ws.value) {
+    ws.value.disconnect();
+  }
+});
 </script>
+
+<style lang="scss" scoped></style> -->
+<template>
+  <div></div>
+</template>
+
+<script setup></script>
 
 <style lang="scss" scoped></style>
