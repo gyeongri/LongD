@@ -139,24 +139,24 @@ const router = createRouter({
     },
   ],
 });
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.name === 'Login' || to.name === 'RequiredInfo') {
     next();
     return;
   }
   const userStore = useUserStore();
-  loginstate(
-    data => {
-      userStore.setUserState(data.data);
-      if (!userStore.isLogin) {
-        next({ name: 'Login' });
-      } else {
-        next();
-      }
-    },
-    error => {
-      console.log('Profile을 가져올 수 없습니다.', error);
-    },
-  );
+  try {
+    const { data } = await loginstate();
+    userStore.setUserState(data);
+
+    if (!userStore.isLogin) {
+      next({ name: 'Login' });
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.log('Profile을 가져올 수 없습니다.', error);
+    next({ name: 'Login' }); // 또는 실패 처리 로직을 넣고 next 호출
+  }
 });
 export default router;
