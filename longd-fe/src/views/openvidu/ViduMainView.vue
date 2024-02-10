@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ userStore.userState.value.coupleListId }}
     <div class="flex justify-end">
       <button @click="viduStore.startRecording">
         <font-awesome-icon
