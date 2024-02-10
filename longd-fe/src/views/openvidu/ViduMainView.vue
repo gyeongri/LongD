@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ userStore.userState?.value?.coupleListId }}
     <div class="flex justify-end">
       <button @click="viduStore.startRecording">
         <font-awesome-icon
@@ -127,6 +126,10 @@ const disconnect = function () {
   viduStore.publisher = '';
   viduStore.publisherTest = '';
 };
+onMounted(() => {
+  console.log(userStore.userState.value.coupleListId )
+  console.log(userStore.userState.value )
+}),
 </script>
 
 <style>
