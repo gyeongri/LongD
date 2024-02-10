@@ -89,7 +89,7 @@ const logOut = () => {
   logout(
     success => {
       router.push({ name: 'Login' });
-      console.log('로그아웃 성공');
+      console.log('로그아웃햣 성공');
     },
     fail => {
       console.log('logout 오류 : ' + fail);
