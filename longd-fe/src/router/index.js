@@ -21,6 +21,7 @@ import ConnectCodeView from '@/components/main/ConnectCodeView.vue';
 import GalleryFolderView from '@/views/gallery/GalleryFolderView.vue';
 import { useUserStore } from '@/stores/user.js';
 import { loginstate } from '@/utils/api/user';
+import { nextTick } from 'vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -148,11 +149,13 @@ router.beforeEach((to, from, next) => {
   loginstate(
     data => {
       userStore.setUserState(data.data);
-      if (!userStore.isLogin) {
-        next({ name: 'Login' });
-      } else {
-        next();
-      }
+      nextTick(() => {
+        if (!userStore.isLogin) {
+          next({ name: 'Login' });
+        } else {
+          next();
+        }
+      });
     },
     error => {
       console.log('Profile을 가져올 수 없습니다.', error);
