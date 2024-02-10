@@ -1,21 +1,21 @@
 <template>
   <div class="container mx-auto">
     <TheHeader v-if="userStore.isLogin"></TheHeader>
-    <div class="flex">
-      <div class="flex-1 mr-8">
-        <TheView></TheView>
-      </div>
+    <template v-if="userStore.isLogin">
+      <div class="flex">
+        <div class="flex-1 mr-8">
+          <TheView></TheView>
+        </div>
 
-      <template v-if="userStore.isLogin">
         <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
           <TheChatting></TheChatting>
         </div>
         <div v-else class="border-4 border-red-300 w-1/10">
           <TheNochatting></TheNochatting>
         </div>
-      </template>
-    </div>
-    <ViduMainView class="hihi" v-if="userStore.isLogin"></ViduMainView>
+      </div>
+      <ViduMainView class="hihi"></ViduMainView>
+    </template>
   </div>
 </template>
 <script setup>
