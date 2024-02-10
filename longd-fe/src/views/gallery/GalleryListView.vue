@@ -23,9 +23,11 @@
         <AppDropdown>
           <template v-slot>
             <li onclick="gallery_create.showModal()">
-              <a>추가</a>
+              <a class="font-bold">추가</a>
             </li>
-            <li v-if="!deleteActive" @click="toggleDelete"><a>삭제</a></li>
+            <li v-if="!deleteActive" @click="toggleDelete">
+              <a class="font-bold">삭제</a>
+            </li>
             <li v-if="deleteActive" @click="toggleDelete">
               <a>삭제 취소 </a>
             </li>
@@ -295,7 +297,7 @@ const getCategoryId = async () => {
 };
 
 const pathUrlList = ref([]);
-const formData2 = [];
+const formData2 = ref([]);
 const uploadImages = async () => {
   const formData = new FormData();
   for (let i = 0; i < images.value.length; i++) {
@@ -313,8 +315,8 @@ const uploadImages = async () => {
             categoryId: categoryId,
           };
           console.log(data);
-          formData2.push(data);
-          console.log(formData2);
+          formData2.value.push(data);
+          console.log(formData2.value);
           // 여기로
         }
       },
@@ -324,7 +326,7 @@ const uploadImages = async () => {
     );
     try {
       // 서버로 이미지 전송하는 API 호출
-      // await createGallery(coupleId.value, formData2);
+      await createGallery(coupleId.value, formData2.value);
       // 이미지 업로드 후 이미지 미리보기 배열 초기화
       await fetchAlbums();
     } catch (error) {

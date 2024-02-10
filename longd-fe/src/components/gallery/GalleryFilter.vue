@@ -14,11 +14,15 @@
         <select
           :value="limit"
           @input="$emit('update:limit', $event.target.value)"
-          class="select select-bordered w-full max-w-xs"
+          class="select select-bordered border-pink-400 w-full max-w-xs font-bold text-gray-500"
         >
-          <option value="6">6개씩 보기</option>
-          <option value="12">12개씩 보기</option>
-          <option value="18">18개씩 보기</option>
+          <option value="6" class="font-bold text-gray-500">6개씩 보기</option>
+          <option value="12" class="font-bold text-gray-500">
+            12개씩 보기
+          </option>
+          <option value="18" class="font-bold text-gray-500">
+            18개씩 보기
+          </option>
         </select>
       </div>
     </div>
