@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const { VITE_VUE_API_URL } = import.meta.env;
+const { VITE_VUE_API_URL, VITE_CHAT_BASE_IP } = import.meta.env;
 
 const api = axios.create({
   withCredentials: true,
@@ -39,6 +39,6 @@ const viduapi = axios.create({
   },
 });
 const stompApi = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: VITE_CHAT_BASE_IP,
 });
 export { api, api2, api3, viduapi, stompApi };

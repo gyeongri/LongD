@@ -1,47 +1,34 @@
 <template>
-  <div>
+  <!-- 메인 사진 변경 버튼 -->
+  <div class="changeBtn">
     <label class="btn btn-secondary-content" for="img">메인 사진 변경</label>
     <input type="file" id="img" autocomplete="img" @change="changImg" hidden />
   </div>
 
-  <div class="box">
-    <div class="overlap">
-      <div class="view">
-        <!-- 여기는 배경 사진들어가는 곳 -->
-        <div
-          class="overlap-group"
-          :style="{ backgroundImage: `url(${coupleInfo.coupleImgUrl})` }"
-        >
-          <!-- 프로필 -->
-          <div class="group-2">
-            <RouterLink :to="{ name: 'Profile' }"
-              ><img
-                class="myProfile rounded-full"
-                alt="내 프로필"
-                :src="myprofile.profilePicture"
-            /></RouterLink>
-            <div class="image">
-              <img
-                class="heart-suit"
-                alt="Heart suit"
-                src="/static/img/heart-suit.png"
-              />
-            </div>
-            <RouterLink :to="{ name: 'PartnerInfo' }">
-              <img
-                class="partnerProfile rounded-full"
-                alt="상대 프로필"
-                :src="partnerInfo.profilePicture"
-            /></RouterLink>
-          </div>
-        </div>
-      </div>
-      <!-- 디데이 -->
-      <div class="overlap-wrapper">
-        <div class="div-wrapper">
-          <div class="text-wrapper-3">D+{{ coupleDday }}</div>
-        </div>
-      </div>
+  <!-- 메인 사진 -->
+  <div class="mainImageDiv">
+    <img class="mainImage" alt="메인 이미지" :src="coupleInfo.coupleImgUrl" />
+  </div>
+  <!-- 프로필 -->
+  <div class="profileGroup">
+    <RouterLink :to="{ name: 'Profile' }"
+      ><img
+        class="myProfile rounded-full"
+        alt="내 프로필"
+        :src="myprofile.profilePicture"
+    /></RouterLink>
+    <img class="heart" alt="♥" src="/static/img/heart-suit.png" />
+    <RouterLink :to="{ name: 'PartnerInfo' }">
+      <img
+        class="partnerProfile rounded-full"
+        alt="상대 프로필"
+        :src="partnerInfo.profilePicture"
+    /></RouterLink>
+  </div>
+  <!-- 디데이 -->
+  <div class="DdayGroup">
+    <div class="maskingTape">
+      <div class="ddayText">D+{{ coupleDday }}</div>
     </div>
   </div>
 </template>
@@ -54,7 +41,6 @@ import {
   coupleDataGet,
   coupleDataModify,
 } from '@/utils/api/user';
-
 import { uploadImage } from '@/utils/api/photo';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
@@ -141,27 +127,71 @@ watchEffect(() => {
 </script>
 
 <style scoped>
-.box {
+/* .box {
   height: 740px;
   width: 612px;
+} */
+
+.box {
+  height: 833px;
+  left: 382px;
+  position: absolute;
+  top: 138px;
+  width: 612px;
 }
+
+.box .overlap {
+  height: 833px;
+  position: relative;
+}
+/* 위 두개가 화면 위치 스타일 */
 
 .box .view {
   height: 720px;
-  left: 50px;
+  /* left: 50px;
   position: absolute;
-  top: 200px;
+  top: 200px; */
   width: 612px;
 }
 
-.box .overlap-group {
+.view .rectangle {
+  background: linear-gradient(
+    180deg,
+    rgb(255, 255, 255) 0%,
+    rgb(232.7, 232.7, 232.7) 100%
+  );
+  height: 720px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 612px;
+}
+
+/* 위 두개가 폴라로이드 배경 */
+
+.imageMain {
+  height: 557px;
+  width: 554px;
+}
+
+.imageMain .element {
+  height: 557px;
+  left: 0;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  width: 554px;
+}
+
+/* 위 두개는 메인 사진 폴라로이드 안에 들어가는 거 */
+/* .box .overlap-group {
   background-size: 100%;
   background-repeat: no-repeat;
   height: 100%;
   width: 100%;
   left: -4px;
   position: relative;
-}
+} */
 
 .box .group-2 {
   height: 80px;
@@ -211,7 +241,7 @@ watchEffect(() => {
   width: 264px;
 }
 
-.box .text-wrapper-3 {
+.box .text-wrapper {
   color: #ffffff;
   font-family: 'Jura-SemiBold', Helvetica;
   font-size: 50px;

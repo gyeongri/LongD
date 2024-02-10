@@ -3,8 +3,8 @@
     <div class="flex items-center space-x-4" style="z-index: 999">
       <AppDropdown>
         <template v-slot>
-          <li @click="folderCreate"><a>폴더 생성</a></li>
-          <li @click="folderDelete"><a>폴더 삭제</a></li>
+          <li class="font-bold" @click="folderCreate"><a>폴더 생성</a></li>
+          <li class="font-bold" @click="folderDelete"><a>폴더 삭제</a></li>
         </template>
       </AppDropdown>
     </div>
@@ -32,10 +32,13 @@
         >
         </GalleryCard>
       </div>
-      <p class="mt-2 ml-4">{{ item.folderName }}</p>
+      <p class="mt-2 ml-4 font-bold">{{ item.folderName }}</p>
     </template>
   </GalleryFolderGrid>
 </template>
+
+<!-- folderFirstItem : id 폴더명 첫번째사진
+folders : id 폴더명 -->
 
 <script setup>
 import AppDropdown from '@/components/app/AppDropdown.vue';
@@ -109,7 +112,7 @@ const fetchFolders = async () => {
           data3 = {
             folderName: folder.name,
             pathUrl:
-              'https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg',
+              'https://i.pinimg.com/564x/b4/bd/75/b4bd756f0d38cf1589b6a9ebc8b5fc32.jpg',
           };
         } else {
           data3 = {

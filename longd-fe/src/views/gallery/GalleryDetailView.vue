@@ -1,5 +1,5 @@
 <template>
-  <button class="ml-10" @click="goList">
+  <button class="ml-10 mb-10 mt-3" @click="goList">
     <font-awesome-icon icon="fa-solid fa-arrow-left" size="lg" />
   </button>
   <GalleryDetailCard :id="item.id" :src="item.pathUrl" />
