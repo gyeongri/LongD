@@ -7,7 +7,7 @@ export const useUserStore = defineStore('user', () => {
     try {
       userState.value = state;
     } catch (error) {
-      console.error(error);
+      console.error(`여기에러`, error);
     }
   };
 

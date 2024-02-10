@@ -1,5 +1,4 @@
-<template>
-  <!-- h-1/4, h-3/4 - 차지할 비율을 나타냄, w-1/4도 있음(가로버전) -->
+<!-- <template>
   <div class="h-[45rem] flex flex-col">
     <ChatDisplayView
       :messages="messages"
@@ -62,7 +61,6 @@ const recvMessage = recv => {
   });
 };
 
-// 웹소켓 연결 매서드
 let reconnect = 0;
 const sock = ref(new SockJS(`${VITE_CHAT_BASE_IP}/ws/chat`));
 const ws = ref(Stomp.over(sock.value));
@@ -94,25 +92,32 @@ const connect = function () {
   );
 };
 
-// onMounted(() => {
-//   stompApi
-//     .get(`/chat/messages/${coupleId.value}?size=30`)
-//     .then(res => {
-//       const sortedArray = res.data.sort((a, b) => a.id - b.id);
-//       sortedArray.forEach(element => {
-//         messages.push(element);
-//       });
-//     })
-//     .catch(error => {
-//       console.error(error);
-//     });
-//   connect();
-// });
-// onUnmounted(() => {
-//   if (ws.value) {
-//     ws.value.disconnect();
-//   }
-// });
+onMounted(() => {
+  stompApi
+    .get(`/chat/messages/${coupleId.value}?size=30`)
+    .then(res => {
+      const sortedArray = res.data.sort((a, b) => a.id - b.id);
+      sortedArray.forEach(element => {
+        messages.push(element);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  connect();
+});
+onUnmounted(() => {
+  if (ws.value) {
+    ws.value.disconnect();
+  }
+});
 </script>
+
+<style lang="scss" scoped></style> -->
+<template>
+  <div></div>
+</template>
+
+<script setup></script>
 
 <style lang="scss" scoped></style>
