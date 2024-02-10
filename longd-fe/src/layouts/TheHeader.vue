@@ -72,12 +72,10 @@ import { useRouter } from 'vue-router';
 import { logout } from '@/utils/api/user.js';
 import { useUserStore } from '@/stores/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
-import { useUserStore } from '@/stores/user.js';
 
 const router = useRouter();
 const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
-const userStore = useUserStore();
 // const closedPage = ref(false);
 const lockPage = () => {
   mainDisplayStore.closedPage = true;
