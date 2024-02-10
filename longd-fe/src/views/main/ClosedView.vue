@@ -62,8 +62,8 @@ const handleInput = index => {
     // if (passwords == ['❤️', '❤️', '❤️', '❤️']) {
 
     if (inputRefs.value.join('') == realPasswords.value) {
-      router.go(-1);
       mainDisplayStore.closedPage = false;
+      router.go(-1);
     } else {
       Swal.fire('비밀번호가 틀립니다!');
     }
