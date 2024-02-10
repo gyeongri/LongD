@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto">
-    <template v-if="userStore.isLogin">
+    <template v-if="true">
       <TheHeader></TheHeader>
       <div class="flex">
         <div class="flex-1 mr-8">
