@@ -118,9 +118,6 @@ const viduStore = useViduStore();
 const coupleid = ref(userStore.userState.value?.coupleListId);
 const join = function (coupleid) {
   viduStore.joinSession(coupleid);
-  console.log(userStore.userState.value.coupleListId )
-  console.log(userStore.userState.value )
-  console.log(coupleid)
 };
 const disconnect = function () {
   viduStore.removeUser();
@@ -129,10 +126,6 @@ const disconnect = function () {
   viduStore.publisher = '';
   viduStore.publisherTest = '';
 };
-onMounted(() => {
-  console.log(userStore.userState.value.coupleListId )
-  console.log(userStore.userState.value )
-}),
 </script>
 
 <style>
