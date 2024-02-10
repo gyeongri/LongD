@@ -30,10 +30,9 @@ public class UserServiceImpl implements UserService{
 
     public void userReigst(User user) {
         log.info(user.toString());
-        if(user.getBirth() == null) {
-            log.error("생일이 없어서 화면잠금 비밀번호 저장 실패");
-        } else {
+        if ( user.getPasswordSimple() == null ) {
             //혹시 0228이면 어떻게 될까 ?
+            //생일 값은 반드시 있다 가정
             String[] tmp = user.getBirth().split("-");
             user.setPasswordSimple(Integer.parseInt(tmp[1] + tmp[2]));
         }
@@ -68,7 +67,7 @@ public class UserServiceImpl implements UserService{
         if(authentication.getPrincipal().toString().equals("anonymousUser")) {
             System.out.println("유저 상태 로그인 되어있지 않음");
             //임시 사용자 반환(제거)
-            return null;
+            return userRepository.findById(3);
         }
         CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
         Optional<User> user = null;
