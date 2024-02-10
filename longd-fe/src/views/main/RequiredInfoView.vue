@@ -216,11 +216,11 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid';
 import { BaseInfo, sendinfo } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
 import { useRouter } from 'vue-router';
-import { useMainDisplayStore } from '@/stores/maindisplay.js';
+import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
 
 const router = useRouter();
-const mainDisplayStore = useMainDisplayStore();
+const userStore = useUserStore();
 const Info_state = ref({});
 const codeCheck = ref();
 
@@ -261,8 +261,8 @@ const send = () => {
       sendinfo(
         Info_state.value,
         data => {
-          console.log('sendinfo 성공');
-          mainDisplayStore.logOutPage = false;
+          console.log('sendinfo 성공 & 로그인 값 넣기');
+          userStore.setUserState(data.data);
           router.push({ name: 'ConnectCode' });
         },
         error => {

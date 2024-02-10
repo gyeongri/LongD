@@ -1,5 +1,5 @@
 <template>
-  <div v-show="mainDisplayStore.isVisible" class="navbar bg-base-100">
+  <div class="navbar bg-base-100">
     <div class="navbar-start">
       <RouterLink class="btn btn-ghost text-xl" :to="{ name: 'Home' }"
         >롱디</RouterLink
@@ -70,9 +70,11 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { logout } from '@/utils/api/user.js';
+import { useUserStore } from '@/stores/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 
 const router = useRouter();
+const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
 
 // const closedPage = ref(false);
@@ -82,10 +84,10 @@ const lockPage = () => {
 };
 // const logOutPage = ref(false);
 const logOut = () => {
-  mainDisplayStore.logOutPage = true;
+  userStore.setUserState('');
   logout(
     () => {
-      router.push({ name: 'Login' });
+      console.log('로그아웃 성공');
     },
     fail => {
       console.log('logout 오류 : ' + fail);
