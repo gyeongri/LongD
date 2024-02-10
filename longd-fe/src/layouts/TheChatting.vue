@@ -94,25 +94,25 @@ const connect = function () {
   );
 };
 
-onMounted(() => {
-  stompApi
-    .get(`/chat/messages/${coupleId.value}?size=30`)
-    .then(res => {
-      const sortedArray = res.data.sort((a, b) => a.id - b.id);
-      sortedArray.forEach(element => {
-        messages.push(element);
-      });
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  connect();
-});
-onUnmounted(() => {
-  if (ws.value) {
-    ws.value.disconnect();
-  }
-});
+// onMounted(() => {
+//   stompApi
+//     .get(`/chat/messages/${coupleId.value}?size=30`)
+//     .then(res => {
+//       const sortedArray = res.data.sort((a, b) => a.id - b.id);
+//       sortedArray.forEach(element => {
+//         messages.push(element);
+//       });
+//     })
+//     .catch(error => {
+//       console.error(error);
+//     });
+//   connect();
+// });
+// onUnmounted(() => {
+//   if (ws.value) {
+//     ws.value.disconnect();
+//   }
+// });
 </script>
 
 <style lang="scss" scoped></style>
