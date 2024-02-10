@@ -16,6 +16,7 @@
       </div>
       <ViduMainView class="hihi"></ViduMainView>
     </template>
+    <template v-else> </template>
   </div>
 </template>
 <script setup>
