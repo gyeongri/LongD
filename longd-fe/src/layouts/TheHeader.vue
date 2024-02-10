@@ -71,10 +71,11 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { logout } from '@/utils/api/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
+import { useUserStore } from '@/stores/user.js';
 
 const router = useRouter();
 const mainDisplayStore = useMainDisplayStore();
-
+const userStore = useUserStore();
 // const closedPage = ref(false);
 const lockPage = () => {
   mainDisplayStore.closedPage = true;
@@ -82,13 +83,13 @@ const lockPage = () => {
 };
 // const logOutPage = ref(false);
 const logOut = () => {
-  mainDisplayStore.logOutPage = true;
+  userStore.setUserState('');
   logout(
-    () => {
+    success => {
       router.push({ name: 'Login' });
     },
     fail => {
-      console.log('sendinfo 오류 : ' + fail);
+      console.log('logout 오류 : ' + fail);
     },
   );
 };
