@@ -30,25 +30,27 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue';
+import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
+import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
 // import { watch } from 'vue';
 // import { useFocus } from '@vueuse/core';
 
 const mainDisplayStore = useMainDisplayStore();
+const userStore = useUserStore();
 const router = useRouter();
 const passwords = reactive(['', '', '', '']);
 const inputRefs = ref([]);
-const realPasswords = ref('1234');
+
 // 프로필에서 사용자가 바꾼 번호로 설정해주기!
 // const { focused } = useFocus(passwords);
 
 const handleInput = index => {
   if (passwords[index] && index < 3) {
     inputRefs.value.push(passwords[index]);
-    passwords[index] = '❤️';
+    passwords[index] = '🤍';
     // watch(passwords[index], ('','❤️') => {
     //   if ('') {
     //     passwords[index].focus();
@@ -57,39 +59,57 @@ const handleInput = index => {
     // passwords[`${index + 1}`].focus();
   } else if (passwords[index]) {
     inputRefs.value.push(passwords[index]);
-    passwords[index] = '❤️';
+    passwords[index] = '🤍';
     console.log(passwords);
     // if (passwords == ['❤️', '❤️', '❤️', '❤️']) {
 
-    if (inputRefs.value.join('') == realPasswords.value) {
+    if (inputRefs.value.join('') == userStore.userState.passwordSimple) {
       mainDisplayStore.closedPage = false;
       router.go(-1);
     } else {
       Swal.fire('비밀번호가 틀립니다!');
+      passwords.value = ['', '', '', ''];
+      inputRefs.value = [];
+      router.push({ name: 'Closed' });
     }
     console.log(`Password:${passwords}`, inputRefs.value.join(''));
     passwords.value = ['', '', '', ''];
     inputRefs.value = [];
-    // }
   }
 };
+
+// const handleInput = index => {
+//   const password = passwords.value[index];
+//   if (!/^\d$/.test(password)) {
+//     passwords.value[index] = '';
+//   } else {
+//     if (index < passwords.value.length - 1) {
+//       inputRefs.value.push(passwords[index]);
+//       passwords[index] = '🤍';
+//       const nextInput = document.querySelector(`.password-input${index + 2}`);
+//       if (nextInput) {
+//         nextInput.focus();
+//       }
+//     } else if (index == passwords.value.length - 1) {
+//       inputRefs.value.push(passwords[index]);
+//       passwords[index] = '🤍';
+//       if (inputRefs.value.join('') == userStore.userState.passwordSimple) {
+//         mainDisplayStore.closedPage = false;
+//         router.go(-1);
+//       } else {
+//         Swal.fire('비밀번호가 틀립니다!');
+//         passwords.value = ['', '', '', ''];
+//         inputRefs.value = [];
+//         router.push({ name: 'Closed' });
+//       }
+//     }
+//   }
+// };
+
 const removepassword = () => {
-  realPasswords.value = '0413';
-  // 여기 0413말고 사용자 생일로 바꿀 수 있게
+  userStore.userState.passwordSimple = '';
+  // passwordSimple값 초기화시키기 = 생일로 디폴트 설정되어있음.
 };
-// 관찰자 써서 그대로 넣을 수 있게 하는 것!
-// watch(passwords, (newValue, oldValue) => {
-//   if (newValue) {
-//     inputRefs.value.push(passwords.value)
-//   }
-//   // 누를때마다 넣는 것!
-//   else {
-//     const index = checkTrue.value.indexOf(true)
-//     // true가 있는 인덱스를 찾아서
-//     checkTrue.value.splice(index,1)
-//     // 해당 인덱스의 값을 지우기!
-//   }
-// })
 </script>
 
 <style scoped>

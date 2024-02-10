@@ -151,7 +151,11 @@ router.beforeEach((to, from, next) => {
       if (!userStore.isLogin) {
         next({ name: 'Login' });
       } else {
-        next();
+        if (isNaN(userStore.userState.coupleListId)) {
+          next();
+        } else {
+          next({ name: 'ConnectCode' });
+        }
       }
     },
     error => {

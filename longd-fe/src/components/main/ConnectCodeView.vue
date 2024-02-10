@@ -139,7 +139,7 @@ const choiceDate = async () => {
                 router.push({ name: 'Home' });
               },
               error => {
-                Swal.fire('수정되지않았어요!');
+                Swal.fire('수정되지않았어요!', error);
               },
             );
           } else {
@@ -158,7 +158,6 @@ const choiceDate = async () => {
       // router.push({ name: 'ConnectCode' });
     },
   );
-
 };
 </script>
 
