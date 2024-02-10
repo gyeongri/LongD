@@ -19,14 +19,11 @@ import ChatInputView from '@/views/chat/ChatInputView.vue';
 import ChatDisplayView from '@/views/chat/ChatDisplayView.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { stompApi } from '@/utils/api/index.js';
-import { useUserStore } from '@/stores/user.js';
-const userStore = useUserStore();
-
 const { VITE_CHAT_BASE_IP } = import.meta.env;
 
-const coupleId = ref(5);
+const coupleId = ref(77);
 const messages = reactive([]);
-const sender = ref(6);
+const sender = ref(8);
 const room = ref(null);
 const count = ref(0);
 const createRoom = async () => {
@@ -113,4 +110,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped></style>
