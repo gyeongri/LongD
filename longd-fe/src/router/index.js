@@ -21,7 +21,6 @@ import ConnectCodeView from '@/components/main/ConnectCodeView.vue';
 import GalleryFolderView from '@/views/gallery/GalleryFolderView.vue';
 import { useUserStore } from '@/stores/user.js';
 import { loginstate } from '@/utils/api/user';
-import { nextTick } from 'vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -140,7 +139,6 @@ const router = createRouter({
     },
   ],
 });
-
 router.beforeEach((to, from, next) => {
   if (to.name === 'Login' || to.name === 'RequiredInfo') {
     next();

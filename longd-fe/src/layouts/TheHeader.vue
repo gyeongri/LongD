@@ -75,6 +75,7 @@ import { useMainDisplayStore } from '@/stores/maindisplay.js';
 const router = useRouter();
 const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
+
 // const closedPage = ref(false);
 const lockPage = () => {
   mainDisplayStore.closedPage = true;
@@ -85,8 +86,8 @@ const logOut = () => {
   userStore.setUserState('');
   logout(
     success => {
-      console.log('로그아웃 성공');
       router.push({ name: 'Login' });
+      console.log('로그아웃 성공');
     },
     fail => {
       console.log('logout 오류 : ' + fail);
