@@ -88,7 +88,7 @@ const logOut = () => {
       router.push({ name: 'Login' });
     },
     fail => {
-      console.log('sendinfo 오류 : ' + fail);
+      console.log('logout 오류 : ' + fail);
     },
   );
 };
