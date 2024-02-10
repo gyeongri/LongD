@@ -88,12 +88,12 @@ const logOut = () => {
   userStore.setUserState('');
   logout(
     success => {
-      router.push({ name: 'Login' });
-      console.log('로그아웃햣 성공');
+      // router.push({ name: 'Login' });
+      console.log('로그아웃 성공');
     },
     fail => {
       console.log('logout 오류 : ' + fail);
-      router.push({ name: 'Login' });
+      // router.push({ name: 'Login' });
     },
   );
 };

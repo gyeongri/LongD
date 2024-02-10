@@ -7,7 +7,7 @@
       <div class="flex-1 mr-8">
         <TheView></TheView>
       </div>
-      <template v-if="userStore.isLogin">
+      <div v-if="userStore.isLogin">
         <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
           <TheChatting></TheChatting>
         </div>
@@ -15,8 +15,8 @@
           <TheNochatting></TheNochatting>
         </div>
         <ViduMainView class="hihi"></ViduMainView>
-      </template>
-      <template v-else></template>
+      </div>
+      <div v-else></div>
     </div>
   </div>
 </template>
