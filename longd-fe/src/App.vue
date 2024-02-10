@@ -1,22 +1,18 @@
 <template>
   <div class="container mx-auto">
-    <template v-if="true">
-      <TheHeader></TheHeader>
-      <div class="flex">
-        <div class="flex-1 mr-8">
-          <TheView></TheView>
-        </div>
-
-        <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
-          <TheChatting></TheChatting>
-        </div>
-        <div v-else class="border-4 border-red-300 w-1/10">
-          <TheNochatting></TheNochatting>
-        </div>
+    <TheHeader></TheHeader>
+    <div class="flex">
+      <div class="flex-1 mr-8">
+        <TheView></TheView>
       </div>
-      <ViduMainView class="hihi"></ViduMainView>
-    </template>
-    <template v-else> </template>
+      <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
+        <TheChatting></TheChatting>
+      </div>
+      <div v-else class="border-4 border-red-300 w-1/10">
+        <TheNochatting></TheNochatting>
+      </div>
+    </div>
+    <ViduMainView class="hihi"></ViduMainView>
   </div>
 </template>
 <script setup>
