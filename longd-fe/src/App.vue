@@ -15,7 +15,7 @@
         </div>
       </template>
     </div>
-    <ViduMainView class="hihi"></ViduMainView>
+    <ViduMainView class="hihi" v-if="userStore.isLogin"></ViduMainView>
   </div>
 </template>
 <script setup>
