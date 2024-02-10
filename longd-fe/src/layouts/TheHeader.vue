@@ -90,6 +90,7 @@ const logOut = () => {
     },
     fail => {
       console.log('logout 오류 : ' + fail);
+      router.push({ name: 'Login' });
     },
   );
 };
