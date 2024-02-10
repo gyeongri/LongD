@@ -139,29 +139,29 @@ const router = createRouter({
     },
   ],
 });
-router.beforeEach((to, from, next) => {
-  if (to.name === 'Login' || to.name === 'RequiredInfo') {
-    next();
-    return;
-  }
-  const userStore = useUserStore();
-  loginstate(
-    data => {
-      userStore.setUserState(data.data);
-      if (!userStore.isLogin) {
-        next({ name: 'Login' });
-      } else {
-        next();
-        // if (isNaN(userStore.userState.coupleListId)) {
-        //   next();
-        // } else {
-        //   next({ name: 'ConnectCode' });
-        // }
-      }
-    },
-    error => {
-      console.log('Profile을 가져올 수 없습니다.', error);
-    },
-  );
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.name === 'Login' || to.name === 'RequiredInfo') {
+//     next();
+//     return;
+//   }
+//   const userStore = useUserStore();
+//   loginstate(
+//     data => {
+//       userStore.setUserState(data.data);
+//       if (!userStore.isLogin) {
+//         next({ name: 'Login' });
+//       } else {
+//         next();
+//         // if (isNaN(userStore.userState.coupleListId)) {
+//         //   next();
+//         // } else {
+//         //   next({ name: 'ConnectCode' });
+//         // }
+//       }
+//     },
+//     error => {
+//       console.log('Profile을 가져올 수 없습니다.', error);
+//     },
+//   );
+// });
 export default router;

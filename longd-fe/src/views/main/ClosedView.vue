@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import { useUserStore } from '@/stores/user.js';
@@ -42,6 +42,12 @@ const mainDisplayStore = useMainDisplayStore();
 const userStore = useUserStore();
 const router = useRouter();
 const passwords = reactive(['', '', '', '']);
+// const passwords = reactive({
+//   0: ref(''),
+//   1: ref(''),
+//   2: ref(''),
+//   3: ref(''),
+// });
 const inputRefs = ref([]);
 
 // 프로필에서 사용자가 바꾼 번호로 설정해주기!
@@ -68,7 +74,8 @@ const handleInput = index => {
       router.go(-1);
     } else {
       Swal.fire('비밀번호가 틀립니다!');
-      passwords.value = ['', '', '', ''];
+      console.log(inputRefs.value);
+      passwords.forEach((_, i) => (passwords[i] = ''));
       inputRefs.value = [];
       router.push({ name: 'Closed' });
     }
