@@ -50,8 +50,8 @@ const sendMessage = message => {
     '/app/chat/message',
     {},
     JSON.stringify({
-      roomName: useUserStore.getUserState.coupleListId,
-      senderId: userStore.getUserState.id,
+      roomName: useUserStore.getUserState?.coupleListId,
+      senderId: userStore.getUserState?.id,
       content: message,
     }),
   );
@@ -79,13 +79,13 @@ const connect = function () {
       ws.value.subscribe(`/topic/chat/room/${coupleId.value}`, message => {
         const recv = JSON.parse(message.body);
         recvMessage(recv);
-      }); 
+      });
       ws.value.send(
         '/app/chat/message',
         {},
         JSON.stringify({
-          roomName: useUserStore.getUserState.coupleListId,
-          senderId: useUserStore.getUserState.id,
+          roomName: useUserStore.getUserState?.coupleListId,
+          senderId: useUserStore.getUserState?.id,
         }),
       );
     },
