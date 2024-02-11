@@ -111,6 +111,7 @@ const connect = function (couple, sender) {
 
 onMounted(() => {
   if (userStore.getUserState?.coupleListId !== undefined) {
+    console.log('온마운트시점', userStore.getUserState?.coupleListId);
     stompApi
       .get(`/chat/messages/${userStore.getUserState?.coupleListId}?size=30`)
       .then(res => {
