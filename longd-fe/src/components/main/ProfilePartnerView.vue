@@ -11,10 +11,7 @@
         프로필 사진
       </h3>
       <div class="mt-2.5">
-        <img
-          :src="partnerInfo.profilePicture"
-          alt="상대 이미지"
-        />
+        <img :src="partnerInfo.profilePicture" alt="상대 이미지" />
         <!-- {{ partnerInfo.profilePicture }} -->
       </div>
     </div>
@@ -47,6 +44,17 @@
         <span
           class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           >{{ partnerInfo.birth }}</span
+        >
+      </div>
+    </div>
+    <div class="sm:col-span-2">
+      <h3 class="block text-sm font-semibold leading-6 text-gray-900">
+        사는 곳
+      </h3>
+      <div class="mt-2.5">
+        <span
+          class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          >{{ partnerInfo.address }}</span
         >
       </div>
     </div>

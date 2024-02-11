@@ -17,7 +17,13 @@
   <div v-for="place in planStore?.hopeList" :key="place.place_id">
     <div class="stats shadow">
       <div class="stat">
-        <div class="stat-value">{{ place.title }}</div>
+        <div
+          class="favorite-place"
+          draggable="true"
+          @dragstart="onDragStart(place)"
+        >
+          {{ place.title }}
+        </div>
       </div>
     </div>
   </div>
@@ -25,8 +31,9 @@
   <div v-for="(date, index) in dateList" :key="index">
     {{ date }}
     <div
-      ref="dropZone"
       class="flex flex-col w-full min-h-200px h-auto bg-gray-400/10 justify-center items-center mt-6 rounded"
+      @dragover.prevent
+      @drop="onDrop($event, date)"
     >
       <div>장소들 담는 공간</div>
       <BooleanDisplay :value="isOverDropZone" />
@@ -36,7 +43,7 @@
           :key="idx"
           class="w-200px bg-black-200/10 ma-2 pa-6"
         >
-          <p>{{ event.name }}</p>
+          <p>{{ place.name }}</p>
         </div>
       </div>
     </div>
@@ -54,8 +61,8 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
-import { useDropZone, useEventListener } from '@vueuse/core';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+import { useDropZone } from '@vueuse/core';
 import { usePlanStore } from '@/stores/plan';
 
 // 시작일과 종료일을 저장할 변수
@@ -89,78 +96,41 @@ const addRangeToList = () => {
   }
 };
 
-// 리스트에서 특정 인덱스의 날짜를 제거하는 함수
-// 리스트 인덱스가 0이거나 마지막 인덱스인 경우에만 제거 허용
-const removeDate = index => {
-  if (index === 0 || index === dateList.value.length - 1) {
-    dateList.value.splice(index, 1);
-  } else {
-    alert('중간 날짜는 삭제할 수 없습니다.');
-  }
-};
-
-// 리스트를 모두 초기화하는 함수
+// 리스트를 모두 초기화
 const clearList = () => {
   dateList.value = [];
 };
 
-// 새로운 일정을 설정할 때 이전에 있는 날짜 데이터 중에서
-// 새로운 일정 범위에 해당하지 않는 것들을 리스트에서 제거하는 함수
-const removeDatesOutsideRange = (start, end) => {
-  dateList.value = dateList.value.filter(date => date >= start && date <= end);
+// 드래그 앤 드롭 이벤트 처리
+const onDragStart = place => {
+  event.dataTransfer.setData('place', JSON.stringify(place));
 };
 
-// 시작일과 종료일이 변경될 때 새로운 일정 범위를 계산하여
-// 해당 범위 이외의 날짜를 리스트에서 제거하는 동작을 수행합니다.
-const handleDateRangeChange = () => {
-  if (isRangeValid.value) {
-    const start = new Date(startDate.value);
-    const end = new Date(endDate.value);
-    removeDatesOutsideRange(
-      start.toISOString().split('T')[0],
-      end.toISOString().split('T')[0],
-    );
-  }
+const onDrop = (event, date) => {
+  event.preventDefault();
+  const place = JSON.parse(event.dataTransfer.getData('place'));
+  console.log('Dropped place:', place);
+  // 드롭되었을때 장소 데이터에 날짜 넣기
 };
-
-// 시작일과 종료일이 변경될 때마다 새로운 일정 범위를 처리합니다.
-watch([startDate, endDate], () => {
-  handleDateRangeChange();
-});
 
 // 즐겨찾기 항목에서 담기
 const planStore = usePlanStore();
-const planInfo = ref({});
 const placeList = ref([]);
-const dropZone = ref();
-const favoritePlace = ref();
-const onDrop = places => {
-  if (places) {
-    const checkPlace = places.some(newPlace =>
-      placeList.value.some(place => place.name === newPlace.name),
-    );
-    if (!checkPlace) {
-      placeList.value = [
-        ...placeList.value,
-        ...places.map(place => ({
-          name: place.name,
-          address: place.address,
-          lat: place.lat,
-          lng: place.lng,
-        })),
-      ];
-      console.log(placeList.value);
-    }
-  }
-};
 
-const { isOverDropZone } = useDropZone(dropZone, onDrop);
+// 컴포넌트가 마운트될 때 이벤트 리스너 추가
+onMounted(() => {
+  const favoritePlaces = document.querySelectorAll('.favorite-place');
+  favoritePlaces.forEach(place => {
+    place.addEventListener('dragstart', () => onDragStart(place));
+  });
+});
 
-useEventListener(favoritePlace, 'dragstart', event => {
-  // 여기에 이벤트가 일어났을때 사용할 거 드래그하면 플레이스 정보에 날짜값 넣기!
-  favoritePlace.value.date = event.date;
-  console.log(event);
-  console.log(event.data);
+// 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+onUnmounted(() => {
+  const favoritePlaces = document.querySelectorAll('.favorite-place');
+  favoritePlaces.forEach(place => {
+    place.removeEventListener('dragstart', () => onDragStart(place));
+  });
 });
 </script>
 
