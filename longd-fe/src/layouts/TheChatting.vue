@@ -29,20 +29,20 @@ const sender = ref('');
 const room = ref(null);
 const count = ref(0);
 
-const createRoom = async () => {
-  const params = new URLSearchParams();
-  params.append('roomName', coupleId.value);
-  try {
-    const response = await stompApi.post('/chat/room', params);
-  } catch (error) {
-    console.error(error);
-  }
-};
+// const createRoom = async () => {
+//   const params = new URLSearchParams();
+//   params.append('roomName', coupleId.value);
+//   try {
+//     const response = await stompApi.post('/chat/room', params);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
-const findRoom = async () => {
-  const response = await stompApi.get(`/chat/room/${coupleId.value}`);
-  room.value = response.data;
-};
+// const findRoom = async () => {
+//   const response = await stompApi.get(`/chat/room/${coupleId.value}`);
+//   room.value = response.data;
+// };
 
 const sendMessage = message => {
   sender.value = userStore.getUserState?.id;
@@ -76,6 +76,11 @@ const connect = function () {
     {},
     frame => {
       coupleId.value = useUserStore.getUserState?.coupleListId;
+      console.log(
+        '커넥트때 확인용',
+        coupleId.value,
+        useUserStore.getUserState?.coupleListId,
+      );
       ws.value.subscribe(`/topic/chat/room/${coupleId.value}`, message => {
         const recv = JSON.parse(message.body);
         recvMessage(recv);
