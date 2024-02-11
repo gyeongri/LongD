@@ -130,6 +130,10 @@ const removepassword = () => {
   removeClosedPasswords(
     success => {
       console.log('화면잠금 비밀번호 초기화 완료');
+      Swal.fire('비밀번호 초기화 완료');
+      passwords.forEach((_, i) => (passwords[i] = ''));
+      inputRefs.value = [];
+      router.push({ name: 'Closed' });
     },
     error => {
       console.log('비밀번호 초기화 실패', error);
