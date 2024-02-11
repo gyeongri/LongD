@@ -20,8 +20,8 @@
           userStore.getUserState.coupleListId
         "
         :class="{
-          'border-4 border-red-300 w-1/4': isChatting,
-          'border-4 border-red-300 w-1/10': !isChatting,
+          'w-1/4': isChatting,
+          'w-1/10': !isChatting,
         }"
       >
         <div v-if="isChatting">

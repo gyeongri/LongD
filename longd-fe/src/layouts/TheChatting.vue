@@ -3,6 +3,7 @@
   <div class="h-[45rem] flex flex-col">
     <ChatDisplayView
       :messages="messages"
+      :count="count"
       class="border-4 border-blue-500 h-3/4"
     ></ChatDisplayView>
     <ChatInputView
@@ -22,10 +23,12 @@ import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
 const { VITE_CHAT_BASE_IP } = import.meta.env;
 
-const coupleId = ref('');
+const coupleId = ref(useUserStore.getUserState.coupleListId);
 const messages = reactive([]);
-const sender = ref(8);
+const sender = ref(userStore.getUserState.id);
 const room = ref(null);
+const count = ref(0);
+
 const createRoom = async () => {
   const params = new URLSearchParams();
   params.append('roomName', coupleId.value);
@@ -47,11 +50,12 @@ const sendMessage = message => {
     '/app/chat/message',
     {},
     JSON.stringify({
-      roomName: coupleId.value,
-      senderId: sender.value,
+      roomName: useUserStore.getUserState.coupleListId,
+      senderId: userStore.getUserState.id,
       content: message,
     }),
   );
+  count.value++;
 };
 
 const recvMessage = recv => {
@@ -68,18 +72,23 @@ const sock = ref(new SockJS(`${VITE_CHAT_BASE_IP}/ws/chat`));
 const ws = ref(Stomp.over(sock.value));
 
 const connect = function () {
-  coupleId.value = userStore.getUserState?.coupleListId;
   ws.value.connect(
     {},
     frame => {
-      ws.value.subscribe(`/topic/chat/room/${coupleId.value}`, message => {
-        const recv = JSON.parse(message.body);
-        recvMessage(recv);
-      });
+      ws.value.subscribe(
+        `/topic/chat/room/${useUserStore.getUserState.coupleListId}`,
+        message => {
+          const recv = JSON.parse(message.body);
+          recvMessage(recv);
+        },
+      );
       ws.value.send(
         '/app/chat/message',
         {},
-        JSON.stringify({ roomName: coupleId.value, senderId: sender.value }),
+        JSON.stringify({
+          roomName: useUserStore.getUserState.coupleListId,
+          senderId: useUserStore.getUserState.id,
+        }),
       );
     },
     error => {
@@ -96,7 +105,6 @@ const connect = function () {
 };
 
 onMounted(() => {
-  coupleId.value = userStore.getUserState?.coupleListId;
   if (userStore.getUserState?.coupleListId !== undefined) {
     stompApi
       .get(`/chat/messages/${coupleId.value}?size=30`)
@@ -114,4 +122,4 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>
