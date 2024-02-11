@@ -3,7 +3,6 @@
   <div class="h-[45rem] flex flex-col">
     <ChatDisplayView
       :messages="messages"
-      :count="count"
       class="border-4 border-blue-500 h-3/4"
     ></ChatDisplayView>
     <ChatInputView
@@ -19,9 +18,11 @@ import ChatInputView from '@/views/chat/ChatInputView.vue';
 import ChatDisplayView from '@/views/chat/ChatDisplayView.vue';
 import { onMounted, reactive, ref } from 'vue';
 import { stompApi } from '@/utils/api/index.js';
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
 const { VITE_CHAT_BASE_IP } = import.meta.env;
 
-const coupleId = ref(77);
+const coupleId = ref('');
 const messages = reactive([]);
 const sender = ref(8);
 const room = ref(null);
@@ -41,6 +42,7 @@ const findRoom = async () => {
 };
 
 const sendMessage = message => {
+  sender.value = userStore.getUserState?.nickname;
   ws.value.send(
     '/app/chat/message',
     {},
@@ -66,6 +68,7 @@ const sock = ref(new SockJS(`${VITE_CHAT_BASE_IP}/ws/chat`));
 const ws = ref(Stomp.over(sock.value));
 
 const connect = function () {
+  coupleId.value = userStore.getUserState?.coupleListId;
   ws.value.connect(
     {},
     frame => {

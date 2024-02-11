@@ -8,13 +8,13 @@
         <TheView></TheView>
       </div>
 
-      <!-- <div v-show="userStore.isLogin">
-        <div v-if="isChatting" class="border-4 border-red-300 w-1/4"> -->
-      <TheChatting></TheChatting>
-      <!-- </div>
-        <div v-else class="border-4 border-red-300 w-1/10">
-          <TheNochatting></TheNochatting>
-        </div> -->
+      <!-- <div v-show="userStore.isLogin"> -->
+      <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
+        <TheChatting></TheChatting>
+      </div>
+      <div v-else class="border-4 border-red-300 w-1/10">
+        <TheNochatting></TheNochatting>
+      </div>
       <ViduMainView class="hihi"></ViduMainView>
       <!-- </div> -->
     </div>

@@ -1,25 +1,83 @@
 <template>
-  <div>
+  <div class="bg-white rounded-lg shadow-md p-4">
+    <button>집어넣기</button>
     <div class="chat-container" ref="chatContainer">
       <div
         v-for="(message, index) in messages"
         :key="message.id"
         :class="{
           chat: true,
-          'chat-end': message.senderId === userId,
-          'chat-start': message.senderId !== userId,
+          'chat-end': message.senderId === userStore.getUserState?.nickname,
+          'chat-start': message.senderId !== userStore.getUserState?.nickname,
         }"
+        style="display: flex; flex-direction: column"
       >
-        <div>
-          <template v-if="shouldDisplayHeader(index)">
-            <div class="chat-header">
-              {{ message.senderId }}
+        <!-- 사용자 ID와 프로필 이미지를 메시지 스레드의 첫 부분에만 표시 -->
+        <template v-if="shouldDisplayHeader(index)">
+          <div class="flex flex-col">
+            <!-- 사용자('나')의 메시지일 경우 -->
+            <template
+              v-if="message.senderId === userStore.getUserState?.nickname"
+            >
+              <div
+                class="flex items-center justify-end"
+                style="margin-right: 1rem; margin-bottom: 0.5rem"
+              >
+                <span class="text-sm text-stone-500">{{
+                  message.senderId
+                }}</span>
+                <img
+                  :src="userProfileImage"
+                  class="w-8 h-8 rounded-full ml-3"
+                />
+              </div>
+            </template>
+            <!-- 상대방의 메시지일 경우 -->
+            <template v-else>
+              <div class="flex items-center">
+                <img
+                  :src="otherUserProfileImage"
+                  class="w-8 h-8 rounded-full mr-3"
+                  style="margin-left: 1rem; margin-bottom: 0.5rem"
+                />
+                <span class="text-sm text-stone-500">{{
+                  message.senderId
+                }}</span>
+              </div>
+            </template>
+          </div>
+        </template>
+        <!-- 메시지 버블과 시간을 표시하는 부분 -->
+        <div
+          :class="{
+            flex: true,
+            'gap-2': true,
+            'justify-end':
+              message.senderId === userStore.getUserState?.nickname,
+            'justify-start':
+              message.senderId !== userStore.getUserState?.nickname,
+          }"
+        >
+          <!-- 사용자('나')의 메시지일 경우 시간을 왼쪽에 표시 -->
+          <template
+            v-if="message.senderId === userStore.getUserState?.nickname"
+          >
+            <time class="text-xs opacity-50 mt-2 gap-2">{{
+              getFormattedTime(message.createdAt)
+            }}</time>
+            <div class="chat-bubble bg-blue-100 p-3 rounded-lg">
+              <p class="text-sm text-stone-500">{{ message.content }}</p>
             </div>
           </template>
-          <div class="chat-bubble">{{ message.content }}</div>
-          <time class="text-xs opacity-50">{{
-            getFormattedTime(message.createdAt)
-          }}</time>
+          <!-- 상대방의 메시지일 경우 시간을 오른쪽에 표시 -->
+          <template v-else>
+            <div class="chat-bubble bg-pink-100 p-3 rounded-lg">
+              <p class="text-sm text-stone-500">{{ message.content }}</p>
+            </div>
+            <time class="text-xs opacity-50 mt-2 gap-2">{{
+              getFormattedTime(message.createdAt)
+            }}</time>
+          </template>
         </div>
       </div>
     </div>
@@ -27,15 +85,16 @@
 </template>
 
 <script setup>
+import { useUserStore } from '@/stores/user';
 import { watch, ref, onMounted } from 'vue';
+const userStore = useUserStore();
 const chatContainer = ref();
-const userId = ref('8');
+const userId = ref('');
 const scrollToBottom = () => {
   chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
 };
 const props = defineProps({
   messages: Array,
-  count: Number,
 });
 const shouldDisplayHeader = index => {
   if (index === 0) {
@@ -53,7 +112,7 @@ const shouldDisplayHeader = index => {
   );
 };
 watch(
-  () => props.count,
+  () => props.messages,
   (newvalue, oldvalue) => {
     setTimeout(() => scrollToBottom(), 100);
   },
@@ -66,7 +125,7 @@ const getFormattedTime = createdAt => {
   return `${hours}:${minutes}`;
 };
 onMounted(() => {
-  setTimeout(() => scrollToBottom(), 100);
+  scrollToBottom();
 });
 </script>
 
