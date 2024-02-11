@@ -1,5 +1,7 @@
 <template>
   <div class="container mx-auto">
+    {{ userStore.isLogin }}
+    {{ !mainDisplayStore.isClosed }}
     <TheHeader
       v-show="userStore.isLogin && !mainDisplayStore.isClosed"
     ></TheHeader>
