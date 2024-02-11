@@ -12,8 +12,8 @@
       <label class="btn btn-primary" for="uploadImage">이미지 업로드</label>
       <input type="file" id="uploadImage" @change="fileUpload" hidden />
       <img
-        v-if="userStore?.profilePicture"
-        :src="userStore?.profilePicture"
+        v-if="userStore.userState.profilePicture"
+        :src="userStore.userState?.profilePicture"
         alt="Uploaded Image"
       />
     </div>
@@ -27,7 +27,7 @@
       >
       <div class="mt-2.5">
         <textarea
-          v-model="userStore.profileMessage"
+          v-model="userStore.userState.profileMessage"
           name="message"
           id="message"
           rows="4"
@@ -47,7 +47,7 @@
         <div class="mt-2.5">
           <input
             type="text"
-            v-model="userStore.name"
+            v-model="userStore.userState.name"
             name="name"
             id="name"
             autocomplete="name"
@@ -68,7 +68,7 @@
         <div class="mt-2.5">
           <input
             type="date"
-            v-model="userStore.birth"
+            v-model="userStore.userState.birth"
             name="birth"
             id="birth"
             autocomplete="birth"
@@ -89,7 +89,7 @@
         <div class="mt-2.5">
           <input
             type="email"
-            v-model="userStore.email"
+            v-model="userStore.userState.email"
             name="email"
             id="email"
             autocomplete="email"
@@ -113,7 +113,7 @@
             type="number"
             min="0000"
             max="9999"
-            v-model="userStore.passwordSimple"
+            v-model="userStore.userState.passwordSimple"
             name="closedPassword[index]"
             id="closedPassword"
             autocomplete="closedPassword"
@@ -157,7 +157,7 @@ const fileUpload = event => {
   uploadImage(
     formData,
     success => {
-      userStore.value.profilePicture = success.data[0];
+      userStore.userState.value.profilePicture = success.data[0];
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);
@@ -166,16 +166,18 @@ const fileUpload = event => {
 };
 
 const choiceDate = () => {
-  console.log(userStore.value);
+  console.log(userStore.userState.value);
   sendinfo(
-    userStore.value,
+    userStore.userState.value,
     success => {
       console.log('Sendinfo success!');
-      console.log(userStore.value.passwordSimple);
+      console.log(userStore.userState.value.passwordSimple);
       router.push({ name: 'Profile' });
     },
-    error => console.log('sendinfo 오류 : ' + error),
-  );
+    error => {
+    console.log('sendinfo 오류 : ' + error)
+    console.log(userStore.userState.value),
+    });
 };
 </script>
 
