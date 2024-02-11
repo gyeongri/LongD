@@ -1,8 +1,7 @@
 <template>
   <div class="container mx-auto">
-    <TheHeader
-      v-show="userStore.isLogin && !mainDisplayStore.isClosed"
-    ></TheHeader>
+    <TheHeader></TheHeader>
+    <!-- v-show="userStore.isLogin && !mainDisplayStore.isClosed" -->
 
     <div class="flex">
       <div class="flex-1 mr-8">
@@ -10,9 +9,9 @@
       </div>
 
       <!-- <div v-show="userStore.isLogin">
-        <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
-          <TheChatting></TheChatting>
-        </div>
+        <div v-if="isChatting" class="border-4 border-red-300 w-1/4"> -->
+      <TheChatting></TheChatting>
+      <!-- </div>
         <div v-else class="border-4 border-red-300 w-1/10">
           <TheNochatting></TheNochatting>
         </div> -->
@@ -36,6 +35,7 @@ const mainDisplayStore = useMainDisplayStore();
 const isChatting = true;
 // if, else로 하지 말고, 버전 1,2,3으로 구분해서 채팅관련된 것이 아예 없도록 하던가 하면 될 듯.
 onMounted(() => {
+  console.log('뜨나');
   console.log(userStore.isLogin);
 });
 </script>
