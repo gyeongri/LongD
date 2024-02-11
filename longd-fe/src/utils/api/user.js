@@ -15,6 +15,11 @@ function sendinfo(param, success, fail) {
   userApi.post(`/user/add`, JSON.stringify(param)).then(success).catch(fail);
 }
 
+// 프로필 나라 도시 데이터 들고오기
+function getNationList(success, fail) {
+  userApi.get('/user/getNationList').then(success).catch(fail);
+}
+
 function partnerinfo(success, fail) {
   userApi.get(`/couplelist/partnerInfo/get`).then(success).catch(fail);
 }
@@ -45,6 +50,7 @@ function coupleDataModify(payload, success, fail) {
   userApi.post(`/couplelist/modify`, payload).then(success).catch(fail);
 }
 
+// 화면잠금 비밀번호 초기화
 function removeClosedPasswords(success, fail) {
   userApi.get(`/api/user/resetSimplePassWord`).then(success).catch(fail);
 }
@@ -52,6 +58,7 @@ function removeClosedPasswords(success, fail) {
 export {
   userApi,
   sendinfo,
+  getNationList,
   partnerinfo,
   BaseInfo,
   logout,
