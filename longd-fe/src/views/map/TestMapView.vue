@@ -27,25 +27,10 @@
           {{ date }}
           <!-- 여기에 드롭인 넣기 -->
           <div grid="~ cols-2 gap-2">
-            <div
-              ref="dropZoneRef"
-              class="flex flex-col w-full min-h-200px h-auto bg-gray-400/10 justify-center items-center mt-6 rounded"
-            >
+            <div ref="dropZoneRef">
               <div font-bold mb2>여기로 이동해주세요.</div>
               <div>
                 <BooleanDisplay :value="isOverDropZone" />
-              </div>
-              <div class="flex flex-wrap justify-center items-center">
-                <div
-                  v-for="(file, index) in eventList"
-                  :key="index"
-                  class="w-200px bg-black-200/10 ma-2 pa-6"
-                >
-                  <p>Name: {{ file.name }}</p>
-                  <p>Size: {{ file.size }}</p>
-                  <p>Type: {{ file.type }}</p>
-                  <p>Last modified: {{ file.lastModified }}</p>
-                </div>
               </div>
             </div>
           </div>
