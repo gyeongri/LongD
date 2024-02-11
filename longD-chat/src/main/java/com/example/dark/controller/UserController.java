@@ -20,11 +20,12 @@ public class UserController {
 
     @GetMapping("/findNickname")
     public ResponseEntity<String> findNickname(@RequestParam int coupleListId, @RequestParam String myNickname) {
+        //커플리스트 아이디와 닉네임으로 조회해서 상대방의 닉네임을 조회합니다
         String nickname = userService.findNickname(coupleListId, myNickname);
         if (nickname != null) {
             return ResponseEntity.ok(nickname);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok("lover");
         }
     }
 
