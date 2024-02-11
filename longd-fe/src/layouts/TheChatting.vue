@@ -42,7 +42,7 @@ const findRoom = async () => {
 };
 
 const sendMessage = message => {
-  sender.value = userStore.getUserState?.nickname;
+  sender.value = userStore.getUserState?.id;
   ws.value.send(
     '/app/chat/message',
     {},
@@ -96,6 +96,7 @@ const connect = function () {
 };
 
 onMounted(() => {
+  coupleId.value = userStore.getUserState?.coupleListId;
   stompApi
     .get(`/chat/messages/${coupleId.value}?size=30`)
     .then(res => {

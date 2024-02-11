@@ -7,8 +7,8 @@
         :key="message.id"
         :class="{
           chat: true,
-          'chat-end': message.senderId === userStore.getUserState?.nickname,
-          'chat-start': message.senderId !== userStore.getUserState?.nickname,
+          'chat-end': message.senderId === userStore.getUserState?.id,
+          'chat-start': message.senderId !== userStore.getUserState?.id,
         }"
         style="display: flex; flex-direction: column"
       >
@@ -16,9 +16,7 @@
         <template v-if="shouldDisplayHeader(index)">
           <div class="flex flex-col">
             <!-- 사용자('나')의 메시지일 경우 -->
-            <template
-              v-if="message.senderId === userStore.getUserState?.nickname"
-            >
+            <template v-if="message.senderId === userStore.getUserState?.id">
               <div
                 class="flex items-center justify-end"
                 style="margin-right: 1rem; margin-bottom: 0.5rem"
@@ -52,16 +50,12 @@
           :class="{
             flex: true,
             'gap-2': true,
-            'justify-end':
-              message.senderId === userStore.getUserState?.nickname,
-            'justify-start':
-              message.senderId !== userStore.getUserState?.nickname,
+            'justify-end': message.senderId === userStore.getUserState?.id,
+            'justify-start': message.senderId !== userStore.getUserState?.id,
           }"
         >
           <!-- 사용자('나')의 메시지일 경우 시간을 왼쪽에 표시 -->
-          <template
-            v-if="message.senderId === userStore.getUserState?.nickname"
-          >
+          <template v-if="message.senderId === userStore.getUserState?.id">
             <time class="text-xs opacity-50 mt-2 gap-2">{{
               getFormattedTime(message.createdAt)
             }}</time>
