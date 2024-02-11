@@ -13,7 +13,7 @@ public class WebSocketEventListener {
 
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectEvent event){
-        logger.info("새 웹소켓 연결");
+        logger.info("새 웹소켓 연결.");
     }
 
     @EventListener
