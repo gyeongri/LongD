@@ -153,7 +153,7 @@ router.beforeEach((to, from, next) => {
         next({ name: 'Login' });
       } else {
         // next();
-        if (isNaN(userStore.getUserState.coupleListId)) {
+        if (!isNaN(userStore.getUserState.coupleListId)) {
           next();
         } else {
           if (from.name === 'ConnectCode') {
