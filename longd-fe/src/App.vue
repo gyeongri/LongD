@@ -9,15 +9,15 @@
         <TheView></TheView>
       </div>
 
-      <!-- <div v-show="userStore.isLogin"> -->
-      <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
-        <TheChatting></TheChatting>
+      <div :class="{ check: userStore.isLogin && !mainDisplayStore.isClosed }">
+        <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
+          <TheChatting></TheChatting>
+        </div>
+        <div v-else class="border-4 border-red-300 w-1/10">
+          <TheNochatting></TheNochatting>
+        </div>
+        <ViduMainView class="hihi"></ViduMainView>
       </div>
-      <div v-else class="border-4 border-red-300 w-1/10">
-        <TheNochatting></TheNochatting>
-      </div>
-      <ViduMainView class="hihi"></ViduMainView>
-      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -47,5 +47,8 @@ onMounted(() => {
   height: 0.2px;
   width: 1px;
   display: flex;
+}
+.check {
+  display: none;
 }
 </style>
