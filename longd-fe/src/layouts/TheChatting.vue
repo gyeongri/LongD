@@ -23,9 +23,9 @@ import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
 const { VITE_CHAT_BASE_IP } = import.meta.env;
 
-const coupleId = ref(useUserStore.getUserState.coupleListId);
+const coupleId = ref('''');
 const messages = reactive([]);
-const sender = ref(userStore.getUserState.id);
+const sender = ref('');
 const room = ref(null);
 const count = ref(0);
 
@@ -75,6 +75,7 @@ const connect = function () {
   ws.value.connect(
     {},
     frame => {
+      coupleId.value=useUserStore.getUserState.coupleListId
       ws.value.subscribe(
         `/topic/chat/room/${useUserStore.getUserState.coupleListId}`,
         message => {
@@ -107,7 +108,7 @@ const connect = function () {
 onMounted(() => {
   if (userStore.getUserState?.coupleListId !== undefined) {
     stompApi
-      .get(`/chat/messages/${coupleId.value}?size=30`)
+      .get(`/chat/messages/${userStore.getUserState?.coupleListId}?size=30`)
       .then(res => {
         const sortedArray = res.data.sort((a, b) => a.id - b.id);
         sortedArray.forEach(element => {
