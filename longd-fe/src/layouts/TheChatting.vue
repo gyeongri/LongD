@@ -23,7 +23,7 @@ import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
 const { VITE_CHAT_BASE_IP } = import.meta.env;
 
-const coupleId = ref('''');
+const coupleId = ref('');
 const messages = reactive([]);
 const sender = ref('');
 const room = ref(null);
@@ -75,7 +75,7 @@ const connect = function () {
   ws.value.connect(
     {},
     frame => {
-      coupleId.value=useUserStore.getUserState.coupleListId
+      coupleId.value = useUserStore.getUserState.coupleListId;
       ws.value.subscribe(
         `/topic/chat/room/${useUserStore.getUserState.coupleListId}`,
         message => {
