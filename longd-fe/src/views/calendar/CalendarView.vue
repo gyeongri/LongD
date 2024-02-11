@@ -276,6 +276,36 @@ const calendarOptions = ref({
   selectMirror: true,
   select: handleDateSelect,
   eventClick: handleEventClick,
+  eventMouseEnter: function (mouseEnterInfo) {
+    console.log(mouseEnterInfo.event._def.publicId);
+    console.log(dateList.value);
+    let popContent = getContentById(
+      dateList.value,
+      mouseEnterInfo.event._def.publicId,
+    );
+    if (!popContent) {
+      popContent = '아직 내용이 없습니다.';
+    }
+    // 현재 아이디 찾고, 그거로 content 쏴주기
+    // 툴팁 요소 생성 또는 선택
+    let tooltip = document.getElementById('event-tooltip');
+    if (!tooltip) {
+      tooltip = document.createElement('div');
+      tooltip.id = 'event-tooltip';
+      tooltip.className = 'tooltip';
+      document.body.appendChild(tooltip);
+    }
+    tooltip.style.display = 'block';
+    tooltip.style.left = mouseEnterInfo.jsEvent.pageX + 'px';
+    tooltip.style.top = mouseEnterInfo.jsEvent.pageY + 'px';
+    tooltip.innerText = popContent;
+  },
+  eventMouseLeave: function (mouseLeaveInfo) {
+    const tooltip = document.getElementById('event-tooltip');
+    if (tooltip) {
+      tooltip.style.display = 'none'; // 마우스가 떠나면 툴팁을 숨깁니다.
+    }
+  },
   eventsSet: handleEvents, // 이게 있어야 이벤트를 화면에 띄울 수 있음
   eventAdd: function (obj) {
     // 이벤트가 추가되면 발생하는 이벤트
@@ -372,5 +402,15 @@ b {
   /* the calendar root */
   max-width: 1100px;
   margin: 0 auto;
+}
+.tooltip {
+  position: absolute;
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 10000; /* 충분히 높은 값으로 설정하여 다른 요소들 위에 표시되도록 합니다. */
+  display: none; /* 기본적으로 툴팁을 숨깁니다. */
 }
 </style>

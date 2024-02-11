@@ -297,7 +297,7 @@ const getCategoryId = async () => {
 };
 
 const pathUrlList = ref([]);
-const formData2 = ref([]);
+const formData2 = [];
 const uploadImages = async () => {
   const formData = new FormData();
   for (let i = 0; i < images.value.length; i++) {
@@ -315,23 +315,21 @@ const uploadImages = async () => {
             categoryId: categoryId,
           };
           console.log(data);
-          formData2.value.push(data);
-          console.log(formData2.value);
+          formData2.push(data);
+          console.log(formData2);
           // 여기로
         }
+      },
+      success2 => {
+        console.log(formData2);
+        createGallery(coupleId.value, formData2.value);
+        // 이미지 업로드 후 이미지 미리보기 배열 초기화
+        fetchAlbums();
       },
       error => {
         console.log('사진을 변환할 수 없어요.', error);
       },
     );
-    try {
-      // 서버로 이미지 전송하는 API 호출
-      await createGallery(coupleId.value, formData2.value);
-      // 이미지 업로드 후 이미지 미리보기 배열 초기화
-      await fetchAlbums();
-    } catch (error) {
-      console.error('Error uploading images:', error);
-    }
   }
 };
 

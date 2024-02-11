@@ -18,6 +18,7 @@
 <script setup>
 import TheHeader from '@/layouts/TheHeader.vue';
 import TheView from '@/layouts/TheView.vue';
+import TheFooter from '@/layouts/TheFooter.vue';
 import TheChatting from './layouts/TheChatting.vue';
 import TheNochatting from './layouts/TheNochatting.vue';
 import ViduMainView from './views/openvidu/ViduMainView.vue';

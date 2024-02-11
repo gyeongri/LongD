@@ -54,7 +54,6 @@ import {
   coupleDataGet,
   coupleDataModify,
 } from '@/utils/api/user';
-
 import { uploadImage } from '@/utils/api/photo';
 import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
@@ -77,11 +76,9 @@ const changImg = event => {
     formData,
     success => {
       coupleInfo.value.coupleImgUrl = success.data[0];
-      console.log(coupleInfo.value);
       coupleDataModify(
         coupleInfo.value,
         success => {
-          console.log(success);
           console.log('커플정보 보내기 완료!');
         },
         error => {
@@ -99,8 +96,6 @@ onMounted(() => {
   loginstate(
     success => {
       if (success.data === '롱디에 로그인 되어 있지 않음') {
-        //     홈 실행시 로그인 여부를 체크해서 안되있으면 로그인 화면으로 팅궈냅니다
-        //     '롱디에 로그인 되어 있지 않음' <<< 요거 문구 수정하면안됩니다 문구에 반응하는거임
         console.log('로그인 안되어있다.');
         mainDisplayStore.logOutPage = true;
         router.push({ name: 'Login' });
