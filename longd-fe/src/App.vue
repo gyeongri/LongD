@@ -30,11 +30,14 @@ import TheNochatting from './layouts/TheNochatting.vue';
 import ViduMainView from './views/openvidu/ViduMainView.vue';
 import { useUserStore } from '@/stores/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
-
+import { onMounted } from 'vue';
 const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
 const isChatting = true;
 // if, else로 하지 말고, 버전 1,2,3으로 구분해서 채팅관련된 것이 아예 없도록 하던가 하면 될 듯.
+onMounted(() => {
+  console.log(userStore.isLogin);
+});
 </script>
 
 <style scoped>
