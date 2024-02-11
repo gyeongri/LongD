@@ -17,7 +17,7 @@
 <script setup>
 import ChatInputView from '@/views/chat/ChatInputView.vue';
 import ChatDisplayView from '@/views/chat/ChatDisplayView.vue';
-import { onMounted, reactive, ref, unmounted } from 'vue';
+import { onMounted, reactive, ref, onUnmounted } from 'vue';
 import { stompApi } from '@/utils/api/index.js';
 import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
@@ -133,7 +133,8 @@ onMounted(() => {
       });
   }
 });
-unmounted(() => {
+
+onUnmounted(() => {
   if (ws.value && ws.value.connectedState === 1) {
     ws.value.disconnect(() => {
       console.log('WebSocket disconnected on component unmount');
