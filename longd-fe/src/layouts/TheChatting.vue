@@ -17,7 +17,7 @@
 <script setup>
 import ChatInputView from '@/views/chat/ChatInputView.vue';
 import ChatDisplayView from '@/views/chat/ChatDisplayView.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, unmounted } from 'vue';
 import { stompApi } from '@/utils/api/index.js';
 import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
@@ -25,7 +25,7 @@ const { VITE_CHAT_BASE_IP } = import.meta.env;
 
 const coupleId = ref('');
 const messages = reactive([]);
-const sender = ref('');
+const senderId = ref('');
 const room = ref(null);
 const count = ref(0);
 
@@ -45,13 +45,12 @@ const count = ref(0);
 // };
 
 const sendMessage = message => {
-  sender.value = userStore.getUserState?.id;
   ws.value.send(
     '/app/chat/message',
     {},
     JSON.stringify({
-      roomName: useUserStore.getUserState?.coupleListId,
-      senderId: userStore.getUserState?.id,
+      roomName: coupleId.value,
+      senderId: senderId.value,
       content: message,
     }),
   );
@@ -75,7 +74,8 @@ const connect = function (couple, sender) {
   ws.value.connect(
     {},
     frame => {
-      coupleId.value = useUserStore.getUserState?.coupleListId;
+      coupleId.value = couple;
+      senderId.value = sender;
       console.log(
         '커넥트때 확인용',
         coupleId.value,
@@ -121,6 +121,8 @@ onMounted(() => {
         });
       })
       .then(res => {
+        coupleId.value = userStore.getUserState?.coupleListId;
+        senderId.value = userStore.getUserState?.id;
         connect(
           userStore.getUserState?.coupleListId,
           userStore.getUserState?.id,
@@ -129,6 +131,13 @@ onMounted(() => {
       .catch(error => {
         console.error(error);
       });
+  }
+});
+unmounted(() => {
+  if (ws.value && ws.value.connectedState === 1) {
+    ws.value.disconnect(() => {
+      console.log('WebSocket disconnected on component unmount');
+    });
   }
 });
 </script>
