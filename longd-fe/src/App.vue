@@ -19,11 +19,15 @@
           !mainDisplayStore.isClosed &&
           userStore.getUserState.coupleListId
         "
+        :class="{
+          'border-4 border-red-300 w-1/4': isChatting,
+          'border-4 border-red-300 w-1/10': !isChatting,
+        }"
       >
-        <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
+        <div v-if="isChatting">
           <TheChatting></TheChatting>
         </div>
-        <div v-else class="border-4 border-red-300 w-1/10">
+        <div v-else>
           <TheNochatting></TheNochatting>
         </div>
         <ViduMainView class="hihi"></ViduMainView>
