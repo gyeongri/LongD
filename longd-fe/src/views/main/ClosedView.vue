@@ -35,6 +35,7 @@ import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
+import { removeClosedPasswords } from '@/utils/api/user';
 // import { watch } from 'vue';
 // import { useFocus } from '@vueuse/core';
 
@@ -69,7 +70,7 @@ const handleInput = index => {
     console.log(passwords);
     // if (passwords == ['❤️', '❤️', '❤️', '❤️']) {
 
-    if (inputRefs.value.join('') == userStore.userState.passwordSimple) {
+    if (inputRefs.value.join('') == userStore.getUserState.passwordSimple) {
       mainDisplayStore.closedPage = false;
       router.go(-1);
     } else {
@@ -100,7 +101,7 @@ const handleInput = index => {
 //     } else if (index == passwords.value.length - 1) {
 //       inputRefs.value.push(passwords[index]);
 //       passwords[index] = '🤍';
-//       if (inputRefs.value.join('') == userStore.userState.passwordSimple) {
+//       if (inputRefs.value.join('') == userStore.getUserState.passwordSimple) {
 //         mainDisplayStore.closedPage = false;
 //         router.go(-1);
 //       } else {
@@ -112,10 +113,34 @@ const handleInput = index => {
 //     }
 //   }
 // };
-
+// const userData = ref({});
 const removepassword = () => {
-  userStore.userState.passwordSimple = '';
+  // userData.value = useUserStore.getUserState;
+  // userData.value.passwordSimple = '';
+  // sendinfo(
+  //   userData.value,
+  //   data => {
+  //     console.log('sendinfo 성공 & 화면잠금 비밀번호 초기화');
+  //     userStore.setUserState(data.data);
+  //   },
+  //   error => {
+  //     console.log('sendinfo 오류 & 화면잠금 비밀번호 실패 : ' + error);
+  //   },
+  // );
+  removeClosedPasswords(
+    success => {
+      console.log('화면잠금 비밀번호 초기화 완료');
+      Swal.fire('비밀번호 초기화 완료');
+      passwords.forEach((_, i) => (passwords[i] = ''));
+      inputRefs.value = [];
+      router.push({ name: 'Closed' });
+    },
+    error => {
+      console.log('비밀번호 초기화 실패', error);
+    },
+  );
   // passwordSimple값 초기화시키기 = 생일로 디폴트 설정되어있음.
+  // 이 정보 백으로 보내줘서 설정할 수 있도록!
 };
 </script>
 

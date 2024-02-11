@@ -17,7 +17,7 @@
               ><img
                 class="myProfile rounded-full"
                 alt="내 프로필"
-                :src="userStore?.userState?.profilePicture"
+                :src="userStore?.getUserState?.profilePicture"
             /></RouterLink>
             <div class="image">
               <img

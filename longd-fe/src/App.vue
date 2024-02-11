@@ -1,7 +1,11 @@
 <template>
   <div class="container mx-auto">
     <TheHeader
-      v-show="userStore.isLogin && !mainDisplayStore.isClosed"
+      v-show="
+        userStore.isLogin &&
+        !mainDisplayStore.isClosed &&
+        userStore.getUserState.coupleListId
+      "
     ></TheHeader>
 
     <div class="flex">
@@ -9,7 +13,13 @@
         <TheView></TheView>
       </div>
 
-      <div v-show="userStore.isLogin">
+      <div
+        v-if="
+          userStore.isLogin &&
+          !mainDisplayStore.isClosed &&
+          userStore.getUserState.coupleListId
+        "
+      >
         <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
           <TheChatting></TheChatting>
         </div>
@@ -30,7 +40,7 @@ import TheNochatting from './layouts/TheNochatting.vue';
 import ViduMainView from './views/openvidu/ViduMainView.vue';
 import { useUserStore } from '@/stores/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
-
+import { onMounted } from 'vue';
 const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
 const isChatting = true;
@@ -43,5 +53,8 @@ const isChatting = true;
   height: 0.2px;
   width: 1px;
   display: flex;
+}
+.check {
+  display: none;
 }
 </style>

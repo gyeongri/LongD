@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     NationListRepository nationListRepository;
 
-    public void userReigst(User user) {
+    public void userRegist(User user) {
         log.info(user.toString());
         if ( user.getPasswordSimple() == null ) {
             //혹시 0228이면 어떻게 될까 ?
@@ -37,6 +37,18 @@ public class UserServiceImpl implements UserService{
             user.setPasswordSimple(Integer.parseInt(tmp[1] + tmp[2]));
         }
         userRepository.save(user);
+    }
+
+    public boolean resetSimplePassword() {
+        User user = userState().get();
+        if( user == null) {
+            return false;
+        } else {
+            String[] tmp = user.getBirth().split("-");
+            user.setPasswordSimple(Integer.parseInt(tmp[1] + tmp[2]));
+            return true;
+        }
+
     }
 
     public void userDelete() {
@@ -67,7 +79,7 @@ public class UserServiceImpl implements UserService{
         if(authentication.getPrincipal().toString().equals("anonymousUser")) {
             System.out.println("유저 상태 로그인 되어있지 않음");
             //임시 사용자 반환(제거)
-            return userRepository.findById(3);
+            return null;
         }
         CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
         Optional<User> user = null;
@@ -109,4 +121,13 @@ public class UserServiceImpl implements UserService{
         return nationListRepository.findAll();
     }
 
+    public boolean WeblockCheck(int simplePassword) {
+        User user = userState().get();
+
+        if (user.getPasswordSimple() == simplePassword ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

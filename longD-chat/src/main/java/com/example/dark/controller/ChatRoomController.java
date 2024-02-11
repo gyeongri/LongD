@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/chat")
-@CrossOrigin(originPatterns = {"http://i10d206.p.ssafy.io:3001/","https://i10d206.p.ssafy.io/","https://i10d206.p.ssafy.io:3001/","http://localhost:3001","http://172.28.192.1:5173/","http://192.168.35.112:5173/"})
+@CrossOrigin(origins = {"http://i10d206.p.ssafy.io:3001/","https://i10d206.p.ssafy.io/","https://i10d206.p.ssafy.io:3001/","http://localhost:3001/","http://172.28.192.1:5173/","http://192.168.35.112:5173/"})
 public class ChatRoomController {
 
     @Autowired
@@ -75,7 +75,7 @@ public class ChatRoomController {
     }
 
     @MessageMapping("/chat/message")
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = {"https://i10d206.p.ssafy.io/", "http://localhost:3001/"})
     public void broadcastMessage(ChatMessage chatMessage) {
         if (chatMessage.getContent() != null && !chatMessage.getContent().trim().isEmpty()) {
             chatMessageService.saveMessage(chatMessage);

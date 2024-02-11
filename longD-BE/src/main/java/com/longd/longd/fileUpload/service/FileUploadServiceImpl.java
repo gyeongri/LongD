@@ -1,22 +1,23 @@
 package com.longd.longd.fileUpload.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class FileUploadServiceImpl implements FileUploadService {
 
@@ -65,13 +66,30 @@ public class FileUploadServiceImpl implements FileUploadService {
                 ).withCannedAcl(CannedAccessControlList.PublicRead));
 
             } catch (IOException e) {
+                log.error("file upload error " + e.getMessage());
                 throw new IOException(); //커스텀 예외 던짐.
             }
 
             Urls.add(amazonS3.getUrl(bucketName, changedName).toString());
 
+
         }
         return Urls;
+    }
+
+    @Override
+    public boolean deleteObjectToS3Many(List<String> fileUrlList) {
+        try {
+            for (String fileUrl : fileUrlList) {
+                String fileName = URLDecoder.decode(fileUrl.substring(51), StandardCharsets.UTF_8);
+                amazonS3.deleteObject(bucketName, fileName);
+            }
+            return true;
+        } catch (AmazonS3Exception e) {
+            log.error("file delete error " + e.getErrorMessage());
+            return false;
+        }
+
     }
 
 }
