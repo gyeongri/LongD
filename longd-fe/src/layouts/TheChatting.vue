@@ -25,7 +25,6 @@ const coupleId = ref(77);
 const messages = reactive([]);
 const sender = ref(8);
 const room = ref(null);
-const count = ref(0);
 const createRoom = async () => {
   const params = new URLSearchParams();
   params.append('roomName', coupleId.value);
@@ -51,7 +50,6 @@ const sendMessage = message => {
       content: message,
     }),
   );
-  count.value++;
 };
 
 const recvMessage = recv => {

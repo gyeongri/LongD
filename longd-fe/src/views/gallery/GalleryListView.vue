@@ -318,18 +318,16 @@ const uploadImages = async () => {
           // 여기로
         }
       },
+      success2 => {
+        console.log(formData2.value);
+        // await createGallery(coupleId.value, formData2.value);
+        // 이미지 업로드 후 이미지 미리보기 배열 초기화
+        fetchAlbums();
+      },
       error => {
         console.log('사진을 변환할 수 없어요.', error);
       },
     );
-    try {
-      // 서버로 이미지 전송하는 API 호출
-      // await createGallery(coupleId.value, formData2);
-      // 이미지 업로드 후 이미지 미리보기 배열 초기화
-      await fetchAlbums();
-    } catch (error) {
-      console.error('Error uploading images:', error);
-    }
   }
 };
 
