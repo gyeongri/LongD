@@ -14,5 +14,5 @@ public interface UserService {
     public User BaseInfo();
     public List<NationList> getNationList();
     public boolean WeblockCheck(int simplePassword);
-
+    public boolean resetSimplePassword();
 }

@@ -46,6 +46,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/resetSimplePassWord")
+    public ResponseEntity<?> setResetSimplePassword() {
+        boolean tmp = userService.resetSimplePassword();
+        if (tmp) {
+            return ResponseEntity.status(200).body("초기 비밀번호로 변경 완료");
+        } else {
+            return ResponseEntity.status(400).body("로그인 상태가 없습니다.");
+        }
+    }
+
     @GetMapping("/checkregist")
     public RedirectView getRegistInstance() {
         //로그인 성공시에만 진입하는 경로

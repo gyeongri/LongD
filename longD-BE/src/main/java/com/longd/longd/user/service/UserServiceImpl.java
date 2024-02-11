@@ -39,6 +39,18 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
     }
 
+    public boolean resetSimplePassword() {
+        User user = userState().get();
+        if( user == null) {
+            return false;
+        } else {
+            String[] tmp = user.getBirth().split("-");
+            user.setPasswordSimple(Integer.parseInt(tmp[1] + tmp[2]));
+            return true;
+        }
+
+    }
+
     public void userDelete() {
 
         SecurityContext context = SecurityContextHolder.getContext();
