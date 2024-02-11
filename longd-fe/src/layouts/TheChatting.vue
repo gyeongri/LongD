@@ -71,7 +71,7 @@ let reconnect = 0;
 const sock = ref(new SockJS(`${VITE_CHAT_BASE_IP}/ws/chat`));
 const ws = ref(Stomp.over(sock.value));
 
-const connect = function () {
+const connect = function (couple, sender) {
   ws.value.connect(
     {},
     frame => {
@@ -80,8 +80,10 @@ const connect = function () {
         '커넥트때 확인용',
         coupleId.value,
         useUserStore.getUserState?.coupleListId,
+        couple,
+        sender,
       );
-      ws.value.subscribe(`/topic/chat/room/${coupleId.value}`, message => {
+      ws.value.subscribe(`/topic/chat/room/${couple}`, message => {
         const recv = JSON.parse(message.body);
         recvMessage(recv);
       });
@@ -89,8 +91,8 @@ const connect = function () {
         '/app/chat/message',
         {},
         JSON.stringify({
-          roomName: useUserStore.getUserState?.coupleListId,
-          senderId: useUserStore.getUserState?.id,
+          roomName: couple,
+          senderId: sender,
         }),
       );
     },
@@ -118,7 +120,10 @@ onMounted(() => {
         });
       })
       .then(res => {
-        connect();
+        connect(
+          userStore.getUserState?.coupleListId,
+          userStore.getUserState?.id,
+        );
       })
       .catch(error => {
         console.error(error);
