@@ -112,10 +112,12 @@ onMounted(() => {
           messages.push(element);
         });
       })
+      .then(res => {
+        connect();
+      })
       .catch(error => {
         console.error(error);
       });
-    connect();
   }
 });
 </script>
