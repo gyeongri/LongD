@@ -45,6 +45,10 @@ function coupleDataModify(payload, success, fail) {
   userApi.post(`/couplelist/modify`, payload).then(success).catch(fail);
 }
 
+function removeClosedPasswords(success, fail) {
+  userApi.get(`/api/user/resetSimplePassWord`).then(success).catch(fail);
+}
+
 export {
   userApi,
   sendinfo,
@@ -55,4 +59,5 @@ export {
   coupleMatching,
   coupleDataGet,
   coupleDataModify,
+  removeClosedPasswords,
 };

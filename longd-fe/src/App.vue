@@ -1,7 +1,8 @@
 <template>
   <div class="container mx-auto">
-    <TheHeader></TheHeader>
-    <!-- v-show="userStore.isLogin && !mainDisplayStore.isClosed" -->
+    <TheHeader
+      v-show="userStore.isLogin && !mainDisplayStore.isClosed"
+    ></TheHeader>
 
     <div class="flex">
       <div class="flex-1 mr-8">

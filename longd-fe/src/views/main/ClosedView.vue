@@ -35,7 +35,7 @@ import { useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
-import { sendinfo } from '@/utils/api/user';
+import { removeClosedPasswords } from '@/utils/api/user';
 // import { watch } from 'vue';
 // import { useFocus } from '@vueuse/core';
 
@@ -113,18 +113,26 @@ const handleInput = index => {
 //     }
 //   }
 // };
-const userData = ref({});
+// const userData = ref({});
 const removepassword = () => {
-  userData.value = useUserStore.getUserState;
-  userData.value.passwordSimple = '';
-  sendinfo(
-    userData.value,
-    data => {
-      console.log('sendinfo 성공 & 화면잠금 비밀번호 초기화');
-      userStore.setUserState(data.data);
+  // userData.value = useUserStore.getUserState;
+  // userData.value.passwordSimple = '';
+  // sendinfo(
+  //   userData.value,
+  //   data => {
+  //     console.log('sendinfo 성공 & 화면잠금 비밀번호 초기화');
+  //     userStore.setUserState(data.data);
+  //   },
+  //   error => {
+  //     console.log('sendinfo 오류 & 화면잠금 비밀번호 실패 : ' + error);
+  //   },
+  // );
+  removeClosedPasswords(
+    success => {
+      console.log('화면잠금 비밀번호 초기화 완료');
     },
     error => {
-      console.log('sendinfo 오류 & 화면잠금 비밀번호 실패 : ' + error);
+      console.log('비밀번호 초기화 실패', error);
     },
   );
   // passwordSimple값 초기화시키기 = 생일로 디폴트 설정되어있음.
