@@ -149,7 +149,7 @@ public class UserController {
     @GetMapping("/test")
     public String gettest() {
 
-        return "테스트페이지 Ver10.0";
+        return "테스트페이지 Ver10.1";
 
     }
 
