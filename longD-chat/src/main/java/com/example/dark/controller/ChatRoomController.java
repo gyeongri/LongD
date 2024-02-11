@@ -75,7 +75,7 @@ public class ChatRoomController {
     }
 
     @MessageMapping("/chat/message")
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "https://i10d206.p.ssafy.io/")
     public void broadcastMessage(ChatMessage chatMessage) {
         if (chatMessage.getContent() != null && !chatMessage.getContent().trim().isEmpty()) {
             chatMessageService.saveMessage(chatMessage);
