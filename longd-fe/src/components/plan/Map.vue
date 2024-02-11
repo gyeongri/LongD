@@ -13,43 +13,43 @@
     <!-- 지도 표시 -->
     <div class="googleMap" id="googleMap"></div>
     <!-- 검색 결과 표시 -->
-    <div id="results">
+    <!-- <div id="results">
       <h2>검색 결과</h2>
-      <ul>
-        <!-- 검색 결과 클릭 시 handleResultClick 함수 호출 -->
-        <li
+      <ul> -->
+    <!-- 검색 결과 클릭 시 handleResultClick 함수 호출 -->
+    <!-- <li
           v-for="place in searchResults"
           :key="place.id"
           @click="handleResultClick(place)"
         >
           <strong>{{ place.name }}</strong
           ><br />
-          {{ place.address }}
-          <!-- 장소 상세 정보 확인 버튼 -->
-          <button @click="showDetailModal(place)">자세히 보기</button>
-
-          <!-- 누르면 아래가 보이는 형태로 만드는 게 더 좋지 않을까? -->
-          <div class="collapse bg-base-200">
+          {{ place.address }} -->
+    <!-- 장소 상세 정보 확인 버튼 -->
+    <!-- <button @click="showDetailModal(place)">자세히 보기</button>
+          <button @click="planStore.addHopeList(place)">❤</button> -->
+    <!-- 누르면 아래가 보이는 형태로 만드는 게 더 좋지 않을까? -->
+    <!-- <div class="collapse bg-base-200">
             <input type="checkbox" />
             <div class="collapse-title text-xl font-medium">
               <strong>{{ place.name }}</strong
               ><br />
-              {{ place.address }}
-              <button @click="planStore.addHopeList(place)">❤</button>
-              <!-- 여기는 좋아요버튼 한 거 만들기 -->
-            </div>
-            <div class="collapse-content">
-              <!-- 상세내용 넣기 이거는 수정해야해!-->
-              <!-- <div v-if="place"> -->
-              <p>주소: {{ place.address }}</p>
+              {{ place.address }} -->
+
+    <!-- 여기는 좋아요버튼 한 거 만들기 -->
+    <!-- </div>
+            <div class="collapse-content"> -->
+    <!-- 상세내용 넣기 이거는 수정해야해!-->
+    <!-- <div v-if="place"> -->
+    <!-- <p>주소: {{ place.address }}</p>
               <p>위도: {{ place.geometry.location.lat() }}</p>
-              <p>경도: {{ place.geometry.location.lng() }}</p>
-              <!-- </div> -->
-            </div>
+              <p>경도: {{ place.geometry.location.lng() }}</p> -->
+    <!-- </div> -->
+    <!-- </div>
           </div>
         </li>
       </ul>
-    </div>
+    </div> -->
 
     <!-- 선택한 장소의 상세 정보 모달 -->
     <div v-if="selectedPlace">
@@ -135,7 +135,7 @@ const initSearchBox = () => {
 
     const bounds = new google.maps.LatLngBounds();
     searchResults.value = [];
-
+    planStore.resetSearchResult();
     places.forEach(place => {
       if (place.geometry && place.geometry.location) {
         const marker = new google.maps.Marker({
@@ -184,8 +184,14 @@ const initSearchBox = () => {
           map.value.setZoom(18); // 원하는 확대 레벨로 조절
         });
 
+        planStore.addSearchResult({
+          id: place.place_id,
+          name: place.name,
+          address: place.formatted_address,
+          geometry: place.geometry,
+        });
         searchResults.value.push({
-          id: place.id,
+          id: place.place_id,
           name: place.name,
           address: place.formatted_address,
           geometry: place.geometry,

@@ -1,5 +1,16 @@
 <template>
-  <div>여행일정 나오게하기
+  <div v-for="place in planStore?.hopeList" :key="place.place_id">
+    <div class="stats shadow">
+      <div class="stat">
+        <!-- <div class="stat-title">Total Page Views</div> -->
+        <div class="stat-value">{{ place.title }}</div>
+        <!-- <div class="stat-desc">21% more than last month</div> -->
+      </div>
+    </div>
+  </div>
+
+  <div>
+    여행일정 나오게하기
     <h2>제목 입력하기</h2>
     <h3>날짜지정하기 => 즐겨찾기 목록 아래에 달력 만들어지기</h3>
     <p>즐겨찾기 목록 보이기</p>
@@ -8,6 +19,9 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { usePlanStore } from '@/stores/plan';
+const planStore = usePlanStore();
+</script>
 
 <style scoped></style>

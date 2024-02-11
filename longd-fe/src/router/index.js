@@ -97,6 +97,7 @@ const router = createRouter({
       path: '/map',
       name: 'Map',
       component: MapView,
+      redirect: '/map/search', // /map에 접근하면 자동으로 /map/search로 리다이렉트
       children: [
         {
           path: 'search',
