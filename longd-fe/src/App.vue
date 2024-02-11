@@ -13,7 +13,13 @@
         <TheView></TheView>
       </div>
 
-      <div v-if="userStore.isLogin && !mainDisplayStore.isClosed">
+      <div
+        v-if="
+          userStore.isLogin &&
+          !mainDisplayStore.isClosed &&
+          userStore.getUserState.coupleListId
+        "
+      >
         <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
           <TheChatting></TheChatting>
         </div>
