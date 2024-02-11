@@ -97,18 +97,20 @@ const connect = function () {
 
 onMounted(() => {
   coupleId.value = userStore.getUserState?.coupleListId;
-  stompApi
-    .get(`/chat/messages/${coupleId.value}?size=30`)
-    .then(res => {
-      const sortedArray = res.data.sort((a, b) => a.id - b.id);
-      sortedArray.forEach(element => {
-        messages.push(element);
+  if (userStore.getUserState?.coupleListId !== undefined) {
+    stompApi
+      .get(`/chat/messages/${coupleId.value}?size=30`)
+      .then(res => {
+        const sortedArray = res.data.sort((a, b) => a.id - b.id);
+        sortedArray.forEach(element => {
+          messages.push(element);
+        });
+      })
+      .catch(error => {
+        console.error(error);
       });
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  connect();
+    connect();
+  }
 });
 </script>
 
