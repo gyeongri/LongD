@@ -227,7 +227,7 @@ pipeline {
 
         stage('Copy dist to EC2') {
             steps {
-                //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
+                //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트 
                 sh "docker cp longd-frontend:/app/dist ${PROJECT_PATH}"
                 // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
                 echo 'COPY FE Dist to EC2'
