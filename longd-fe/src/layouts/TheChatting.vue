@@ -97,7 +97,7 @@ const connect = function () {
 
 onMounted(() => {
   coupleId.value = userStore.getUserState?.coupleListId;
-  if (coupleId.value) {
+  if (userStore.getUserState?.coupleListId !== undefined) {
     stompApi
       .get(`/chat/messages/${coupleId.value}?size=30`)
       .then(res => {

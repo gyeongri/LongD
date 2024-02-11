@@ -9,7 +9,7 @@
         <TheView></TheView>
       </div>
 
-      <div :class="{ check: userStore.isLogin && !mainDisplayStore.isClosed }">
+      <!-- <div :class="{ check: userStore.isLogin && !mainDisplayStore.isClosed }">
         <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
           <TheChatting class="check"></TheChatting>
         </div>
@@ -17,7 +17,7 @@
           <TheNochatting></TheNochatting>
         </div>
         <ViduMainView class="hihi"></ViduMainView>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
