@@ -75,14 +75,11 @@ const connect = function () {
   ws.value.connect(
     {},
     frame => {
-      coupleId.value = useUserStore.getUserState.coupleListId;
-      ws.value.subscribe(
-        `/topic/chat/room/${useUserStore.getUserState.coupleListId}`,
-        message => {
-          const recv = JSON.parse(message.body);
-          recvMessage(recv);
-        },
-      );
+      coupleId.value = useUserStore.getUserState?.coupleListId;
+      ws.value.subscribe(`/topic/chat/room/${coupleId.value}`, message => {
+        const recv = JSON.parse(message.body);
+        recvMessage(recv);
+      }); 
       ws.value.send(
         '/app/chat/message',
         {},
