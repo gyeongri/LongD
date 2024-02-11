@@ -175,9 +175,10 @@ const choiceDate = () => {
       router.push({ name: 'Profile' });
     },
     error => {
-    console.log('sendinfo 오류 : ' + error)
-    console.log(userStore.userState.value),
-    });
+      console.log('sendinfo 오류 : ' + error);
+      console.log(userStore.userState.value);
+    },
+  );
 };
 </script>
 
