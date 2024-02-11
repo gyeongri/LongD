@@ -11,9 +11,7 @@
 
       <div :class="{ check: userStore.isLogin && !mainDisplayStore.isClosed }">
         <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
-          <TheChatting
-            :class="{ check: userStore.isLogin && !mainDisplayStore.isClosed }"
-          ></TheChatting>
+          <TheChatting class="check"></TheChatting>
         </div>
         <div v-else class="border-4 border-red-300 w-1/10">
           <TheNochatting></TheNochatting>
