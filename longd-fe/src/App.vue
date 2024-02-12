@@ -1,12 +1,6 @@
 <template>
   <div class="container mx-auto">
-    <TheHeader
-      v-show="
-        userStore.isLogin &&
-        !mainDisplayStore.isClosed &&
-        userStore.getUserState.coupleListId
-      "
-    ></TheHeader>
+    <TheHeader></TheHeader>
 
     <div class="flex">
       <div class="flex-1 mr-8">
