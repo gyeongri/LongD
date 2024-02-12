@@ -1,6 +1,6 @@
 
-#FROM maven:3.6.3 as build
-FROM maven:3.8.3 as build
+FROM maven:3.6.3 as build
+#FROM maven:3.8.3 as build
 WORKDIR /openvidu-recording-java
 COPY ./pom.xml pom.xml
 COPY ./src/main src/main
