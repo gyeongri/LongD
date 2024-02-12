@@ -1,7 +1,11 @@
 <template>
   <div class="container mx-auto">
     <TheHeader
-      v-show="userStore.isLogin && !mainDisplayStore.isClosed"
+      v-show="
+        userStore.isLogin &&
+        !mainDisplayStore.isClosed &&
+        userStore.getUserState?.coupleListId
+      "
     ></TheHeader>
 
     <div class="flex">
@@ -9,11 +13,21 @@
         <TheView></TheView>
       </div>
 
-      <div :class="{ check: userStore.isLogin && !mainDisplayStore.isClosed }">
-        <div v-if="isChatting" class="border-4 border-red-300 w-1/4">
+      <div
+        v-if="
+          userStore.isLogin &&
+          !mainDisplayStore.isClosed &&
+          userStore.getUserState?.coupleListId
+        "
+        :class="{
+          'w-1/4': isChatting,
+          'w-1/10': !isChatting,
+        }"
+      >
+        <div v-if="isChatting">
           <TheChatting></TheChatting>
         </div>
-        <div v-else class="border-4 border-red-300 w-1/10">
+        <div v-else>
           <TheNochatting></TheNochatting>
         </div>
         <ViduMainView class="hihi"></ViduMainView>
@@ -24,21 +38,15 @@
 <script setup>
 import TheHeader from '@/layouts/TheHeader.vue';
 import TheView from '@/layouts/TheView.vue';
-import TheFooter from '@/layouts/TheFooter.vue';
 import TheChatting from './layouts/TheChatting.vue';
 import TheNochatting from './layouts/TheNochatting.vue';
 import ViduMainView from './views/openvidu/ViduMainView.vue';
 import { useUserStore } from '@/stores/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
-import { onMounted } from 'vue';
 const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
 const isChatting = true;
 // if, else로 하지 말고, 버전 1,2,3으로 구분해서 채팅관련된 것이 아예 없도록 하던가 하면 될 듯.
-onMounted(() => {
-  console.log('뜨나');
-  console.log(userStore.isLogin);
-});
 </script>
 
 <style scoped>
