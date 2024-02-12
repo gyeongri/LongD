@@ -28,7 +28,7 @@ public class CoupleListServiceImpl implements CoupleListService {
     CoupleListRepository coupleListRepository;
 
     @Override
-    public boolean setCoupleList(CheckRegistDto checkRegistDto) {
+    public int setCoupleList(CheckRegistDto checkRegistDto) {
         Optional<User> OptionalOther = userRepository.findByEmail(checkRegistDto.getEmail());
         if(OptionalOther.isPresent()) {
 
@@ -58,17 +58,17 @@ public class CoupleListServiceImpl implements CoupleListService {
                 userRepository.save(other);
                 userRepository.save(loginUser);
 
-                return true;
+                return 1;
             } else {
                 log.error("코드가 일치하지 않음");
 
-                return false;
+                return 1;
             }
 
         } else {
             log.error("상대방이 존재하지 않음");
 
-            return false;
+            return 1;
         }
     }
 

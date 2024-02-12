@@ -119,7 +119,7 @@ const router = createRouter({
       component: TestMapView,
     },
     {
-      path: '/plan/detail',
+      path: '/plan/detail/:id',
       name: 'PlanDetail',
       component: PlanDetail,
     },
