@@ -121,6 +121,7 @@ public class UserController {
     public User setRegistInfo() {
         User user = new User();
         user = userService.BaseInfo();
+        System.out.println("검증 + " + user.toString());
         return user;
     }
 
@@ -149,7 +150,7 @@ public class UserController {
     @GetMapping("/test")
     public String gettest() {
 
-        return "테스트페이지 Ver10.1";
+        return "테스트페이지 Ver10.2";
 
     }
 

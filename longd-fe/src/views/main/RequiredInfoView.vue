@@ -221,12 +221,10 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid';
 import { BaseInfo, sendinfo, getNationList } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
 import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
 
 const router = useRouter();
-const userStore = useUserStore();
-const Info_state = userStore.getUserState;
+const Info_state = ref();
 const codeCheck = ref();
 const nationList = ref();
 
@@ -236,7 +234,7 @@ const fileUpload = event => {
   uploadImage(
     formData,
     success => {
-      Info_state.profilePicture = success.data[0];
+      Info_state.value.profilePicture = success.data[0];
     },
     success2 => {
       console.log('사진을 변환했어요!');
@@ -251,6 +249,7 @@ onMounted(() => {
   BaseInfo(
     data => {
       Info_state.value = data.data;
+      console.log(Info_state.value);
     },
     error => {
       console.log('Base Info 가져오기 안됨', error);
@@ -280,7 +279,6 @@ const send = () => {
         Info_state.value,
         data => {
           console.log('sendinfo 성공 & 로그인 값 넣기');
-          userStore.setUserState(data.data);
           router.push({ name: 'ConnectCode' });
         },
         error => {

@@ -4,11 +4,11 @@
   <input id="title" type="text" v-model="planTitle" />
   <!-- 일정 입력하기 -->
   <div>
-    <label for="start">Start Date:</label>
+    <label for="start">시작 날짜:</label>
     <input id="start" type="date" v-model="startDate" />
-    <label for="end">End Date:</label>
+    <label for="end">종료 날짜:</label>
     <input id="end" type="date" v-model="endDate" />
-    <button class="btn" @click="addRangeToList">일정추가</button>
+    <button class="btn" @click="addRangeToList">일정 추가</button>
     <button class="btn-outline" @click="clearList">일정 초기화</button>
   </div>
   <!-- 즐겨찾기 목록 -->
@@ -36,7 +36,8 @@
       @drop="onDrop($event, date)"
     >
       <div>장소들 담는 공간</div>
-      <BooleanDisplay :value="isOverDropZone" />
+      <!-- BooleanDisplay 컴포넌트: 드롭 영역 위에 올려진 경우 표시됨 -->
+      <!-- <div :class="{ displayed: isOverDropZone }"></div> -->
       <div class="flex flex-wrap justify-center items-center">
         <div
           v-for="(place, idx) in placeList"
@@ -50,20 +51,21 @@
   </div>
 
   <div>
-    여행일정 나오게하기
+    여행일정 나열하기
     <h2>제목 입력하기</h2>
-    <h3>날짜지정하기 => 즐겨찾기 목록 아래에 달력 만들어지기</h3>
+    <h3>날짜 선택하기 => 즐겨찾기 목록 아래에 달력 표시</h3>
     <p>즐겨찾기 목록 보이기</p>
-    <p>달력 만들어지면 즐겨찾기 목록에서 달력으로 가지고 오기</p>
-    <p>데이터 담기고 나면 저장해서 여행목록 리스트로 보내기</p>
+    <p>달력이 표시되면 즐겨찾기 목록에서 달력으로 옮기기</p>
+    <p>데이터 저장 후 여행 목록으로 보내기</p>
   </div>
-  <div></div>
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useDropZone } from '@vueuse/core';
 import { usePlanStore } from '@/stores/plan';
+
+const planTitle = ref();
 
 // 시작일과 종료일을 저장할 변수
 const startDate = ref('');
@@ -106,16 +108,22 @@ const onDragStart = place => {
   event.dataTransfer.setData('place', JSON.stringify(place));
 };
 
+const placeList = ref([]);
+
 const onDrop = (event, date) => {
   event.preventDefault();
-  const place = JSON.parse(event.dataTransfer.getData('place'));
-  console.log('Dropped place:', place);
+  const placeIndex = event.dataTransfer.getData('placeIndex');
+  const place = planStore.hopeList[placeIndex];
   // 드롭되었을때 장소 데이터에 날짜 넣기
+  // place.date 지금 date라는 키가 없어서 일어난 문제 => 기존에 있는 place 값을 가지고 와서 넣어주는 걸로 바꿔야할 거 같다.
+  place.push({ date: date });
+  // 수정된 place를 placeList에 추가
+  placeList.value = [...placeList.value, place];
+  console.log('Dropped place:', place, date, placeList.value);
 };
 
 // 즐겨찾기 항목에서 담기
 const planStore = usePlanStore();
-const placeList = ref([]);
 
 // 컴포넌트가 마운트될 때 이벤트 리스너 추가
 onMounted(() => {
@@ -134,4 +142,8 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.displayed {
+  border: solid black 1px;
+}
+</style>
