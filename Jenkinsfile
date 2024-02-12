@@ -84,12 +84,12 @@ pipeline {
         // }
 
     //   //새 BE 컨테이너 실행
-    //     stage('Run New main openvidu image') {
-    //         steps {
-    //             sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 4443:4443 ${OPENVIDU_IMAGE_BE}"
-    //             echo 'Run New openvidu BE image'
-    //         }
-    //     }
+        stage('Run New main openvidu image') {
+            steps {
+                sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 4443:4443 openvidu/openvidu-dev:2.29.0"
+                echo 'Run New openvidu BE image'
+            }
+        }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
