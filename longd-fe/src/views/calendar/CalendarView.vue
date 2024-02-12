@@ -1,6 +1,6 @@
 <template>
   <div class="demo-app">
-    <div class="demo-app-sidebar">
+    <!-- <div class="demo-app-sidebar rounded-xl">
       <div class="demo-app-sidebar-section">
         <h2>All Events ({{ currentEvents.length }})</h2>
         <ul>
@@ -10,7 +10,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
     <div class="demo-app-main">
       <FullCalendar class="demo-app-calendar" :options="calendarOptions">
         <template v-slot:eventContent="arg">
@@ -261,15 +261,15 @@ const calendarOptions = ref({
   // initialEvents: INITIAL_EVENTS,
   // alternatively, use the `events` setting to fetch from a feed, 이걸로 저장하는 느낌을 줄 수 있을 듯
   customButtons: {
-    saveButton: {
-      text: '저장하기',
-      click: function () {
-        alert('clicked the custom button!');
-      },
-    },
+    // saveButton: {
+    //   text: '저장하기',
+    //   click: function () {
+    //     alert('clicked the custom button!');
+    //   },
+    // },
   },
   headerToolbar: {
-    right: 'prev,next today saveButton',
+    right: 'prev,next today',
   },
   editable: true,
   selectable: true,
