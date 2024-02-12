@@ -1,11 +1,10 @@
-
 FROM maven:3.6.3 as build
 WORKDIR /openvidu-recording-java
 COPY ./pom.xml pom.xml
 COPY ./src/main src/main
 
 RUN mvn -e -X clean install
-RUN mvn -o package
+RUN mvn package
 
 FROM alpine:3.11
 
@@ -16,11 +15,38 @@ RUN apk update && \
 # Install basic-webinar
 RUN mkdir -p /opt/openvidu-recording-java
 COPY --from=build /openvidu-recording-java/target/openvidu-recording-java-*.jar /opt/openvidu-recording-java/openvidu-recording-java.jar
+
 # Entrypoint
 COPY ./docker/entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 CMD /usr/local/bin/entrypoint.sh
+
+
+
+#
+#FROM maven:3.6.3 as build
+#WORKDIR /openvidu-recording-java
+#COPY ./pom.xml pom.xml
+#COPY ./src/main src/main
+#
+#RUN mvn -e -X clean install
+#RUN mvn -o package
+#
+#FROM alpine:3.11
+#
+#RUN apk update && \
+#  apk add openjdk11-jre && \
+#  rm -rf /var/cache/apk/*
+#
+## Install basic-webinar
+#RUN mkdir -p /opt/openvidu-recording-java
+#COPY --from=build /openvidu-recording-java/target/openvidu-recording-java-*.jar /opt/openvidu-recording-java/openvidu-recording-java.jar
+## Entrypoint
+#COPY ./docker/entrypoint.sh /usr/local/bin
+#RUN chmod +x /usr/local/bin/entrypoint.sh
+#
+#CMD /usr/local/bin/entrypoint.sh
 
 ## base 이미지 설정
 #FROM amazoncorretto:17
