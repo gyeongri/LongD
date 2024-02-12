@@ -155,6 +155,11 @@ router.beforeEach((to, from, next) => {
       } else {
         // next();
         if (userStore.getUserState.coupleListId !== null) {
+          if (to.name === 'ConnectCode') {
+            console.log('1');
+            next('/');
+            return;
+          }
           next();
         } else {
           if (to.name === 'ConnectCode') {
