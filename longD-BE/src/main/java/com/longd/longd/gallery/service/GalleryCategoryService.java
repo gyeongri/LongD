@@ -10,6 +10,6 @@ import java.util.Map;
 public interface GalleryCategoryService {
 
     public List<Map<String, Object>> getGalleryCategory(int coupleListId);
-    public boolean setGalleryCategory(GalleryCategory galleryCategory);
+    public String setGalleryCategory(GalleryCategory galleryCategory);
     public boolean deleteGalleryCategory(int id);
 }

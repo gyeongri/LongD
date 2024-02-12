@@ -40,7 +40,7 @@
               </li>
               <li>
                 <a>
-                  <RouterLink :to="{ name: 'ViduVideo' }">같이 보기</RouterLink>
+                  <RouterLink :to="{ name: 'ViduVideo' }">같이보기</RouterLink>
                 </a>
               </li>
             </ul>
