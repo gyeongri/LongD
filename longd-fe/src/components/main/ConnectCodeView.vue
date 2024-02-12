@@ -162,17 +162,17 @@ const choiceDate = async () => {
             const { value: date } = await Swal.fire({
               title: '여러분이 처음 만난 날을 입력해주세요.',
               input: 'date',
-              didOpen: () => {
-                const today = new Date().toISOString().split('T')[0];
-                const input = Swal.getInput();
-                if (input) {
-                  input.max = today;
-                }
-              },
+              didOpen: () => {},
               preConfirm: () => {
                 const selectedDate = Swal.getInput().value;
+                const today = new Date().toISOString().split('T')[0];
+                console.log(selectedDate);
                 if (!selectedDate) {
                   Swal.showValidationMessage('날짜를 선택해주세요');
+                  return false;
+                } else if (selectedDate > today) {
+                  Swal.showValidationMessage('만난일은 미래일 수 없습니다.');
+                  return false;
                 }
               },
             });
