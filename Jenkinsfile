@@ -56,40 +56,40 @@ pipeline {
 
 
 /////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-        stage('Build main openvidu image') {
+
+//         stage('Build main openvidu image') {
+//             steps {
+//                 sh 'ls -al'
+//                 dir("${DIRECTORY_OPENVIDU}") {
+//                     sh 'ls -al'
+//                     sh "docker build -t ${OPENVIDU_IMAGE_BE} -f ${PROJECT_PATH}/longd-openvidu/Dockerfile ${PROJECT_PATH}/longd-openvidu"
+//                 }
+//                 echo 'Build openvidu image...'
+//             }
+//         }
+
+
+        //BE - 이전 컨테이너 삭제
+        stage('Remove Previous openvidu BE Container') {
             steps {
-                sh 'ls -al'
-                dir("${DIRECTORY_OPENVIDU}") {
-                    sh 'ls -al'
-                    sh "docker build -t ${OPENVIDU_IMAGE_BE} -f ${PROJECT_PATH}/longd-openvidu/Dockerfile ${PROJECT_PATH}/longd-openvidu"
+                script {
+                    try {
+                        sh "docker stop ${OPENVIDU_CONTAINER_BE}"
+                        sh "docker rm ${OPENVIDU_CONTAINER_BE}"
+                    } catch (e) {
+                        echo 'fail to stop and remove openvidu container'
+                    }
                 }
-                echo 'Build openvidu image...'
             }
         }
 
-
-        // //BE - 이전 컨테이너 삭제
-        // stage('Remove Previous openvidu BE Container') {
-        //     steps {
-        //         script {
-        //             try {
-        //                 sh "docker stop ${OPENVIDU_CONTAINER_BE}"
-        //                 sh "docker rm ${OPENVIDU_CONTAINER_BE}"
-        //             } catch (e) {
-        //                 echo 'fail to stop and remove openvidu container'
-        //             }
-        //         }
-        //     }
-        // }
-
     //   //새 BE 컨테이너 실행
-    //     stage('Run New main openvidu image') {
-    //         steps {
-    //             sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 4443:4443 ${OPENVIDU_IMAGE_BE}"
-    //             echo 'Run New openvidu BE image'
-    //         }
-    //     }
+        stage('Run New main openvidu image') {
+            steps {
+                sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 4443:4443 openvidu/openvidu-dev:2.29.0"
+                echo 'Run New openvidu BE image'
+            }
+        }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
