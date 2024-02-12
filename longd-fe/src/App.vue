@@ -4,7 +4,7 @@
       v-show="
         userStore.isLogin &&
         !mainDisplayStore.isClosed &&
-        userStore.getUserState.coupleListId
+        userStore.getUserState?.coupleListId
       "
     ></TheHeader>
 
@@ -17,7 +17,7 @@
         v-if="
           userStore.isLogin &&
           !mainDisplayStore.isClosed &&
-          userStore.getUserState.coupleListId
+          userStore.getUserState?.coupleListId
         "
         :class="{
           'w-1/4': isChatting,
@@ -38,13 +38,11 @@
 <script setup>
 import TheHeader from '@/layouts/TheHeader.vue';
 import TheView from '@/layouts/TheView.vue';
-import TheFooter from '@/layouts/TheFooter.vue';
 import TheChatting from './layouts/TheChatting.vue';
 import TheNochatting from './layouts/TheNochatting.vue';
 import ViduMainView from './views/openvidu/ViduMainView.vue';
 import { useUserStore } from '@/stores/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
-import { onMounted } from 'vue';
 const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
 const isChatting = true;
