@@ -12,6 +12,7 @@
         }"
         style="display: flex; flex-direction: column"
       >
+        <h1>{{ userId }}가 유저아이디</h1>
         <!-- 사용자 ID와 프로필 이미지를 메시지 스레드의 첫 부분에만 표시 -->
         <template v-if="shouldDisplayHeader(index)">
           <div class="flex flex-col">
