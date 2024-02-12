@@ -1,12 +1,10 @@
 <template>
-  <div class="card card-compact w-960 bg-base-100 shadow-xl">
-    <figure>
-      <img :src="src" alt="#" />
-    </figure>
-    <div class="card-body">
-      <h2 class="card-title">{{ id }}</h2>
-    </div>
-  </div>
+  <img
+    :src="src"
+    alt="#"
+    class="object-cover w-full h-[42rem] overflow-hidden rounded-xl transition-shadow ease-out duration-500 hover:shadow-2xl"
+  />
+  <!-- h-auto도 가능 -->
 </template>
 
 <script setup>

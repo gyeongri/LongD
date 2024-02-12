@@ -28,6 +28,7 @@ public class CoupleListServiceImpl implements CoupleListService {
     CoupleListRepository coupleListRepository;
 
     @Override
+
     public String setCoupleList(CheckRegistDto checkRegistDto) {
         Optional<User> OptionalOther = userRepository.findByEmail(checkRegistDto.getEmail());
         if(OptionalOther.isPresent()) {
@@ -67,7 +68,9 @@ public class CoupleListServiceImpl implements CoupleListService {
                 userRepository.save(other);
                 userRepository.save(loginUser);
 
+
                 return "커플리스트를 만드는데 성공했습니다.";
+
             }
 
         } else {

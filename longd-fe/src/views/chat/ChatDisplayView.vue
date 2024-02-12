@@ -7,8 +7,8 @@
         :key="message.id"
         :class="{
           chat: true,
-          'chat-end': message.senderId === userStore.getUserState?.id,
-          'chat-start': message.senderId !== userStore.getUserState?.id,
+          'chat-end': message.senderId === userId,
+          'chat-start': message.senderId !== userId,
         }"
         style="display: flex; flex-direction: column"
       >
@@ -16,7 +16,7 @@
         <template v-if="shouldDisplayHeader(index)">
           <div class="flex flex-col">
             <!-- 사용자('나')의 메시지일 경우 -->
-            <template v-if="message.senderId === userStore.getUserState?.id">
+            <template v-if="message.senderId === userId">
               <div
                 class="flex items-center justify-end"
                 style="margin-right: 1rem; margin-bottom: 0.5rem"
@@ -50,12 +50,12 @@
           :class="{
             flex: true,
             'gap-2': true,
-            'justify-end': message.senderId === userStore.getUserState?.id,
-            'justify-start': message.senderId !== userStore.getUserState?.id,
+            'justify-end': message.senderId === userId,
+            'justify-start': message.senderId !== userId,
           }"
         >
           <!-- 사용자('나')의 메시지일 경우 시간을 왼쪽에 표시 -->
-          <template v-if="message.senderId === userStore.getUserState?.id">
+          <template v-if="message.senderId === userId">
             <time class="text-xs opacity-50 mt-2 gap-2">{{
               getFormattedTime(message.createdAt)
             }}</time>
@@ -81,14 +81,24 @@
 <script setup>
 import { useUserStore } from '@/stores/user';
 import { watch, ref, onMounted } from 'vue';
+
 const userStore = useUserStore();
+
+const userProfileImage = ref(
+  'https://i.namu.wiki/i/ijg40CIiHx5-Ihr3ksIJUm4cQQDEnek8xMEmJaQqGR5U13DKOZnCkzwPx1L5rcEX2-xxFYAyQO7XTcyqQ2BGEw.webp',
+);
+const otherUserProfileImage = ref(
+  'https://sitem.ssgcdn.com/64/38/07/item/1000414073864_i1_750.jpg',
+);
+
 const chatContainer = ref();
-const userId = ref('');
+const userId = ref(userStore.getUserState.id);
 const scrollToBottom = () => {
   chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
 };
 const props = defineProps({
   messages: Array,
+  count: Number,
 });
 const shouldDisplayHeader = index => {
   if (index === 0) {
@@ -97,16 +107,16 @@ const shouldDisplayHeader = index => {
 
   const currentSenderId = props.messages[index].senderId;
   const previousSenderId = props.messages[index - 1].senderId;
-  const currentTime = new Date(props.messages[index].createdAt);
-  const previousTime = new Date(props.messages[index - 1].createdAt);
+  // const currentTime = new Date(props.messages[index].createdAt);
+  // const previousTime = new Date(props.messages[index - 1].createdAt);
 
   return (
-    currentSenderId !== previousSenderId ||
-    currentTime.getMinutes() !== previousTime.getMinutes()
+    currentSenderId !== previousSenderId
+    // currentTime.getMinutes() !== previousTime.getMinutes()
   );
 };
 watch(
-  () => props.messages,
+  () => props.count,
   (newvalue, oldvalue) => {
     setTimeout(() => scrollToBottom(), 100);
   },
@@ -119,7 +129,7 @@ const getFormattedTime = createdAt => {
   return `${hours}:${minutes}`;
 };
 onMounted(() => {
-  scrollToBottom();
+  setTimeout(() => scrollToBottom(), 100);
 });
 </script>
 
@@ -131,5 +141,20 @@ onMounted(() => {
 }
 div::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
+}
+.chat-message {
+  display: flex;
+  align-items: center;
+}
+.chat-end .chat-bubble {
+  background-color: #e7f9ff; /* 연한 파란색으로 변경 (예시) */
+  margin-right: 1rem; /* 오른쪽 마진 설정 */
+}
+.chat-end time {
+  order: -1; /* 시간을 버블 왼쪽에 배치 */
+}
+.chat-start .chat-bubble {
+  background-color: #f9e7ff; /* 연한 분홍색으로 유지 */
+  margin-left: 1rem; /* 왼쪽 마진 설정 */
 }
 </style>

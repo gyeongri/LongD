@@ -1,47 +1,97 @@
 <template>
   <div class="navbar bg-base-100">
     <div class="navbar-start">
-      <RouterLink class="btn btn-ghost text-xl" :to="{ name: 'Home' }"
+      <RouterLink class="btn btn-ghost text-2xl" :to="{ name: 'Home' }"
         >롱디</RouterLink
       >
     </div>
     <div class="navbar-center">
       <ul class="menu menu-horizontal font-bold">
         <li>
-          <RouterLink :to="{ name: 'GalleryFolder' }">
-            갤러리
-            <!-- <img class="image" alt="Gallery" src="/static/img/image.png"/> -->
-          </RouterLink>
+          <a>
+            <RouterLink
+              :to="{ name: 'GalleryFolder' }"
+              :class="{ 'text-pink-400': isGalleryActive }"
+            >
+              갤러리
+              <!-- <img class="image" alt="Gallery" src="/static/img/image.png"/> -->
+            </RouterLink>
+          </a>
         </li>
         <li>
-          <RouterLink :to="{ name: 'Calendar' }"
-            >캘린더
-            <!-- <img class="image" alt="Calendar" src="/static/img/2x.png"/> -->
-          </RouterLink>
+          <a>
+            <RouterLink
+              :to="{ name: 'Calendar' }"
+              :class="{ 'text-pink-400': isCalendarActive }"
+              >캘린더
+              <!-- <img class="image" alt="Calendar" src="/static/img/2x.png"/> -->
+            </RouterLink>
+          </a>
         </li>
         <li>
           <details>
-            <summary>
+            <summary :class="{ 'text-pink-400': isViduActive }">
               화상통화
               <!-- <img class="image" alt="ViduMain" src="/static/img/im.png" /> -->
             </summary>
-            <ul class="p-2 bg-base-100 rounded-t-none">
-              <li><RouterLink :to="{ name: 'ViduMain' }">main</RouterLink></li>
+            <ul class="p-2 bg-base-100 rounded-t-none" style="z-index: 999">
               <li>
-                <RouterLink :to="{ name: 'ViduVideo' }">같이 보기</RouterLink>
+                <a><RouterLink :to="{ name: 'ViduMain' }">main</RouterLink></a>
+              </li>
+              <li>
+                <a>
+                  <RouterLink :to="{ name: 'ViduVideo' }">같이보기</RouterLink>
+                </a>
               </li>
             </ul>
           </details>
         </li>
         <li>
-          <RouterLink :to="{ name: 'TestMap' }">맵TEST</RouterLink>
+          <a>
+            <RouterLink
+              :to="{ name: 'TestMap' }"
+              :class="{ 'text-pink-400': isTestMapActive }"
+              >맵TEST</RouterLink
+            >
+          </a>
         </li>
+
         <li>
-          <RouterLink :to="{ name: 'Map' }"
-            >여행짜기
-            <!-- <img class="image" alt="Map" src="/static/img/1.png"/> -->
-          </RouterLink>
+          <details>
+            <summary>여행</summary>
+            <ul class="p-2 bg-base-100 rounded-t-none" style="z-index: 999">
+              <li>
+                <a
+                  ><RouterLink
+                    :to="{ name: 'Map' }"
+                    :class="{ 'text-pink-400': isMapActive }"
+                    >일정계획</RouterLink
+                  ></a
+                >
+              </li>
+              <li>
+                <a>
+                  <RouterLink
+                    :to="{ name: 'PlanList' }"
+                    :class="{ 'text-pink-400': isPlandListActive }"
+                    >여행목록</RouterLink
+                  >
+                </a>
+              </li>
+            </ul>
+          </details>
         </li>
+
+        <!-- <li>
+          <a>
+            <RouterLink
+              :to="{ name: 'Map' }"
+              :class="{ 'text-pink-400': isMapActive }"
+              >여행짜기
+              <img class="image" alt="Map" src="/static/img/1.png"/>
+            </RouterLink>
+          </a>
+        </li> -->
       </ul>
     </div>
     <div class="navbar-end">
@@ -56,8 +106,16 @@
           <details>
             <summary>profile</summary>
             <ul class="p-2 bg-base-100 rounded-t-none">
-              <li><RouterLink :to="{ name: 'Home' }">Home</RouterLink></li>
-              <li><RouterLink :to="{ name: 'About' }">About</RouterLink></li>
+              <li>
+                <a>
+                  <RouterLink :to="{ name: 'Home' }">Home</RouterLink>
+                </a>
+              </li>
+              <li>
+                <a>
+                  <RouterLink :to="{ name: 'About' }">About</RouterLink>
+                </a>
+              </li>
             </ul>
           </details>
         </li>
@@ -67,6 +125,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { logout } from '@/utils/api/user.js';
 import { useUserStore } from '@/stores/user.js';
@@ -75,6 +134,36 @@ import { useMainDisplayStore } from '@/stores/maindisplay.js';
 const router = useRouter();
 const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
+
+// 현재 라우터를 확인하는 computed 속성
+const isGalleryActive = computed(
+  () =>
+    router.currentRoute.value.name === 'GalleryFolder' ||
+    router.currentRoute.value.name === 'GalleryList' ||
+    router.currentRoute.value.name === 'GalleryDetail',
+);
+const isCalendarActive = computed(
+  () => router.currentRoute.value.name === 'Calendar',
+);
+const isTestMapActive = computed(
+  () => router.currentRoute.value.name === 'TestMap',
+);
+const isMapActive = computed(
+  () =>
+    router.currentRoute.value.name === 'MapSearch' ||
+    router.currentRoute.value.name === 'MapPlan',
+);
+const isPlandListActive = computed(
+  () =>
+    router.currentRoute.value.name === 'PlanList' ||
+    router.currentRoute.value.name === 'PlanDetail',
+);
+
+const isViduActive = computed(
+  () =>
+    router.currentRoute.value.name === 'ViduMain' ||
+    router.currentRoute.value.name === 'ViduVideo',
+);
 
 // const closedPage = ref(false);
 const lockPage = () => {
