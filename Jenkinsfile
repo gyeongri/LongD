@@ -57,16 +57,16 @@ pipeline {
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-        stage('Build main openvidu image') {
-            steps {
-                sh 'ls -al'
-                dir("${DIRECTORY_OPENVIDU}") {
-                    sh 'ls -al'
-                    sh "docker build -t ${OPENVIDU_IMAGE_BE} -f ${PROJECT_PATH}/longd-openvidu/Dockerfile ${PROJECT_PATH}/longd-openvidu"
-                }
-                echo 'Build openvidu image...'
-            }
-        }
+//         stage('Build main openvidu image') {
+//             steps {
+//                 sh 'ls -al'
+//                 dir("${DIRECTORY_OPENVIDU}") {
+//                     sh 'ls -al'
+//                     sh "docker build -t ${OPENVIDU_IMAGE_BE} -f ${PROJECT_PATH}/longd-openvidu/Dockerfile ${PROJECT_PATH}/longd-openvidu"
+//                 }
+//                 echo 'Build openvidu image...'
+//             }
+//         }
 
 
         // //BE - 이전 컨테이너 삭제
