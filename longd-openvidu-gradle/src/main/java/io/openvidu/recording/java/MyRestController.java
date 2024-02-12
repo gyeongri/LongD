@@ -10,6 +10,11 @@ import java.util.zip.ZipInputStream;
 
 //import com.google.gson.stream.JsonReader;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import io.openvidu.recording.java.entity.Gallery;
+import io.openvidu.recording.java.repository.GalleryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.http.HttpHeaders;
@@ -56,6 +61,9 @@ public class MyRestController {
 	private AmazonS3 amazonS3;
 	@Value("${cloud.aws.s3.bucketName}")
 	private String bucketName; //버킷 이름
+
+	@Autowired
+	private GalleryRepository galleryRepository;
 
 	public MyRestController(@Value("${openvidu.secret}") String secret, @Value("${openvidu.url}") String openviduUrl) {
 		this.SECRET = secret;
@@ -306,67 +314,87 @@ public class MyRestController {
 	}
 
 	@RequestMapping(value = "/recording/stop", method = RequestMethod.POST)
-	public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) throws IOException {
+	public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) {
 		String recordingId = (String) params.get("recording");
-		String connectionId= (String) params.get("connectionId");
-		String coupleId=(String) params.get("coupleId");
-		System.out.println("Stoping recording | {recordingId}=" + recordingId);
-		System.out.println("Stoping recording | {connectionId}=" + connectionId);
-		System.out.println("Stoping recording | {coupleId}=" + coupleId);
+		String connectionId = (String) params.get("connectionId");
+		int coupleListId = (Integer) params.get("coupleListId"); //클라이언트에서 보내줌
+		System.out.println("Stopping recording | {recordingId}=" + recordingId);
+		System.out.println("Stopping recording | {connectionId}=" + connectionId);
+		System.out.println("Stopping recording | {coupleListId}=" + coupleListId);
 
 		try {
 			Recording recording = this.openVidu.stopRecording(recordingId);
-			System.out.println("stop recording - url : "+recording.getUrl());
+			System.out.println("stop recording - url : " + recording.getUrl());
 
-			String sessionId=recording.getSessionId();
-			System.out.println("stop recording - sessionId : "+sessionId);
+			String sessionId = recording.getSessionId();
+			System.out.println("stop recording - sessionId : " + sessionId);
 
-//			//unzip
-//			//C:\SSAFY
-			//지금은 다운로드 위치를 C:\SSAFY로 고정해놔서 이렇게 씁니다.
-			//상대경로를 사용할 수 없기때문에 C:\SSAFY로 하겠습니다
-			String zipPath= "C:"+File.separator+"SSAFY"+File.separator+"testVideo"+File.separator+sessionId+File.separator+sessionId+".zip";
-			System.out.println("이건 zip파일 위치!"+zipPath);
-			File zipFile=new File(zipPath);
-			//압축 해제한 위치
-			String upzipDir="C:"+File.separator+"SSAFY"+File.separator+"testVideo"+File.separator+sessionId+File.separator;
+			//압축파일 경로 -> 도커에서 지정해준 위치로 바꿀것
+			String zipPath = "C:" + File.separator + "SSAFY" + File.separator + "testVideo" + File.separator + sessionId + File.separator + sessionId + ".zip";
 
-			ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath));
-			ZipEntry ze = zis.getNextEntry();
+			//압축파일 하나씩 읽음
+			try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath))) {
+				ZipEntry ze = zis.getNextEntry();
 
-			while (ze != null) {
-				String entryName = ze.getName();
-				if (entryName.endsWith(".webm")) { // .mp4 확장자 파일만 처리
-					System.out.print("Extracting " + entryName + " -> " + upzipDir + File.separator +  entryName + "...");
-					File f=new File(".."+File.separator+"myVideo"+File.separator+entryName);
-//					File f = new File(upzipDir + File.separator + entryName);
-					f.getParentFile().mkdirs(); // 필요한 경우 디렉토리 생성
+				while (ze != null) {
+					String entryName = ze.getName();
+					if (entryName.endsWith(".webm")) {	//webm파일만 확인함
+						//파일을 메모리에 임시 저장
+						try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+							byte[] buffer = new byte[1024];
+							int len;
+							while ((len = zis.read(buffer)) > 0) {
+								baos.write(buffer, 0, len);
+							}
+							byte[] fileContent = baos.toByteArray();
 
-					FileOutputStream fos = new FileOutputStream(f);
-					int len;
-					byte buffer[] = new byte[1024];
-					while ((len = zis.read(buffer)) > 0) {
-						fos.write(buffer, 0, len);
+							//S3업로드를 위한 메타데이터 만들기
+							String fileKey = sessionId + "/" + entryName;
+							ObjectMetadata metadata = new ObjectMetadata();
+							metadata.setContentLength(fileContent.length);
+							metadata.setContentType("video/webm");
+
+							try (InputStream inputStream = new ByteArrayInputStream(fileContent)) {
+								//S3에 파일 업로드하기
+								amazonS3.putObject(new PutObjectRequest(bucketName, fileKey, inputStream, metadata)
+										.withCannedAcl(CannedAccessControlList.PublicRead));
+
+								String fileUrl = amazonS3.getUrl(bucketName, fileKey).toString();
+
+								// 파일 URL과 coupleListId를 Gallery 테이블에 저장
+								Gallery gallery = new Gallery();
+								gallery.setPathUrl(fileUrl);
+								gallery.setCoupleListId(coupleListId);
+								galleryRepository.save(gallery);
+							}
+						}
+					} else {
+						System.out.println(entryName + " webm파일이 아닙니다");
 					}
-					fos.close();
-					System.out.println("OK!");
-				} else {
-					System.out.println(entryName + "는 .webm 확장자가 아니므로 건너뜁니다.");
+					ze = zis.getNextEntry();
 				}
-
-				ze = zis.getNextEntry();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing the zip file");
 			}
-			zis.closeEntry();
-			zis.close();
-
-			this.sessionRecordings.remove(recording.getSessionId());
+			this.sessionRecordings.remove(sessionId);
 			this.openVidu.deleteRecording(recordingId);
-			return new ResponseEntity<>(recordingId, HttpStatus.OK);
+			return ResponseEntity.ok(recordingId);
 		} catch (OpenViduJavaClientException | OpenViduHttpException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-    }
+	}
+	private void uploadToS3(String fileName, byte[] fileContent) throws IOException {
+		ObjectMetadata metadata = new ObjectMetadata();
+		metadata.setContentLength(fileContent.length);
+		metadata.setContentType("video/webm");
+		InputStream inputStream = new ByteArrayInputStream(fileContent);
 
+		amazonS3.putObject(new PutObjectRequest(bucketName, fileName, inputStream, metadata)
+				.withCannedAcl(CannedAccessControlList.PublicRead));
+		System.out.println("Uploaded " + fileName + " to S3 bucket " + bucketName);
+	}
 	@RequestMapping(value = "/recording/delete", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteRecording(@RequestBody Map<String, Object> params) {
 		String recordingId = (String) params.get("recording");
