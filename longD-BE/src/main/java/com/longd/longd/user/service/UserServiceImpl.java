@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService{
         } else {
             String[] tmp = user.getBirth().split("-");
             user.setPasswordSimple(Integer.parseInt(tmp[1] + tmp[2]));
+            userRepository.save(user);
             return true;
         }
 
