@@ -98,6 +98,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { logout } from '@/utils/api/user.js';
 import { useUserStore } from '@/stores/user.js';
