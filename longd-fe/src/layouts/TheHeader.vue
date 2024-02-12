@@ -55,16 +55,43 @@
             >
           </a>
         </li>
+
         <li>
+          <details>
+            <summary>여행</summary>
+            <ul class="p-2 bg-base-100 rounded-t-none" style="z-index: 999">
+              <li>
+                <a
+                  ><RouterLink
+                    :to="{ name: 'Map' }"
+                    :class="{ 'text-pink-400': isMapActive }"
+                    >일정계획</RouterLink
+                  ></a
+                >
+              </li>
+              <li>
+                <a>
+                  <RouterLink
+                    :to="{ name: 'PlanList' }"
+                    :class="{ 'text-pink-400': isPlandListActive }"
+                    >여행목록</RouterLink
+                  >
+                </a>
+              </li>
+            </ul>
+          </details>
+        </li>
+
+        <!-- <li>
           <a>
             <RouterLink
               :to="{ name: 'Map' }"
               :class="{ 'text-pink-400': isMapActive }"
               >여행짜기
-              <!-- <img class="image" alt="Map" src="/static/img/1.png"/> -->
+              <img class="image" alt="Map" src="/static/img/1.png"/>
             </RouterLink>
           </a>
-        </li>
+        </li> -->
       </ul>
     </div>
     <div class="navbar-end">
@@ -121,7 +148,16 @@ const isCalendarActive = computed(
 const isTestMapActive = computed(
   () => router.currentRoute.value.name === 'TestMap',
 );
-const isMapActive = computed(() => router.currentRoute.value.name === 'Map');
+const isMapActive = computed(
+  () =>
+    router.currentRoute.value.name === 'MapSearch' ||
+    router.currentRoute.value.name === 'MapPlan',
+);
+const isPlandListActive = computed(
+  () =>
+    router.currentRoute.value.name === 'PlanList' ||
+    router.currentRoute.value.name === 'PlanDetail',
+);
 
 const isViduActive = computed(
   () =>
