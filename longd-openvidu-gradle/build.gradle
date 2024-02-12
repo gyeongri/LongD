@@ -17,13 +17,10 @@ repositories {
 }
 
 dependencies {
-
     api 'org.springframework.boot:spring-boot-starter-web:2.1.4.RELEASE'
     api 'org.springframework.boot:spring-boot-devtools:2.1.4.RELEASE'
     api 'io.openvidu:openvidu-java-client:2.29.0'
     api 'com.google.code.gson:gson:2.9.0'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
     testImplementation 'io.github.bonigarcia:selenium-jupiter:3.1.0'
     testImplementation 'io.github.bonigarcia:webdrivermanager:2.2.0'
@@ -32,10 +29,6 @@ dependencies {
     testImplementation 'ws.schild:jave-all-deps:2.4.6'
     testImplementation 'ws.schild:jave-core:2.4.6'
     testImplementation 'io.openvidu:openvidu-test-browsers:1.0.0'
-    annotationProcessor 'org.projectlombok:lombok'
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.mysql:mysql-connector-j'
-
 
     //AWS S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
