@@ -108,7 +108,12 @@ import {
 import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
 
-const checkInfo = ref();
+const checkInfo = ref({
+  name: '',
+  birth: '',
+  email: '',
+  code: '',
+});
 const coupleData = ref();
 const userStore = useUserStore();
 
@@ -177,6 +182,10 @@ const choiceDate = async () => {
     },
   );
 };
+
+onMounted(() => {
+  
+}),
 </script>
 
 <style scoped></style>
