@@ -5,8 +5,9 @@
         상대방과 연결하기
       </h2>
       <p class="mt-2 text-lg leading-8 text-gray-600">
-        상대의 정보를 입력해주세요! 나의 정보가 아닌 상대의 정보를 입력해야
-        연결이 됩니다. 둘 중 한 명만 입력하면 됩니다.
+        상대의 정보를 입력해주세요! 나의 정보가 아닌
+        <strong>상대의 정보</strong>를 입력해야 연결이 됩니다. 둘 중 한 명만
+        입력하면 됩니다. * 나의 연결 코드 : {{ userStore.code }}
       </p>
     </div>
     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
@@ -104,10 +105,12 @@ import {
   coupleDataGet,
   coupleDataModify,
 } from '@/utils/api/user';
+import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
 
-const checkInfo = ref({});
-const coupleData = ref({});
+const checkInfo = ref();
+const coupleData = ref();
+const userStore = useUserStore();
 
 const choiceDate = async () => {
   // 백으로 보내주기
@@ -115,47 +118,62 @@ const choiceDate = async () => {
   coupleMatching(
     checkInfo.value,
     success => {
-      // 커플리스트 정보조회&수정
-      coupleDataGet(
-        success => {
-          coupleData.value = success.data;
-          const { value: date } = Swal.fire({
-            title: '여러분이 처음 만난 날을 입력해주세요.',
-            input: 'date',
-            didOpen: () => {
-              const today = new Date().toISOString();
-              Swal.getInput().min = today;
-            },
-          });
-          if (date) {
-            Swal.fire('아래 날짜가 맞나요?', date);
-            // 화면 전환(DB로 보내주고 - 이거는 메인화면에서 날짜 설정한 거 써야해..!)
-            coupleData.value.start_day = date;
-            console.log(date);
-            console.log(date.data);
-            coupleDataModify(
-              coupleData.value,
-              success => {
-                router.push({ name: 'Home' });
+      // 4가지 경우의 수
+      if (success.data === '상대방이 coupleListId를 가지고 있는 상태입니다.') {
+        Swal.fire('일치하는 사람이 없습니다. 상대방의 정보를 확인해주세요.');
+      }
+      if (success.data === '상대방이 coupleListId를 가지고 있는 상태입니다.') {
+        Swal.fire('이미 다른 사람과 연결된 사람입니다. 다시 확인해주세요.');
+      }
+      if (success.data === '상대방이 존재하지 않습니다.') {
+        Swal.fire(
+          '동일한 이메일 정보를 가진 사람이 없습니다. 다시 확인해주세요.',
+        );
+      }
+      if (success.data === '커플리스트를 만드는데 성공했습니다.') {
+        // 커플리스트 정보조회&수정
+        coupleDataGet(
+          success => {
+            coupleData.value = success.data;
+            console.log(coupleData.value);
+            const { value: date } = Swal.fire({
+              title: '여러분이 처음 만난 날을 입력해주세요.',
+              input: 'date',
+              didOpen: () => {
+                const today = new Date().toISOString();
+                Swal.getInput().min = today;
               },
-              error => {
-                Swal.fire('수정되지않았어요!', error);
-              },
-            );
-          } else {
-            Swal.fire('날짜가 입력되지 않았어요.');
-          }
-          // 날짜 입력된 후에 가능하도록 하기!
-          // 로그인이 되어있을테니까 바로 로그인 되도록 하고 홈으로 옮길게요!
-        },
-        error => {
-          console.log('커플리스트 정보 조회 불가능', error);
-        },
-      );
+            });
+            if (date) {
+              Swal.fire('아래 날짜가 맞나요?', date);
+              // 화면 전환(DB로 보내주고 - 이거는 메인화면에서 날짜 설정한 거 써야해..!)
+              coupleData.value.startDay = date;
+              console.log(date);
+              console.log(date.data);
+              coupleDataModify(
+                coupleData.value,
+                success => {
+                  console.log(coupleData.value);
+                  router.push({ name: 'Home' });
+                },
+                error => {
+                  Swal.fire('수정되지않았어요!', error);
+                  console.log('커플 정보가 수정되지 않음');
+                },
+              );
+            } else {
+              console.log(coupleData.value);
+              Swal.fire('날짜가 입력되지 않았어요.');
+            }
+          },
+          error => {
+            console.log('커플리스트 정보 조회 불가능', error);
+          },
+        );
+      }
     },
     error => {
-      Swal.fire('일치하는 사람이 없습니다. 다시 입력해주세요.');
-      // router.push({ name: 'ConnectCode' });
+      console.log('커플매칭 되지 않음', error);
     },
   );
 };
