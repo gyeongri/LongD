@@ -13,6 +13,6 @@ public interface UserService {
     public Optional<User> userState();
     public User BaseInfo();
     public List<NationList> getNationList();
-    public boolean WeblockCheck(int simplePassword);
+    public String WeblockCheck(String simplePassword);
     public boolean resetSimplePassword();
 }
