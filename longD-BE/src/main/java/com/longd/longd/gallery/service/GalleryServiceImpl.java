@@ -118,38 +118,28 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public boolean setGallery(List<GallerySaveDto> gallerySaveDtolist, int coupleListId) {
-        Optional<User> user = userService.userState();
+        User user = userService.userState().get();
+        CoupleList tmpCoupleList = coupleListRepository.findById(user.getCoupleListId()).get();
         for (GallerySaveDto gallerySaveDto : gallerySaveDtolist) {
             if (gallerySaveDto.getId() == null) {
                 log.info("등록 진행");
             } else {
                 log.info("수정 진행");
             }
-            log.info(gallerySaveDto.toString());
-            //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인 user.get().getCoupleListId() == gallery.getCoupleListId()
-            //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
-            if ((user != null && user.get().getCoupleListId() == gallerySaveDto.getCoupleListId()) || gallerySaveDto.getCoupleListId() == 1) {
-                //생성
-                Gallery gallery = new Gallery();
-                log.info(gallery.toString());
-                gallery.setCoupleList(coupleListRepository.findById(gallerySaveDto.getCoupleListId()).get());
-                log.info(gallery.getCoupleList().toString());
-                //업로드시 폴더가 지정되어 있을경우 폴더 지정
-                if (gallerySaveDto.getCategoryId() != null) {
-                    gallery.setGalleryCategory(galleryCategoryRepository.findById(gallerySaveDto.getCategoryId()).get());
-                    log.info(gallery.getGalleryCategory().toString());
-                }
-
-                //세팅
-                gallery.setId(gallerySaveDto.getId());  //등록의 경우 null이 세팅됨
-                gallery.setPathUrl(gallerySaveDto.getPathUrl());
-                log.info(gallery.toString());
-                galleryRepository.save(gallery);
-                log.info("도착확인");
-
-            } else {
-                return false;
+            Gallery gallery = new Gallery();
+            gallery.setCoupleList(tmpCoupleList);
+            //업로드시 폴더가 지정되어 있을경우 폴더 지정
+            if (gallerySaveDto.getCategoryId() != null) {
+                gallery.setGalleryCategory(galleryCategoryRepository.findById(gallerySaveDto.getCategoryId()).get());
+                log.info(gallery.getGalleryCategory().toString());
             }
+
+            //세팅
+            gallery.setId(gallerySaveDto.getId());  //등록의 경우 null이 세팅됨
+            gallery.setPathUrl(gallerySaveDto.getPathUrl());
+            log.info(gallery.toString());
+            galleryRepository.save(gallery);
+            log.info("도착확인");
         }
         return true;
     }

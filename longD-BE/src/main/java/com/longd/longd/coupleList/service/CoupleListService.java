@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface CoupleListService {
 
-    public int setCoupleList(CheckRegistDto checkRegistDto);
+    public String setCoupleList(CheckRegistDto checkRegistDto);
     public boolean modifyCoupleList(CoupleList coupleList);
     public Optional<CoupleList> getCoupleListInfo();
     public User getPartnerInfo();

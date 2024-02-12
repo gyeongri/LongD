@@ -17,7 +17,7 @@ public class CheckRegistDto {
     private LocalDate birth;
     private String email;
     private int code;
-    private LocalDate date;
+    private LocalDate startDay;
 
 
 }
