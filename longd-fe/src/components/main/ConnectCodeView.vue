@@ -116,7 +116,7 @@ const checkInfo = ref({
 });
 const coupleData = ref();
 const userStore = useUserStore();
-
+const startDay = ref();
 const choiceDate = async () => {
   // checkInfo.value.name = checkInfo.name;
   // checkInfo.value.birth = checkInfo.birth;
@@ -157,20 +157,32 @@ const choiceDate = async () => {
           success => {
             coupleData.value = success.data;
             console.log(coupleData.value);
-            const { value: date } = Swal.fire({
+          },
+          async success2 => {
+            const { value: date } = await Swal.fire({
               title: '여러분이 처음 만난 날을 입력해주세요.',
               input: 'date',
               didOpen: () => {
-                const today = new Date().toISOString();
-                Swal.getInput().min = today;
+                const today = new Date().toISOString().split('T')[0];
+                const input = Swal.getInput();
+                if (input) {
+                  input.max = today;
+                }
+              },
+              preConfirm: () => {
+                const selectedDate = Swal.getInput().value;
+                if (!selectedDate) {
+                  Swal.showValidationMessage('날짜를 선택해주세요');
+                }
               },
             });
-            if (date) {
-              Swal.fire('아래 날짜가 맞나요?', date);
+            startDay.value = date;
+            if (startDay.value) {
+              await Swal.fire('아래 날짜가 맞나요?', startDay.value);
               // 화면 전환(DB로 보내주고 - 이거는 메인화면에서 날짜 설정한 거 써야해..!)
-              coupleData.value.startDay = date;
-              console.log(date);
-              console.log(date.data);
+              coupleData.value.startDay = startDay.value;
+              console.log(startDay.value);
+              console.log(coupleData.value.startDay);
               coupleDataModify(
                 coupleData.value,
                 success => {

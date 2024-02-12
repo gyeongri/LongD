@@ -42,8 +42,8 @@ function coupleMatching(payload, success, fail) {
   userApi.post(`/couplelist/add`, payload).then(success).catch(fail);
 }
 
-function coupleDataGet(success, fail) {
-  userApi.get(`/couplelist/get`).then(success).catch(fail);
+function coupleDataGet(success, success2, fail) {
+  userApi.get(`/couplelist/get`).then(success).then(success2).catch(fail);
 }
 
 function coupleDataModify(payload, success, fail) {
