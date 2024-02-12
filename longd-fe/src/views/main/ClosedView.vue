@@ -7,7 +7,7 @@
           <br />
           비밀번호를 잊어버리셨다면?
         </span>
-        <button @click="removepassword()" class="span">비밀번호초기화</button>
+        <button @click="resetpassword()" class="span">비밀번호초기화</button>
       </p>
       <div class="text-wrapper-2">비밀번호 입력</div>
       <div class="long-d">
@@ -17,12 +17,14 @@
       </div>
       <div class="group">
         <input
-          v-for="(password, index) in passwords"
+          v-for="(password, index) in inputRefs"
           :key="index"
-          v-model="passwords[index]"
-          @input="handleInput(index)"
+          :value="displayValues[index]"
+          :class="`password-input${index}`"
           maxlength="1"
-          :class="`password-input${index + 1}`"
+          @input="handleInput(index)"
+          :ref="inputRefs[index]"
+          v-model="inputRefs[index]"
         />
       </div>
     </div>
@@ -30,54 +32,88 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
-import { removeClosedPasswords } from '@/utils/api/user';
+import { resetClosedPasswords } from '@/utils/api/user';
 
+const count = ref(0);
 const mainDisplayStore = useMainDisplayStore();
 const userStore = useUserStore();
 const router = useRouter();
 //화면비번
-const passwords = reactive(['', '', '', '']);
+const displayValues = ref(['', '', '', '']);
 
 //실제비번
-const inputRefs = ref([]);
+const inputRefs = ref(['', '', '', '']);
 
 const handleInput = index => {
-  if (passwords[index] && index < 3) {
-    inputRefs.value.push(passwords[index]);
-    passwords[index] = '🤍';
-  } else if (passwords[index]) {
-    inputRefs.value.push(passwords[index]);
-    passwords[index] = '🤍';
-    console.log(passwords);
+  if (inputRefs.value[index]) {
+    if (!/^\d*$/.test(inputRefs.value[index])) {
+      inputRefs.value[index] = '';
+      const inputElement = document.querySelector(`.password-input${index}`);
+      inputElement.focus();
+      Swal.fire('숫자만 입력해주세요');
 
-    if (inputRefs.value.join('') == userStore.getUserState.passwordSimple) {
-      mainDisplayStore.closedPage = false;
-      router.go(-1);
-    } else {
-      Swal.fire('비밀번호가 틀립니다!');
-      console.log(inputRefs.value);
-      passwords.forEach((_, i) => (passwords[i] = ''));
-      inputRefs.value = [];
-      router.push({ name: 'Closed' });
+      return;
     }
-    console.log(`Password:${passwords}`, inputRefs.value.join(''));
-    passwords.value = ['', '', '', ''];
-    inputRefs.value = [];
+    displayValues.value[index] = '🤍';
+    const nextIndex = index + 1;
+    if (nextIndex <= 3) {
+      focusNextInput(nextIndex);
+    } else {
+      inputRefs.value.forEach((element, index) => {
+        console.log(index, element);
+        if (element == '') {
+          const inputElement = document.querySelector(
+            `.password-input${index}`,
+          );
+          inputElement.focus();
+          Swal.fire('모두 입력해주세요');
+        }
+      });
+    }
   }
 };
-
-const removepassword = () => {
-  removeClosedPasswords(
+watch(inputRefs.value, (newValues, oldValues) => {
+  count.value = 0;
+  console.log('왜안되니');
+  newValues.forEach((element, index) => {
+    console.log(index, typeof element, element);
+    if (element != '' && !isNaN(element)) {
+      count.value++;
+    }
+  });
+});
+watch(count, (newValues, oldValues) => {
+  if (newValues == 4) {
+    checkpassword();
+  }
+});
+const checkpassword = function () {
+  if (inputRefs.value.join('') == userStore.getUserState.passwordSimple) {
+    mainDisplayStore.closedPage = false;
+    router.go(-1);
+  } else {
+    displayValues.value = ['', '', '', ''];
+    inputRefs.value.forEach((element, index) => {
+      inputRefs.value[index] = '';
+    });
+    const inputElement = document.querySelector(`.password-input0`);
+    inputElement.focus();
+    count.value = 0;
+    Swal.fire('비밀번호가 틀립니다!');
+  }
+};
+const resetpassword = () => {
+  resetClosedPasswords(
     success => {
       console.log('화면잠금 비밀번호 초기화 완료');
       Swal.fire('비밀번호 초기화 완료');
-      passwords.forEach((_, i) => (passwords[i] = ''));
-      inputRefs.value = [];
+      displayValues.value.forEach((_, i) => (displayValues[i] = ''));
+      inputRefs.value = ['', '', '', ''];
       router.push({ name: 'Closed' });
     },
     error => {
@@ -92,6 +128,15 @@ onBeforeRouteLeave((to, from, next) => {
   }
   next();
   // ...
+});
+
+const focusNextInput = index => {
+  const inputElement = document.querySelector(`.password-input${index}`);
+  inputElement.focus();
+};
+onMounted(() => {
+  const inputElement = document.querySelector('.password-input0');
+  inputElement.focus();
 });
 </script>
 
@@ -173,7 +218,7 @@ onBeforeRouteLeave((to, from, next) => {
   width: 359px;
 }
 
-.password-input1 {
+.password-input0 {
   background-color: #fff4f4;
   border: 2px solid;
   border-color: #000000;
@@ -189,7 +234,7 @@ onBeforeRouteLeave((to, from, next) => {
   font-size: 30px;
 }
 
-.password-input2 {
+.password-input1 {
   background-color: #fff4f4;
   border: 2px solid;
   border-color: #000000;
@@ -205,7 +250,7 @@ onBeforeRouteLeave((to, from, next) => {
   font-size: 30px;
 }
 
-.password-input3 {
+.password-input2 {
   background-color: #fff4f4;
   border: 2px solid;
   border-color: #000000;
@@ -221,7 +266,7 @@ onBeforeRouteLeave((to, from, next) => {
   font-size: 30px;
 }
 
-.password-input4 {
+.password-input3 {
   background-color: #fff4f4;
   border: 2px solid;
   border-color: #000000;
