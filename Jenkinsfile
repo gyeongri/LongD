@@ -23,7 +23,6 @@ pipeline {
         DIRECTORY_CHAT = 'longD-chat' //CHAT 디렉터리명
         DIRECTORY_OPENVIDU = 'longd-openvidu' //OPENVIDU 디렉터리명
 
-
         PROJECT_PATH = '/var/jenkins_home/workspace/LongD-develop'
 
        //현재 위치
