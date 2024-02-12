@@ -118,6 +118,10 @@ const coupleData = ref();
 const userStore = useUserStore();
 
 const choiceDate = async () => {
+  // checkInfo.value.name = checkInfo.name;
+  // checkInfo.value.birth = checkInfo.birth;
+  // checkInfo.value.email = checkInfo.email;
+  // checkInfo.value.code = checkInfo.code;
   // 백으로 보내주기
   // 이름, 생일, 이메일, 연결코드가 동일하면 아래 실행, 동일하지 않으면 틀렸다고 뜨기
   coupleMatching(
@@ -182,10 +186,6 @@ const choiceDate = async () => {
     },
   );
 };
-
-onMounted(() => {
-  
-}),
 </script>
 
 <style scoped></style>
