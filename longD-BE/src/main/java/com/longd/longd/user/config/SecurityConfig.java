@@ -42,7 +42,7 @@ public class SecurityConfig{
 //                        .anyRequest().authenticated());
                 auth.requestMatchers("/").permitAll().anyRequest().permitAll());
 
-        http.logout((logoutConfig) -> logoutConfig.logoutUrl("/user/customlogout").logoutSuccessUrl("https://i10d206.p.ssafy.io/login"));
+        http.logout((logoutConfig) -> logoutConfig.logoutUrl("/user/customlogout").logoutSuccessUrl("http://172.30.1.11:3001/login"));
 
         return http.build();
     }

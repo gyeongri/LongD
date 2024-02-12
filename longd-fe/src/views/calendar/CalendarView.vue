@@ -43,9 +43,11 @@ const titleAlert = async () => {
   const { value: title } = await Swal.fire({
     title: '당신의 추억을 입력해주세요.',
     input: 'text',
-    inputLabel: '당신의 추억 제목',
+    inputLabel: '',
     inputPlaceholder: '추억을 입력해주세요.',
     showCancelButton: true,
+    confirmButtonColor: '#FF9CBD',
+    cancelButtonColor: '#a0a0a0',
   });
   if (title) {
     const { value: color } = await Swal.fire({
@@ -141,9 +143,12 @@ const contentAlert = async clickInfo => {
     inputValue,
     showDenyButton: true,
     showCancelButton: true,
-    confirmButtonText: '저장',
-    denyButtonText: '삭제',
-    cancelButtonText: '취소',
+    confirmButtonText: 'save',
+    denyButtonText: 'delete',
+    cancelButtonText: 'cancel',
+    confirmButtonColor: '#FF9CBD',
+    denyButtonColor: '#DC143C',
+    cancelButtonColor: '#a0a0a0',
   });
 
   if (result.isConfirmed) {
@@ -276,6 +281,38 @@ const calendarOptions = ref({
   selectMirror: true,
   select: handleDateSelect,
   eventClick: handleEventClick,
+  // hover 들어갈 때
+  eventMouseEnter: function (mouseEnterInfo) {
+    // console.log(mouseEnterInfo.event._def.publicId);
+    // console.log(dateList.value);
+    let popContent = getContentById(
+      dateList.value,
+      mouseEnterInfo.event._def.publicId,
+    );
+    if (!popContent) {
+      popContent = '아직 내용이 없습니다.';
+    }
+    // 현재 아이디 찾고, 그거로 content 쏴주기
+    // 툴팁 요소 생성 또는 선택
+    let tooltip = document.getElementById('event-tooltip');
+    if (!tooltip) {
+      tooltip = document.createElement('div');
+      tooltip.id = 'event-tooltip';
+      tooltip.className = 'tooltip';
+      document.body.appendChild(tooltip);
+    }
+    tooltip.style.display = 'block';
+    tooltip.style.left = mouseEnterInfo.jsEvent.pageX + 'px';
+    tooltip.style.top = mouseEnterInfo.jsEvent.pageY + 'px';
+    tooltip.innerText = popContent;
+  },
+  // hover 땔 때
+  eventMouseLeave: function (mouseLeaveInfo) {
+    const tooltip = document.getElementById('event-tooltip');
+    if (tooltip) {
+      tooltip.style.display = 'none'; // 마우스가 떠나면 툴팁을 숨깁니다.
+    }
+  },
   eventsSet: handleEvents, // 이게 있어야 이벤트를 화면에 띄울 수 있음
   eventAdd: function (obj) {
     // 이벤트가 추가되면 발생하는 이벤트
@@ -372,5 +409,20 @@ b {
   /* the calendar root */
   max-width: 1100px;
   margin: 0 auto;
+}
+.tooltip {
+  position: absolute;
+  background-color: rgb(250, 168, 182);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 10000; /* 충분히 높은 값으로 설정하여 다른 요소들 위에 표시되도록 합니다. */
+  display: none; /* 기본적으로 툴팁을 숨깁니다. */
+  max-width: 200px; /* 원하는 최대 가로 길이를 지정합니다. */
+  max-height: 45px; /* 세로로 3줄까지 허용 (3em은 폰트 크기의 3배) */
+  overflow: hidden;
+  white-space: normal; /* 세로로 3줄까지만 허용하기 위해 normal로 설정 */
+  text-overflow: ellipsis; /* 가로로는 말줄임표를 표시하도록 유지 */
 }
 </style>

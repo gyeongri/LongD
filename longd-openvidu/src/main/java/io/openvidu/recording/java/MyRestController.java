@@ -78,9 +78,7 @@ public class MyRestController {
 //	@CrossOrigin
 	@RequestMapping(value = "/get-token", method = RequestMethod.POST)
 	public ResponseEntity<JsonObject> getToken(@RequestBody Map<String, Object> sessionNameParam) {
-
 		System.out.println("Getting sessionId and token | {sessionName}=" + sessionNameParam);
-
 		// The video-call to connect ("TUTORIAL")
 		String sessionName = (String) sessionNameParam.get("sessionName");
 
@@ -98,7 +96,6 @@ public class MyRestController {
 			// Session already exists
 			System.out.println("Existing session " + sessionName);
 			try {
-
 				// Generate a new token with the recently created connectionProperties
 				String token = this.mapSessions.get(sessionName).createConnection(connectionProperties).getToken();
 				// Update our collection storing the new token
@@ -107,7 +104,6 @@ public class MyRestController {
 				responseJson.addProperty("0", token);
 				// Return the response to the client
 				return new ResponseEntity<>(responseJson, HttpStatus.OK);
-
 			} catch (OpenViduJavaClientException e1) {
 				// If internal error generate an error message and return it to client
 				return getErrorResponse(e1);
@@ -120,11 +116,9 @@ public class MyRestController {
 				}
 			}
 		}
-
 		// New session
 		System.out.println("[get-token] New session : " + sessionName);
 		try {
-
 			// Create a new OpenVidu Session
 			Session session = this.openVidu.createSession();
 			System.out.println("[get-token] session : " + session.getSessionId());
@@ -138,10 +132,8 @@ public class MyRestController {
 			System.out.println("[get-token] mapSessionNames : ");
 			// Prepare the response with the sessionId and the token
 			responseJson.addProperty("0", token);
-
 			// Return the response to the client
 			return new ResponseEntity<>(responseJson, HttpStatus.OK);
-
 		} catch (Exception e) {
 			// If error generate an error message and return it to client
 			return getErrorResponse(e);
@@ -150,16 +142,12 @@ public class MyRestController {
 
 	@RequestMapping(value = "/remove-user", method = RequestMethod.POST)
 	public ResponseEntity<JsonObject> removeUser(@RequestBody Map<String, Object> sessionNameToken) throws Exception {
-
 		System.out.println("Removing user | {sessionName, token}=" + sessionNameToken);
-
 		// Retrieve the params from BODY
 		String sessionName = (String) sessionNameToken.get("sessionName");
 		String token = (String) sessionNameToken.get("token");
-
 		// If the session exists
 		if (this.mapSessions.get(sessionName) != null && this.mapSessionNamesTokens.get(sessionName) != null) {
-
 			// If the token exists
 			if (this.mapSessionNamesTokens.get(sessionName).remove(token) != null) {
 				// User left the session
@@ -173,7 +161,6 @@ public class MyRestController {
 				System.out.println("Problems in the app server: the TOKEN wasn't valid");
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-
 		} else {
 			// The SESSION does not exist
 			System.out.println("Problems in the app server: the SESSION does not exist");

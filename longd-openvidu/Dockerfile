@@ -4,7 +4,7 @@ WORKDIR /openvidu-recording-java
 COPY ./pom.xml pom.xml
 COPY ./src/main src/main
 
-RUN mvn clean install
+RUN mvn -e -X clean install
 RUN mvn -o package
 
 FROM alpine:3.11

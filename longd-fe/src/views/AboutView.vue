@@ -48,17 +48,42 @@
       </div>
     </div>
   </div>
+  <button class="btn btn-square" @click="folderDelete">폴더 삭제</button>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-
+import Swal from 'sweetalert2';
 // 탭을 토글하기 위한 상태 변수
 const showTabs = ref(false);
+
+const folders = [
+  { name: '폴더1', id: 1 },
+  { name: '폴더2', id: 2 },
+  { name: '폴더1', id: 3 },
+  { name: '폴더7', id: 4 },
+  { name: '폴더1', id: 5 },
+  { name: 'test', id: 6 },
+  { name: '폴더7', id: 7 },
+];
 
 // 탭을 토글하는 함수
 const toggleTabs = () => {
   showTabs.value = !showTabs.value;
+};
+const folderDelete = async () => {
+  const { value: folder } = await Swal.fire({
+    title: '삭제할 폴더를 선택해주세요.',
+    input: 'select',
+    inputOptions: Object.fromEntries(
+      folders.map(folder => [folder.name.toLowerCase(), folder.name]),
+    ),
+    inputPlaceholder: 'Select a folder',
+    showCancelButton: true,
+  });
+  if (folder) {
+    Swal.fire(`당신이 선택한 폴더는 ${folder} 입니다.`);
+  }
 };
 </script>
 
