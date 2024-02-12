@@ -137,6 +137,7 @@ const resetpassword = () => {
   resetClosedPasswords(
     success => {
       console.log('화면잠금 비밀번호 초기화 완료');
+      console.log(success.data);
       Swal.fire('비밀번호 초기화 완료');
       displayValues.value.forEach((_, i) => (displayValues[i] = ''));
       inputRefs.value = ['', '', '', ''];
