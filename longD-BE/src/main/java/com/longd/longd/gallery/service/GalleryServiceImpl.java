@@ -117,7 +117,7 @@ public class GalleryServiceImpl implements GalleryService {
     }
 
     @Override
-    public boolean setGallery(List<GallerySaveDto> gallerySaveDtolist, int coupleListId) {
+    public boolean setGallery(List<GallerySaveDto> gallerySaveDtolist) {
         User user = userService.userState().get();
         CoupleList tmpCoupleList = coupleListRepository.findById(user.getCoupleListId()).get();
         for (GallerySaveDto gallerySaveDto : gallerySaveDtolist) {
