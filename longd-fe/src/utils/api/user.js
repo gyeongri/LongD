@@ -53,7 +53,9 @@ function coupleDataModify(payload, success, fail) {
 function resetClosedPasswords(success, fail) {
   userApi.get(`/user/resetSimplePassWord`).then(success).catch(fail);
 }
-
+function checkSimplePassword(payload, success, fail) {
+  userApi.post(`/user/unlock`, payload).then(success).catch(fail);
+}
 export {
   userApi,
   sendinfo,
@@ -66,4 +68,5 @@ export {
   coupleDataGet,
   coupleDataModify,
   resetClosedPasswords,
+  checkSimplePassword,
 };

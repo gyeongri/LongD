@@ -37,8 +37,7 @@ import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
-import { resetClosedPasswords } from '@/utils/api/user';
-
+import { resetClosedPasswords, checkSimplePassword } from '@/utils/api/user';
 const count = ref(0);
 const mainDisplayStore = useMainDisplayStore();
 const userStore = useUserStore();
@@ -93,24 +92,52 @@ watch(count, (newValues, oldValues) => {
   }
 });
 const checkpassword = function () {
-  if (inputRefs.value.join('') == userStore.getUserState.passwordSimple) {
-    mainDisplayStore.closedPage = false;
-    router.go(-1);
-  } else {
-    displayValues.value = ['', '', '', ''];
-    inputRefs.value.forEach((element, index) => {
-      inputRefs.value[index] = '';
-    });
-    const inputElement = document.querySelector(`.password-input0`);
-    inputElement.focus();
-    count.value = 0;
-    Swal.fire('비밀번호가 틀립니다!');
-  }
+  const payload = inputRefs.value.join('');
+  checkSimplePassword(payload, success => {
+    const result = success.data;
+    console.log(payload, result);
+    if (result == '정수가 아닌값이 감지되었습니다.') {
+      displayValues.value = ['', '', '', ''];
+      inputRefs.value.forEach((element, index) => {
+        inputRefs.value[index] = '';
+      });
+      const inputElement = document.querySelector(`.password-input0`);
+      inputElement.focus();
+      count.value = 0;
+      Swal.fire('숫자만 적어주세요!');
+    } else if (result == '비밀번호가 다릅니다.') {
+      displayValues.value = ['', '', '', ''];
+      inputRefs.value.forEach((element, index) => {
+        inputRefs.value[index] = '';
+      });
+      const inputElement = document.querySelector(`.password-input0`);
+      inputElement.focus();
+      count.value = 0;
+      Swal.fire('비밀번호가 틀립니다!');
+    } else if (result == '비밀번호 인증 성공') {
+      mainDisplayStore.closedPage = false;
+      router.go(-1);
+    }
+  });
+  // if (inputRefs.value.join('') == userStore.getUserState.passwordSimple) {
+  //   mainDisplayStore.closedPage = false;
+  //   router.go(-1);
+  // } else {
+  //   displayValues.value = ['', '', '', ''];
+  //   inputRefs.value.forEach((element, index) => {
+  //     inputRefs.value[index] = '';
+  //   });
+  //   const inputElement = document.querySelector(`.password-input0`);
+  //   inputElement.focus();
+  //   count.value = 0;
+  //   Swal.fire('비밀번호가 틀립니다!');
+  // }
 };
 const resetpassword = () => {
   resetClosedPasswords(
     success => {
       console.log('화면잠금 비밀번호 초기화 완료');
+      console.log(success.data);
       Swal.fire('비밀번호 초기화 완료');
       displayValues.value.forEach((_, i) => (displayValues[i] = ''));
       inputRefs.value = ['', '', '', ''];
