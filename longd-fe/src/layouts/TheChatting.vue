@@ -22,7 +22,6 @@ import { stompApi } from '@/utils/api/index.js';
 import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
 const { VITE_CHAT_BASE_IP } = import.meta.env;
-
 const coupleId = ref('');
 const messages = reactive([]);
 const senderId = ref('');

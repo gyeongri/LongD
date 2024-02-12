@@ -1,6 +1,10 @@
 <template>
-  <figure class="relative w-full h-64 overflow-hidden">
-    <img :src="src" alt="#" class="object-cover w-full h-full rounded-lg" />
+  <figure class="relative">
+    <img
+      :src="src"
+      alt="#"
+      class="object-cover w-full h-64 overflow-hidden rounded-xl transition-shadow ease-out duration-500 hover:shadow-2xl"
+    />
     <div class="absolute top-0 right-0 m-4 px-3 py-1 rounded">
       <input
         type="checkbox"
