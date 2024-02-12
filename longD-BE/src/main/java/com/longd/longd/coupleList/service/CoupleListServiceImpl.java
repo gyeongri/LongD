@@ -37,7 +37,7 @@ public class CoupleListServiceImpl implements CoupleListService {
             } else if (checkRegistDto.getCode() != OptionalOther.get().getCode()) {
                 log.error("코드가 일치하지 않음");
                 return "코드가 일치하지 않습니다.";
-            } else if (checkRegistDto.getName() != OptionalOther.get().getName() || !checkRegistDto.getBirth().equals(OptionalOther.get().getBirth())) {
+            } else if (!checkRegistDto.getName().equals(OptionalOther.get().getName()) || !checkRegistDto.getBirth().equals(LocalDate.parse(OptionalOther.get().getBirth()))) {
                 log.error("상대방 이름 또는 생일이 일치하지 않습니다.");
                 return "상대방 이름 또는 생일이 일치하지 않습니다.";
             }
