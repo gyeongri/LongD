@@ -186,7 +186,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import router from '@/router';
 import { sendinfo, getNationList } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
@@ -195,7 +195,17 @@ import { useUserStore } from '@/stores/user.js';
 const userStore = useUserStore();
 const userInfo = userStore.getUserState;
 const nationList = ref();
-
+const handlePasswordInput = () => {
+  // 입력값이 4자리를 초과하면 마지막 자리를 제거
+  if (
+    userInfo.passwordSimple &&
+    userInfo.passwordSimple.toString().length > 4
+  ) {
+    userInfo.passwordSimple = parseInt(
+      userInfo.passwordSimple.toString().slice(0, 4),
+    );
+  }
+};
 const goHome = () => {
   router.push({ name: 'Home' });
 };
