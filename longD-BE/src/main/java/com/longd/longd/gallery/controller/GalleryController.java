@@ -46,15 +46,11 @@ public class GalleryController {
         }
     }
 
-    @PostMapping("/add/{coupleListId}")
-    public ResponseEntity<?> setGalleryInfo(@RequestBody List<GallerySaveDto> gallerySaveDtolist, @PathVariable int coupleListId) {
+    @PostMapping("/add")
+    public ResponseEntity<?> setGalleryInfo(@RequestBody List<GallerySaveDto> gallerySaveDtolist) {
         try {
-            boolean tmp = galleryService.setGallery(gallerySaveDtolist, coupleListId);
-            if (tmp) {
-                return ResponseEntity.status(200).body(tmp);
-            } else {
-                return ResponseEntity.status(400).body("유저 권한(coupleListId)이 없는 파일이 전송되었습니다.");
-            }
+            boolean tmp = galleryService.setGallery(gallerySaveDtolist);
+            return ResponseEntity.status(200).body(tmp);
         } catch (Exception e) {
             log.error(e.toString());
             return ResponseEntity.status(503).body(e.toString());
