@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
@@ -85,6 +85,14 @@ const removepassword = () => {
     },
   );
 };
+//다른곳 가는거 방지
+onBeforeRouteLeave((to, from, next) => {
+  if (mainDisplayStore.closedPage == true) {
+    return;
+  }
+  next();
+  // ...
+});
 </script>
 
 <style scoped>
