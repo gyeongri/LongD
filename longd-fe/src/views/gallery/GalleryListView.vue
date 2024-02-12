@@ -328,7 +328,8 @@ const uploadImages = async () => {
       },
       success2 => {
         console.log(formData2);
-        createGallery(coupleId.value, formData2.value);
+        console.log(coupleId.value);
+        createGallery(formData2);
         // 이미지 업로드 후 이미지 미리보기 배열 초기화
         fetchAlbums();
       },
