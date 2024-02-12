@@ -28,12 +28,20 @@ public class CoupleListServiceImpl implements CoupleListService {
     CoupleListRepository coupleListRepository;
 
     @Override
-    public boolean setCoupleList(CheckRegistDto checkRegistDto) {
+    public String setCoupleList(CheckRegistDto checkRegistDto) {
         Optional<User> OptionalOther = userRepository.findByEmail(checkRegistDto.getEmail());
         if(OptionalOther.isPresent()) {
-
-            //code는 Integer
-            if(checkRegistDto.getCode() == OptionalOther.get().getCode()) {
+            if ( OptionalOther.get().getCoupleListId() != null ) {
+                return "상대방이 coupleListId를 가지고 있는 상태입니다.";
+            } else if (checkRegistDto.getCode() != OptionalOther.get().getCode()) {
+                log.error("코드가 일치하지 않음");
+                return "코드가 일치하지 않습니다.";
+            } else if (checkRegistDto.getName() != OptionalOther.get().getName() || !checkRegistDto.getBirth().equals(OptionalOther.get().getBirth())) {
+                log.error("상대방 이름 또는 생일이 일치하지 않습니다.");
+                return "상대방 이름 또는 생일이 일치하지 않습니다.";
+            }
+            else {
+                //code는 Integer
                 //코드가 같으므로 커플리스트 생성
                 CoupleList coupleList = new CoupleList();
 
@@ -44,8 +52,9 @@ public class CoupleListServiceImpl implements CoupleListService {
 
                 coupleList.setUserFirst(other.getId());
                 coupleList.setUserSecond(loginUser.getId());
-                coupleList.setStartDay(checkRegistDto.getDate());
+                coupleList.setStartDay(checkRegistDto.getStartDay());
                 coupleList.setOneQA_index(1);
+                coupleList.setStartDay(checkRegistDto.getStartDay());
 
                 coupleListRepository.save(coupleList);
 
@@ -58,17 +67,12 @@ public class CoupleListServiceImpl implements CoupleListService {
                 userRepository.save(other);
                 userRepository.save(loginUser);
 
-                return true;
-            } else {
-                log.error("코드가 일치하지 않음");
-
-                return false;
+                return "커플리스트를 만드는데 성공했습니다.";
             }
 
         } else {
             log.error("상대방이 존재하지 않음");
-
-            return false;
+            return "상대방이 존재하지 않습니다.";
         }
     }
 
