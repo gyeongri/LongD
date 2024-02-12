@@ -125,13 +125,20 @@ public class UserServiceImpl implements UserService{
         return nationListRepository.findAll();
     }
 
-    public boolean WeblockCheck(int simplePassword) {
+    public String WeblockCheck(String simplePassword) {
         User user = userState().get();
+        int tmp = -1;
 
-        if (user.getPasswordSimple() == simplePassword ) {
-            return true;
+        try {
+            tmp = Integer.parseInt(simplePassword);
+        } catch (NumberFormatException e) {
+            return "정수가 아닌값이 감지되었습니다.";
+        }
+
+        if (user.getPasswordSimple() == tmp ) {
+            return "비밀번호 인증 성공";
         } else {
-            return false;
+            return "비밀번호가 다릅니다.";
         }
     }
 }
