@@ -97,7 +97,8 @@ const router = createRouter({
       path: '/map',
       name: 'Map',
       component: MapView,
-      redirect: '/map/search', // /map에 접근하면 자동으로 /map/search로 리다이렉트
+      redirect: '/map/search',
+      // /map에 접근하면 자동으로 /map/search로 리다이렉트
       children: [
         {
           path: 'search',
@@ -111,7 +112,7 @@ const router = createRouter({
         },
       ],
       // children 안 path에는 /를 사용하면 안된다 => 절대경로가 되어버려서!
-      // children 안에 children을 만들 수도 있다!
+      // children 안에 children을 만들 수도 있다
     },
     {
       path: '/testmap',
@@ -119,7 +120,7 @@ const router = createRouter({
       component: TestMapView,
     },
     {
-      path: '/plan/detail',
+      path: '/plan/list/:id',
       name: 'PlanDetail',
       component: PlanDetail,
     },
@@ -153,10 +154,15 @@ router.beforeEach((to, from, next) => {
         next({ name: 'Login' });
       } else {
         // next();
-        if (isNaN(userStore.getUserState.coupleListId)) {
+        if (userStore.getUserState.coupleListId !== null) {
           next();
         } else {
-          next({ name: 'ConnectCode' });
+          if (to.name === 'ConnectCode') {
+            next();
+            return;
+          } else {
+            next({ name: 'ConnectCode' });
+          }
         }
       }
     },

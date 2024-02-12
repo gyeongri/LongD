@@ -30,45 +30,30 @@
 </template>
 
 <script setup>
-import { ref, reactive, nextTick } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, reactive } from 'vue';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
 import { removeClosedPasswords } from '@/utils/api/user';
-// import { watch } from 'vue';
-// import { useFocus } from '@vueuse/core';
 
 const mainDisplayStore = useMainDisplayStore();
 const userStore = useUserStore();
 const router = useRouter();
+//화면비번
 const passwords = reactive(['', '', '', '']);
-// const passwords = reactive({
-//   0: ref(''),
-//   1: ref(''),
-//   2: ref(''),
-//   3: ref(''),
-// });
-const inputRefs = ref([]);
 
-// 프로필에서 사용자가 바꾼 번호로 설정해주기!
-// const { focused } = useFocus(passwords);
+//실제비번
+const inputRefs = ref([]);
 
 const handleInput = index => {
   if (passwords[index] && index < 3) {
     inputRefs.value.push(passwords[index]);
     passwords[index] = '🤍';
-    // watch(passwords[index], ('','❤️') => {
-    //   if ('') {
-    //     passwords[index].focus();
-    //   } else console.log('input element has lost focus');
-    // });
-    // passwords[`${index + 1}`].focus();
   } else if (passwords[index]) {
     inputRefs.value.push(passwords[index]);
     passwords[index] = '🤍';
     console.log(passwords);
-    // if (passwords == ['❤️', '❤️', '❤️', '❤️']) {
 
     if (inputRefs.value.join('') == userStore.getUserState.passwordSimple) {
       mainDisplayStore.closedPage = false;
@@ -86,58 +71,28 @@ const handleInput = index => {
   }
 };
 
-// const handleInput = index => {
-//   const password = passwords.value[index];
-//   if (!/^\d$/.test(password)) {
-//     passwords.value[index] = '';
-//   } else {
-//     if (index < passwords.value.length - 1) {
-//       inputRefs.value.push(passwords[index]);
-//       passwords[index] = '🤍';
-//       const nextInput = document.querySelector(`.password-input${index + 2}`);
-//       if (nextInput) {
-//         nextInput.focus();
-//       }
-//     } else if (index == passwords.value.length - 1) {
-//       inputRefs.value.push(passwords[index]);
-//       passwords[index] = '🤍';
-//       if (inputRefs.value.join('') == userStore.getUserState.passwordSimple) {
-//         mainDisplayStore.closedPage = false;
-//         router.go(-1);
-//       } else {
-//         Swal.fire('비밀번호가 틀립니다!');
-//         passwords.value = ['', '', '', ''];
-//         inputRefs.value = [];
-//         router.push({ name: 'Closed' });
-//       }
-//     }
-//   }
-// };
-// const userData = ref({});
 const removepassword = () => {
-  // userData.value = useUserStore.getUserState;
-  // userData.value.passwordSimple = '';
-  // sendinfo(
-  //   userData.value,
-  //   data => {
-  //     console.log('sendinfo 성공 & 화면잠금 비밀번호 초기화');
-  //     userStore.setUserState(data.data);
-  //   },
-  //   error => {
-  //     console.log('sendinfo 오류 & 화면잠금 비밀번호 실패 : ' + error);
-  //   },
-  // );
   removeClosedPasswords(
     success => {
       console.log('화면잠금 비밀번호 초기화 완료');
+      Swal.fire('비밀번호 초기화 완료');
+      passwords.forEach((_, i) => (passwords[i] = ''));
+      inputRefs.value = [];
+      router.push({ name: 'Closed' });
     },
     error => {
       console.log('비밀번호 초기화 실패', error);
     },
   );
-  // passwordSimple값 초기화시키기 = 생일로 디폴트 설정되어있음.
-  // 이 정보 백으로 보내줘서 설정할 수 있도록!
 };
+//다른곳 가는거 방지
+onBeforeRouteLeave((to, from, next) => {
+  if (mainDisplayStore.closedPage == true) {
+    return;
+  }
+  next();
+  // ...
+});
 </script>
 
 <style scoped>

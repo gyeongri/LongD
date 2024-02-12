@@ -1,16 +1,16 @@
 <template>
-  <div>
+  <div class="mt-4 flex items-center">
     <input
       type="text"
       v-model="message"
       @keyup.enter="sendMessageToMain"
-      class="border-4 border-blue-300 h-3/4"
+      class="flex-1 py-2 px-3 rounded-full bg-gray-100 focus:outline-none"
     />
-    <div class="border-4 border-blue-300 h-1/4 flex justify-end">
-      <button @click="sendMessageToMain" class="btn btn-outline btn-primary">
-        전송
-      </button>
-    </div>
+    <button
+      class="bg-blue-500 text-white px-4 py-2 rounded-full ml-3 hover:bg-blue-600"
+    >
+      전송
+    </button>
   </div>
 </template>
 

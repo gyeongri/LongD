@@ -121,6 +121,7 @@ public class UserController {
     public User setRegistInfo() {
         User user = new User();
         user = userService.BaseInfo();
+        System.out.println("검증 + " + user.toString());
         return user;
     }
 
@@ -135,10 +136,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/unlock")
-    public ResponseEntity<?> WeblockCheck (@RequestBody int simplePassword) {
+    @PostMapping("/user/unlock")
+    public ResponseEntity<?> WeblockCheck (@RequestBody String simplePassword) {
         try {
-            boolean tmp = userService.WeblockCheck(simplePassword);
+            String tmp = userService.WeblockCheck(simplePassword);
             return ResponseEntity.status(200).body(tmp);
         } catch (Exception e) {
             log.error(e.toString());
@@ -149,7 +150,7 @@ public class UserController {
     @GetMapping("/test")
     public String gettest() {
 
-        return "테스트페이지 Ver10.1";
+        return "테스트페이지 Ver11.0";
 
     }
 

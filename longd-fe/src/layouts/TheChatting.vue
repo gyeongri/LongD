@@ -3,6 +3,7 @@
   <div class="h-[45rem] flex flex-col">
     <ChatDisplayView
       :messages="messages"
+      :count="count"
       class="border-4 border-blue-500 h-3/4"
     ></ChatDisplayView>
     <ChatInputView
@@ -16,42 +17,43 @@
 <script setup>
 import ChatInputView from '@/views/chat/ChatInputView.vue';
 import ChatDisplayView from '@/views/chat/ChatDisplayView.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, onUnmounted } from 'vue';
 import { stompApi } from '@/utils/api/index.js';
 import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
 const { VITE_CHAT_BASE_IP } = import.meta.env;
-
 const coupleId = ref('');
 const messages = reactive([]);
-const sender = ref(8);
+const senderId = ref('');
 const room = ref(null);
-const createRoom = async () => {
-  const params = new URLSearchParams();
-  params.append('roomName', coupleId.value);
-  try {
-    const response = await stompApi.post('/chat/room', params);
-  } catch (error) {
-    console.error(error);
-  }
-};
+const count = ref(0);
 
-const findRoom = async () => {
-  const response = await stompApi.get(`/chat/room/${coupleId.value}`);
-  room.value = response.data;
-};
+// const createRoom = async () => {
+//   const params = new URLSearchParams();
+//   params.append('roomName', coupleId.value);
+//   try {
+//     const response = await stompApi.post('/chat/room', params);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+// const findRoom = async () => {
+//   const response = await stompApi.get(`/chat/room/${coupleId.value}`);
+//   room.value = response.data;
+// };
 
 const sendMessage = message => {
-  sender.value = userStore.getUserState?.id;
   ws.value.send(
     '/app/chat/message',
     {},
     JSON.stringify({
       roomName: coupleId.value,
-      senderId: sender.value,
+      senderId: senderId.value,
       content: message,
     }),
   );
+  count.value++;
 };
 
 const recvMessage = recv => {
@@ -67,19 +69,30 @@ let reconnect = 0;
 const sock = ref(new SockJS(`${VITE_CHAT_BASE_IP}/ws/chat`));
 const ws = ref(Stomp.over(sock.value));
 
-const connect = function () {
-  coupleId.value = userStore.getUserState?.coupleListId;
+const connect = function (couple, sender) {
   ws.value.connect(
     {},
     frame => {
-      ws.value.subscribe(`/topic/chat/room/${coupleId.value}`, message => {
+      coupleId.value = couple;
+      senderId.value = sender;
+      console.log(
+        '커넥트때 확인용',
+        coupleId.value,
+        useUserStore.getUserState?.coupleListId,
+        couple,
+        sender,
+      );
+      ws.value.subscribe(`/topic/chat/room/${couple}`, message => {
         const recv = JSON.parse(message.body);
         recvMessage(recv);
       });
       ws.value.send(
         '/app/chat/message',
         {},
-        JSON.stringify({ roomName: coupleId.value, senderId: sender.value }),
+        JSON.stringify({
+          roomName: couple,
+          senderId: sender,
+        }),
       );
     },
     error => {
@@ -96,20 +109,37 @@ const connect = function () {
 };
 
 onMounted(() => {
-  coupleId.value = userStore.getUserState?.coupleListId;
-  stompApi
-    .get(`/chat/messages/${coupleId.value}?size=30`)
-    .then(res => {
-      const sortedArray = res.data.sort((a, b) => a.id - b.id);
-      sortedArray.forEach(element => {
-        messages.push(element);
+  if (userStore.getUserState?.coupleListId !== undefined) {
+    console.log('온마운트시점', userStore.getUserState?.coupleListId);
+    stompApi
+      .get(`/chat/messages/${userStore.getUserState?.coupleListId}?size=30`)
+      .then(res => {
+        const sortedArray = res.data.sort((a, b) => a.id - b.id);
+        sortedArray.forEach(element => {
+          messages.push(element);
+        });
+      })
+      .then(res => {
+        coupleId.value = userStore.getUserState?.coupleListId;
+        senderId.value = userStore.getUserState?.id;
+        connect(
+          userStore.getUserState?.coupleListId,
+          userStore.getUserState?.id,
+        );
+      })
+      .catch(error => {
+        console.error(error);
       });
-    })
-    .catch(error => {
-      console.error(error);
+  }
+});
+
+onUnmounted(() => {
+  if (ws.value && ws.value.connectedState === 1) {
+    ws.value.disconnect(() => {
+      console.log('WebSocket disconnected on component unmount');
     });
-  connect();
+  }
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>
