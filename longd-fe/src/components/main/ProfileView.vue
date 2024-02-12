@@ -90,7 +90,7 @@
         <div class="mt-2.5">
           <!-- v-for를 써서 myprofile.closedPassword 해야한다 -->
           <!-- 초기 비밀번호면 myprofile.passwordSimple로 넣도록 해야하는지..? 아니면 화면잠금에서 생일로 설정했다가 이거는 다시 비밀번호변경할때만 바꾸는건지? -->
-          {{ userStore.getUserState?.passwordSimple }}
+          ****
         </div>
       </div>
     </div>
