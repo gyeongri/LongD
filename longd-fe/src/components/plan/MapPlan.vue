@@ -112,11 +112,9 @@ const placeList = ref([]);
 
 const onDrop = (event, date) => {
   event.preventDefault();
-  const placeIndex = event.dataTransfer.getData('placeIndex');
-  const place = planStore.hopeList[placeIndex];
+  const place = JSON.parse(event.dataTransfer.getData('place'));
   // 드롭되었을때 장소 데이터에 날짜 넣기
-  // place.date 지금 date라는 키가 없어서 일어난 문제 => 기존에 있는 place 값을 가지고 와서 넣어주는 걸로 바꿔야할 거 같다.
-  place.push({ date: date });
+  place.date = date;
   // 수정된 place를 placeList에 추가
   placeList.value = [...placeList.value, place];
   console.log('Dropped place:', place, date, placeList.value);
