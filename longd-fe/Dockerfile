@@ -16,6 +16,9 @@ RUN npm install
 # Vue 프로젝트 빌드
 RUN npm run build
 
+# Nginx 사용
+FROM nginx:latest
+
 # 3001번 포트 열기
 EXPOSE 3001
 
