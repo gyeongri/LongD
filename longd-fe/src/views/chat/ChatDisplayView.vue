@@ -134,9 +134,10 @@ const getFormattedTime = createdAt => {
 };
 onMounted(() => {
   setTimeout(() => scrollToBottom(), 100);
-  console.log(nickname.value);
+
   partnerinfo(
     data => {
+      console.log('찍히나');
       partnerInfo.value = data.data;
       otherUserProfileImage.value = partnerInfo.value.profilePicture;
       userProfileImage.value = userStore.getUserState?.profilePicture;
