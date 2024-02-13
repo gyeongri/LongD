@@ -20,7 +20,7 @@ RUN npm start
 #RUN npm run build
 
 # Nginx 사용
-FROM nginx:latest
+# FROM nginx: latest
 
 
 # 3001번 포트 열기
