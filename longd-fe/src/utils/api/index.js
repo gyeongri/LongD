@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const { VITE_VUE_API_URL, VITE_CHAT_BASE_IP } = import.meta.env;
+const { VITE_VUE_API_URL, VITE_CHAT_BASE_IP, VITE_VIDU_BASE_IP } = import.meta
+  .env;
 
 const api = axios.create({
   withCredentials: true,
@@ -32,7 +33,7 @@ const api3 = axios.create({
 });
 
 const viduapi = axios.create({
-  baseURL: 'https://localhost:5000/recording-java/api',
+  baseURL: VITE_VIDU_BASE_IP,
   headers: {
     'Content-Type': 'application/json',
     Authorization: 'Basic T1BFTlZJRFVBUFA6TVlfU0VDUkVU',

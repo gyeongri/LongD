@@ -55,10 +55,7 @@
         <input type="checkbox" />
 
         <!-- call on icon -->
-        <div
-          class="icon-container swap-on rectangle-icon"
-          @click="join(coupleid)"
-        >
+        <div class="icon-container swap-on rectangle-icon" @click="join()">
           <font-awesome-icon
             icon="fa-solid fa-phone-slash"
             size="lg"
@@ -115,9 +112,10 @@ import { useUserStore } from '@/stores/user.js';
 import { ref } from 'vue';
 const userStore = useUserStore();
 const viduStore = useViduStore();
-const coupleid = ref(userStore.userState.value?.coupleListId);
-const join = function (coupleid) {
-  viduStore.joinSession(coupleid);
+const coupleid = ref('');
+const join = function () {
+  coupleid.value = useUserStore.getUserState?.coupleListId;
+  viduStore.joinSession(coupleid.value);
 };
 const disconnect = function () {
   viduStore.removeUser();
@@ -129,39 +127,6 @@ const disconnect = function () {
 </script>
 
 <style>
-/* .desktop {
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-}
-
-.desktop .div {
-  background-color: #ffffff;
-  height: 1024px;
-  position: relative;
-  width: 1440px;
-}
-
-.desktop .rectangle {
-  background-color: #d9d9d9;
-  height: 617px;
-  left: 113px;
-  position: absolute;
-  top: 177px;
-  width: 493px;
-}
-
-.desktop .rectangle-2 {
-  background-color: #d9d9d9;
-  height: 617px;
-  left: 807px;
-  position: absolute;
-  top: 177px;
-  width: 493px;
-} */
-
 .icon-container {
   width: 40px;
   height: 40px;
