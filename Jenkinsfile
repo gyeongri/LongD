@@ -236,50 +236,50 @@ pipeline {
         }
 
 //////////////////////////////////////////////////////////////////////////////
-        //FE - 이미지 생성
-        stage('Build SyncTube image'){
-            steps {
-                dir("${DIRECTORY_SYNCTUBE}"){
-
-                    sh "ls"
-                    sh "docker build -t ${MAIN_IMAGE_SYNCTUBE} -f ${PROJECT_PATH}/longd-SyncTube/Dockerfile ${PROJECT_PATH}/longd-SyncTube"
-                    script {
-                                def currentDir = pwd()
-                                echo "Current Directory: ${currentDir}"
-                            }
-
-                }
-            }
-        }
-
-        //FE - 이전 컨테이너 삭제
-        stage('Remove Previous SyncTube Container') {
-            steps {
-                script {
-                    try {
-                        sh "docker stop ${MAIN_CONTAINER_SYNCTUBE}"
-                        sh "docker rm ${MAIN_CONTAINER_SYNCTUBE}"
-                    } catch (e) {
-                        echo 'fail to stop and remove container'
-                    }
-                }
-            }
-        }
-
-      //새 FE 컨테이너 실행
-        stage('Run New SyncTube image') {
-            steps {
-                //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} -d -p 3001:3001 ${MAIN_IMAGE_SYNCTUBE}"
-                // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
-                echo 'Run New FE image'
-
-                script {
-                            def currentDir = pwd()
-                            echo "Current Directory: ${currentDir}"
-                        }
-            }
-        }
+//         //FE - 이미지 생성
+//         stage('Build SyncTube image'){
+//             steps {
+//                 dir("${DIRECTORY_SYNCTUBE}"){
+//
+//                     sh "ls"
+//                     sh "docker build -t ${MAIN_IMAGE_SYNCTUBE} -f ${PROJECT_PATH}/longd-SyncTube/Dockerfile ${PROJECT_PATH}/longd-SyncTube"
+//                     script {
+//                                 def currentDir = pwd()
+//                                 echo "Current Directory: ${currentDir}"
+//                             }
+//
+//                 }
+//             }
+//         }
+//
+//         //FE - 이전 컨테이너 삭제
+//         stage('Remove Previous SyncTube Container') {
+//             steps {
+//                 script {
+//                     try {
+//                         sh "docker stop ${MAIN_CONTAINER_SYNCTUBE}"
+//                         sh "docker rm ${MAIN_CONTAINER_SYNCTUBE}"
+//                     } catch (e) {
+//                         echo 'fail to stop and remove container'
+//                     }
+//                 }
+//             }
+//         }
+//
+//       //새 FE 컨테이너 실행
+//         stage('Run New SyncTube image') {
+//             steps {
+//                 //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
+//                 sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} -d -p 3001:3001 ${MAIN_IMAGE_SYNCTUBE}"
+//                 // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
+//                 echo 'Run New FE image'
+//
+//                 script {
+//                             def currentDir = pwd()
+//                             echo "Current Directory: ${currentDir}"
+//                         }
+//             }
+//         }
 //////////////////////////////////////////////////////////////////////////////////////////
 
 
