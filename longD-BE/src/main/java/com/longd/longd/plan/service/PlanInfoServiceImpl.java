@@ -2,11 +2,14 @@ package com.longd.longd.plan.service;
 
 import com.longd.longd.coupleList.db.entity.CoupleList;
 import com.longd.longd.plan.db.dto.PlanInfoListDto;
+import com.longd.longd.plan.db.dto.PlanRequestDto;
+import com.longd.longd.plan.db.entity.Plan;
 import com.longd.longd.plan.db.entity.PlanInfo;
 import com.longd.longd.plan.db.repository.CustomPlanInfoRepository;
 import com.longd.longd.plan.db.repository.PlanInfoRepository;
 import com.longd.longd.plan.db.repository.PlanRepository;
 import com.longd.longd.user.db.entity.User;
+import com.longd.longd.user.db.repository.UserRepository;
 import com.longd.longd.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,5 +111,39 @@ public class PlanInfoServiceImpl implements PlanInfoService {
         } else {
             return false;
         }
+    }
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Override
+    public String setPlanAndPlanInfo(PlanRequestDto planRequestDto) {
+        //User user = userService.userState().get();
+        User user = null;
+        if(user == null) {
+            user = userRepository.findById(12).get();
+        }
+
+        Plan plan = new Plan();
+        plan.setCoupleList(new CoupleList());
+        plan.getCoupleList().setId(user.getCoupleListId());
+        plan.setDateStart(planRequestDto.getDateStart());
+        plan.setDateEnd(planRequestDto.getDateEnd());
+        plan.setTitle(planRequestDto.getTitle());
+
+        Plan savePlan = planRepository.save(plan);
+
+        for(PlanInfoListDto planInfoListDto : planRequestDto.getPlanInfo()) {
+            PlanInfo planInfo = new PlanInfo();
+            planInfo.setPlan(savePlan);
+            planInfo.setTitle(planInfoListDto.getTitle());
+            planInfo.setMyOrder(planInfoListDto.getMyOrder());
+            planInfo.setDate(planInfoListDto.getDate());
+            planInfo.setLatitude(planInfoListDto.getLatitude());
+            planInfo.setLongitude(planInfoListDto.getLongitude());
+            planInfoRepository.save(planInfo);
+        }
+
+        return "성공";
     }
 }

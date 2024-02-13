@@ -13,7 +13,7 @@
   <script nomodule="" src="https://cdn.jsdelivr.net/npm/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
 </head>
 
-<body style="grid-template-columns: 1fr 4px 300px;">
+<body>
   <!-- Video -->
   <main id="video">
     <!-- Player -->
@@ -119,39 +119,38 @@
           </div>
         </div>
       </div>
+
+      <!-- Chat controls -->
+      <div class="controls">
+        <button id="userlisttoggle" title="${toggleUserList}">
+          <ion-icon name="chevron-down"></ion-icon>
+          <span id="usercount">${connection}...</span>
+        </button>
+        <span>
+          <button id="leader_btn" class="unselectable" title="${leaderDesc}">${leader}</button>
+          <!-- Settings button -->
+          <button id="showoptions" class="collapsed" data-toggle="collapse" data-target="#optionsList"
+            aria-expanded="false">
+            <ion-icon name="settings-sharp"></ion-icon>
+          </button>
+        </span>
+      </div>
+
+
       <!-- Queue -->
       <div id="queuefail"></div>
       <div>
         <ul class="ui-sortable queue_sortable" id="queue"></ul>
       </div>
     </section>
-    <!-- Footer -->
-    <footer id="footer">
-      <p>Powered by <a href="https://github.com/RblSb/SyncTube" target="_blank" rel="noreferrer noopener">SyncTube</a>
-      </p>
-    </footer>
   </main>
 
   <!-- Gutter -->
-  <div class="gutter"></div>
+  <!-- <div class="gutter"></div> -->
 
   <!-- Chat -->
-  <aside id="chat">
-    <!-- Chat controls -->
-    <div class="controls">
-      <button id="userlisttoggle" title="${toggleUserList}">
-        <ion-icon name="chevron-down"></ion-icon>
-        <span id="usercount">${connection}...</span>
-      </button>
-      <span>
-        <button id="leader_btn" class="unselectable" title="${leaderDesc}">${leader}</button>
-        <!-- Settings button -->
-        <button id="showoptions" class="collapsed" data-toggle="collapse" data-target="#optionsList"
-          aria-expanded="false">
-          <ion-icon name="settings-sharp"></ion-icon>
-        </button>
-      </span>
-    </div>
+  <!-- <aside id="chat"> -->
+
     <!-- User list -->
     <div id="userlist-wrap" class="collapsible">
       <div id="userlist"></div>
@@ -184,8 +183,8 @@
       </div>
     </ul>
     <!-- Messages -->
-    <div id="messagebuffer"></div>
-    <div id="chat-inputs-wrapper">
+    <div id="messagebuffer" hidden></div>
+    <div id="chat-inputs-wrapper" hidden>
       <button id="scroll-to-chat-end" style="display: none; opacity: 0;" class="active">
         <ion-icon name="arrow-down" role="img" class="md hydrated" aria-label="arrow down"></ion-icon>
       </button>

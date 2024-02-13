@@ -1,5 +1,6 @@
 package com.longd.longd.plan.controller;
 
+import com.longd.longd.plan.db.dto.PlanRequestDto;
 import com.longd.longd.plan.db.entity.PlanInfo;
 import com.longd.longd.plan.service.PlanInfoService;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +55,17 @@ public class PlanInfoController {
             return ResponseEntity.status(200).body(planInfoService.deletePlanInfo(id));
         } catch (Exception e) {
             return ResponseEntity.status(503).body(e.toString());
+        }
+    }
+    
+    @PostMapping("/add/allInfo")
+    public ResponseEntity<?> setAllInfo(@RequestBody PlanRequestDto dto) {
+        try {
+            String tmp = planInfoService.setPlanAndPlanInfo(dto);
+            return ResponseEntity.status(200).body(tmp);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(503).body("오류");
         }
     }
 

@@ -370,7 +370,6 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 	String recordingId = (String) params.get("recording");
 	System.out.println("Stopping recording | {recordingId}=" + recordingId);
 	int coupleListId=Integer.parseInt((String) params.get("coupleListId"));
-	System.out.println("coupleListId = " + coupleListId);
 	try {
 		Recording recording = this.openVidu.stopRecording(recordingId);
 		System.out.println("stop recording - url : " + recording.getUrl());
@@ -379,7 +378,8 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 		System.out.println("stop recording - sessionId : " + sessionId);
 
 		//압축파일 경로 -> 도커에서 지정해준 위치로 바꿀것
-		String zipPath = "C:" + File.separator + "SSAFY" + File.separator + "testVideo" + File.separator + sessionId + File.separator + sessionId + ".zip";
+//		String zipPath = "C:" + File.separator + "SSAFY" + File.separator + "testVideo" + File.separator + sessionId + File.separator + sessionId + ".zip";
+		String zipPath = File.separator + "opt" + File.separator + "openvidu" + File.separator + "recordings" + File.separator + sessionId + File.separator + sessionId + ".zip";;
 
 		//압축파일 하나씩 읽음
 		try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath))) {
