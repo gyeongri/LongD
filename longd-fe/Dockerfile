@@ -17,7 +17,7 @@ RUN npm install
 RUN npm run build
 
 # Nginx 사용
-FROM nginx:latest
+#FROM nginx:latest
 
 # COPY fe-custom.conf /etc/nginx/conf.d/
 
@@ -27,9 +27,9 @@ RUN mkdir -p /usr/share/nginx/html
 # 3001번 포트 열기
 EXPOSE 3001
 
-CMD ["/app/start.sh"]
+#CMD ["/app/start.sh"]
 
-# #CMD ["npm", "run", "build"]
+CMD ["npm", "run", "build"]
 #  CMD ["npm", "run", "build"]
 
 # Nginx 시작
