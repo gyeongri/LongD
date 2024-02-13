@@ -255,8 +255,25 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const choiceDate = () => {
   console.log(userInfo);
   const today = new Date().toISOString().split('T')[0];
+  if (
+    userInfo.name == null ||
+    userInfo.name == '' ||
+    userInfo.name == undefined
+  ) {
+    Swal.fire('이름을 입력해주세요');
+    return;
+  }
+  if (
+    userInfo.nickname == null ||
+    userInfo.nickname == '' ||
+    userInfo.nickname == undefined
+  ) {
+    Swal.fire('닉네임을 입력해주세요');
+    return;
+  }
   if (userInfo.birth > today) {
     Swal.fire('생년월일을 확인해주세요');
+    return;
   }
   if (!emailRegex.test(userInfo.email)) {
     Swal.fire('이메일 형식을 확인해주세요');
@@ -264,6 +281,7 @@ const choiceDate = () => {
   }
   if (userInfo.passwordSimple.length !== 4) {
     Swal.fire('화면잠금 비밀번호를 확인해주세요');
+    return;
   }
 
   sendinfo(
