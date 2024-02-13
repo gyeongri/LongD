@@ -30,8 +30,8 @@ public class PlanInfo {
     private String MyOrder;
     private String titleUrl;
     private LocalDate date;
-    private Long latitude;
-    private Long longitude;
+    private double latitude;
+    private double longitude;
     private String memo;
 
 
