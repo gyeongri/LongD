@@ -46,7 +46,7 @@
             </ul>
           </details>
         </li>
-        <li>
+        <!-- <li>
           <a>
             <RouterLink
               :to="{ name: 'TestMap' }"
@@ -54,7 +54,7 @@
               >맵TEST</RouterLink
             >
           </a>
-        </li>
+        </li> -->
 
         <li>
           <details>
