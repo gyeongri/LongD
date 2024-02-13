@@ -14,7 +14,7 @@ RUN rm -rf /app/node_modules /app/package-lock.json
 RUN npm install
 
 # Vue 프로젝트 빌드
-#RUN npm run build
+RUN npm run build
 
 # 3001번 포트 열기
 EXPOSE 4200
