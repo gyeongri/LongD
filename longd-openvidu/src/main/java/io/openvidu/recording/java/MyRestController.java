@@ -286,7 +286,8 @@ public class MyRestController {
 		Recording.OutputMode outputMode = Recording.OutputMode.valueOf((String) params.get("outputMode"));
 		boolean hasAudio = (boolean) params.get("hasAudio");
 		boolean hasVideo = (boolean) params.get("hasVideo");
-
+		String currentWorkingDir = System.getProperty("user.dir");
+		System.out.println("Current working directory : " + currentWorkingDir);
 		RecordingProperties properties = new RecordingProperties.Builder()
 				.hasAudio(hasAudio)
 				.hasVideo(hasVideo)
