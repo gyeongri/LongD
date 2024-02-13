@@ -50,12 +50,14 @@ function coupleDataModify(payload, success, fail) {
   userApi.post(`/couplelist/modify`, payload).then(success).catch(fail);
 }
 // 화면잠금 비밀번호 초기화
+
 function resetClosedPasswords(success, fail) {
   userApi.get(`/user/resetSimplePassWord`).then(success).catch(fail);
 }
 function checkSimplePassword(payload, success, fail) {
   userApi.post(`/user/unlock`, payload).then(success).catch(fail);
 }
+
 export {
   userApi,
   sendinfo,

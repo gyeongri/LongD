@@ -66,7 +66,7 @@ const changImg = event => {
   uploadImage(
     formData,
     success => {
-      coupleInfo.value.coupleImgUrl = success.data[0];
+      coupleInfo.value.coupleImgUrl = success.data[0]['pathUrl'];
       coupleDataModify(
         coupleInfo.value,
         success => {
@@ -76,6 +76,9 @@ const changImg = event => {
           console.log('커플정보 보내는 것에 실패했습니다.', error);
         },
       );
+    },
+    success2 => {
+      console.log('사진을 변환했습니다.', success2);
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);

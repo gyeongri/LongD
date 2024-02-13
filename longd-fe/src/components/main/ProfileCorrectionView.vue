@@ -211,6 +211,7 @@ import router from '@/router';
 import { sendinfo, getNationList } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
 import { useUserStore } from '@/stores/user.js';
+import Swal from 'sweetalert2';
 
 const userStore = useUserStore();
 const userInfo = userStore.getUserState;
@@ -237,7 +238,7 @@ const fileUpload = event => {
   uploadImage(
     formData,
     success => {
-      userInfo.profilePicture = success.data[0];
+      userInfo.profilePicture = success.data[0]['pathUrl'];
     },
     success2 => {
       console.log('사진 변환 완료!');
@@ -248,8 +249,41 @@ const fileUpload = event => {
   );
 };
 
+//이메일형식확인용
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const choiceDate = () => {
   console.log(userInfo);
+  const today = new Date().toISOString().split('T')[0];
+  if (
+    userInfo.name == null ||
+    userInfo.name == '' ||
+    userInfo.name == undefined
+  ) {
+    Swal.fire('이름을 입력해주세요');
+    return;
+  }
+  if (
+    userInfo.nickname == null ||
+    userInfo.nickname == '' ||
+    userInfo.nickname == undefined
+  ) {
+    Swal.fire('닉네임을 입력해주세요');
+    return;
+  }
+  if (userInfo.birth > today) {
+    Swal.fire('생년월일을 확인해주세요');
+    return;
+  }
+  if (!emailRegex.test(userInfo.email)) {
+    Swal.fire('이메일 형식을 확인해주세요');
+    return;
+  }
+  if (userInfo.passwordSimple.length !== 4) {
+    Swal.fire('화면잠금 비밀번호를 확인해주세요');
+    return;
+  }
+
   sendinfo(
     userInfo,
     success => {

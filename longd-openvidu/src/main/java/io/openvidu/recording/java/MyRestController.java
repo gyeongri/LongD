@@ -370,8 +370,6 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 	String recordingId = (String) params.get("recording");
 	System.out.println("Stopping recording | {recordingId}=" + recordingId);
 	int coupleListId=Integer.parseInt((String) params.get("coupleListId"));
-
-
 	try {
 		Recording recording = this.openVidu.stopRecording(recordingId);
 		System.out.println("stop recording - url : " + recording.getUrl());
