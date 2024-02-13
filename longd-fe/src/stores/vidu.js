@@ -241,7 +241,7 @@ export const useViduStore = defineStore('vidu', () => {
 
   //녹화 끝
   const stopRecording = function (coupleid) {
-    console.log(coupleid);
+    console.log('커플아디', typeof coupleid);
     viduapi
       .post('recording/stop', {
         recording: forceRecordingId.value,
