@@ -381,9 +381,8 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 		System.out.println("stop recording - sessionId : " + sessionId);
 
 		//압축파일 경로 -> 도커에서 지정해준 위치로 바꿀것
-//		String zipPath = "C:" + File.separator + "SSAFY" + File.separator + "testVideo" + File.separator + sessionId + File.separator + sessionId + ".zip";
-		String zipPath = File.separator + "opt" + File.separator + "openvidu" + File.separator + "recordings" + File.separator + sessionId + File.separator + sessionId + ".zip";;
-
+		String zipPath = File.separator + "home" + File.separator + "recordings" + File.separator  + sessionId + File.separator + sessionId + ".zip";;
+		System.out.println(zipPath);
 		//압축파일 하나씩 읽음
 		try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath))) {
 			ZipEntry ze = zis.getNextEntry();
@@ -437,17 +436,6 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 	}
 }
-	private void uploadToS3(String fileName, byte[] fileContent) throws IOException {
-		ObjectMetadata metadata = new ObjectMetadata();
-		metadata.setContentLength(fileContent.length);
-		metadata.setContentType("video/webm");
-		InputStream inputStream = new ByteArrayInputStream(fileContent);
-
-		amazonS3.putObject(new PutObjectRequest(bucketName, fileName, inputStream, metadata)
-				.withCannedAcl(CannedAccessControlList.PublicRead));
-		System.out.println("Uploaded " + fileName + " to S3 bucket " + bucketName);
-	}
-
 	@RequestMapping(value = "/recording/delete", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteRecording(@RequestBody Map<String, Object> params) {
 		String recordingId = (String) params.get("recording");
