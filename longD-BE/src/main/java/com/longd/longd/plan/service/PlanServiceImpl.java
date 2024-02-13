@@ -90,4 +90,10 @@ public class PlanServiceImpl implements PlanSerivce{
             return false;
         }
     }
+
+    @Override
+    public Plan getDetailPlan(int planId) {
+        Optional<Plan> plan=planRepository.findById(planId);
+        return plan.orElse(null);
+    }
 }
