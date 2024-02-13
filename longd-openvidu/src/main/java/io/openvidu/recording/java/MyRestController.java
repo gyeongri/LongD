@@ -406,6 +406,7 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 						metadata.setContentType("video/webm");
 
 						try (InputStream inputStream = new ByteArrayInputStream(fileContent)) {
+							System.out.println("하이하이");
 							//S3에 파일 업로드하기
 							amazonS3.putObject(new PutObjectRequest(bucketName, fileKey, inputStream, metadata)
 									.withCannedAcl(CannedAccessControlList.PublicRead));
@@ -429,7 +430,7 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing the zip file");
 		}
 		this.sessionRecordings.remove(sessionId);
-//		this.openVidu.deleteRecording(recordingId);
+		this.openVidu.deleteRecording(recordingId);
 		return ResponseEntity.ok(recordingId);
 	} catch (OpenViduJavaClientException | OpenViduHttpException e) {
 		e.printStackTrace();
