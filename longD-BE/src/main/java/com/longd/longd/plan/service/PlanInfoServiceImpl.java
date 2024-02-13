@@ -117,7 +117,7 @@ public class PlanInfoServiceImpl implements PlanInfoService {
     UserRepository userRepository;
 
     @Override
-    public String setPlanAndPlanInfo(PlanRequestDto planRequestDto) {
+    public int setPlanAndPlanInfo(PlanRequestDto planRequestDto) {
         //User user = userService.userState().get();
         User user = null;
         if(user == null) {
@@ -144,6 +144,6 @@ public class PlanInfoServiceImpl implements PlanInfoService {
             planInfoRepository.save(planInfo);
         }
 
-        return "성공";
+        return savePlan.getId();
     }
 }

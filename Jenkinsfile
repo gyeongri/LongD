@@ -96,7 +96,7 @@ pipeline {
                 stage('Run New FE image') {
                     steps {
                         //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                        sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 ${MAIN_IMAGE_FE}"
+                        sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt/live/i10d206.p.ssafy.io:/home/certificates ${MAIN_IMAGE_FE}"
                         // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
                         echo 'Run New FE image'
 
@@ -108,15 +108,15 @@ pipeline {
                 }
         //////////////////////////////////////////////////////////////////////////////////////////
 
-                stage('Copy dist to EC2') {
-                    steps {
-                        //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                        sh "docker cp longd-frontend:/app/dist ${PROJECT_PATH}"
-                        // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
-                        echo 'COPY FE Dist to EC2'
-
-                    }
-                }
+//                 stage('Copy dist to EC2') {
+//                     steps {
+//                         //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
+//                         sh "docker cp longd-frontend:/app/dist ${PROJECT_PATH}"
+//                         // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
+//                         echo 'COPY FE Dist to EC2'
+//
+//                     }
+//                 }
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -240,23 +240,19 @@ pipeline {
 
 
 //////////////////////////////////////////////////////////////////////////////
-        //FE - 이미지 생성
+        //SyncTube - 이미지 생성
         stage('Build SyncTube image'){
             steps {
                 dir("${DIRECTORY_SYNCTUBE}"){
 
                     sh "ls"
                     sh "docker build -t ${MAIN_IMAGE_SYNCTUBE} -f ${PROJECT_PATH}/longd-SyncTube/Dockerfile ${PROJECT_PATH}/longd-SyncTube"
-                    script {
-                                def currentDir = pwd()
-                                echo "Current Directory: ${currentDir}"
-                            }
 
                 }
             }
         }
 
-        //FE - 이전 컨테이너 삭제
+        //SyncTube - 이전 컨테이너 삭제
         stage('Remove Previous SyncTube Container') {
             steps {
                 script {
@@ -270,18 +266,13 @@ pipeline {
             }
         }
 
-      //새 FE 컨테이너 실행
+      //새 SyncTube 컨테이너 실행
         stage('Run New SyncTube image') {
             steps {
                 //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} -d -p 4200:4200 ${MAIN_IMAGE_SYNCTUBE}"
+                sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} -d -p 4200:4200 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt/live/i10d206.p.ssafy.io:/home/certificates ${MAIN_IMAGE_SYNCTUBE}"
                 // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
                 echo 'Run New FE image'
-
-                script {
-                            def currentDir = pwd()
-                            echo "Current Directory: ${currentDir}"
-                        }
             }
         }
 //////////////////////////////////////////////////////////////////////////////////////////

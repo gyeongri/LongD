@@ -16,8 +16,17 @@ RUN npm install
 # Vue 프로젝트 빌드
 RUN npm run build
 
+# Nginx 사용
+FROM nginx:latest
+
+# Nginx 설정을 위한 별도의 디렉토리 생성
+RUN mkdir -p /usr/share/nginx/html
+
 # 3001번 포트 열기
 EXPOSE 3001
 
-#CMD ["npm", "run", "build"]
-CMD ["npm", "run", "build"]
+# #CMD ["npm", "run", "build"]
+#  CMD ["npm", "run", "build"]
+
+# Nginx 시작
+CMD ["nginx", "-g", "daemon off;"]
