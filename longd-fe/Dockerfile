@@ -19,6 +19,8 @@ RUN npm run build
 # Nginx 사용
 FROM nginx:latest
 
+COPY fe-custum.conf /etc/nginx/conf.d
+
 # Nginx 설정을 위한 별도의 디렉토리 생성
 RUN mkdir -p /usr/share/nginx/html
 
