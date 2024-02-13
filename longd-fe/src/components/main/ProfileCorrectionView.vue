@@ -255,22 +255,6 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const choiceDate = () => {
   console.log(userInfo);
   const today = new Date().toISOString().split('T')[0];
-  if (
-    userInfo.name == null ||
-    userInfo.name == '' ||
-    userInfo.name == undefined
-  ) {
-    Swal.fire('이름을 입력해주세요');
-    return;
-  }
-  if (
-    userInfo.nickname == null ||
-    userInfo.nickname == '' ||
-    userInfo.nickname == undefined
-  ) {
-    Swal.fire('닉네임을 입력해주세요');
-    return;
-  }
   if (userInfo.birth > today) {
     Swal.fire('생년월일을 확인해주세요');
     return;
