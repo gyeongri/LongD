@@ -149,7 +149,7 @@ pipeline {
     //   //새 BE 컨테이너 실행
         stage('Run New main openvidu image') {
             steps {
-                sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 4000:4000 --rm -e OPENVIDU_RECORDING=true -e OPENVIDU_RECORDING_PATH=opt/openvidu/recordings -v /var/run/docker.sock:/var/run/docker.sock ${OPENVIDU_IMAGE_BE}"
+                sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 4000:4000 --rm -e OPENVIDU_RECORDING=true -e OPENVIDU_RECORDING_PATH=opt/openvidu/recordings -v /var/run/docker.sock:/var/run/docker.sock -v opt/openvidu/recordings:/home/recordings ${OPENVIDU_IMAGE_BE}"
                 echo 'Run New openvidu BE image'
             }
         }
