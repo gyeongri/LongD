@@ -237,7 +237,7 @@ const fileUpload = event => {
   uploadImage(
     formData,
     success => {
-      userInfo.profilePicture = success.data[0];
+      userInfo.profilePicture = success.data['pathUrl'];
     },
     success2 => {
       console.log('사진 변환 완료!');
