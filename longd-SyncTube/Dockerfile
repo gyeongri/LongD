@@ -17,16 +17,16 @@ RUN apt-get update && apt-get install -y npm
 RUN npm install
 
 # Vue 프로젝트 빌드
-RUN npm run build
+# RUN npm run build
 
 # Nginx 사용
 FROM nginx:latest
 
 # 작업 디렉토리 설정
-WORKDIR /usr/share/nginx/html
+# WORKDIR /usr/share/nginx/html
 
 # Vue 프로젝트 빌드 결과물을 복사
-COPY --from=build /app/dist .
+# COPY --from=build /app/dist .
 
 # 4200번 포트 열기
 EXPOSE 4200
