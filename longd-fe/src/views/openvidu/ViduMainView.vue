@@ -115,7 +115,7 @@ const viduStore = useViduStore();
 const coupleid = ref('');
 const join = function () {
   console.log('조인할때 coupleid', coupleid.value);
-  viduStore.joinSession(coupleid.value);
+  viduStore.joinSession(String(coupleid.value));
 };
 const disconnect = function () {
   viduStore.removeUser();
