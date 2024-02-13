@@ -109,12 +109,12 @@ import ViduMine from '@/components/openvidu/ViduMine.vue';
 import ViduYours from '@/components/openvidu/ViduYours.vue';
 import { useViduStore } from '@/stores/vidu.js';
 import { useUserStore } from '@/stores/user.js';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 const userStore = useUserStore();
 const viduStore = useViduStore();
 const coupleid = ref('');
 const join = function () {
-  coupleid.value = useUserStore.getUserState?.coupleListId;
+  console.log('조인할때 coupleid', coupleid.value);
   viduStore.joinSession(coupleid.value);
 };
 const disconnect = function () {
@@ -124,6 +124,11 @@ const disconnect = function () {
   viduStore.publisher = '';
   viduStore.publisherTest = '';
 };
+onMounted(() => {
+  if (userStore.getUserState?.coupleListId !== undefined) {
+    coupleid.value = userStore.getUserState?.coupleListId;
+  }
+});
 </script>
 
 <style>
