@@ -1,4 +1,6 @@
 <template>
+  {{ planInfoDetail }}
+  <p>--------------------지금 리스트만 들어오니까 Plan 전체 다 받아와야해!</p>
   <div v-for="plan in planInfoDetail" :key="plan.id">
     {{ plan }}
   </div>
