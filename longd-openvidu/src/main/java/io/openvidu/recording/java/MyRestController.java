@@ -368,10 +368,11 @@ public class MyRestController {
 @RequestMapping(value = "/recording/stop", method = RequestMethod.POST)
 public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) {
 	String recordingId = (String) params.get("recording");
-	double coupleListIdDouble = (Double) params.get("coupleListId");
-	int coupleListId = (int) coupleListIdDouble; // 정수로 변환
 	System.out.println("Stopping recording | {recordingId}=" + recordingId);
-	System.out.println("Stopping recording | {coupleListId}=" + coupleListId);
+	double coupleListIdDouble = (Double) params.get("coupleListId");
+	System.out.println("Stopping recording | {coupleListIdDouble}=" + coupleListIdDouble);
+	System.out.println("Stopping recording | {coupleListId}=" + (int)coupleListIdDouble);
+	int coupleListId = (int) coupleListIdDouble; // 정수로 변환
 
 	try {
 		Recording recording = this.openVidu.stopRecording(recordingId);
