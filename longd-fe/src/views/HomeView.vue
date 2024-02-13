@@ -1,46 +1,46 @@
 <template>
-  <div>
-    <label class="btn btn-secondary-content" for="img">메인 사진 변경</label>
-    <input type="file" id="img" autocomplete="img" @change="changImg" hidden />
-  </div>
-  <div class="box">
-    <div class="overlap">
-      <div class="view">
-        <!-- 여기는 배경 사진들어가는 곳 -->
-        <div
-          class="overlap-group"
-          :style="{ backgroundImage: `url(${coupleInfo.coupleImgUrl})` }"
-        >
-          <!-- 프로필 -->
-          <div class="group-2">
-            <RouterLink :to="{ name: 'Profile' }"
-              ><img
-                class="myProfile rounded-full"
-                alt="내 프로필"
-                :src="userStore?.getUserState?.profilePicture"
-            /></RouterLink>
-            <div class="image">
-              <img
-                class="heart-suit"
-                alt="Heart suit"
-                src="/static/img/heart-suit.png"
-              />
-            </div>
-            <RouterLink :to="{ name: 'PartnerInfo' }">
-              <img
-                class="partnerProfile rounded-full"
-                alt="상대 프로필"
-                :src="partnerInfo?.profilePicture"
-            /></RouterLink>
-          </div>
-        </div>
-      </div>
+  <div class="main-side">
+    <div class="left-side">
       <!-- 디데이 -->
-      <div class="overlap-wrapper">
-        <div class="div-wrapper">
-          <div class="text-wrapper-3">D+{{ coupleDday }}</div>
-        </div>
+      <div class="div-wrapper">
+        <div class="text-wrapper-3">D+{{ coupleDday }}</div>
       </div>
+
+      <div class="profiles">
+        <RouterLink :to="{ name: 'Profile' }"
+          ><img
+            class="myProfile rounded-full"
+            alt="내 프로필"
+            :src="userStore?.getUserState?.profilePicture"
+        /></RouterLink>
+        <!-- <img
+          class="heart-suit"
+          alt="Heart suit"
+          src="/static/img/heart-suit.png"
+        /> -->
+        <RouterLink :to="{ name: 'PartnerInfo' }">
+          <img
+            class="partnerProfile rounded-full"
+            alt="상대 프로필"
+            :src="partnerInfo?.profilePicture"
+        /></RouterLink>
+      </div>
+
+      <div class="changebtn">
+        <label class="btn btn-secondary-content" for="img"
+          >메인 사진 변경</label
+        >
+        <input
+          type="file"
+          id="img"
+          autocomplete="img"
+          @change="changImg"
+          hidden
+        />
+      </div>
+    </div>
+    <div class="right-side">
+      <img :src="coupleInfo.coupleImgUrl" />
     </div>
   </div>
 </template>
@@ -112,89 +112,59 @@ watchEffect(() => {
 </script>
 
 <style scoped>
-.box {
-  height: 740px;
-  width: 612px;
+.main-side,
+.changebtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.box .view {
-  height: 720px;
-  left: 50px;
-  position: absolute;
-  top: 200px;
-  width: 612px;
+.left-side {
+  /* border: 3px solid black; */
+  width: 40%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+.right-side {
+  /* border: 3px solid black; */
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.box .overlap-group {
-  background-size: 100%;
-  background-repeat: no-repeat;
-  height: 100%;
-  width: 100%;
-  left: -4px;
-  position: relative;
+.profiles {
+  display: flex;
+  align-items: center; /* 수직 정렬을 중앙에 설정 */
+  margin-bottom: 20vh;
 }
 
-.box .group-2 {
-  height: 80px;
-  left: 210px;
-  position: absolute;
-  top: 70px;
-  width: 216px;
+.myProfile,
+.partnerProfile {
+  width: 100px; /* 이미지의 너비를 원하는 크기로 설정 */
+  height: 100px; /* 이미지의 높이를 원하는 크기로 설정 */
+  object-fit: cover; /* 이미지를 컨테이너에 맞추기 위해 사용 */
+  margin-right: 10px; /* 이미지 사이에 간격을 조절 */
 }
 
-.box .partnerProfile {
-  height: 80px;
-  left: 136px;
-  position: absolute;
-  top: 0;
-  width: 80px;
-}
-
-.image .heart-suit {
-  height: 43px;
-  left: 85px;
-  object-fit: cover;
-  position: relative;
-  top: 20px;
-  width: 42px;
-}
-.box .myProfile {
-  height: 80px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 80px;
-}
-
-.box .overlap-wrapper {
-  height: 78px;
-  left: 230px;
-  position: absolute;
-  top: 180px;
-  width: 266px;
-}
-
-.box .div-wrapper {
+.text-wrapper-3 {
   background-image: url(/static/img/group-19.png);
   background-size: 100% 100%;
-  height: 78px;
   position: relative;
-  width: 264px;
-}
 
-.box .text-wrapper-3 {
   color: #ffffff;
   font-family: 'Jura-SemiBold', Helvetica;
   font-size: 50px;
   font-weight: 600;
-  left: 39px;
+  /* left: 39px; */
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
+  /* position: absolute; */
   text-align: center;
   text-shadow: 0px 4px 4px #00000040;
-  top: 11px;
+  bottom: 15vh;
   white-space: nowrap;
-  width: 182px;
+  width: 100%;
 }
 </style>
