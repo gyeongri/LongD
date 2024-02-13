@@ -1,6 +1,11 @@
 <template>
   <div class="bg-white rounded-lg shadow-md p-4">
-    <button @click="turnOff">집어넣기</button>
+
+    <div class="pb-3">
+      <button @click="turnOff">>>>></button>
+    </div>
+    
+
     <div class="chat-container" ref="chatContainer">
       <div
         v-for="(message, index) in messages"
@@ -55,13 +60,15 @@
             <time class="text-xs opacity-50 mt-2 gap-2">{{
               getFormattedTime(message.createdAt)
             }}</time>
-            <div class="chat-bubble bg-blue-100 p-3 rounded-lg">
+
+            <div class="chat-bubble p-3 rounded-lg">
               <p class="text-sm text-stone-500">{{ message.content }}</p>
             </div>
           </template>
           <!-- 상대방의 메시지일 경우 시간을 오른쪽에 표시 -->
           <template v-else>
-            <div class="chat-bubble bg-pink-100 p-3 rounded-lg">
+            <div class="chat-bubble p-3 rounded-lg" >
+
               <p class="text-sm text-stone-500">{{ message.content }}</p>
             </div>
             <time class="text-xs opacity-50 mt-2 gap-2">{{
@@ -163,14 +170,18 @@ div::-webkit-scrollbar {
   align-items: center;
 }
 .chat-end .chat-bubble {
-  background-color: #e7f9ff; /* 연한 파란색으로 변경 (예시) */
+
+  background-color: #e2f1ff; /* 연한 파란색으로 변경 (예시) */
+
   margin-right: 1rem; /* 오른쪽 마진 설정 */
 }
 .chat-end time {
   order: -1; /* 시간을 버블 왼쪽에 배치 */
 }
 .chat-start .chat-bubble {
-  background-color: #f9e7ff; /* 연한 분홍색으로 유지 */
+
+  background-color: #FFEDED; /* 연한 분홍색으로 유지 */
+
   margin-left: 1rem; /* 왼쪽 마진 설정 */
 }
 </style>

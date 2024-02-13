@@ -4,14 +4,13 @@
       type="text"
       v-model="message"
       @keyup.enter="sendMessageToMain"
-      class="flex-1 py-2 px-3 rounded-full bg-gray-100 focus:outline-none"
+      class="textarea textarea-bordered ml-2 mr-1"
     />
     <button
       @click="sendMessageToMain"
-      class="bg-blue-500 text-white px-4 py-2 rounded-full ml-3 hover:bg-blue-600"
-    >
-      전송
-    </button>
+      class="img-btn rounded-full ml-3 hover:bg-pink-100"
+    ></button>
+
   </div>
 </template>
 
@@ -35,5 +34,14 @@ const sendMessageToMain = function () {
 input {
   border: px, solid, black;
   width: 100%;
+}
+
+.img-btn {
+  background-image: url('/static/img/send.png');
+  background-size: cover; /* 이미지가 버튼 크기에 맞게 조정됩니다 */
+  background-position: center; /* 이미지가 중앙에 위치하도록 합니다 */
+  width: 50px; /* 원하는 버튼의 너비 */
+  height: 50px; /* 원하는 버튼의 높이 */
+  border: none; /* 버튼의 기본 테두리 제거 */
 }
 </style>
