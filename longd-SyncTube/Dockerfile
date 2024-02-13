@@ -20,7 +20,7 @@ RUN npm install
 EXPOSE 4200
 
 #CMD ["npm", "run", "build"]
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
 
 
 #FROM haxe:4.3.0-alpine3.15
