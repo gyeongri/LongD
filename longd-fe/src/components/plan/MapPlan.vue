@@ -56,40 +56,22 @@
     </div>
   </div>
 
-  <!-- <div id="modal_save">
-    <swal-title>
-      일정 계획이 모두 끝나셨나요? 아래 '여행 일정 생성' 버튼을 누르시면
-      여행일정이 생성됩니다.
-    </swal-title>
-    <swal-button type="cancel"> 계속 편집 하기 </swal-button>
-    <swal-button type="confirm"> 여행 일정 생성 </swal-button>
-    <swal-param name="allowEscapeKey" value="false" />
-    <swal-param name="customClass" value='{ "popup": "save-modal" }' />
-    <swal-function-param
-      name="didOpen"
-      value="popup => console.log(popup, '모달창이 떠요.')"
-    />
-  </div> -->
-
-  <button id="saveButton" data-swal-template="modal_save" @click="openModal()">
-    저장
-  </button>
-  <!-- <button class="btn" @click="sendPlan()">저장</button> -->
+  <button @click="openModal()">저장</button>
 </template>
 
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { usePlanStore } from '@/stores/plan';
-import { postPlanData } from '@/utils/api/plan';
+import { postPlanAllData } from '@/utils/api/plan';
 import Swal from 'sweetalert2';
 
 const router = useRouter();
 
-// 즐겨찾기 항목용
+// 즐겨찾기용
 const planStore = usePlanStore();
 
-// 백에 보낼 것들 전부 넣기
+// 최종 백에 넘겨줄 것 다 담을 변수
 const planAll = ref();
 
 // 일정 제목(백에 넘겨줄 것)
@@ -101,9 +83,8 @@ const endDay = ref('');
 // 날짜 리스트를 저장할 배열
 const dateList = ref([]);
 
-// 시작일과 종료일이 유효한 범위인지 확인하는 computed 속성
+// 시작일과 종료일이 유효한 범위인지 확인
 const isRangeValid = computed(() => {
-  // 시작일과 종료일이 모두 선택되었고, 시작일이 종료일보다 이전인지 확인
   return startDay.value && endDay.value && startDay.value <= endDay.value;
 });
 
@@ -120,7 +101,8 @@ const addRangeToList = () => {
         daysToAdd.push(isoDate);
       }
     }
-    dateList.value = dateList.value.concat(daysToAdd).sort(); // 날짜를 추가하고 정렬
+    // 날짜를 추가하고 정렬
+    dateList.value = dateList.value.concat(daysToAdd).sort();
   } else {
     Swal.fire('날짜의 범위가 맞지 않습니다. 확인 후 다시 입력해주세요!');
   }
@@ -149,7 +131,7 @@ const removeDatesOutsideRange = (start, end) => {
 };
 
 // 시작일과 종료일이 변경될 때 새로운 일정 범위를 계산하여
-// 해당 범위 이외의 날짜를 리스트에서 제거(위 함수 사용)
+// 해당 범위 이외의 날짜를 리스트에서 제거(위에 있는 removeDatesOutsideRange 함수 사용)
 const handleDateRangeChange = () => {
   if (isRangeValid.value) {
     const start = new Date(startDay.value);
@@ -168,7 +150,6 @@ watch([startDay, endDay], () => {
 
 // 드래그 앤 드롭 이벤트 처리
 const onDragStart = place => {
-  // event.dataTransfer.setData('place', JSON.stringify(place));
   event.dataTransfer.setData('application/json', JSON.stringify(place));
 };
 
@@ -205,7 +186,7 @@ const onDrop = (event, date) => {
   console.log(place, date, placeList.value);
 };
 
-// 삭제버튼 눌렀을 때 제거되도록
+// 삭제버튼 눌렀을 때 제거
 const removePlace = (date, placeIndex) => {
   // datePlaceMap에서 제거
   const places = datePlaceMap.value[date];
@@ -217,59 +198,35 @@ const removePlace = (date, placeIndex) => {
   console.log(placeList.value);
 };
 
-// 일정 계획이 모두 끝나셨나요? 물은 후
-// Save 버튼을 클릭할 때 실행될 함수
-function onSaveClicked() {
-  // 저장 함수 실행
-  sendPlan();
-}
-// Continue 버튼을 클릭할 때 실행될 함수
-function onContinueClicked() {
-  Swal.fire(
-    "편집 후 '저장'-'여행 일정 생성'을 누르지 않으면 저장되지 않습니다.",
-  );
-}
-// 버튼을 클릭했을때 모달창 띄우기
-// const onClickSaveButton = () => {
-//   openModal();
-// };
-// SweetAlert2 모달 열기
+// 모달 띄우기
 const openModal = () => {
   Swal.fire({
     title:
       "일정 계획이 모두 끝나셨나요? 아래 '여행 일정 생성' 버튼을 누르시면 여행일정이 생성됩니다.",
-    // html: document.querySelector('modal_save').innerHTML,
-    // showCancelButton: true,
+    showCancelButton: true,
     allowEscapeKey: false,
-    customClass: {
-      popup: 'save-modal',
-    },
-    didOpen: popup => {
-      Swal.bindClickHandler();
-      console.log(popup, '모달창이 떠요.');
-      // Save As 버튼에 이벤트 리스너 추가
-      popup
-        .querySelector('[type="confirm"]')
-        .addEventListener('click', onSaveClicked);
-      // Close without Saving 버튼에 이벤트 리스너 추가
-      popup
-        .querySelector('[type="cancel"]')
-        .addEventListener('click', onContinueClicked);
-    },
     confirmButtonText: '여행 일정 생성',
     cancelButtonText: '계속 편집 하기',
+  }).then(result => {
+    if (result.isConfirmed) {
+      console.log('sendPlan함수 실행!');
+      sendPlan();
+    } else {
+      Swal.fire('계속 일정을 작성해주세요.');
+    }
   });
 };
 
 // 정보 보내기
 const sendPlan = () => {
+  console.log('sendPlan 함수 실행될 예정');
   planAll.value = {
     title: planTitle.value,
     dateStart: startDay.value,
     dateEnd: endDay.value,
     planInfo: placeList.value,
   };
-  postPlanData(
+  postPlanAllData(
     planAll.value,
     success => {
       console.log('여행일정이 등록되었습니다.', success);
@@ -289,14 +246,6 @@ onMounted(() => {
   favoritePlaces.forEach(place => {
     place.addEventListener('dragstart', () => onDragStart(place));
   });
-  const saveButton = document.querySelector(
-    '[data-swal-template="modal_save"]',
-  );
-  if (saveButton) {
-    saveButton.addEventListener('click', openModal);
-  } else {
-    console.error('Save button not found!');
-  }
 });
 
 // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
