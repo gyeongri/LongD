@@ -15,7 +15,7 @@ RUN npm install
 
 # Vue 프로젝트 빌드
 #RUN npm run build
-    
+
 # 3001번 포트 열기
 EXPOSE 4200
 
