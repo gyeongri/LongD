@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const { VITE_VUE_API_URL, VITE_CHAT_BASE_IP, VITE_VIDU_BASE_IP } = import.meta
-  .env;
+// eslint-disable-next-line prettier/prettier
+const { VITE_VUE_API_URL, VITE_CHAT_BASE_IP,
+   VITE_VIDU_BASE_IP } = import.meta.env;
 
 const api = axios.create({
   withCredentials: true,
