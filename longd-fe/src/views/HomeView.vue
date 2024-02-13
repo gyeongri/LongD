@@ -140,13 +140,13 @@ watchEffect(() => {
 .profiles {
   display: flex;
   align-items: center; /* 수직 정렬을 중앙에 설정 */
-  margin-bottom: 20vh;
+  margin-bottom: 10vh;
 }
 
 .myProfile,
 .partnerProfile {
-  width: 100px; /* 이미지의 너비를 원하는 크기로 설정 */
-  height: 100px; /* 이미지의 높이를 원하는 크기로 설정 */
+  width: 30vh; /* 이미지의 너비를 원하는 크기로 설정 */
+  height: 30vh; /* 이미지의 높이를 원하는 크기로 설정 */
   object-fit: cover; /* 이미지를 컨테이너에 맞추기 위해 사용 */
   margin-right: 10px; /* 이미지 사이에 간격을 조절 */
 }
@@ -166,7 +166,7 @@ watchEffect(() => {
   /* position: absolute; */
   text-align: center;
   text-shadow: 0px 4px 4px #00000040;
-  bottom: 15vh;
+  bottom: 5vh;
   white-space: nowrap;
   width: 100%;
 }

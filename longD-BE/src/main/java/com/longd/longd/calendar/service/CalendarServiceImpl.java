@@ -22,22 +22,28 @@ public class CalendarServiceImpl implements CalendarService {
     UserService userService;
 
     @Override
-    public boolean calendarInfoAdd(Calendar calendar) {
-        Optional<User> user = userService.userState();
+    public String calendarInfoAdd(Calendar calendar) {
+        User user = userService.userState().get();
         System.out.println(calendar.toString());
         if( calendar.getId() == null) {
             log.info("등록 진행");
+            calendar.setCoupleListId(user.getCoupleListId());
+            calendarRepository.save(calendar);
+            return "등록 완료";
         } else {
             log.info("수정 진행");
-        }
-        //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인 user.get().getCoupleListId() == calendar.getCoupleListId()
-        //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
-        if( ( user != null && user.get().getCoupleListId() == calendar.getCoupleListId() ) || calendar.getCoupleListId() == 1 ) {
+            calendar.setCoupleListId(user.getCoupleListId());
             calendarRepository.save(calendar);
-            return true;
-        } else {
-            return false;
+            return "수정 완료";
         }
+
+
+//        if( ( user != null && user.get().getCoupleListId() == calendar.getCoupleListId() ) || calendar.getCoupleListId() == 1 ) {
+//            calendarRepository.save(calendar);
+//            return true;
+//        } else {
+//            return false;
+//        }
 
     }
 

@@ -22,9 +22,14 @@ public class CalendarController {
     // 캘린더 일정 저장하기
 
     @PostMapping("/add")
-    public boolean calendarAdd(@RequestBody Calendar calendar) {
-        return calendarService.calendarInfoAdd(calendar);
-        //false시 오류인것
+    public ResponseEntity<?> calendarAdd(@RequestBody Calendar calendar) {
+        try {
+            String tmp = calendarService.calendarInfoAdd(calendar);
+            return ResponseEntity.status(200).body(tmp);
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(503).body("등록 실패");
+        }
     }
 
     @GetMapping("/get/{coupleListId}")
