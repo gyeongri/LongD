@@ -12,8 +12,8 @@ import TestMapView from '@/views/map/TestMapView.vue';
 import MapView from '@/views/map/MapView.vue';
 import MapSearch from '@/components/plan/MapSearch.vue';
 import MapPlan from '@/components/plan/MapPlan.vue';
-import PlanList from '@/views/map/PlanListView.vue';
-import PlanDetail from '@/views/map/PlanDetailView.vue';
+import PlanListView from '@/views/map/PlanListView.vue';
+import PlanDetailView from '@/views/map/PlanDetailView.vue';
 import ClosedView from '@/views/main/ClosedView.vue';
 import LoginSignUpView from '@/views/main/LoginSignUpView.vue';
 import RequiredInfoView from '@/views/main/RequiredInfoView.vue';
@@ -121,14 +121,14 @@ const router = createRouter({
       component: TestMapView,
     },
     {
-      path: '/plan/list/:id',
-      name: 'PlanDetail',
-      component: PlanDetail,
-    },
-    {
       path: '/plan/list',
       name: 'PlanList',
-      component: PlanList,
+      component: PlanListView,
+    },
+    {
+      path: '/plan/list/:id',
+      name: 'PlanDetail',
+      component: PlanDetailView,
     },
     {
       path: '/closed',

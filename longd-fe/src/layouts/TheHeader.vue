@@ -156,9 +156,9 @@ const isGalleryActive = computed(
 const isCalendarActive = computed(
   () => router.currentRoute.value.name === 'Calendar',
 );
-const isTestMapActive = computed(
-  () => router.currentRoute.value.name === 'TestMap',
-);
+// const isTestMapActive = computed(
+//   () => router.currentRoute.value.name === 'TestMap',
+// );
 const isMapActive = computed(
   () =>
     router.currentRoute.value.name === 'MapSearch' ||

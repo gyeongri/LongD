@@ -2,7 +2,7 @@
   <div class="isolate bg-white px-6 py-15 sm:py-15 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-        프로필 페이지
+        {{ userInfo.nickname }}님의 프로필 수정 페이지
       </h2>
     </div>
     <button class="btn btn-rose" @click="goHome">돌아가기</button>
@@ -206,7 +206,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import router from '@/router';
 import { sendinfo, getNationList } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';

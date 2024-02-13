@@ -1,13 +1,13 @@
 <template>
   <!-- 제목 입력 -->
   <label for="title">제목</label>
-  <input id="title" type="text" v-model="planTitle" />
+  <input id="title" type="text" v-model="planAll.title" />
   <!-- 일정 입력하기 -->
   <div>
     <label for="start">시작 날짜:</label>
-    <input id="start" type="date" v-model="startDay" />
+    <input id="start" type="date" v-model="planAll.startDay" />
     <label for="end">종료 날짜:</label>
-    <input id="end" type="date" v-model="endDay" />
+    <input id="end" type="date" v-model="planAll.endDay" />
     <button class="btn" @click="addRangeToList">일정 추가</button>
     <button class="btn btn-outline" @click="clearList">일정 초기화</button>
   </div>
@@ -55,26 +55,7 @@
       </div>
     </div>
   </div>
-
-  <!-- <div id="modal_save">
-    <swal-title>
-      일정 계획이 모두 끝나셨나요? 아래 '여행 일정 생성' 버튼을 누르시면
-      여행일정이 생성됩니다.
-    </swal-title>
-    <swal-button type="cancel"> 계속 편집 하기 </swal-button>
-    <swal-button type="confirm"> 여행 일정 생성 </swal-button>
-    <swal-param name="allowEscapeKey" value="false" />
-    <swal-param name="customClass" value='{ "popup": "save-modal" }' />
-    <swal-function-param
-      name="didOpen"
-      value="popup => console.log(popup, '모달창이 떠요.')"
-    />
-  </div> -->
-
-  <button id="saveButton" data-swal-template="modal_save" @click="openModal()">
-    저장
-  </button>
-  <!-- <button class="btn" @click="sendPlan()">저장</button> -->
+  <button class="btn" @click="sendPlan()">저장</button>
 </template>
 
 <script setup>
@@ -85,12 +66,11 @@ import { postPlanData } from '@/utils/api/plan';
 import Swal from 'sweetalert2';
 
 const router = useRouter();
+// 전체 데이터 목록
+const planAll = ref();
 
 // 즐겨찾기 항목용
 const planStore = usePlanStore();
-
-// 백에 보낼 것들 전부 넣기
-const planAll = ref();
 
 // 일정 제목(백에 넘겨줄 것)
 const planTitle = ref();
@@ -217,50 +197,6 @@ const removePlace = (date, placeIndex) => {
   console.log(placeList.value);
 };
 
-// 일정 계획이 모두 끝나셨나요? 물은 후
-// Save 버튼을 클릭할 때 실행될 함수
-function onSaveClicked() {
-  // 저장 함수 실행
-  sendPlan();
-}
-// Continue 버튼을 클릭할 때 실행될 함수
-function onContinueClicked() {
-  Swal.fire(
-    "편집 후 '저장'-'여행 일정 생성'을 누르지 않으면 저장되지 않습니다.",
-  );
-}
-// 버튼을 클릭했을때 모달창 띄우기
-// const onClickSaveButton = () => {
-//   openModal();
-// };
-// SweetAlert2 모달 열기
-const openModal = () => {
-  Swal.fire({
-    title:
-      "일정 계획이 모두 끝나셨나요? 아래 '여행 일정 생성' 버튼을 누르시면 여행일정이 생성됩니다.",
-    // html: document.querySelector('modal_save').innerHTML,
-    // showCancelButton: true,
-    allowEscapeKey: false,
-    customClass: {
-      popup: 'save-modal',
-    },
-    didOpen: popup => {
-      Swal.bindClickHandler();
-      console.log(popup, '모달창이 떠요.');
-      // Save As 버튼에 이벤트 리스너 추가
-      popup
-        .querySelector('[type="confirm"]')
-        .addEventListener('click', onSaveClicked);
-      // Close without Saving 버튼에 이벤트 리스너 추가
-      popup
-        .querySelector('[type="cancel"]')
-        .addEventListener('click', onContinueClicked);
-    },
-    confirmButtonText: '여행 일정 생성',
-    cancelButtonText: '계속 편집 하기',
-  });
-};
-
 // 정보 보내기
 const sendPlan = () => {
   planAll.value = {
@@ -274,7 +210,9 @@ const sendPlan = () => {
     success => {
       console.log('여행일정이 등록되었습니다.', success);
       Swal.fire('저장되었습니다.');
-      router.push({ name: 'PlanList' });
+      // 여기에 알람으로
+      // 계속 편집하기 => 화면 그대로 불러오고 데이터도 불러오기?!(getPlanDetail(success)) => 이거 조금 어렵네?!
+      // 여행 목록으로 가기 => router.push({name:'PlanList'})
     },
     error => {
       console.log('여행 일정이 등록되지 않음', error);
@@ -289,14 +227,6 @@ onMounted(() => {
   favoritePlaces.forEach(place => {
     place.addEventListener('dragstart', () => onDragStart(place));
   });
-  const saveButton = document.querySelector(
-    '[data-swal-template="modal_save"]',
-  );
-  if (saveButton) {
-    saveButton.addEventListener('click', openModal);
-  } else {
-    console.error('Save button not found!');
-  }
 });
 
 // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
