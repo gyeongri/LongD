@@ -211,6 +211,7 @@ import router from '@/router';
 import { sendinfo, getNationList } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
 import { useUserStore } from '@/stores/user.js';
+import Swal from 'sweetalert2';
 
 const userStore = useUserStore();
 const userInfo = userStore.getUserState;
@@ -248,8 +249,23 @@ const fileUpload = event => {
   );
 };
 
+//이메일형식확인용
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const choiceDate = () => {
   console.log(userInfo);
+  const today = new Date().toISOString().split('T')[0];
+  if (userInfo.birth > today) {
+    Swal.fire('생년월일을 확인해주세요');
+  }
+  if (!emailRegex.test(userInfo.email)) {
+    Swal.fire('이메일 형식을 확인해주세요');
+    return;
+  }
+  if (userInfo.passwordSimple.length !== 4) {
+    Swal.fire('화면잠금 비밀번호를 확인해주세요');
+  }
+
   sendinfo(
     userInfo,
     success => {

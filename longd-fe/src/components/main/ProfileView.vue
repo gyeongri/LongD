@@ -38,6 +38,20 @@
       </div>
     </div>
 
+    <!-- 닉네임 -->
+    <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+      <div class="sm:col-span-2">
+        <label
+          for="name"
+          class="block text-sm font-semibold leading-6 text-gray-900"
+          >닉네임</label
+        >
+        <div class="mt-2.5">
+          {{ userStore.getUserState?.nickname }}
+        </div>
+      </div>
+    </div>
+
     <!-- 생년월일 -->
     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
       <div class="sm:col-span-2">
