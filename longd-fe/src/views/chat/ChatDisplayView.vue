@@ -139,7 +139,7 @@ onMounted(() => {
     data => {
       console.log('찍히나');
       partnerInfo.value = data.data;
-      otherUserProfileImage.value = partnerInfo.value.profilePicture;
+      otherUserProfileImage.value = partnerInfo.value?.profilePicture;
       userProfileImage.value = userStore.getUserState?.profilePicture;
     },
     error => {
