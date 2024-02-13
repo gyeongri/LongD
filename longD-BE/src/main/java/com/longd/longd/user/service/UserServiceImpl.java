@@ -129,6 +129,7 @@ public class UserServiceImpl implements UserService{
     public String WeblockCheck(String simplePassword) {
         User user = userState().get();
         int tmp = -1;
+        System.out.println(Integer.parseInt(simplePassword));
 
         try {
             tmp = Integer.parseInt(simplePassword);
