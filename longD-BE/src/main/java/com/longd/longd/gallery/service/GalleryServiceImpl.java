@@ -117,25 +117,19 @@ public class GalleryServiceImpl implements GalleryService {
     }
 
     @Override
-    public boolean setGallery(GallerySaveDto gallerySaveDto) {
-        Optional<User> user = userService.userState();
-        if( gallerySaveDto.getId() == null ) {
-            log.info("등록 진행");
-        } else {
-            log.info("수정 진행");
-        }
-        log.info(gallerySaveDto.toString());
-        //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인 user.get().getCoupleListId() == gallery.getCoupleListId()
-        //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
-        //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인 user.get().getCoupleListId() == gallery.getCoupleListId()
-        //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
-        if( ( user != null && user.get().getCoupleListId() == gallerySaveDto.getCoupleListId() ) || gallerySaveDto.getCoupleListId() == 1 ) {
-            //생성
+    public boolean setGallery(List<GallerySaveDto> gallerySaveDtolist) {
+        User user = userService.userState().get();
+        CoupleList tmpCoupleList = coupleListRepository.findById(user.getCoupleListId()).get();
+        for (GallerySaveDto gallerySaveDto : gallerySaveDtolist) {
+            if (gallerySaveDto.getId() == null) {
+                log.info("등록 진행");
+            } else {
+                log.info("수정 진행");
+            }
             Gallery gallery = new Gallery();
-            log.info(gallery.toString());
-            gallery.setCoupleList(coupleListRepository.findById(gallerySaveDto.getCoupleListId()).get());
-            log.info(gallery.getCoupleList().toString());
-            if(gallerySaveDto.getCategoryId() != null) {
+            gallery.setCoupleList(tmpCoupleList);
+            //업로드시 폴더가 지정되어 있을경우 폴더 지정
+            if (gallerySaveDto.getCategoryId() != null) {
                 gallery.setGalleryCategory(galleryCategoryRepository.findById(gallerySaveDto.getCategoryId()).get());
                 log.info(gallery.getGalleryCategory().toString());
             }
@@ -146,10 +140,8 @@ public class GalleryServiceImpl implements GalleryService {
             log.info(gallery.toString());
             galleryRepository.save(gallery);
             log.info("도착확인");
-            return true;
-        } else {
-            return false;
         }
+        return true;
     }
 
     @Override

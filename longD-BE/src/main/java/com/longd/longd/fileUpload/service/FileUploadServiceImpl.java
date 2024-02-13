@@ -1,22 +1,33 @@
 package com.longd.longd.fileUpload.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.*;
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifSubIFDDirectory;
+import com.longd.longd.fileUpload.db.dto.UploadResultDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.io.InputStream;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class FileUploadServiceImpl implements FileUploadService {
 
@@ -30,7 +41,7 @@ public class FileUploadServiceImpl implements FileUploadService {
     }
 
     @Override
-    public List<String> uploadObjectToS3Many(List<MultipartFile> files) throws IOException {
+    public List<UploadResultDto> uploadObjectToS3Many(List<MultipartFile> files) throws IOException {
 
         // 허용할 MIME 타입들 설정 (이미지, 동영상 파일만 허용하는 경우)
         List<String> allowedMimeTypes = List.of("image/jpeg", "image/png", "image/gif", "video/mp4", "video/webm", "video/ogg", "video/3gpp", "video/x-msvideo", "video/quicktime");
@@ -38,7 +49,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         StringBuilder originNames = new StringBuilder();
         StringBuilder exts = new StringBuilder();
         StringBuilder changedNames = new StringBuilder();
-        List<String> Urls = new ArrayList<>();
+        List<UploadResultDto> result = new ArrayList<>();
         for(MultipartFile file : files) {
 
             String originName = file.getOriginalFilename(); //원본 이미지 이름
@@ -65,13 +76,66 @@ public class FileUploadServiceImpl implements FileUploadService {
                 ).withCannedAcl(CannedAccessControlList.PublicRead));
 
             } catch (IOException e) {
+                log.error("file upload error " + e.getMessage());
                 throw new IOException(); //커스텀 예외 던짐.
             }
 
-            Urls.add(amazonS3.getUrl(bucketName, changedName).toString());
+            Date creationDate = getCreationDateFromPhoto(file);
+            LocalDate localDate = null;
+            if (creationDate != null) {
+                System.out.println("Photo Creation Date: " + creationDate);
+                localDate = convertDateToLocalDate(creationDate);
+            } else {
+                System.out.println("Failed to retrieve creation date.");
+            }
 
+
+            UploadResultDto uploadResultDto = new UploadResultDto();
+            uploadResultDto.setPathUrl(amazonS3.getUrl(bucketName, changedName).toString());
+            uploadResultDto.setCreateDate(localDate);
+
+            result.add(uploadResultDto);
         }
-        return Urls;
+        return result;
+    }
+
+    @Override
+    public boolean deleteObjectToS3Many(List<String> fileUrlList) {
+        try {
+            for (String fileUrl : fileUrlList) {
+                String fileName = URLDecoder.decode(fileUrl.substring(51), StandardCharsets.UTF_8);
+                amazonS3.deleteObject(bucketName, fileName);
+            }
+            return true;
+        } catch (AmazonS3Exception e) {
+            log.error("file delete error " + e.getErrorMessage());
+            return false;
+        }
+
+    }
+
+
+    public static Date getCreationDateFromPhoto(MultipartFile file) throws IOException {
+        try (InputStream inputStream = file.getInputStream()) {
+            Metadata metadata = ImageMetadataReader.readMetadata(inputStream);
+            ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
+
+            if (directory != null) {
+                Date date = directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL);
+                // Exif에서 읽어온 날짜는 UTC 시간이므로, 필요에 따라 타임존을 조절할 수 있습니다.
+                TimeZone timeZone = TimeZone.getTimeZone("Asia/Seoul");
+                return date != null ? new Date(date.getTime() - timeZone.getRawOffset()) : null;
+            }
+        } catch (ImageProcessingException | IOException e) {
+            // 이미지 처리 중 문제가 발생한 경우 처리
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static LocalDate convertDateToLocalDate(Date date) {
+        Instant instant = date.toInstant();
+        return instant.atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
 }

@@ -28,16 +28,31 @@ public class UserServiceImpl implements UserService{
     @Autowired
     NationListRepository nationListRepository;
 
-    public void userReigst(User user) {
+    public void userRegist(User user) {
         log.info(user.toString());
-        if(user.getBirth() == null) {
-            log.error("생일이 없어서 화면잠금 비밀번호 저장 실패");
-        } else {
+        String[] tmp = user.getBirth().split("-");
+        if ( user.getPasswordSimple() == null ) {
             //혹시 0228이면 어떻게 될까 ?
-            String[] tmp = user.getBirth().split("-");
+            //생일 값은 반드시 있다 가정
             user.setPasswordSimple(Integer.parseInt(tmp[1] + tmp[2]));
         }
+        user.setBirthYear(tmp[0]);
+        user.setBirthMonth(tmp[1]);
+        user.setBirthMonth(tmp[2]);
         userRepository.save(user);
+    }
+
+    public boolean resetSimplePassword() {
+        User user = userState().get();
+        if( user == null) {
+            return false;
+        } else {
+            String[] tmp = user.getBirth().split("-");
+            user.setPasswordSimple(Integer.parseInt(tmp[1] + tmp[2]));
+            userRepository.save(user);
+            return true;
+        }
+
     }
 
     public void userDelete() {
@@ -68,7 +83,8 @@ public class UserServiceImpl implements UserService{
         if(authentication.getPrincipal().toString().equals("anonymousUser")) {
             System.out.println("유저 상태 로그인 되어있지 않음");
             //임시 사용자 반환(제거)
-            return null;
+            return userRepository.findById(12);
+//            return null;
         }
         CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
         Optional<User> user = null;
@@ -110,4 +126,20 @@ public class UserServiceImpl implements UserService{
         return nationListRepository.findAll();
     }
 
+    public String WeblockCheck(String simplePassword) {
+        User user = userState().get();
+        int tmp = -1;
+
+        try {
+            tmp = Integer.parseInt(simplePassword);
+        } catch (NumberFormatException e) {
+            return "정수가 아닌값이 감지되었습니다.";
+        }
+
+        if (user.getPasswordSimple() == tmp ) {
+            return "비밀번호 인증 성공";
+        } else {
+            return "비밀번호가 다릅니다.";
+        }
+    }
 }

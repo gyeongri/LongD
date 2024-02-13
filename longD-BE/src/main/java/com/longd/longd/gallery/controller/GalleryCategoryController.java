@@ -33,7 +33,7 @@ public class GalleryCategoryController {
     @PostMapping("/add")
     public ResponseEntity<?> setGalleryInfo(@RequestBody GalleryCategory galleryCategory) {
         try {
-            boolean tmp = galleryCategoryService.setGalleryCategory(galleryCategory);
+            String tmp = galleryCategoryService.setGalleryCategory(galleryCategory);
             return ResponseEntity.status(200).body(tmp);
         } catch (Exception e) {
             log.error(e.toString());

@@ -2,6 +2,7 @@ package com.longd.longd.plan.controller;
 
 
 import com.longd.longd.plan.db.entity.Plan;
+import com.longd.longd.plan.db.dto.PlanListDto;
 import com.longd.longd.plan.service.PlanSerivce;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class PlanController {
     //POST MAN 검증 완료
     @GetMapping("/get/{coupleListId}")
     public ResponseEntity<?> getPlan(@PathVariable int coupleListId) {
-        List<Plan> plan = planSerivce.getPlan(coupleListId);
+        List<PlanListDto> plan = planSerivce.getPlan(coupleListId);
         if (!plan.isEmpty()) {
             return ResponseEntity.status(200).body(plan);
         } else {

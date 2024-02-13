@@ -47,6 +47,9 @@ dependencies {
 
 	// JAXB Runtime
 	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
+
+	// Photo Data
+	implementation 'com.drewnoakes:metadata-extractor:2.16.0'
 }
 
 tasks.named('test') {

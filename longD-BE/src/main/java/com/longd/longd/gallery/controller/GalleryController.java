@@ -46,11 +46,10 @@ public class GalleryController {
         }
     }
 
-    @PostMapping("/add/{coupleListId}")
-    public ResponseEntity<?> setGalleryInfo(@RequestBody GallerySaveDto gallerySaveDto, @PathVariable int coupleListId) {
+    @PostMapping("/add")
+    public ResponseEntity<?> setGalleryInfo(@RequestBody List<GallerySaveDto> gallerySaveDtolist) {
         try {
-            gallerySaveDto.setCoupleListId(coupleListId);
-            boolean tmp = galleryService.setGallery(gallerySaveDto);
+            boolean tmp = galleryService.setGallery(gallerySaveDtolist);
             return ResponseEntity.status(200).body(tmp);
         } catch (Exception e) {
             log.error(e.toString());

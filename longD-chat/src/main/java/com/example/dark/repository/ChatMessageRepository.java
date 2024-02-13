@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ChatMessageRepository extends JpaRepository<ChatMessage,Long> {
+public interface ChatMessageRepository extends JpaRepository<ChatMessage,Integer> {
     Page<ChatMessage> findByRoomName(int roomName, Pageable pageable);
 
     List<ChatMessage> findByRoomNameAndIdLessThan(int roomName, Long lastMessageId, PageRequest id);

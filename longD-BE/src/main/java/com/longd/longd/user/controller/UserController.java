@@ -1,5 +1,6 @@
 package com.longd.longd.user.controller;
 
+import com.longd.longd.user.db.entity.NationList;
 import com.longd.longd.user.db.entity.User;
 import com.longd.longd.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -44,17 +46,30 @@ public class UserController {
         }
     }
 
+    @GetMapping("/resetSimplePassWord")
+    public ResponseEntity<?> setResetSimplePassword() {
+        boolean tmp = userService.resetSimplePassword();
+        if (tmp) {
+            return ResponseEntity.status(200).body("초기 비밀번호로 변경 완료");
+        } else {
+            return ResponseEntity.status(400).body("로그인 상태가 없습니다.");
+        }
+    }
+
     @GetMapping("/checkregist")
     public RedirectView getRegistInstance() {
         //로그인 성공시에만 진입하는 경로
         Optional<User> optionalUser = userService.userState();
         RedirectView redirectView = new RedirectView("https://i10d206.p.ssafy.io/");
         if(optionalUser.isPresent()) {
-            //회원이 있음
+            if( optionalUser.get().getCoupleListId() == null ) {
+                //회원이나 연결코드가 등록되지 않았음
+                redirectView = new RedirectView("https://i10d206.p.ssafy.io/connectcode");
+            }
+
             System.out.println(optionalUser.get().toString());
         } else {
             //회원이 없음 회원가입 필요
-            
             redirectView = new RedirectView("https://i10d206.p.ssafy.io/requiredinfo");
         }
 
@@ -64,7 +79,7 @@ public class UserController {
     //API 명세서 등록 완료 02-01
     @PostMapping("/add")
     public void setInfo(@RequestBody User user) {
-        userService.userReigst(user);
+        userService.userRegist(user);
     }
 
     //API 명세서 등록 완료 02-01
@@ -94,7 +109,7 @@ public class UserController {
     @GetMapping("/logout/success")
     //로그아웃 완료시 이동하는 경로
     public RedirectView logoutSuccess() {
-        RedirectView redirectView = new RedirectView("https://i10d206.p.ssafy.io/");
+        RedirectView redirectView = new RedirectView("https://i10d206.p.ssafy.io/login");
         System.out.println("로그아웃 성공");
         return redirectView;
     }
@@ -106,17 +121,39 @@ public class UserController {
     public User setRegistInfo() {
         User user = new User();
         user = userService.BaseInfo();
+        System.out.println("검증 + " + user.toString());
         return user;
-
     }
+
+    @GetMapping("/getNationList")
+    public ResponseEntity<?> getNationList () {
+        try {
+            List<NationList> list = userService.getNationList();
+            return ResponseEntity.status(200).body(list);
+        } catch (Exception e) {
+            log.error(e.toString());
+            return ResponseEntity.status(503).body("잘못된 접근");
+        }
+    }
+
+    @PostMapping("/unlock")
+    public ResponseEntity<?> WeblockCheck (@RequestBody String simplePassword) {
+        try {
+            String tmp = userService.WeblockCheck(simplePassword);
+            return ResponseEntity.status(200).body(tmp);
+        } catch (Exception e) {
+            log.error(e.toString());
+            return ResponseEntity.status(503).body("잘못된 접근");
+        }
+    }
+
 
     @GetMapping("/test")
     public String gettest() {
 
-        return "테스트페이지 Ver9.2";
+        return "테스트페이지 Ver11.0";
 
     }
-    
 
 }
 

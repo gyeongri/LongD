@@ -158,6 +158,8 @@ export const useViduStore = defineStore('vidu', () => {
   //토큰받아오기
   const getToken = function (coupleid) {
     sessionName.value = coupleid;
+    console.log('coupleid', coupleid);
+    console.log('sessionName', sessionName.value);
     return viduapi
       .post('/get-token', { sessionName: sessionName.value })
       .then(res => {
@@ -238,10 +240,12 @@ export const useViduStore = defineStore('vidu', () => {
   };
 
   //녹화 끝
-  const stopRecording = function () {
+  const stopRecording = function (coupleid) {
+    console.log('커플아디', typeof coupleid);
     viduapi
       .post('recording/stop', {
         recording: forceRecordingId.value,
+        coupleListId: coupleid,
       })
       .then(res => {
         //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기

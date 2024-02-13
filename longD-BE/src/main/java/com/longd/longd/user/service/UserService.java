@@ -8,10 +8,11 @@ import java.util.Optional;
 
 public interface UserService {
 
-    public void userReigst(User user);
+    public void userRegist(User user);
     public void userDelete();
     public Optional<User> userState();
     public User BaseInfo();
     public List<NationList> getNationList();
-
+    public String WeblockCheck(String simplePassword);
+    public boolean resetSimplePassword();
 }
