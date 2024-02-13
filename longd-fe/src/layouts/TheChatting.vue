@@ -75,13 +75,6 @@ const connect = function (couple, sender) {
     frame => {
       coupleId.value = couple;
       senderId.value = sender;
-      console.log(
-        '커넥트때 확인용',
-        coupleId.value,
-        useUserStore.getUserState?.coupleListId,
-        couple,
-        sender,
-      );
       ws.value.subscribe(`/topic/chat/room/${couple}`, message => {
         const recv = JSON.parse(message.body);
         recvMessage(recv);
