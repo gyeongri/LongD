@@ -157,6 +157,7 @@ public class MyRestController {
 					// Last user left: session must be removed
 					this.mapSessions.remove(sessionName);
 				}
+				System.out.println("remove-user");
 				return new ResponseEntity<>(HttpStatus.OK);
 			} else {
 				// The TOKEN wasn't valid
@@ -185,6 +186,7 @@ public class MyRestController {
 			this.mapSessions.remove(session);
 			this.mapSessionNamesTokens.remove(session);
 			this.sessionRecordings.remove(s.getSessionId());
+			System.out.println("close-session");
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			// The SESSION does not exist
@@ -446,7 +448,7 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 		String recordingId = (String) params.get("recording");
 
 		System.out.println("Deleting recording | {recordingId}=" + recordingId);
-
+		
 		try {
 			this.openVidu.deleteRecording(recordingId);
 			return new ResponseEntity<>(HttpStatus.OK);
