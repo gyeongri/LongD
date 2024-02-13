@@ -7,11 +7,11 @@
       :count="count"
       :nickname="nickname"
       :lovername="lovername"
-      class="border-4 border-blue-500 h-3/4"
+      class="h-3/4 overflow-scroll w-full"
     ></ChatDisplayView>
     <ChatInputView
       @messageToMain="sendMessage"
-      class="border-4 border-blue-500 h-1/4"
+      class="h-1/4 w-full"
     >
     </ChatInputView>
   </div>
