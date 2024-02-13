@@ -24,7 +24,7 @@ FROM nginx:latest
 # 3001번 포트 열기
 EXPOSE 4200
 
-CMD ["/app/start.sh"]
+CMD ["/start.sh"]
 
 
 # #CMD ["npm", "run", "build"]
