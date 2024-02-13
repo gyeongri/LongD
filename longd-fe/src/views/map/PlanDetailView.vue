@@ -1,7 +1,19 @@
 <template>
-  <div>
+  <div class="box">
+    <div class="box">
+      <div>제목</div>
+      <div>Daegu</div>
+    </div>
+    <div class="box">
+      <div>일정</div>
+      <div>{{ dateStart }}~2024-02-16</div>
+    </div>
+    <div></div>
+  </div>
+  <div class="box">
     <!-- 마커를 표시할 지도 -->
     <div class="googleMap" id="googleMap"></div>
+    <div v-for="plan in planInfoDetail" :key="plan.id"></div>
   </div>
   <div v-for="plan in planInfoDetail" :key="plan.id">
     {{ plan }}
@@ -15,7 +27,7 @@ import { getPlanDetail } from '@/utils/api/plan';
 
 const currentId = ref('');
 const planInfoDetail = ref([]);
-
+const dateList = ref([]);
 const router = useRoute();
 
 const getCurrentRouteId = () => {
@@ -59,12 +71,21 @@ const initMap = async () => {
     map.value.fitBounds(bounds);
   });
 };
+function generateDateList(startDate, endDate) {
+  const dateList = [];
+  let currentDate = new Date(startDate);
 
+  while (currentDate <= new Date(endDate)) {
+    dateList.push(currentDate.toISOString().split('T')[0]);
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return dateList;
+}
 // 컴포넌트가 마운트될 때와 라우터의 변경을 감지하여 현재 ID를 업데이트합니다.
 onMounted(async () => {
   await initMap();
   getCurrentRouteId();
-
   getPlanDetail(
     currentId.value,
     success => {
@@ -85,7 +106,7 @@ watchEffect(getCurrentRouteId);
 <style scoped>
 .googleMap {
   height: 600px;
-  width: 750px;
+  width: 550px;
 }
 
 div[aria-hidden='true'] {
@@ -112,5 +133,9 @@ div[aria-hidden='false'] > div {
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.box {
+  display: flex;
 }
 </style>
