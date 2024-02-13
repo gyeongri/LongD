@@ -55,6 +55,7 @@ const chatTrue = function () {
 // if, else로 하지 말고, 버전 1,2,3으로 구분해서 채팅관련된 것이 아예 없도록 하던가 하면 될 듯.
 </script>
 
+
 <style scoped>
 .hihi {
   visibility: hidden;
@@ -64,5 +65,18 @@ const chatTrue = function () {
 }
 .check {
   display: none;
+}
+</style>
+
+<style>
+  @font-face {
+    
+      font-family: 'TTHakgyoansimKkokkomaR';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimKkokkomaR.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+  }
+  body, html {
+  font-family: 'TTHakgyoansimKkokkomaR', sans-serif;
 }
 </style>
