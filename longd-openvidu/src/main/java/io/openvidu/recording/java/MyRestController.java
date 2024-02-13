@@ -368,7 +368,8 @@ public class MyRestController {
 @RequestMapping(value = "/recording/stop", method = RequestMethod.POST)
 public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) {
 	String recordingId = (String) params.get("recording");
-	int coupleListId = Integer.parseInt(params.get("coupleListId").toString()); //클라이언트에서 보내줌
+	double coupleListIdDouble = (Double) params.get("coupleListId");
+	int coupleListId = (int) coupleListIdDouble; // 정수로 변환
 	System.out.println("Stopping recording | {recordingId}=" + recordingId);
 	System.out.println("Stopping recording | {coupleListId}=" + coupleListId);
 
