@@ -1,0 +1,13 @@
+--library hxnodejs
+--library hxnodejs-ws
+--library json2object
+# Client libs for completion
+--library youtubeIFramePlayer:git:https://github.com/okawa-h/youtubeIFramePlayer-externs.git
+--library hls.js-extern:git:https://github.com/grosmar/hls.js-haxe-extern.git
+--library utest
+--class-path src
+--class-path test
+--main Main
+# -D UTEST_PATTERN=testMain
+--js build/tests.js
+--cmd node build/tests.js

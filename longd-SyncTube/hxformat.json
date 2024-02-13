@@ -1,0 +1,31 @@
+{
+	"indentation": {
+		"tabWidth": 2
+	},
+	"sameLine": {
+		"ifBody": "same",
+		"elseBody": "same",
+		"comprehensionFor": "keep",
+		"forBody": "keep"
+	},
+	"wrapping": {
+		"maxLineLength": 90,
+		"arrayMatrixWrap": "matrixWrapNoAlign",
+		"arrayWrap": {
+			"defaultWrap": "keep"
+		},
+		"functionSignature": {
+			"defaultWrap": "keep"
+		},
+		"callParameter": {
+			"defaultWrap": "keep"
+		},
+		"methodChain": {
+			"rules": []
+		},
+	},
+	"emptyLines": {
+		"beforeDocCommentEmptyLines": "ignore",
+		"afterFieldsWithDocComments": "ignore"
+	}
+}
