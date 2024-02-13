@@ -19,4 +19,5 @@ RUN npm run build
 # 3001번 포트 열기
 EXPOSE 3001
 
-CMD ["npm", "run", "dev"]
+#CMD ["npm", "run", "build"]
+CMD ["npm", "run", "build"]

@@ -12,8 +12,8 @@
       <label class="btn btn-primary" for="uploadImage">이미지 업로드</label>
       <input type="file" id="uploadImage" @change="fileUpload" hidden />
       <img
-        v-if="myprofile.profilePicture"
-        :src="myprofile.profilePicture"
+        v-if="userInfo.profilePicture"
+        :src="userInfo?.profilePicture"
         alt="Uploaded Image"
       />
     </div>
@@ -27,7 +27,7 @@
       >
       <div class="mt-2.5">
         <textarea
-          v-model="myprofile.profileMessage"
+          v-model="userInfo.profileMessage"
           name="message"
           id="message"
           rows="4"
@@ -47,7 +47,7 @@
         <div class="mt-2.5">
           <input
             type="text"
-            v-model="myprofile.name"
+            v-model="userInfo.name"
             name="name"
             id="name"
             autocomplete="name"
@@ -68,7 +68,7 @@
         <div class="mt-2.5">
           <input
             type="date"
-            v-model="myprofile.birth"
+            v-model="userInfo.birth"
             name="birth"
             id="birth"
             autocomplete="birth"
@@ -89,7 +89,7 @@
         <div class="mt-2.5">
           <input
             type="email"
-            v-model="myprofile.email"
+            v-model="userInfo.email"
             name="email"
             id="email"
             autocomplete="email"
@@ -97,6 +97,52 @@
           />
         </div>
       </div>
+    </div>
+    <!-- 성별 -->
+    <!-- <div>
+      <label
+        for="gender"
+        class="block text-sm font-semibold leading-6 text-gray-900"
+        >성별</label
+      >
+      <select
+        v-model="Info_state.gender"
+        id="gender"
+        name="gender"
+        class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+      >
+        <option value="선택안함">선택안함</option>
+        <option value="남성">남성</option>
+        <option value="여성">여성</option>
+      </select>
+      <ChevronDownIcon
+        class="pointer-events-none absolute right-3 top-0 h-full w-5 text-gray-400"
+        aria-hidden="true"
+      />
+    </div> -->
+
+    <!-- 나라랑 도시 -->
+    <div>
+      <label
+        for="addressNation"
+        class="block text-sm font-semibold leading-6 text-gray-900"
+        >사는 곳</label
+      >
+      <select
+        v-model="userInfo.address"
+        id="addressNation"
+        name="addressNation"
+        class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+      >
+        <option selected disabled>나라를 골라주세요</option>
+        <option
+          v-for="option in nationList"
+          :key="option.id"
+          :value="option.name"
+        >
+          {{ option.name }}
+        </option>
+      </select>
     </div>
 
     <!-- 화면잠금 비밀번호 -->
@@ -108,15 +154,21 @@
           >화면잠금 비밀번호</label
         >
         <div class="mt-2.5">
-          <!-- v-for를 써서 myprofile.closedPassword 해야한다 -->
+          <!-- v-for를 써서 userStore.closedPassword 해야한다 -->
           <input
             type="number"
-            v-model="myprofile.passwordSimple"
+            min="0000"
+            max="9999"
+            v-model="userInfo.passwordSimple"
             name="closedPassword[index]"
             id="closedPassword"
             autocomplete="closedPassword"
             class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
+          <p>
+            * 화면잠금 비밀번호는 4자리 숫자로 입력해주세요. 조건에 맞지 않으면
+            저장되지 않습니다.
+          </p>
         </div>
       </div>
     </div>
@@ -134,12 +186,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import router from '@/router';
-import { loginstate, sendinfo } from '@/utils/api/user';
+import { sendinfo, getNationList } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
+import { useUserStore } from '@/stores/user.js';
 
-const myprofile = ref({});
+const userStore = useUserStore();
+const userInfo = userStore.getUserState;
+const nationList = ref();
+const handlePasswordInput = () => {
+  // 입력값이 4자리를 초과하면 마지막 자리를 제거
+  if (
+    userInfo.passwordSimple &&
+    userInfo.passwordSimple.toString().length > 4
+  ) {
+    userInfo.passwordSimple = parseInt(
+      userInfo.passwordSimple.toString().slice(0, 4),
+    );
+  }
+};
 const goHome = () => {
   router.push({ name: 'Home' });
 };
@@ -147,10 +213,15 @@ const goHome = () => {
 const fileUpload = event => {
   const formData = new FormData();
   formData.append('file', event.target.files[0]);
+  console.log(event.target.files[0]);
+  console.log(userInfo.profilePicture);
   uploadImage(
     formData,
     success => {
-      myprofile.value.profilePicture = success.data[0];
+      userInfo.profilePicture = success.data[0];
+    },
+    success2 => {
+      console.log('사진 변환 완료!');
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);
@@ -158,33 +229,32 @@ const fileUpload = event => {
   );
 };
 
-onMounted(() => {
-  loginstate(
-    data => {
-      if (data === '롱디에 로그인 되어 있지 않음') {
-        router.push({ name: 'Login' });
-      } else {
-        console.log('이건 된다.');
-        myprofile.value = data.data;
-      }
+const choiceDate = () => {
+  console.log(userInfo);
+  sendinfo(
+    userInfo,
+    success => {
+      console.log('Sendinfo success!');
+      console.log(userInfo.passwordSimple);
+      router.push({ name: 'Profile' });
     },
     error => {
-      console.log('Profile을 가져올 수 없습니다.', error);
+      console.log('sendinfo 오류 : ' + error);
+      console.log(userInfo);
+    },
+  );
+};
+
+onMounted(() => {
+  getNationList(
+    success => {
+      nationList.value = success.data;
+    },
+    error => {
+      console.log(error);
     },
   );
 });
-
-const choiceDate = () => {
-  console.log(myprofile.value);
-  sendinfo(
-    myprofile.value,
-    success => {
-      console.log('Sendinfo success!');
-      router.push({ name: 'Profile' });
-    },
-    error => console.log('sendinfo 오류 : ' + error),
-  );
-};
 </script>
 
 <style scoped></style>
