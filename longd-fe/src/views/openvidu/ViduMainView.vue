@@ -8,7 +8,7 @@
           color="red"
         />
       </button>
-      <button @click="viduStore.stopRecording">
+      <button @click="viduStore.stopRecording(coupleid.value)">
         <font-awesome-icon
           icon="fa-solid fa-record-vinyl"
           size="2x"
