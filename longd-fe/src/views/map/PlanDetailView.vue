@@ -2,34 +2,44 @@
   <div class="box">
     <div class="box">
       <div>제목</div>
-      <div>Daegu</div>
+      <div>{{ planDetail.title }}</div>
     </div>
     <div class="box">
       <div>일정</div>
-      <div>{{ dateStart }}~2024-02-16</div>
+      <div>{{ planDetail.dateStart }}~{{ planDetail.dateEnd }}</div>
     </div>
     <div></div>
   </div>
   <div class="box">
     <!-- 마커를 표시할 지도 -->
     <div class="googleMap" id="googleMap"></div>
-    <div v-for="plan in planInfoDetail" :key="plan.id"></div>
-  </div>
-  <div v-for="plan in planInfoDetail" :key="plan.id">
-    {{ plan }}
+    <div v-for="date in dateList" :key="date.id">
+      <div>
+        <div>
+          {{ date }}
+          <div v-for="item in getItemsByDate(date)" :key="item.id">
+            <button>{{ item.title }}</button>
+          </div>
+        </div>
+
+        <br />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watchEffect, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { getPlanDetail } from '@/utils/api/plan';
-
+import { getPlanDetail, getPlan } from '@/utils/api/plan';
+const planDetail = ref('');
 const currentId = ref('');
 const planInfoDetail = ref([]);
 const dateList = ref([]);
 const router = useRoute();
-
+const getItemsByDate = date => {
+  return planInfoDetail.value.filter(item => item.date === date);
+};
 const getCurrentRouteId = () => {
   currentId.value = router.params.id;
 };
@@ -99,6 +109,13 @@ onMounted(async () => {
       console.log(error);
     },
   );
+  getPlan(currentId.value, success => {
+    planDetail.value = success.data;
+    dateList.value = generateDateList(
+      success.data.dateStart,
+      success.data.dateEnd,
+    );
+  });
 });
 watchEffect(getCurrentRouteId);
 </script>

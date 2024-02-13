@@ -41,6 +41,10 @@ function delectPlanInfoData(planInfoId, success, fail) {
   userApi.delete(`/plan/info/delete/${planInfoId}`).then(success).catch(fail);
 }
 
+// 여행 정보 불러오기
+function getPlan(planId, success, fail) {
+  userApi.get(`/plan/get/detail/${planId}`).then(success).catch(fail);
+}
 export {
   postPlanAllData,
   getPlanList,
@@ -48,4 +52,5 @@ export {
   postPlanData,
   delectPlanData,
   delectPlanInfoData,
+  getPlan,
 };
