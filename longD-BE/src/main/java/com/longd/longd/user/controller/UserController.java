@@ -136,7 +136,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/user/unlock")
+    @PostMapping("/unlock")
     public ResponseEntity<?> WeblockCheck (@RequestBody String simplePassword) {
         try {
             String tmp = userService.WeblockCheck(simplePassword);

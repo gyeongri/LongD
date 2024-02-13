@@ -42,8 +42,8 @@ function coupleMatching(payload, success, fail) {
   userApi.post(`/couplelist/add`, payload).then(success).catch(fail);
 }
 
-function coupleDataGet(success, fail) {
-  userApi.get(`/couplelist/get`).then(success).catch(fail);
+function coupleDataGet(success, success2, fail) {
+  userApi.get(`/couplelist/get`).then(success).then(success2).catch(fail);
 }
 
 function coupleDataModify(payload, success, fail) {
@@ -53,7 +53,9 @@ function coupleDataModify(payload, success, fail) {
 function resetClosedPasswords(success, fail) {
   userApi.get(`/user/resetSimplePassWord`).then(success).catch(fail);
 }
-
+function checkSimplePassword(payload, success, fail) {
+  userApi.post(`/user/unlock`, payload).then(success).catch(fail);
+}
 export {
   userApi,
   sendinfo,
@@ -66,4 +68,5 @@ export {
   coupleDataGet,
   coupleDataModify,
   resetClosedPasswords,
+  checkSimplePassword,
 };

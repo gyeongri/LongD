@@ -8,7 +8,7 @@
           color="red"
         />
       </button>
-      <button @click="viduStore.stopRecording">
+      <button @click="viduStore.stopRecording(coupleid)">
         <font-awesome-icon
           icon="fa-solid fa-record-vinyl"
           size="2x"
@@ -55,10 +55,7 @@
         <input type="checkbox" />
 
         <!-- call on icon -->
-        <div
-          class="icon-container swap-on rectangle-icon"
-          @click="join(coupleid)"
-        >
+        <div class="icon-container swap-on rectangle-icon" @click="join()">
           <font-awesome-icon
             icon="fa-solid fa-phone-slash"
             size="lg"
@@ -112,12 +109,13 @@ import ViduMine from '@/components/openvidu/ViduMine.vue';
 import ViduYours from '@/components/openvidu/ViduYours.vue';
 import { useViduStore } from '@/stores/vidu.js';
 import { useUserStore } from '@/stores/user.js';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 const userStore = useUserStore();
 const viduStore = useViduStore();
-const coupleid = ref(userStore.userState.value?.coupleListId);
-const join = function (coupleid) {
-  viduStore.joinSession(coupleid);
+const coupleid = ref('');
+const join = function () {
+  console.log('조인할때 coupleid', coupleid.value);
+  viduStore.joinSession(coupleid.value);
 };
 const disconnect = function () {
   viduStore.removeUser();
@@ -126,42 +124,14 @@ const disconnect = function () {
   viduStore.publisher = '';
   viduStore.publisherTest = '';
 };
+onMounted(() => {
+  if (userStore.getUserState?.coupleListId !== undefined) {
+    coupleid.value = String(userStore.getUserState?.coupleListId);
+  }
+});
 </script>
 
 <style>
-/* .desktop {
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-}
-
-.desktop .div {
-  background-color: #ffffff;
-  height: 1024px;
-  position: relative;
-  width: 1440px;
-}
-
-.desktop .rectangle {
-  background-color: #d9d9d9;
-  height: 617px;
-  left: 113px;
-  position: absolute;
-  top: 177px;
-  width: 493px;
-}
-
-.desktop .rectangle-2 {
-  background-color: #d9d9d9;
-  height: 617px;
-  left: 807px;
-  position: absolute;
-  top: 177px;
-  width: 493px;
-} */
-
 .icon-container {
   width: 40px;
   height: 40px;

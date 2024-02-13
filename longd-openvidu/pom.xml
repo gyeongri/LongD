@@ -1,161 +1,472 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>io.openvidu</groupId>
-	<artifactId>openvidu-recording-java</artifactId>
-	<version>2.29.0</version>
-	<packaging>jar</packaging>
-
-	<name>openvidu-recording-java</name>
-	<url>https://github.com/OpenVidu/openvidu-tutorials/tree/master/openvidu-recording-java</url>
-
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.13.RELEASE</version>
-	</parent>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>11</java.version>
-		<start-class>io.openvidu.recording.java.App</start-class>
-		<docker.image.prefix>openvidu</docker.image.prefix>
-
-		<!-- Test dependencies versions -->
-		<junit.jupiter.version>5.0.3</junit.jupiter.version>
-		<junit.platform.version>1.3.2</junit.platform.version>
-		<selenium-jupiter.version>3.1.0</selenium-jupiter.version>
-	</properties>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>11</source>
-					<target>11</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-	<dependencies>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.openvidu</groupId>
+    <artifactId>openvidu-recording-java</artifactId>
+    <version>2.29.0</version>
+    <packaging>jar</packaging>
+    <name>openvidu-recording-java</name>
+    <url>https://github.com/OpenVidu/openvidu-tutorials/tree/master/openvidu-recording-java</url>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.13.RELEASE</version>
+    </parent>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>9</java.version>
+        <start-class>io.openvidu.recording.java.App</start-class>
+        <docker.image.prefix>openvidu</docker.image.prefix>
+        <!--  Test dependencies versions  -->
+        <junit.jupiter.version>5.0.3</junit.jupiter.version>
+        <junit.platform.version>1.3.2</junit.platform.version>
+        <selenium-jupiter.version>3.1.0</selenium-jupiter.version>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>9</source>
+                    <target>9</target>
+                    <!-- Lombok을 포함하지 않도록 설정 -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.22</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.openvidu</groupId>
-			<artifactId>openvidu-java-client</artifactId>
-			<version>2.29.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.github.bonigarcia</groupId>
-			<artifactId>selenium-jupiter</artifactId>
-			<version>${selenium-jupiter.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.github.bonigarcia</groupId>
-			<artifactId>webdrivermanager</artifactId>
-			<version>2.2.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-runner</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>ws.schild</groupId>
-			<artifactId>jave-all-deps</artifactId>
-			<version>2.4.6</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>ws.schild</groupId>
-			<artifactId>jave-core</artifactId>
-			<version>2.4.6</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.openvidu</groupId>
-			<artifactId>openvidu-test-browsers</artifactId>
-			<version>1.0.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.9.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
-		<!-- AWS S3 -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-aws</artifactId>
-			<version>2.2.6.RELEASE</version>
-		</dependency>
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <source>9</source>-->
+<!--                    <target>9</target>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 
-		<!-- JAXB API -->
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.3.1</version>
-		</dependency>
 
-		<!-- JAXB Runtime -->
-		<dependency>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>jaxb-runtime</artifactId>
-			<version>2.3.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.28</version>
-		</dependency>
-	</dependencies>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.openvidu</groupId>
+            <artifactId>openvidu-java-client</artifactId>
+            <version>2.29.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>selenium-jupiter</artifactId>
+            <version>${selenium-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>2.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-all-deps</artifactId>
+            <version>2.4.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-core</artifactId>
+            <version>2.4.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.openvidu</groupId>
+            <artifactId>openvidu-test-browsers</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--  AWS S3  -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-aws</artifactId>
+            <version>2.2.6.RELEASE</version>
+        </dependency>
+        <!--  JAXB API  -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <!--  JAXB Runtime  -->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
+        </dependency>
+
+    </dependencies>
 </project>
+
+
+<!--<project xmlns="http://maven.apache.org/POM/4.0.0"-->
+<!--         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">-->
+<!--    <modelVersion>4.0.0</modelVersion>-->
+
+<!--    <groupId>io.openvidu</groupId>-->
+<!--    <artifactId>openvidu-recording-java</artifactId>-->
+<!--    <version>2.29.0</version>-->
+<!--    <packaging>jar</packaging>-->
+
+<!--    <name>openvidu-recording-java</name>-->
+<!--    <url>https://github.com/OpenVidu/openvidu-tutorials/tree/master/openvidu-recording-java</url>-->
+
+<!--    <parent>-->
+<!--        <groupId>org.springframework.boot</groupId>-->
+<!--        <artifactId>spring-boot-starter-parent</artifactId>-->
+<!--        &lt;!&ndash; 최신 버전으로 변경 &ndash;&gt;-->
+<!--        <version>2.6.2</version>-->
+<!--    </parent>-->
+
+<!--    <properties>-->
+<!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+<!--        <java.version>11</java.version>-->
+<!--        <start-class>io.openvidu.recording.java.App</start-class>-->
+<!--        <docker.image.prefix>openvidu</docker.image.prefix>-->
+
+<!--        &lt;!&ndash; Test dependencies versions &ndash;&gt;-->
+<!--        <junit.jupiter.version>5.8.0</junit.jupiter.version>-->
+<!--        <junit.platform.version>1.8.0</junit.platform.version>-->
+<!--        <selenium-jupiter.version>3.1.0</selenium-jupiter.version>-->
+
+<!--        &lt;!&ndash; 추가한 의존성 버전 &ndash;&gt;-->
+<!--        <spring-cloud.version>2021.0.0</spring-cloud.version>-->
+<!--        <webdrivermanager.version>4.4.3</webdrivermanager.version>-->
+<!--    </properties>-->
+
+<!--    <dependencies>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-web</artifactId>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-devtools</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.openvidu</groupId>-->
+<!--            <artifactId>openvidu-java-client</artifactId>-->
+<!--            <version>2.29.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.junit.jupiter</groupId>-->
+<!--            <artifactId>junit-jupiter-api</artifactId>-->
+<!--            &lt;!&ndash; 컴파일 스코프로 변경 &ndash;&gt;-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.github.bonigarcia</groupId>-->
+<!--            <artifactId>selenium-jupiter</artifactId>-->
+<!--            <version>${selenium-jupiter.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.github.bonigarcia</groupId>-->
+<!--            <artifactId>webdrivermanager</artifactId>-->
+<!--            <version>${webdrivermanager.version}</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.junit.platform</groupId>-->
+<!--            <artifactId>junit-platform-runner</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.junit.jupiter</groupId>-->
+<!--            <artifactId>junit-jupiter-engine</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>ws.schild</groupId>-->
+<!--            <artifactId>jave-all-deps</artifactId>-->
+<!--            <version>2.4.6</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>ws.schild</groupId>-->
+<!--            <artifactId>jave-core</artifactId>-->
+<!--            <version>2.4.6</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>io.openvidu</groupId>-->
+<!--            <artifactId>openvidu-test-browsers</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.google.code.gson</groupId>-->
+<!--            <artifactId>gson</artifactId>-->
+<!--            <version>2.9.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-jpa</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.projectlombok</groupId>-->
+<!--            <artifactId>lombok</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; AWS S3 &ndash;&gt;-->
+<!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;            <groupId>org.springframework.cloud</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;            <artifactId>spring-cloud-starter-aws</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;            &lt;!&ndash; 최신 버전으로 변경 &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;            <version>${spring-cloud.version}</version>&ndash;&gt;-->
+<!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-aws</artifactId>-->
+<!--            &lt;!&ndash; 최신 버전으로 변경 &ndash;&gt;-->
+<!--            <version>2.2.6.RELEASE</version>-->
+<!--        </dependency>-->
+
+<!--    </dependencies>-->
+<!--</project>-->
+
+
+        <!--<project xmlns="http://maven.apache.org/POM/4.0.0"-->
+<!--		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">-->
+<!--	<modelVersion>4.0.0</modelVersion>-->
+
+<!--	<groupId>io.openvidu</groupId>-->
+<!--	<artifactId>openvidu-recording-java</artifactId>-->
+<!--	<version>2.29.0</version>-->
+<!--	<packaging>jar</packaging>-->
+
+<!--	<name>openvidu-recording-java</name>-->
+<!--	<url>https://github.com/OpenVidu/openvidu-tutorials/tree/master/openvidu-recording-java</url>-->
+
+<!--	<parent>-->
+<!--		<groupId>org.springframework.boot</groupId>-->
+<!--		<artifactId>spring-boot-starter-parent</artifactId>-->
+<!--		<version>2.2.13.RELEASE</version>-->
+<!--	</parent>-->
+
+<!--	<properties>-->
+<!--		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+<!--		<java.version>11</java.version>-->
+<!--		<start-class>io.openvidu.recording.java.App</start-class>-->
+<!--		<docker.image.prefix>openvidu</docker.image.prefix>-->
+
+<!--		&lt;!&ndash; Test dependencies versions &ndash;&gt;-->
+<!--		<junit.jupiter.version>5.0.3</junit.jupiter.version>-->
+<!--		<junit.platform.version>1.3.2</junit.platform.version>-->
+<!--		<selenium-jupiter.version>3.1.0</selenium-jupiter.version>-->
+<!--	</properties>-->
+
+<!--	<build>-->
+<!--		<plugins>-->
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--			</plugin>-->
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-compiler-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					<source>11</source>-->
+<!--					<target>11</target>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+<!--		</plugins>-->
+<!--	</build>-->
+
+<!--	<dependencies>-->
+
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-web</artifactId>-->
+<!--		</dependency>-->
+
+
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-devtools</artifactId>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>io.openvidu</groupId>-->
+<!--			<artifactId>openvidu-java-client</artifactId>-->
+<!--			<version>2.29.0</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.junit.jupiter</groupId>-->
+<!--			<artifactId>junit-jupiter-api</artifactId>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>io.github.bonigarcia</groupId>-->
+<!--			<artifactId>selenium-jupiter</artifactId>-->
+<!--			<version>${selenium-jupiter.version}</version>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>io.github.bonigarcia</groupId>-->
+<!--			<artifactId>webdrivermanager</artifactId>-->
+<!--			<version>2.2.0</version>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.junit.platform</groupId>-->
+<!--			<artifactId>junit-platform-runner</artifactId>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.junit.jupiter</groupId>-->
+<!--			<artifactId>junit-jupiter-engine</artifactId>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>ws.schild</groupId>-->
+<!--			<artifactId>jave-all-deps</artifactId>-->
+<!--			<version>2.4.6</version>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>ws.schild</groupId>-->
+<!--			<artifactId>jave-core</artifactId>-->
+<!--			<version>2.4.6</version>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>io.openvidu</groupId>-->
+<!--			<artifactId>openvidu-test-browsers</artifactId>-->
+<!--			<version>1.0.0</version>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>com.google.code.gson</groupId>-->
+<!--			<artifactId>gson</artifactId>-->
+<!--			<version>2.9.0</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.projectlombok</groupId>-->
+<!--			<artifactId>lombok</artifactId>-->
+<!--			<scope>provided</scope>-->
+<!--		</dependency>-->
+
+<!--		&lt;!&ndash; AWS S3 &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.cloud</groupId>-->
+<!--			<artifactId>spring-cloud-starter-aws</artifactId>-->
+<!--			<version>2.2.6.RELEASE</version>-->
+<!--		</dependency>-->
+
+<!--		&lt;!&ndash; JAXB API &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>javax.xml.bind</groupId>-->
+<!--			<artifactId>jaxb-api</artifactId>-->
+<!--			<version>2.3.1</version>-->
+<!--		</dependency>-->
+
+<!--		&lt;!&ndash; JAXB Runtime &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.glassfish.jaxb</groupId>-->
+<!--			<artifactId>jaxb-runtime</artifactId>-->
+<!--			<version>2.3.3</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.projectlombok</groupId>-->
+<!--			<artifactId>lombok</artifactId>-->
+<!--			<scope>provided</scope>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>mysql</groupId>-->
+<!--			<artifactId>mysql-connector-java</artifactId>-->
+<!--			<version>8.0.28</version>-->
+<!--		</dependency>-->
+<!--	</dependencies>-->
+<!--</project>-->

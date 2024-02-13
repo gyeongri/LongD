@@ -15,6 +15,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import io.openvidu.recording.java.entity.Gallery;
 import io.openvidu.recording.java.repository.GalleryRepository;
+import org.apache.catalina.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.http.HttpHeaders;
@@ -37,37 +38,34 @@ import io.openvidu.java.client.RecordingProperties;
 import io.openvidu.java.client.Session;
 
 @RestController
-@RequestMapping("/recording-java/api")
-@CrossOrigin("*")
+@RequestMapping("/api")
 public class MyRestController {
 
 	// OpenVidu object as entrypoint of the SDK
-	private OpenVidu openVidu;
+	private final OpenVidu openVidu;
 
 	// Collection to pair session names and OpenVidu Session objects
-	private Map<String, Session> mapSessions = new ConcurrentHashMap<>();
+	private final Map<String, Session> mapSessions = new ConcurrentHashMap<>();
 	// Collection to pair session names and tokens (the inner Map pairs tokens and
 	// role associated)
-	private Map<String, Map<String, OpenViduRole>> mapSessionNamesTokens = new ConcurrentHashMap<>();
+	private final Map<String, Map<String, OpenViduRole>> mapSessionNamesTokens = new ConcurrentHashMap<>();
 	// Collection to pair session names and recording objects
 	private Map<String, Boolean> sessionRecordings = new ConcurrentHashMap<>();
 
 	// URL where our OpenVidu server is listening
-	private String OPENVIDU_URL;
+	private final String OPENVIDU_URL;
 	// Secret shared with our OpenVidu server
 	private String SECRET;
 
-	private final AmazonS3 amazonS3;
-	@Value("${cloud.aws.s3.bucketName}")
-	private String bucketName; //버킷 이름
-	private final GalleryRepository galleryRepository;
+	private String sName,sId;
+	private AmazonS3 amazonS3;
+	private String bucketName;
+	private GalleryRepository galleryRepository;
 
-	public MyRestController(@Value("${openvidu.secret}") String secret, @Value("${openvidu.url}") String openviduUrl, AmazonS3 amazonS3, GalleryRepository galleryRepository) {
+	public MyRestController(@Value("${openvidu.secret}") String secret, @Value("${openvidu.url}") String openviduUrl) {
 		this.SECRET = secret;
 		this.OPENVIDU_URL = openviduUrl;
 		this.openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
-		this.amazonS3 = amazonS3;
-		this.galleryRepository = galleryRepository;
 	}
 
 
@@ -81,7 +79,6 @@ public class MyRestController {
 		System.out.println("Getting sessionId and token | {sessionName}=" + sessionNameParam);
 		// The video-call to connect ("TUTORIAL")
 		String sessionName = (String) sessionNameParam.get("sessionName");
-
 		// Role associated to this user
 		OpenViduRole role = OpenViduRole.PUBLISHER;
 		System.out.println("[get-token] sessionName : " + sessionName);
@@ -103,6 +100,7 @@ public class MyRestController {
 				// Prepare the response with the token
 				responseJson.addProperty("0", token);
 				// Return the response to the client
+				System.out.println(sessionName);
 				return new ResponseEntity<>(responseJson, HttpStatus.OK);
 			} catch (OpenViduJavaClientException e1) {
 				// If internal error generate an error message and return it to client
@@ -119,17 +117,18 @@ public class MyRestController {
 		// New session
 		System.out.println("[get-token] New session : " + sessionName);
 		try {
+			System.out.println("createSession 생성하기");
 			// Create a new OpenVidu Session
 			Session session = this.openVidu.createSession();
+			System.out.println("createSession 생성완료");
 			System.out.println("[get-token] session : " + session.getSessionId());
 			// Generate a new token with the recently created connectionProperties
 			String token = session.createConnection(connectionProperties).getToken();
-			System.out.println("[get-token] token : "+token);
 			// Store the session and the token in our collections
 			this.mapSessions.put(sessionName, session);
 			this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
 			this.mapSessionNamesTokens.get(sessionName).put(token, role);
-			System.out.println("[get-token] mapSessionNames : ");
+//			System.out.println("[get-token] mapSessionNames : ");
 			// Prepare the response with the sessionId and the token
 			responseJson.addProperty("0", token);
 			// Return the response to the client
@@ -369,11 +368,9 @@ public class MyRestController {
 @RequestMapping(value = "/recording/stop", method = RequestMethod.POST)
 public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) {
 	String recordingId = (String) params.get("recording");
-	String connectionId = (String) params.get("connectionId");
-	int coupleListId = (Integer) params.get("coupleListId"); //클라이언트에서 보내줌
 	System.out.println("Stopping recording | {recordingId}=" + recordingId);
-	System.out.println("Stopping recording | {connectionId}=" + connectionId);
-	System.out.println("Stopping recording | {coupleListId}=" + coupleListId);
+	int coupleListId=Integer.parseInt((String) params.get("coupleListId"));
+
 
 	try {
 		Recording recording = this.openVidu.stopRecording(recordingId);
@@ -383,7 +380,8 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 		System.out.println("stop recording - sessionId : " + sessionId);
 
 		//압축파일 경로 -> 도커에서 지정해준 위치로 바꿀것
-		String zipPath = "C:" + File.separator + "SSAFY" + File.separator + "testVideo" + File.separator + sessionId + File.separator + sessionId + ".zip";
+//		String zipPath = "C:" + File.separator + "SSAFY" + File.separator + "testVideo" + File.separator + sessionId + File.separator + sessionId + ".zip";
+		String zipPath = File.separator + "opt" + File.separator + "openvidu" + File.separator + "recordings" + File.separator + sessionId + File.separator + sessionId + ".zip";;
 
 		//압축파일 하나씩 읽음
 		try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath))) {

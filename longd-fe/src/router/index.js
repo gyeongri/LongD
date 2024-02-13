@@ -19,7 +19,7 @@ import LoginSignUpView from '@/views/main/LoginSignUpView.vue';
 import RequiredInfoView from '@/views/main/RequiredInfoView.vue';
 import ConnectCodeView from '@/components/main/ConnectCodeView.vue';
 import GalleryFolderView from '@/views/gallery/GalleryFolderView.vue';
-import bucketListView from '@/views/bucketList/bucketListView.vue'
+import bucketListView from '@/views/bucketList/bucketListView.vue';
 import { useUserStore } from '@/stores/user.js';
 import { loginstate } from '@/utils/api/user';
 
@@ -147,34 +147,37 @@ const router = createRouter({
     },
   ],
 });
-// router.beforeEach((to, from, next) => {
-//   if (to.name === 'Login' || to.name === 'RequiredInfo') {
-//     next();
-//     return;
-//   }
-//   const userStore = useUserStore();
-//   loginstate(
-//     data => {
-//       userStore.setUserState(data.data);
-//       if (!userStore.isLogin) {
-//         next({ name: 'Login' });
-//       } else {
-//         // next();
-//         if (userStore.getUserState.coupleListId !== null) {
-//           next();
-//         } else {
-//           if (to.name === 'ConnectCode') {
-//             next();
-//             return;
-//           } else {
-//             next({ name: 'ConnectCode' });
-//           }
-//         }
-//       }
-//     },
-//     error => {
-//       console.log('Profile을 가져올 수 없습니다.', error);
-//     },
-//   );
-// });
+router.beforeEach((to, from, next) => {
+  if (to.name === 'Login' || to.name === 'RequiredInfo') {
+    next();
+    return;
+  }
+  const userStore = useUserStore();
+  loginstate(
+    data => {
+      userStore.setUserState(data.data);
+      if (!userStore.isLogin) {
+        next({ name: 'Login' });
+      } else {
+        if (userStore.getUserState.coupleListId !== null) {
+          if (to.name === 'ConnectCode') {
+            next('/');
+            return;
+          }
+          next();
+        } else {
+          if (to.name === 'ConnectCode') {
+            next();
+            return;
+          } else {
+            next({ name: 'ConnectCode' });
+          }
+        }
+      }
+    },
+    error => {
+      console.log('Profile을 가져올 수 없습니다.', error);
+    },
+  );
+});
 export default router;
