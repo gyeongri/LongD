@@ -1,5 +1,4 @@
-
-# Node.js 버전 지정
+# Node.js 20.10.0 버전을 기반으로 한 이미지 사용
 FROM node:20.10.0 AS build
 
 # 작업 디렉토리 설정
@@ -17,17 +16,8 @@ RUN npm install
 # Vue 프로젝트 빌드
 RUN npm run build
 
-# Nginx를 이용하여 정적 파일 서빙
-FROM nginx:latest
+# 3001번 포트 열기
+EXPOSE 3001
 
-# Nginx 설정 파일 복사
-# COPY nginx.conf /etc/nginx/nginx.conf
-
-# 빌드된 애플리케이션을 Nginx에 복사
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# 80번 포트 열기
-EXPOSE 80
-
-# Nginx 실행
-CMD ["nginx", "-g", "daemon off;"]
+#CMD ["npm", "run", "build"]
+CMD ["npm", "run", "build"]

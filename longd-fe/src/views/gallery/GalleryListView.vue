@@ -23,11 +23,13 @@
         <AppDropdown>
           <template v-slot>
             <li onclick="gallery_create.showModal()">
-              <a>추가</a>
+              <a class="font-bold">추가</a>
             </li>
-            <li v-if="!deleteActive" @click="toggleDelete"><a>삭제</a></li>
+            <li v-if="!deleteActive" @click="toggleDelete">
+              <a class="font-bold">삭제</a>
+            </li>
             <li v-if="deleteActive" @click="toggleDelete">
-              <a>삭제 취소 </a>
+              <a class="font-bold">삭제 취소 </a>
             </li>
           </template>
         </AppDropdown>
@@ -70,7 +72,10 @@
 
     <template v-slot:footer>
       <!-- 파일 업로드 입력 필드 -->
-      <label for="file-upload" class="btn btn-outline btn-primary mt-4">
+      <label
+        for="file-upload"
+        class="btn btn-outline border-pink-400 mt-4 text-gray-500 hover:bg-pink-300"
+      >
         파일 선택하기
       </label>
       <input
@@ -83,11 +88,14 @@
       <button
         @click="uploadImages"
         :disabled="imagePreviews.length === 0"
-        class="btn btn-outline btn-primary mx-2"
+        class="btn btn-outline border-pink-400 mt-4 text-gray-500 hover:bg-pink-300 mx-2"
       >
         등록하기
       </button>
-      <button @click="cancelImages" class="btn btn-outline btn-primary mx-2">
+      <button
+        @click="cancelImages"
+        class="btn btn-outline border-gray-400 hover:bg-gray-300 mx-2"
+      >
         취소
       </button>
     </template>
@@ -123,6 +131,7 @@ import {
   deleteGallery,
   getGalleryFolderList,
 } from '@/utils/api/albums';
+import { uploadImage } from '@/utils/api/photo';
 import { useGalleryStore } from '@/stores/gallery.js';
 const galleryStore = useGalleryStore();
 
@@ -241,6 +250,7 @@ const toggleDelete = () => {
 };
 
 // 삭제 체크 표시된 item들 삭제
+
 const removeItems = async () => {
   if (confirm('정말로 삭제하시겠습니까?') === false) {
     return;
@@ -256,12 +266,13 @@ const removeItems = async () => {
 };
 
 // 생성 모달 관련
+const images = ref([]); // 저장될 이미지
 const imagePreviews = ref([]); // 이미지 미리보기를 위한 배열
-
 const handleFileChange = event => {
   const files = event.target.files;
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
+    images.value.push(file);
     const reader = new FileReader();
     reader.onload = () => {
       imagePreviews.value.push(reader.result); // 이미지 미리보기 배열에 추가
@@ -272,6 +283,7 @@ const handleFileChange = event => {
 
 const removeImage = index => {
   imagePreviews.value.splice(index, 1); // 이미지 미리보기 삭제
+  images.value.splice(index, 1); // 저장될 이미지 삭제
 };
 
 let categoryId = null;
@@ -290,31 +302,41 @@ const getCategoryId = async () => {
   }
 };
 
-// 넣었던 사진은 또 못 넣는 버그가 있음
+const pathUrlList = ref([]);
+const formData2 = [];
 const uploadImages = async () => {
   const formData = new FormData();
-  for (let i = 0; i < imagePreviews.value.length; i++) {
-    // formData.append('images[]', imagePreviews.value[i]);
-    formData.append('pathUrl', 'https://picsum.photos/200/300');
-    formData.append('categoryId', categoryId);
-    // 카테고리 이름도 보내주기
-    // console.log(formData);
-    // console.log(imagePreviews.value);
-    // const imageFile = formData.get('images[]');
-    // console.log(imageFile);
-    // const path_url = formData.get('path_url[]');
-    // console.log(path_url);
-  }
+  for (let i = 0; i < images.value.length; i++) {
+    formData.append('file', images.value[i]);
+    await uploadImage(
+      formData,
+      success => {
+        pathUrlList.value = success.data;
+        console.log(pathUrlList.value);
 
-  try {
-    // 서버로 이미지 전송하는 API 호출
-    await createGallery(coupleId.value, formData);
-    // 이미지 업로드 후 이미지 미리보기 배열 초기화
-    console.log('사진 추가');
-    imagePreviews.value = [];
-    await fetchAlbums();
-  } catch (error) {
-    console.error('Error uploading images:', error);
+        let data = {};
+        for (let i = 0; i < pathUrlList.value.length; i++) {
+          data = {
+            pathUrl: pathUrlList.value[i],
+            categoryId: categoryId,
+          };
+          console.log(data);
+          formData2.push(data);
+          console.log(formData2);
+          // 여기로
+        }
+      },
+      success2 => {
+        console.log(formData2);
+        console.log(coupleId.value);
+        createGallery(formData2);
+        // 이미지 업로드 후 이미지 미리보기 배열 초기화
+        fetchAlbums();
+      },
+      error => {
+        console.log('사진을 변환할 수 없어요.', error);
+      },
+    );
   }
 };
 

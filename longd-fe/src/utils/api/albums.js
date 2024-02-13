@@ -29,12 +29,8 @@ export function createFolder(data) {
 }
 
 // 갤러리 DB에 값을 저장합니다, 로그인한 회원의 coupleId가 같이 입력됩니다.
-export function createGallery(coupleId, data) {
-  return api.post(`/gallery/add/${coupleId}`, data, {
-    // headers: {
-    //   'Content-Type': 'multipart/form-data',
-    // },
-  });
+export function createGallery(data) {
+  return api.post('/gallery/add', data);
 }
 
 // 갤러리 DB에 값을 수정합니다, 수정하려는 데이터의 coupleId값과, 로그인된 회원의 coupleId가 같아야 입력됩니다.

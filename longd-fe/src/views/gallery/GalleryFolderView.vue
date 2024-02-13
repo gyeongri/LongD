@@ -1,23 +1,44 @@
 <template>
-  <div class="flex justify-end">
-    <div class="flex items-center space-x-4">
+  <div class="flex justify-end mb-10 mr-10">
+    <div class="flex items-center space-x-4 z-50">
       <AppDropdown>
         <template v-slot>
-          <li @click="folderCreate"><a>폴더 생성</a></li>
-          <li @click="folderDelete"><a>폴더 삭제</a></li>
+          <li class="font-bold" @click="folderCreate"><a>폴더 생성</a></li>
+          <li class="font-bold" @click="folderDelete"><a>폴더 삭제</a></li>
         </template>
       </AppDropdown>
     </div>
   </div>
 
-  <GalleryFolderGrid :items="folders" @totalView="totalView">
+  <GalleryFolderGrid :items="folderFirstItem" @totalView="totalView">
     <template v-slot="{ item }">
-      <p :id="item.id" @click="goList(item.name)">
-        {{ item.name }}
-      </p>
+      <div class="stack w-full h-64" @click="goList(item.folderName)">
+        <GalleryCard
+          :id="item.id"
+          :src="item.pathUrl"
+          :folderName="item.folderName"
+        >
+        </GalleryCard>
+        <GalleryCard
+          :id="item.id"
+          :src="item.pathUrl"
+          :folderName="item.folderName"
+        >
+        </GalleryCard>
+        <GalleryCard
+          :id="item.id"
+          :src="item.pathUrl"
+          :folderName="item.folderName"
+        >
+        </GalleryCard>
+      </div>
+      <p class="mt-2 ml-4 font-bold">{{ item.folderName }}</p>
     </template>
   </GalleryFolderGrid>
 </template>
+
+<!-- folderFirstItem : id 폴더명 첫번째사진
+folders : id 폴더명 -->
 
 <script setup>
 import AppDropdown from '@/components/app/AppDropdown.vue';
@@ -28,6 +49,7 @@ import { getGalleryFolderName, getGalleryFolderList } from '@/utils/api/albums';
 import Swal from 'sweetalert2';
 import { createFolder } from '@/utils/api/albums';
 import { useGalleryStore } from '@/stores/gallery.js';
+import GalleryCard from '@/components/gallery/GalleryCard.vue';
 const router = useRouter();
 const galleryStore = useGalleryStore();
 
@@ -43,29 +65,6 @@ const params2 = ref({
   categoryName: '', // 조회할 폴더 이름
 });
 
-// 폴더 생성
-const folderCreate = async () => {
-  const { value: title } = await Swal.fire({
-    title: '폴더 이름 작성',
-    input: 'text',
-    inputPlaceholder: '추가할 폴더 이름을 작성해주세요.',
-    showCancelButton: true,
-  });
-  if (title) {
-    Swal.fire('Saved!', '', 'success');
-    try {
-      console.log(title);
-      await createFolder({ category: title });
-      // 새로고침 해야 추가되는 현상있음
-      // 조회 박으면 해결될 것
-      fetchFolders();
-      router.push({ name: 'GalleryFolder' });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-};
-
 // 폴더 리스트
 const folders = ref([]);
 const coupleId = ref(1);
@@ -78,28 +77,82 @@ const fetchFolders = async () => {
     folders.value = data;
 
     for (const folder of data) {
-      // params2.value.categoryName = folder.name;
-      // console.log(params2.value.categoryName);
       try {
         params2.value.categoryName = folder.name;
         const { data: data2 } = await getGalleryFolderList(
           coupleId.value,
           params2.value,
         );
-        folderFirstItem.value.push(data2);
-        // data3같은거 만들어서 필요한 것만 보내기
-        console.log('-----hh-----');
-        console.log(folderFirstItem.value);
+        let data3 = {};
+        if (data2.length === 0) {
+          console.log('데이터가 없습니다.');
+          data3 = {
+            folderName: folder.name,
+            pathUrl:
+              'https://i.pinimg.com/564x/b4/bd/75/b4bd756f0d38cf1589b6a9ebc8b5fc32.jpg',
+          };
+        } else {
+          data3 = {
+            folderName: folder.name,
+            pathUrl: data2[0].pathUrl,
+          };
+        }
+        folderFirstItem.value.push(data3);
       } catch (err) {
         console.error(err);
-        console.error('가져올 데이터가 없습니다.');
       }
+      console.log(folderFirstItem.value);
     }
-
-    console.log('------------------');
-    // console.log(folders.value);
   } catch (err) {
     console.error(err);
+  }
+};
+
+// 폴더 생성
+const folderCreate = async () => {
+  const { value: title } = await Swal.fire({
+    title: '폴더 이름 작성',
+    input: 'text',
+    inputPlaceholder: '추가할 폴더 이름을 작성해주세요.',
+    showCancelButton: true,
+    confirmButtonColor: '#FF9CBD',
+    cancelButtonColor: '#a0a0a0',
+  });
+  if (title) {
+    Swal.fire('Saved!', '', 'success');
+    try {
+      console.log(title);
+      await createFolder({ category: title });
+      // 새로고침 해야 추가되는 현상있음
+      // 조회 박으면 해결될 것
+      fetchFolders();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+// 폴더 삭제
+const folderDelete = async () => {
+  const { value: folder } = await Swal.fire({
+    title: '삭제할 폴더를 선택해주세요.',
+    input: 'select',
+    inputOptions: Object.fromEntries(
+      folders.value.map(folder => [folder.name.toLowerCase(), folder.name]),
+    ),
+    inputPlaceholder: 'Select a folder',
+    showCancelButton: true,
+    confirmButtonColor: '#FF9CBD',
+    cancelButtonColor: '#a0a0a0',
+  });
+  if (folder) {
+    Swal.fire(`당신이 선택한 폴더는 ${folder} 입니다.`); // 삭제 모양으로 만들기
+    try {
+      // await deleteFolder(형식 맞추기);
+      fetchFolders();
+    } catch (error) {
+      console.error(error);
+    }
   }
 };
 

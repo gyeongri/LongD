@@ -12,13 +12,15 @@ import TestMapView from '@/views/map/TestMapView.vue';
 import MapView from '@/views/map/MapView.vue';
 import MapSearch from '@/components/plan/MapSearch.vue';
 import MapPlan from '@/components/plan/MapPlan.vue';
-import PlanList from '@/components/plan/PlanList.vue';
-import PlanDetail from '@/components/plan/PlanDetail.vue';
+import PlanList from '@/views/map/PlanListView.vue';
+import PlanDetail from '@/views/map/PlanDetailView.vue';
 import ClosedView from '@/views/main/ClosedView.vue';
 import LoginSignUpView from '@/views/main/LoginSignUpView.vue';
 import RequiredInfoView from '@/views/main/RequiredInfoView.vue';
 import ConnectCodeView from '@/components/main/ConnectCodeView.vue';
 import GalleryFolderView from '@/views/gallery/GalleryFolderView.vue';
+import { useUserStore } from '@/stores/user.js';
+import { loginstate } from '@/utils/api/user';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -95,7 +97,9 @@ const router = createRouter({
       path: '/map',
       name: 'Map',
       component: MapView,
-      children:[
+      redirect: '/map/search',
+      // /map에 접근하면 자동으로 /map/search로 리다이렉트
+      children: [
         {
           path: 'search',
           name: 'MapSearch',
@@ -106,17 +110,17 @@ const router = createRouter({
           name: 'MapPlan',
           component: MapPlan,
         },
-      ]
+      ],
       // children 안 path에는 /를 사용하면 안된다 => 절대경로가 되어버려서!
-      // children 안에 children을 만들 수도 있다!
+      // children 안에 children을 만들 수도 있다
     },
     {
       path: '/testmap',
       name: 'TestMap',
       component: TestMapView,
-    },   
+    },
     {
-      path: '/plan/detail',
+      path: '/plan/list/:id',
       name: 'PlanDetail',
       component: PlanDetail,
     },
@@ -137,5 +141,34 @@ const router = createRouter({
     },
   ],
 });
-
+router.beforeEach((to, from, next) => {
+  if (to.name === 'Login' || to.name === 'RequiredInfo') {
+    next();
+    return;
+  }
+  const userStore = useUserStore();
+  loginstate(
+    data => {
+      userStore.setUserState(data.data);
+      if (!userStore.isLogin) {
+        next({ name: 'Login' });
+      } else {
+        // next();
+        if (userStore.getUserState.coupleListId !== null) {
+          next();
+        } else {
+          if (to.name === 'ConnectCode') {
+            next();
+            return;
+          } else {
+            next({ name: 'ConnectCode' });
+          }
+        }
+      }
+    },
+    error => {
+      console.log('Profile을 가져올 수 없습니다.', error);
+    },
+  );
+});
 export default router;

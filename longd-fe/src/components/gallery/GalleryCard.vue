@@ -1,27 +1,21 @@
 <template>
-  <div
-    class="card card-compact w-50 bg-base-100 shadow-xl relative"
-    style="height: 300px"
-  >
-    <figure class="w-full h-full relative">
-      <img :src="src" alt="#" class="object-contain w-full h-full" />
-      <div
-        class="absolute top-0 right-0 m-4 bg-primary text-white px-3 py-1 rounded"
-      >
-        <input
-          type="checkbox"
-          class="checkbox checkbox-xs"
-          :checked="checked"
-          v-if="deleteActive"
-          @click.stop="toggleCheckbox"
-          :value="id"
-        />
-      </div>
-    </figure>
-    <div class="card-body">
-      <h2 class="card-title">{{ id }}</h2>
+  <figure class="relative">
+    <img
+      :src="src"
+      alt="#"
+      class="object-cover w-full h-64 overflow-hidden rounded-xl transition-all ease-out duration-500 hover:shadow-2xl hover:transform hover:scale-105"
+    />
+    <div class="absolute top-0 right-0 m-4 px-3 py-1 rounded">
+      <input
+        type="checkbox"
+        class="checkbox checkbox-error checkbox-s"
+        :checked="checked"
+        v-if="deleteActive"
+        @click.stop="toggleCheckbox"
+        :value="id"
+      />
     </div>
-  </div>
+  </figure>
 </template>
 
 <script setup>
@@ -38,6 +32,9 @@ const props = defineProps({
   },
   deleteActive: {
     type: Boolean,
+  },
+  folderName: {
+    type: String,
   },
 });
 
