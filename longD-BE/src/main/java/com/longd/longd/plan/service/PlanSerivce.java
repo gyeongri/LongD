@@ -12,4 +12,6 @@ public interface PlanSerivce {
     public boolean setPlan(Plan plan);
 
     public boolean deletePlan(int id);
+
+    public Plan getDetailPlan(int planId);
 }
