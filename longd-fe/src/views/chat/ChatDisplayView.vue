@@ -21,7 +21,7 @@
                 class="flex items-center justify-end"
                 style="margin-right: 1rem; margin-bottom: 0.5rem"
               >
-                <span class="text-sm text-stone-500">{{ myNickname }}</span>
+                <span class="text-sm text-stone-500">{{ nickname }}</span>
                 <img
                   :src="userProfileImage"
                   class="w-8 h-8 rounded-full ml-3"
@@ -77,7 +77,7 @@
 <script setup>
 import { useUserStore } from '@/stores/user';
 import { watch, ref, onMounted } from 'vue';
-
+import { partnerinfo } from '@/utils/api/user';
 const userStore = useUserStore();
 const emit = defineEmits(['chatoff']);
 const turnOff = function () {
@@ -90,7 +90,7 @@ const userProfileImage = ref(
 const otherUserProfileImage = ref(
   'https://sitem.ssgcdn.com/64/38/07/item/1000414073864_i1_750.jpg',
 );
-
+const partnerInfo = ref('');
 const chatContainer = ref();
 const userId = ref(userStore.getUserState.id);
 const scrollToBottom = () => {
@@ -107,8 +107,8 @@ const shouldDisplayHeader = index => {
     return true;
   }
 
-  const myNickname = props.nickname;
-  const lovername = props.lovername;
+  const nickname = ref(props.nickname);
+  const lovername = ref(props.lovername);
   const currentSenderId = props.messages[index].senderId;
   const previousSenderId = props.messages[index - 1].senderId;
   // const currentTime = new Date(props.messages[index].createdAt);
@@ -134,6 +134,17 @@ const getFormattedTime = createdAt => {
 };
 onMounted(() => {
   setTimeout(() => scrollToBottom(), 100);
+  console.log(nickname.value);
+  partnerinfo(
+    data => {
+      partnerInfo.value = data.data;
+      otherUserProfileImage.value = partnerInfo.value.profilePicture;
+      userProfileImage.value = userStore.getUserState?.profilePicture;
+    },
+    error => {
+      console.log('Partner Info 가져오기 안됨', error);
+    },
+  );
 });
 </script>
 
