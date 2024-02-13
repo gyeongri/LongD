@@ -36,7 +36,7 @@ EXPOSE 4200
 # #CMD ["npm", "run", "build"]
 # CMD ["npm", "start"]
 # # Nginx 시작
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
 
 
 #FROM haxe:4.3.0-alpine3.15
