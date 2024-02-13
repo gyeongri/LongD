@@ -3,7 +3,7 @@
     <img
       :src="src"
       alt="#"
-      class="object-cover w-full h-64 overflow-hidden rounded-xl transition-all ease-out duration-500 hover:shadow-2xl hover:transform hover:scale-105"
+      class="object-cover w-full h-56 overflow-hidden rounded-xl transition-all ease-out duration-500 hover:shadow-2xl hover:transform hover:scale-105"
     />
     <div class="absolute top-0 right-0 m-4 px-3 py-1 rounded">
       <input

@@ -234,7 +234,7 @@ const fileUpload = event => {
   uploadImage(
     formData,
     success => {
-      Info_state.value.profilePicture = success.data[0];
+      Info_state.value.profilePicture = success.data['pathUrl'];
     },
     success2 => {
       console.log('사진을 변환했어요!');
