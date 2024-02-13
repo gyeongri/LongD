@@ -1,4 +1,3 @@
-
 # Node.js 20.10.0 버전을 기반으로 한 이미지 사용
 FROM node:20.10.0 AS build
 
@@ -29,8 +28,10 @@ FROM nginx:latest
 # 3001번 포트 열기
 EXPOSE 4200
 
+
+CMD npm start
 # CMD ["/start.sh"]
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
 # COPY start.sh /usr/src/app/
 # CMD ["sh", "/usr/src/app/start.sh"]
 
