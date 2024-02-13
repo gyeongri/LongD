@@ -95,8 +95,11 @@ pipeline {
               //새 FE 컨테이너 실행
                 stage('Run New FE image') {
                     steps {
+                        //FE nginx 설정파일 도커 컨테이너 안으로 복사
+                        
                         //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
                         sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt/live/i10d206.p.ssafy.io:/home/certificates ${MAIN_IMAGE_FE}"
+                        // sh "docker cp ${PROJECT_PATH}/longd-fe/fe-custom.conf ${MAIN_CONTAINER_FE}:/etc/nginx/conf.d"
                         // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
                         echo 'Run New FE image'
 
@@ -106,6 +109,14 @@ pipeline {
                                 }
                     }
                 }
+
+                // //FE 컨테이너 재실행 (nginx 설정 완료 후)
+                // stage('Restart FE container'){
+                //     steps{
+                //         sh "docker restart ${MAIN_CONTAINER_FE}"
+                //         echo 'FE 컨테이너 재실행'
+                //     }
+                // }
         //////////////////////////////////////////////////////////////////////////////////////////
 
 //                 stage('Copy dist to EC2') {
