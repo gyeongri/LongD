@@ -1,7 +1,8 @@
 FROM haxe:4.3.0-alpine3.15
 WORKDIR /usr/src/app
 
-RUN apk add nodejs npm git
+RUN apk add --update nodejs npm git && \
+    npm install -g yarn
 
 COPY res ./res
 COPY src ./src
@@ -10,10 +11,32 @@ COPY build-*.hxml ./
 COPY package*.json ./
 COPY default-config.json ./
 
-RUN npm ci; \
-    haxelib install all --always; \
+RUN npm ci && \
+    haxelib install all --always && \
     haxe build-all.hxml
 
 EXPOSE 4200
 
 CMD npm start
+
+
+
+#FROM haxe:4.3.0-alpine3.15
+#WORKDIR /usr/src/app
+#
+#RUN apk add nodejs npm git
+#
+#COPY res ./res
+#COPY src ./src
+#COPY user ./user
+#COPY build-*.hxml ./
+#COPY package*.json ./
+#COPY default-config.json ./
+#
+#RUN npm ci; \
+#    haxelib install all --always; \
+#    haxe build-all.hxml
+#
+#EXPOSE 4200
+#
+#CMD npm start
