@@ -159,7 +159,7 @@ const addPlaceToDate = (date, place) => {
   if (!datePlaceMap.value[date]) {
     datePlaceMap.value[date] = [];
   }
-  place.order = datePlaceMap.value[date].length + 1;
+  place.myOrder = datePlaceMap.value[date].length + 1;
   datePlaceMap.value[date].push(place);
 };
 
@@ -168,7 +168,7 @@ const getPlacesForDate = date => {
   if (!datePlaceMap.value[date]) {
     return [];
   }
-  return datePlaceMap.value[date].sort((a, b) => a.order - b.order);
+  return datePlaceMap.value[date].sort((a, b) => a.myOrder - b.myOrder);
 };
 
 const onDrop = (event, date) => {
@@ -206,6 +206,13 @@ const sendPlan = () => {
     'placeList :',
     placeList.value,
   );
+  planAll.value = {
+    title: planTitle.value,
+    dateStart: startDay.value,
+    dateEnd: endDay.value,
+    planInfo: placeList.value,
+  };
+  console.log(planAll.value);
 };
 
 // 컴포넌트가 마운트될 때 이벤트 리스너 추가
