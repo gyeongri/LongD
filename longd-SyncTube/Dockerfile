@@ -12,6 +12,9 @@ COPY . .
 RUN rm -rf /app/node_modules /app/package-lock.json
 
 # 필요한 패키지 설치
+RUN apt-get update && apt-get install -y npm
+
+# 필요한 패키지 설치
 RUN npm install
 
 # RUN npm start
