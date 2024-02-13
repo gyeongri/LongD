@@ -37,7 +37,6 @@ const viduapi = axios.create({
   baseURL: VITE_VIDU_BASE_IP,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: 'Basic T1BFTlZJRFVBUFA6TG9uZ2RE',
   },
 });
 const stompApi = axios.create({
