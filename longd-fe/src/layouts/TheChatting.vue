@@ -2,8 +2,11 @@
   <!-- h-1/4, h-3/4 - 차지할 비율을 나타냄, w-1/4도 있음(가로버전) -->
   <div class="h-[45rem] flex flex-col">
     <ChatDisplayView
+      @chatoff="TurnOffChat"
       :messages="messages"
       :count="count"
+      :nickname="nickname"
+      :lovername="lovername"
       class="border-4 border-blue-500 h-3/4"
     ></ChatDisplayView>
     <ChatInputView
@@ -27,7 +30,9 @@ const messages = reactive([]);
 const senderId = ref('');
 const room = ref(null);
 const count = ref(0);
-
+const nickname = ref('');
+const lovername = ref('');
+const emit = defineEmits(['offChat']);
 // const createRoom = async () => {
 //   const params = new URLSearchParams();
 //   params.append('roomName', coupleId.value);
@@ -42,7 +47,9 @@ const count = ref(0);
 //   const response = await stompApi.get(`/chat/room/${coupleId.value}`);
 //   room.value = response.data;
 // };
-
+const TurnOffChat = function () {
+  emit('offChat');
+};
 const sendMessage = message => {
   ws.value.send(
     '/app/chat/message',
@@ -104,6 +111,23 @@ const connect = function (couple, sender) {
 onMounted(() => {
   if (userStore.getUserState?.coupleListId !== undefined) {
     console.log('온마운트시점', userStore.getUserState?.coupleListId);
+    nickname.value = userStore.getUserState?.nickname;
+    coupleId.value = userStore.getUserState?.coupleListId;
+    stompApi
+      .get('/user/findNickname', {
+        params: {
+          coupleListId: userStore.getUserState?.coupleListId,
+          myNickname: userStore.getUserState?.nickname,
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+        lovername.value = response.data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
     stompApi
       .get(`/chat/messages/${userStore.getUserState?.coupleListId}?size=30`)
       .then(res => {
@@ -113,7 +137,6 @@ onMounted(() => {
         });
       })
       .then(res => {
-        coupleId.value = userStore.getUserState?.coupleListId;
         senderId.value = userStore.getUserState?.id;
         connect(
           userStore.getUserState?.coupleListId,

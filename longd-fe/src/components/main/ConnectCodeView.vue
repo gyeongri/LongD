@@ -149,7 +149,6 @@ const choiceDate = async () => {
         Swal.fire(
           '동일한 이메일 정보를 가진 사람이 없습니다. 다시 확인해주세요.',
         );
-        console.log(checkInfo.value);
       }
       if (success.data === '커플리스트를 만드는데 성공했습니다.') {
         // 커플리스트 정보조회&수정

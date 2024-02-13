@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(originPatterns = {"http://i10d206.p.ssafy.io:3001/","https://i10d206.p.ssafy.io/","https://i10d206.p.ssafy.io:3001/","http://localhost:3001","http://172.28.192.1:5173/","http://192.168.35.112:5173/"})
+@CrossOrigin(originPatterns = {"https://i10d206.p.ssafy.io/","http://i10d206.p.ssafy.io:3001/","https://i10d206.p.ssafy.io/","https://i10d206.p.ssafy.io:3001/","http://localhost:3001","http://172.28.192.1:5173/","http://192.168.35.112:5173/"})
 @RestController
 @RequestMapping("/user")
 public class UserController {

@@ -1,7 +1,12 @@
 <template>
   <div class="container mx-auto">
-    <TheHeader></TheHeader>
-
+    <TheHeader
+      v-show="
+        userStore.isLogin &&
+        !mainDisplayStore.isClosed &&
+        userStore.getUserState?.coupleListId
+      "
+    ></TheHeader>
     <div class="flex">
       <div class="flex-1 mr-8">
         <TheView></TheView>
@@ -19,10 +24,10 @@
         }"
       >
         <div v-if="isChatting">
-          <TheChatting></TheChatting>
+          <TheChatting @offChat="chatFalse"></TheChatting>
         </div>
         <div v-else>
-          <TheNochatting></TheNochatting>
+          <TheNochatting @onChat="chatTrue"></TheNochatting>
         </div>
         <ViduMainView class="hihi"></ViduMainView>
       </div>
@@ -37,9 +42,16 @@ import TheNochatting from './layouts/TheNochatting.vue';
 import ViduMainView from './views/openvidu/ViduMainView.vue';
 import { useUserStore } from '@/stores/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
+import { ref } from 'vue';
 const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
-const isChatting = true;
+const isChatting = ref(true);
+const chatFalse = function () {
+  isChatting.value = false;
+};
+const chatTrue = function () {
+  isChatting.value = true;
+};
 // if, else로 하지 말고, 버전 1,2,3으로 구분해서 채팅관련된 것이 아예 없도록 하던가 하면 될 듯.
 </script>
 

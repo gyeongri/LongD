@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white rounded-lg shadow-md p-4">
-    <button>집어넣기</button>
+    <button @click="turnOff">집어넣기</button>
     <div class="chat-container" ref="chatContainer">
       <div
         v-for="(message, index) in messages"
@@ -21,9 +21,7 @@
                 class="flex items-center justify-end"
                 style="margin-right: 1rem; margin-bottom: 0.5rem"
               >
-                <span class="text-sm text-stone-500">{{
-                  message.senderId
-                }}</span>
+                <span class="text-sm text-stone-500">{{ nickname }}</span>
                 <img
                   :src="userProfileImage"
                   class="w-8 h-8 rounded-full ml-3"
@@ -38,9 +36,7 @@
                   class="w-8 h-8 rounded-full mr-3"
                   style="margin-left: 1rem; margin-bottom: 0.5rem"
                 />
-                <span class="text-sm text-stone-500">{{
-                  message.senderId
-                }}</span>
+                <span class="text-sm text-stone-500">{{ lovername }}</span>
               </div>
             </template>
           </div>
@@ -81,8 +77,12 @@
 <script setup>
 import { useUserStore } from '@/stores/user';
 import { watch, ref, onMounted } from 'vue';
-
+import { partnerinfo } from '@/utils/api/user';
 const userStore = useUserStore();
+const emit = defineEmits(['chatoff']);
+const turnOff = function () {
+  emit('chatoff');
+};
 
 const userProfileImage = ref(
   'https://i.namu.wiki/i/ijg40CIiHx5-Ihr3ksIJUm4cQQDEnek8xMEmJaQqGR5U13DKOZnCkzwPx1L5rcEX2-xxFYAyQO7XTcyqQ2BGEw.webp',
@@ -90,7 +90,7 @@ const userProfileImage = ref(
 const otherUserProfileImage = ref(
   'https://sitem.ssgcdn.com/64/38/07/item/1000414073864_i1_750.jpg',
 );
-
+const partnerInfo = ref('');
 const chatContainer = ref();
 const userId = ref(userStore.getUserState.id);
 const scrollToBottom = () => {
@@ -99,12 +99,16 @@ const scrollToBottom = () => {
 const props = defineProps({
   messages: Array,
   count: Number,
+  nickname: String,
+  lovername: String,
 });
 const shouldDisplayHeader = index => {
   if (index === 0) {
     return true;
   }
 
+  const nickname = ref(props.nickname);
+  const lovername = ref(props.lovername);
   const currentSenderId = props.messages[index].senderId;
   const previousSenderId = props.messages[index - 1].senderId;
   // const currentTime = new Date(props.messages[index].createdAt);
@@ -130,6 +134,18 @@ const getFormattedTime = createdAt => {
 };
 onMounted(() => {
   setTimeout(() => scrollToBottom(), 100);
+
+  partnerinfo(
+    data => {
+      console.log('찍히나');
+      partnerInfo.value = data.data;
+      otherUserProfileImage.value = partnerInfo.value?.profilePicture;
+      userProfileImage.value = userStore.getUserState?.profilePicture;
+    },
+    error => {
+      console.log('Partner Info 가져오기 안됨', error);
+    },
+  );
 });
 </script>
 

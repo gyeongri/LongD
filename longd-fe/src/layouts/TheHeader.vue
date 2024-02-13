@@ -29,12 +29,16 @@
           </a>
         </li>
         <li>
-          <details>
+          <details ref="dropdown1">
             <summary :class="{ 'text-pink-400': isViduActive }">
               화상통화
               <!-- <img class="image" alt="ViduMain" src="/static/img/im.png" /> -->
             </summary>
-            <ul class="p-2 bg-base-100 rounded-t-none" style="z-index: 999">
+            <ul
+              class="p-2 bg-base-100 rounded-t-none"
+              style="z-index: 999"
+              @click="closeDropdown"
+            >
               <li>
                 <a><RouterLink :to="{ name: 'ViduMain' }">main</RouterLink></a>
               </li>
@@ -55,11 +59,14 @@
             >
           </a>
         </li> -->
-
         <li>
-          <details>
+          <details ref="dropdown2">
             <summary>여행</summary>
-            <ul class="p-2 bg-base-100 rounded-t-none" style="z-index: 999">
+            <ul
+              class="p-2 bg-base-100 rounded-t-none"
+              style="z-index: 999"
+              @click="closeDropdown2"
+            >
               <li>
                 <a
                   ><RouterLink
@@ -137,6 +144,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { logout } from '@/utils/api/user.js';
@@ -196,6 +204,17 @@ const logOut = () => {
     },
   );
 };
+
+const dropdown1 = ref(null);
+const dropdown2 = ref(null);
+
+function closeDropdown() {
+  dropdown1.value.removeAttribute('open');
+}
+
+function closeDropdown2() {
+  dropdown2.value.removeAttribute('open');
+}
 </script>
 
 <style scoped>

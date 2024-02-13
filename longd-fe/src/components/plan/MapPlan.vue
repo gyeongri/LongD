@@ -61,6 +61,8 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { usePlanStore } from '@/stores/plan';
+import { postPlanData } from '@/utils/api/plan';
+
 import Swal from 'sweetalert2';
 
 // 즐겨찾기 항목용
@@ -212,6 +214,17 @@ const sendPlan = () => {
     dateEnd: endDay.value,
     planInfo: placeList.value,
   };
+  postPlanData(
+    planAll.value,
+    success => {
+      console.log('여행일정이 등록되었습니다.', success);
+      Swal.fire('저장되었습니다.');
+    },
+    error => {
+      console.log('여행 일정이 등록되지 않음', error);
+    },
+  );
+
   console.log(planAll.value);
 };
 
@@ -231,5 +244,3 @@ onUnmounted(() => {
   });
 });
 </script>
-
-<style scoped></style>
