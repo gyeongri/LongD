@@ -111,6 +111,8 @@ const connect = function (couple, sender) {
 onMounted(() => {
   if (userStore.getUserState?.coupleListId !== undefined) {
     console.log('온마운트시점', userStore.getUserState?.coupleListId);
+    nickname.value = userStore.getUserState?.nickname;
+    coupleId.value = userStore.getUserState?.coupleListId;
     stompApi
       .get('/user/findNickname', {
         params: {
@@ -135,9 +137,7 @@ onMounted(() => {
         });
       })
       .then(res => {
-        coupleId.value = userStore.getUserState?.coupleListId;
         senderId.value = userStore.getUserState?.id;
-        nickname.value = useUserStore.getUserState?.nickname;
         connect(
           userStore.getUserState?.coupleListId,
           userStore.getUserState?.id,
