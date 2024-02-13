@@ -19,10 +19,8 @@
       <p>주소: {{ selectedPlace.address }}</p>
       <p>위도: {{ selectedPlace.latitude }}</p>
       <p>경도: {{ selectedPlace.longitude }}</p>
-
       <button @click="closeDetailModal">닫기</button>
     </div> -->
-
   </div>
 </template>
 

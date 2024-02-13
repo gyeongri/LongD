@@ -1,43 +1,26 @@
 <template>
-<<<<<<< HEAD
-=======
   <div>
     <!-- 마커를 표시할 지도 -->
     <div class="googleMap" id="googleMap"></div>
   </div>
->>>>>>> develop
   <div v-for="plan in planInfoDetail" :key="plan.id">
     {{ plan }}
   </div>
 </template>
 
 <script setup>
-<<<<<<< HEAD
-import { ref, onMounted, watchEffect } from 'vue';
-=======
 import { ref, onMounted, watchEffect, watch } from 'vue';
->>>>>>> develop
 import { useRoute } from 'vue-router';
 import { getPlanDetail } from '@/utils/api/plan';
 
 const currentId = ref('');
-<<<<<<< HEAD
-const planInfoDetail = ref();
-=======
 const planInfoDetail = ref([]);
->>>>>>> develop
 
 const router = useRoute();
 
 const getCurrentRouteId = () => {
   currentId.value = router.params.id;
 };
-<<<<<<< HEAD
-
-// 컴포넌트가 마운트될 때와 라우터의 변경을 감지하여 현재 ID를 업데이트합니다.
-onMounted(() => {
-  getCurrentRouteId;
-=======
 const defaultCenter = { lat: 36.10680122096389, lng: 128.4178078082704 };
 
 const map = ref(null);
@@ -81,21 +64,15 @@ const initMap = async () => {
 onMounted(async () => {
   await initMap();
   getCurrentRouteId();
->>>>>>> develop
 
   getPlanDetail(
     currentId.value,
     success => {
-<<<<<<< HEAD
-      console.log(success.data);
-      planInfoDetail.value = success.data;
-=======
       // console.log(typeof success.data);
       // console.log(success.data);
       success.data.forEach(element => {
         planInfoDetail.value.push(element);
       });
->>>>>>> develop
     },
     error => {
       console.log(error);
@@ -105,9 +82,6 @@ onMounted(async () => {
 watchEffect(getCurrentRouteId);
 </script>
 
-<<<<<<< HEAD
-<style scoped></style>
-=======
 <style scoped>
 .googleMap {
   height: 600px;
@@ -140,4 +114,3 @@ div[aria-hidden='false'] > div {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 </style>
->>>>>>> develop

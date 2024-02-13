@@ -133,14 +133,9 @@ import {
 } from '@/utils/api/albums';
 import { uploadImage } from '@/utils/api/photo';
 import { useGalleryStore } from '@/stores/gallery.js';
-<<<<<<< HEAD
-const galleryStore = useGalleryStore();
-
-=======
 import { useUserStore } from '@/stores/user';
 const galleryStore = useGalleryStore();
 const userStore = useUserStore();
->>>>>>> develop
 const route = useRoute();
 const router = useRouter();
 
@@ -193,11 +188,7 @@ const totalCheckedEvent = data => {
   console.log(totalChecked.value);
 };
 
-<<<<<<< HEAD
-const coupleId = ref(1);
-=======
 const coupleId = ref('');
->>>>>>> develop
 // 해당 폴더의 리스트 조회
 const items = ref([]);
 const fetchAlbums = async () => {
@@ -220,10 +211,6 @@ const fetchAlbums = async () => {
         coupleId.value,
         params2.value,
       );
-<<<<<<< HEAD
-      items.value = data;
-      totalCount.value = data[0].size;
-=======
       console.log(data, '갤럭리확인');
       items.value = data;
       if (data.length > 0) {
@@ -231,7 +218,6 @@ const fetchAlbums = async () => {
       } else {
         totalCount.value = 0;
       }
->>>>>>> develop
       // totalCount.value = data.length;
       // console.log(data);
     } catch (err) {
@@ -373,14 +359,10 @@ const goFolder = () => {
 };
 
 onMounted(() => {
-<<<<<<< HEAD
-  getCategoryId();
-=======
   coupleId.value = userStore.getUserState?.coupleListId;
   setTimeout(() => {
     getCategoryId();
   }, 300);
->>>>>>> develop
 });
 
 // // 참고 (데이터 전송 관련 방법 2가지)

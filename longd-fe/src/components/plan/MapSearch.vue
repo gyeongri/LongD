@@ -11,37 +11,16 @@
       ><br />
       {{ place.address }}
       <!-- 장소 상세 정보 확인 버튼 -->
-<<<<<<< HEAD
-      <button @click="planStore.addHopeList(place)">자세히 보기</button>
-      <button @click="planStore.addHopeList(place)">❤</button>
-      <!-- 누르면 아래가 보이는 형태로 만드는 게 더 좋지 않을까? -->
-      <div class="collapse bg-base-200">
-=======
       <!-- <button @click="planStore.addHopeList(place)">자세히 보기</button> -->
       <button @click="planStore.addHopeList(place)">❤</button>
 
       <!-- 누르면 아래가 보이는 형태 ver -->
       <!-- <div class="collapse bg-base-200">
->>>>>>> develop
         <input type="checkbox" />
         <div class="collapse-title text-xl font-medium">
           <strong>{{ place.name }}</strong
           ><br />
           {{ place.address }}
-<<<<<<< HEAD
-
-          <!-- 여기는 좋아요버튼 한 거 만들기 -->
-        </div>
-        <div class="collapse-content">
-          <!-- 상세내용 넣기 이거는 수정해야해!-->
-          <!-- <div v-if="place"> -->
-          <p>주소: {{ place.address }}</p>
-          <p>위도: {{ place.geometry.location.lat() }}</p>
-          <p>경도: {{ place.geometry.location.lng() }}</p>
-          <!-- </div> -->
-        </div>
-      </div>
-=======
         </div>
 
         <div class="collapse-content">
@@ -50,7 +29,6 @@
           <p>경도: {{ place.geometry.location.lng() }}</p>
         </div>
       </div> -->
->>>>>>> develop
     </li>
   </ul>
 </template>

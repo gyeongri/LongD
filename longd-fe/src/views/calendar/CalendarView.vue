@@ -196,11 +196,7 @@ let dateList = ref([]);
 // DB로 부터 이벤트들 조회
 const getCalendar = async () => {
   try {
-<<<<<<< HEAD
-    console.log(1);
-=======
     console.log(coupleId.value, '겟캘린더');
->>>>>>> develop
     const res = await getCalendarInfo(coupleId.value);
     dateList.value = res.data;
     console.log('조회');
@@ -213,11 +209,7 @@ const getCalendar = async () => {
 // DB 생성
 const saveCalendarTitle = async () => {
   try {
-<<<<<<< HEAD
-    console.log(date);
-=======
     console.log(date, 'date콘솔확인');
->>>>>>> develop
     await setCalendarInfo({
       ...date,
     });
@@ -255,10 +247,6 @@ const deleteCalendar = async () => {
 
 // 이벤트
 const date = {
-<<<<<<< HEAD
-  coupleListId: 1,
-=======
->>>>>>> develop
   id: 0,
   title: '',
   start: '',

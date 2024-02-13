@@ -159,14 +159,10 @@ const folderDelete = async () => {
 
 onMounted(() => {
   coupleId.value = userStore.getUserState?.coupleListId;
-<<<<<<< HEAD
-  fetchFolders();
-=======
   setTimeout(() => {
     fetchFolders();
   }, 300);
 
->>>>>>> develop
   galleryStore.addFolderNameList(coupleId.value);
 });
 

@@ -1,8 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div class="h-[864px]">
-    <button @click="turnChat">열기</button>
-=======
   <div
     class="h-[45rem] flex flex-col items-center justify-center border border-black"
   >
@@ -13,7 +9,6 @@
         style="width: 30px; height: 30px; margin: 0 5px"
       />
     </button>
->>>>>>> develop
   </div>
 </template>
 
