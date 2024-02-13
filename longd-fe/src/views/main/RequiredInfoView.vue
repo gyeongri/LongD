@@ -266,6 +266,30 @@ onMounted(() => {
 });
 
 const send = () => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const today = new Date().toISOString().split('T')[0];
+  console.log(Info_state.value);
+  if (
+    Info_state.value.name == null ||
+    Info_state.value.name == '' ||
+    Info_state.value.name == undefined
+  ) {
+    Swal.fire('이름을 입력해주세요');
+  }
+  if (
+    Info_state.value.nickname == null ||
+    Info_state.value.nickname == '' ||
+    Info_state.value.nickname == undefined
+  ) {
+    Swal.fire('닉네임을 입력해주세요');
+  }
+  if (Info_state.value.birth > today) {
+    Swal.fire('생년월일을 확인해주세요');
+  }
+  if (!emailRegex.test(Info_state.value.email)) {
+    Swal.fire('이메일 형식을 확인해주세요');
+  }
+
   if (Info_state.value.code === codeCheck.value) {
     if (
       Info_state.value.nickname &&
