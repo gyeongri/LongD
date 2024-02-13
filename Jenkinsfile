@@ -98,7 +98,7 @@ pipeline {
                         //FE nginx 설정파일 도커 컨테이너 안으로 복사
                         
                         //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                        sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt/live/i10d206.p.ssafy.io:/home/certificates ${MAIN_IMAGE_FE}"
+                        sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt:/etc/letsencrypt ${MAIN_IMAGE_FE}"
                         sh "docker cp ${PROJECT_PATH}/longd-fe/fe-custom.conf ${MAIN_CONTAINER_FE}:/etc/nginx/conf.d"
                         // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
                         echo 'Run New FE image'
