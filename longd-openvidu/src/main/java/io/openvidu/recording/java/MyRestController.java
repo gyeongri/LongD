@@ -37,7 +37,7 @@ import io.openvidu.java.client.RecordingProperties;
 import io.openvidu.java.client.Session;
 
 @RestController
-@RequestMapping("/recording-java/api")
+@RequestMapping("/api")
 @CrossOrigin("*")
 public class MyRestController {
 
@@ -124,7 +124,6 @@ public class MyRestController {
 			System.out.println("[get-token] session : " + session.getSessionId());
 			// Generate a new token with the recently created connectionProperties
 			String token = session.createConnection(connectionProperties).getToken();
-			System.out.println("[get-token] token : "+token);
 			// Store the session and the token in our collections
 			this.mapSessions.put(sessionName, session);
 			this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
