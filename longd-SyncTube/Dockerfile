@@ -14,7 +14,10 @@ RUN rm -rf /app/node_modules /app/package-lock.json
 RUN apt-get update && apt-get install -y npm
 
 # 필요한 패키지 설치
-RUN npm install
+RUN npm install -g npm@latest
+
+# 필요한 패키지 설치
+# RUN npm install
 
 # Vue 프로젝트 빌드
 # RUN npm run build
