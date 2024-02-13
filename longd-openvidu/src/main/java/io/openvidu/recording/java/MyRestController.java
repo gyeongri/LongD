@@ -37,7 +37,7 @@ import io.openvidu.java.client.RecordingProperties;
 import io.openvidu.java.client.Session;
 
 @RestController
-@RequestMapping("/recording-java/api")
+@RequestMapping("/api")
 @CrossOrigin("*")
 public class MyRestController {
 
