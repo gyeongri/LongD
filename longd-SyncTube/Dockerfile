@@ -11,8 +11,10 @@ COPY . .
 # npm install을 하기 전에 불필요한 파일을 삭제
 RUN rm -rf /app/node_modules /app/package-lock.json
 
-# # 필요한 패키지 설치
-# RUN npm install
+# 필요한 패키지 설치
+RUN npm install
+
+RUN npm start
 
 # Vue 프로젝트 빌드
 #RUN npm run build
@@ -26,15 +28,15 @@ EXPOSE 4200
 
 # CMD ["/start.sh"]
 #CMD ["npm", "start"]
-COPY start.sh /usr/src/app/
-CMD ["sh", "/usr/src/app/start.sh"]
+# COPY start.sh /usr/src/app/
+# CMD ["sh", "/usr/src/app/start.sh"]
 
 
 
 # #CMD ["npm", "run", "build"]
 # CMD ["npm", "start"]
 # # Nginx 시작
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
 
 
 #FROM haxe:4.3.0-alpine3.15
