@@ -24,7 +24,11 @@ FROM nginx:latest
 # 3001번 포트 열기
 EXPOSE 4200
 
-CMD ["/start.sh"]
+# CMD ["/start.sh"]
+#CMD ["npm", "start"]
+COPY start.sh /usr/src/app/
+CMD ["sh", "/usr/src/app/start.sh"]
+
 
 
 # #CMD ["npm", "run", "build"]
