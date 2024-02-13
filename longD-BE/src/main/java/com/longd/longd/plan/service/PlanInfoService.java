@@ -14,6 +14,6 @@ public interface PlanInfoService {
     public PlanInfo getPlanInfo(int id);
     public boolean setPlanInfo(PlanInfo planInfo);
     public boolean deletePlanInfo(int id);
-    public String setPlanAndPlanInfo(PlanRequestDto planRequestDto);
+    public int setPlanAndPlanInfo(PlanRequestDto planRequestDto);
 
 }
