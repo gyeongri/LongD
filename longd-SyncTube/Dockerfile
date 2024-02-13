@@ -11,8 +11,8 @@ COPY . .
 # npm install을 하기 전에 불필요한 파일을 삭제
 RUN rm -rf /app/node_modules /app/package-lock.json
 
-# 필요한 패키지 설치
-RUN npm install
+# # 필요한 패키지 설치
+# RUN npm install
 
 # Vue 프로젝트 빌드
 #RUN npm run build
