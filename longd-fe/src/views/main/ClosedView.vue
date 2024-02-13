@@ -92,10 +92,11 @@ watch(count, (newValues, oldValues) => {
   }
 });
 const checkpassword = function () {
-  const payload = inputRefs.value.join('');
+  const result = inputRefs.value.join('');
+  const payload = result.replace(/^0*/, '');
+
   checkSimplePassword(payload, success => {
     const result = success.data;
-    console.log(payload, result);
     if (result == '정수가 아닌값이 감지되었습니다.') {
       displayValues.value = ['', '', '', ''];
       inputRefs.value.forEach((element, index) => {
