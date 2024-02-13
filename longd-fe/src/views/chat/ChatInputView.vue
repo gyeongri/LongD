@@ -10,8 +10,7 @@
       @click="sendMessageToMain"
       class="img-btn rounded-full ml-3 hover:bg-pink-100"
     ></button>
-      
-    
+
   </div>
 </template>
 
@@ -36,6 +35,7 @@ input {
   border: px, solid, black;
   width: 100%;
 }
+
 .img-btn {
   background-image: url('/static/img/send.png');
   background-size: cover; /* 이미지가 버튼 크기에 맞게 조정됩니다 */
