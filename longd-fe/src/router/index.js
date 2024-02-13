@@ -12,8 +12,8 @@ import TestMapView from '@/views/map/TestMapView.vue';
 import MapView from '@/views/map/MapView.vue';
 import MapSearch from '@/components/plan/MapSearch.vue';
 import MapPlan from '@/components/plan/MapPlan.vue';
-import PlanList from '@/components/plan/PlanList.vue';
-import PlanDetail from '@/components/plan/PlanDetail.vue';
+import PlanList from '@/views/map/PlanListView.vue';
+import PlanDetail from '@/views/map/PlanDetailView.vue';
 import ClosedView from '@/views/main/ClosedView.vue';
 import LoginSignUpView from '@/views/main/LoginSignUpView.vue';
 import RequiredInfoView from '@/views/main/RequiredInfoView.vue';
@@ -97,6 +97,8 @@ const router = createRouter({
       path: '/map',
       name: 'Map',
       component: MapView,
+      redirect: '/map/search',
+      // /map에 접근하면 자동으로 /map/search로 리다이렉트
       children: [
         {
           path: 'search',
@@ -110,7 +112,7 @@ const router = createRouter({
         },
       ],
       // children 안 path에는 /를 사용하면 안된다 => 절대경로가 되어버려서!
-      // children 안에 children을 만들 수도 있다!
+      // children 안에 children을 만들 수도 있다
     },
     {
       path: '/testmap',
@@ -118,7 +120,7 @@ const router = createRouter({
       component: TestMapView,
     },
     {
-      path: '/plan/detail',
+      path: '/plan/list/:id',
       name: 'PlanDetail',
       component: PlanDetail,
     },
@@ -151,7 +153,17 @@ router.beforeEach((to, from, next) => {
       if (!userStore.isLogin) {
         next({ name: 'Login' });
       } else {
-        next();
+        // next();
+        if (userStore.getUserState.coupleListId !== null) {
+          next();
+        } else {
+          if (to.name === 'ConnectCode') {
+            next();
+            return;
+          } else {
+            next({ name: 'ConnectCode' });
+          }
+        }
       }
     },
     error => {

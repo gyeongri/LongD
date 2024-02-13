@@ -1,10 +1,16 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 export const useUserStore = defineStore('user', () => {
-  const userState = ref('');
+  const userState = ref();
+
+  const getUserState = computed(() => {
+    return userState.value;
+  });
+
   const setUserState = function (state) {
     userState.value = state;
   };
+
   const isLogin = computed(
     () =>
       !(
@@ -13,5 +19,6 @@ export const useUserStore = defineStore('user', () => {
         userState.value === null
       ),
   );
-  return { userState, setUserState, isLogin };
+
+  return { userState, getUserState, setUserState, isLogin };
 });

@@ -1,73 +1,77 @@
 <template>
-  <div>
-    <label for="start">Start Date:</label>
-    <input id="start" type="date" v-model="startDate">
-    <label for="end">End Date:</label>
-    <input id="end" type="date" v-model="endDate">
-    <button @click="addRangeToList">Add Range</button>
-    <button @click="clearList">Clear List</button>
-    <ul>
-      <li v-for="(date, index) in dateList" :key="index">
-        {{ date }}
-        <button @click="removeDate(index)">Remove</button>
-      </li>
-    </ul>
-  </div>
   <p>하트를 선택해주세요💕</p>
   <div class="rating gap-1">
-  <input type="radio" name="rating-3" class="mask mask-heart bg-red-400" />
-  <input type="radio" name="rating-3" class="mask mask-heart bg-orange-400" />
-  <input type="radio" name="rating-3" class="mask mask-heart bg-yellow-400" checked />
-  <input type="radio" name="rating-3" class="mask mask-heart bg-lime-400" />
-  <input type="radio" name="rating-3" class="mask mask-heart bg-green-400" />
-</div>
-  <div class="flex flex-col gap-2">
-    <div class="w-full h-auto relative">
-      <p>드롭 더 비트</p>
-      <div class="flex gap-6">
-        <div class="flex flex-col items-center">
-          
-          <img ref="pngRef" src="/star.png" alt="Drag me" h-10>
-          <span>star</span>
-        </div>
-        <div class="flex flex-col items-center">
-          <img src="/static/img/heart-suit.png" alt="Drag me" h-10>
-          <span>heart</span>
-        </div>
+    <input type="radio" name="rating-3" class="mask mask-heart bg-red-400" />
+    <input type="radio" name="rating-3" class="mask mask-heart bg-orange-400" />
+    <input
+      type="radio"
+      name="rating-3"
+      class="mask mask-heart bg-yellow-400"
+      checked
+    />
+    <input type="radio" name="rating-3" class="mask mask-heart bg-lime-400" />
+    <input type="radio" name="rating-3" class="mask mask-heart bg-green-400" />
+  </div>
+  <div>
+    여행일정 나오게하기
+    <!-- 제목 입력 -->
+    <label for="title">제목</label>
+    <input id="title" type="text" v-model="planTitle" />
+    <!-- 일정선택 -->
+    <div>
+      <label for="start">Start Date:</label>
+      <input id="start" type="date" v-model="startDate" />
+      <label for="end">End Date:</label>
+      <input id="end" type="date" v-model="endDate" />
+      <button class="btn" @click="addRangeToList">일정추가</button>
+      <button class="btn-outline" @click="clearList">목록비우기</button>
+      <!-- 여기 넣을 것들 만들어보기 -->
+      <div class="flex flex-col items-center">
+        <img ref="pngRef" src="/star.png" alt="Drag me" h-10 />
+        <span>star</span>
       </div>
-
-      <div grid="~ cols-2 gap-2">
-        <div
-          ref="dropZoneRef"
-          class="flex flex-col w-full min-h-200px h-auto bg-gray-400/10 justify-center items-center mt-6 rounded"
-        >
-          <div font-bold mb2>
-            여기로 이동해주세요.
-          </div>
-          <div>
-            <BooleanDisplay :value="isOverDropZone" />
-          </div>
-          <div class="flex flex-wrap justify-center items-center">
-            <div v-for="(file, index) in filesData" :key="index" class="w-200px bg-black-200/10 ma-2 pa-6">
-              <p>Name: {{ file.name }}</p>
-              <p>Size: {{ file.size }}</p>
-              <p>Type: {{ file.type }}</p>
-              <p>Last modified: {{ file.lastModified }}</p>
+      <div class="flex flex-col items-center">
+        <img src="/static/img/heart-suit.png" alt="Drag me" h-10 />
+        <span>heart</span>
+      </div>
+      <!-- 날짜별 드롭하는 곳 만들기 -->
+      <ul>
+        <li v-for="(date, index) in dateList" :key="index">
+          {{ date }}
+          <!-- 여기에 드롭인 넣기 -->
+          <div grid="~ cols-2 gap-2">
+            <div ref="dropZoneRef">
+              <div font-bold mb2>여기로 이동해주세요.</div>
+              <div>
+                <BooleanDisplay :value="isOverDropZone" />
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+          <!-- 여기까지 -->
+          <button @click="removeDate(index)">일정 삭제</button>
+        </li>
+      </ul>
     </div>
+    <!--  -->
+    <h2>제목 입력하기</h2>
+    <h3>날짜지정하기 => 즐겨찾기 목록 아래에 달력 만들어지기</h3>
+    <p>즐겨찾기 목록 보이기</p>
+    <p>달력 만들어지면 즐겨찾기 목록에서 달력으로 가지고 오기</p>
+    <p>데이터 담기고 나면 저장해서 여행목록 리스트로 보내기</p>
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref, computed, watch, watchEffect } from 'vue'
-import { useDropZone, useEventListener } from '@vueuse/core'
+<script setup>
+import { ref, computed, watch } from 'vue';
+import { useDropZone, useEventListener } from '@vueuse/core';
 
+// 전체
+const planInfo = ref({});
+// 제목
+const planTitle = ref();
 // 시작일과 종료일을 저장할 변수
-const startDate = ref('');
-const endDate = ref('');
+const startDate = ref();
+const endDate = ref();
 // 날짜 리스트를 저장할 배열
 const dateList = ref([]);
 
@@ -85,7 +89,8 @@ const addRangeToList = () => {
     const daysToAdd = [];
     for (let date = start; date <= end; date.setDate(date.getDate() + 1)) {
       const isoDate = date.toISOString().split('T')[0];
-      if (!dateList.value.includes(isoDate)) { // 날짜가 리스트에 없으면 추가
+      if (!dateList.value.includes(isoDate)) {
+        // 날짜가 리스트에 없으면 추가
         daysToAdd.push(isoDate);
       }
     }
@@ -97,8 +102,8 @@ const addRangeToList = () => {
 
 // 리스트에서 특정 인덱스의 날짜를 제거하는 함수
 // 리스트 인덱스가 0이거나 마지막 인덱스인 경우에만 제거 허용
-const removeDate = (index) => {
-  if (index === 0 || index === dateList.value.length - 1) { 
+const removeDate = index => {
+  if (index === 0 || index === dateList.value.length - 1) {
     dateList.value.splice(index, 1);
   } else {
     alert('중간 날짜는 삭제할 수 없습니다.');
@@ -122,7 +127,10 @@ const handleDateRangeChange = () => {
   if (isRangeValid.value) {
     const start = new Date(startDate.value);
     const end = new Date(endDate.value);
-    removeDatesOutsideRange(start.toISOString().split('T')[0], end.toISOString().split('T')[0]);
+    removeDatesOutsideRange(
+      start.toISOString().split('T')[0],
+      end.toISOString().split('T')[0],
+    );
   }
 };
 
@@ -131,40 +139,56 @@ watch([startDate, endDate], () => {
   handleDateRangeChange();
 });
 
-// 여기까지
+// 여기는 드롭 관련
+const eventList = ref([]);
+// 각 날짜별 이벤트 담을 것
 
-const filesData = ref<{ name: string, size: number, type: string, lastModified: number }[]>([])
-
-function onDrop(files: File[] | null) {
+const onDrop = files => {
   if (files) {
-    const checkFile = files.some(newFile => filesData.value.some(file => file.name === newFile.name));
-      if (!checkFile) {
-    filesData.value = [
-    ...filesData.value,  
-    ...files.map(file => ({
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      lastModified: file.lastModified,
-    }))]
-    console.log(filesData.value)
-  }}
-}
+    // 이미 리스트에 있는건지 확인하는 거
+    const checkFile = files.some(newFile =>
+      eventList.value.some(file => file.name === newFile.name),
+    );
+    if (!checkFile) {
+      eventList.value = [
+        ...eventList.value,
+        ...files.map(file => ({
+          name: file.name,
+          // 여기에 넣을 속성들 입력하기
+        })),
+      ];
+      // 여기에 이벤트 값에 날짜 할당해주는 것도 하기
+      console.log(eventList.value);
+    }
+  }
+};
+const dropZoneRef = ref();
+const testRef = ref();
+const { isOverDropZone } = useDropZone(dropZoneRef, onDrop);
+useEventListener(testRef, 'dragstart', event => {
+  event.dataTransfer?.setData('image/png', 'heart-suit.png');
+});
 
-const dropZoneRef = ref<HTMLElement>()
-const pngRef = ref()
+//  이거는 가져온 거 사용하기!
 
-const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
+// dateList를 순회하면서 각 날짜를 키로 하는 빈 객체 생성
+const dateEvents = computed(() => {
+  const events = {};
+  dateList.value.forEach(date => {
+    events[date] = [];
+  });
+  return events;
+});
 
-useEventListener(pngRef, 'dragstart', (event) => {
-  event.dataTransfer?.setData('image/png', 'heart-suit.png')
-})
+// 새로운 일정을 dateEvents에 추가하는 함수
+const addEventToDate = (date, event) => {
+  dateEvents.value[date].push(event);
+};
 
+// 리스트에서 특정 날짜의 특정 인덱스의 일정을 제거하는 함수
+const removeEvent = (date, eventIndex) => {
+  dateEvents.value[date].splice(eventIndex, 1);
+};
 </script>
 
-<style scoped>
-img {
-  height: 50px;
-  width: 50px;
-}
-</style>
+<style scoped></style>

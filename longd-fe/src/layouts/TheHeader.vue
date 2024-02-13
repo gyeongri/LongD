@@ -1,5 +1,5 @@
 <template>
-  <div v-show="mainDisplayStore.isVisible" class="navbar bg-base-100">
+  <div class="navbar bg-base-100">
     <div class="navbar-start">
       <RouterLink class="btn btn-ghost text-2xl" :to="{ name: 'Home' }"
         >롱디</RouterLink
@@ -40,7 +40,7 @@
               </li>
               <li>
                 <a>
-                  <RouterLink :to="{ name: 'ViduVideo' }">같이 보기</RouterLink>
+                  <RouterLink :to="{ name: 'ViduVideo' }">같이보기</RouterLink>
                 </a>
               </li>
             </ul>
@@ -55,16 +55,43 @@
             >
           </a>
         </li>
+
         <li>
+          <details>
+            <summary>여행</summary>
+            <ul class="p-2 bg-base-100 rounded-t-none" style="z-index: 999">
+              <li>
+                <a
+                  ><RouterLink
+                    :to="{ name: 'Map' }"
+                    :class="{ 'text-pink-400': isMapActive }"
+                    >일정계획</RouterLink
+                  ></a
+                >
+              </li>
+              <li>
+                <a>
+                  <RouterLink
+                    :to="{ name: 'PlanList' }"
+                    :class="{ 'text-pink-400': isPlandListActive }"
+                    >여행목록</RouterLink
+                  >
+                </a>
+              </li>
+            </ul>
+          </details>
+        </li>
+
+        <!-- <li>
           <a>
             <RouterLink
               :to="{ name: 'Map' }"
               :class="{ 'text-pink-400': isMapActive }"
               >여행짜기
-              <!-- <img class="image" alt="Map" src="/static/img/1.png"/> -->
+              <img class="image" alt="Map" src="/static/img/1.png"/>
             </RouterLink>
           </a>
-        </li>
+        </li> -->
       </ul>
     </div>
     <div class="navbar-end">
@@ -98,12 +125,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { logout } from '@/utils/api/user.js';
+import { useUserStore } from '@/stores/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
 
 const router = useRouter();
+const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
 
 // 현재 라우터를 확인하는 computed 속성
@@ -119,7 +148,16 @@ const isCalendarActive = computed(
 const isTestMapActive = computed(
   () => router.currentRoute.value.name === 'TestMap',
 );
-const isMapActive = computed(() => router.currentRoute.value.name === 'Map');
+const isMapActive = computed(
+  () =>
+    router.currentRoute.value.name === 'MapSearch' ||
+    router.currentRoute.value.name === 'MapPlan',
+);
+const isPlandListActive = computed(
+  () =>
+    router.currentRoute.value.name === 'PlanList' ||
+    router.currentRoute.value.name === 'PlanDetail',
+);
 
 const isViduActive = computed(
   () =>
@@ -134,13 +172,15 @@ const lockPage = () => {
 };
 // const logOutPage = ref(false);
 const logOut = () => {
-  mainDisplayStore.logOutPage = true;
+  userStore.setUserState('');
   logout(
-    () => {
+    success => {
       router.push({ name: 'Login' });
+      console.log('로그아웃 성공');
     },
     fail => {
       console.log('logout 오류 : ' + fail);
+      router.push({ name: 'Login' });
     },
   );
 };

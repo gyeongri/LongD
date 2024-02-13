@@ -79,7 +79,11 @@
 </template>
 
 <script setup>
+import { useUserStore } from '@/stores/user';
 import { watch, ref, onMounted } from 'vue';
+
+const userStore = useUserStore();
+
 const userProfileImage = ref(
   'https://i.namu.wiki/i/ijg40CIiHx5-Ihr3ksIJUm4cQQDEnek8xMEmJaQqGR5U13DKOZnCkzwPx1L5rcEX2-xxFYAyQO7XTcyqQ2BGEw.webp',
 );
@@ -88,7 +92,7 @@ const otherUserProfileImage = ref(
 );
 
 const chatContainer = ref();
-const userId = ref('8');
+const userId = ref(userStore.getUserState.id);
 const scrollToBottom = () => {
   chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
 };

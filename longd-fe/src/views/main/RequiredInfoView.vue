@@ -98,7 +98,7 @@
           </div>
         </div>
         <!-- 거주국가랑 성별도 입력해야함 -->
-        <div class="sm:col-span-2">
+        <div>
           <label
             for="gender"
             class="block text-sm font-semibold leading-6 text-gray-900"
@@ -124,26 +124,31 @@
           <label
             for="addressNation"
             class="block text-sm font-semibold leading-6 text-gray-900"
-            >거주국</label
+            >사는 곳</label
           >
           <select
-            v-model="Info_state.address_nation"
+            v-model="Info_state.address"
             id="addressNation"
             name="addressNation"
             class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
           >
             <option selected disabled>나라를 골라주세요</option>
-            <option value="한국">한국</option>
-            <option value="영국">영국</option>
+            <option
+              v-for="option in nationList"
+              :key="option.id"
+              :value="option.name"
+            >
+              {{ option.name }}
+            </option>
           </select>
         </div>
-        <div>
+        <!-- <div>
           <label
             for="addressCity"
             class="block text-sm font-semibold leading-6 text-gray-900"
             >거주도시</label
           >
-          <!-- 나중에 나라 고르면 도시 선택하도록 만들기 -->
+          나중에 나라 고르면 도시 선택하도록 만들기
           <select
             v-model="Info_state.address_city"
             id="addressCity"
@@ -154,7 +159,7 @@
             <option value="서울">서울</option>
             <option value="대구">대구</option>
           </select>
-        </div>
+        </div> -->
 
         <!-- 이거 DB로 보내서 확인시키기 -->
         <br />
@@ -213,16 +218,15 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { ChevronDownIcon } from '@heroicons/vue/20/solid';
-import { BaseInfo, sendinfo } from '@/utils/api/user';
+import { BaseInfo, sendinfo, getNationList } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
 import { useRouter } from 'vue-router';
-import { useMainDisplayStore } from '@/stores/maindisplay.js';
 import Swal from 'sweetalert2';
 
 const router = useRouter();
-const mainDisplayStore = useMainDisplayStore();
-const Info_state = ref({});
+const Info_state = ref();
 const codeCheck = ref();
+const nationList = ref();
 
 const fileUpload = event => {
   const formData = new FormData();
@@ -231,6 +235,9 @@ const fileUpload = event => {
     formData,
     success => {
       Info_state.value.profilePicture = success.data[0];
+    },
+    success2 => {
+      console.log('사진을 변환했어요!');
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);
@@ -242,9 +249,18 @@ onMounted(() => {
   BaseInfo(
     data => {
       Info_state.value = data.data;
+      console.log(Info_state.value);
     },
     error => {
       console.log('Base Info 가져오기 안됨', error);
+    },
+  );
+  getNationList(
+    success => {
+      nationList.value = success.data;
+    },
+    error => {
+      console.log(error);
     },
   );
 });
@@ -256,13 +272,13 @@ const send = () => {
       Info_state.value.name &&
       Info_state.value.email &&
       Info_state.value.birth &&
+      Info_state.value.address &&
       Info_state.value.code
     ) {
       sendinfo(
         Info_state.value,
         data => {
-          console.log('sendinfo 성공');
-          mainDisplayStore.logOutPage = false;
+          console.log('sendinfo 성공 & 로그인 값 넣기');
           router.push({ name: 'ConnectCode' });
         },
         error => {
