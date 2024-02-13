@@ -11,6 +11,9 @@ pipeline {
         MAIN_IMAGE_FE = 'longd-front-image'
         MAIN_CONTAINER_FE = 'longd-frontend'
 
+        MAIN_IMAGE_SYNCTUBE = 'longd-synctube-image'
+        MAIN_CONTAINER_SYNCTUBE = 'longd-synctube'
+
         CHAT_IMAGE_BE = 'longd-chat-image'
         CHAT_CONTAINER_BE = 'longd-chat'
 
@@ -22,6 +25,7 @@ pipeline {
         DIRECTORY_FE = 'longd-fe' //FE 디렉터리명
         DIRECTORY_CHAT = 'longD-chat' //CHAT 디렉터리명
         DIRECTORY_OPENVIDU = 'longd-openvidu' //OPENVIDU 디렉터리명
+        DIRECTORY_SYNCTUBE = 'longd-SyncTube'
 
         PROJECT_PATH = '/var/jenkins_home/workspace/LongD-develop'
 
@@ -231,6 +235,55 @@ pipeline {
 
             }
         }
+
+//////////////////////////////////////////////////////////////////////////////
+        //FE - 이미지 생성
+        stage('Build SyncTube image'){
+            steps {
+                dir("${DIRECTORY_SYNCTUBE}"){
+
+                    sh "ls"
+                    sh "docker build -t ${MAIN_IMAGE_SYNCTUBE} -f ${PROJECT_PATH}/longd-SyncTube/Dockerfile ${PROJECT_PATH}/longd-SyncTube"
+                    script {
+                                def currentDir = pwd()
+                                echo "Current Directory: ${currentDir}"
+                            }
+
+                }
+            }
+
+        //FE - 이전 컨테이너 삭제
+        stage('Remove Previous SyncTube Container') {
+            steps {
+                script {
+                    try {
+                        sh "docker stop ${MAIN_CONTAINER_SYNCTUBE}"
+                        sh "docker rm ${MAIN_CONTAINER_SYNCTUBE}"
+                    } catch (e) {
+                        echo 'fail to stop and remove container'
+                    }
+                }
+            }
+        }
+
+
+      //새 FE 컨테이너 실행
+        stage('Run New SyncTube image') {
+            steps {
+                //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
+                sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} -d -p 3001:3001 ${MAIN_IMAGE_SYNCTUBE}"
+                // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
+                echo 'Run New FE image'
+
+                script {
+                            def currentDir = pwd()
+                            echo "Current Directory: ${currentDir}"
+                        }
+            }
+        }
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
 
     }
 }
