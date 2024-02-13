@@ -59,6 +59,7 @@ public class MyRestController {
 
 	@Value("${cloud.aws.s3.bucketName}")
 	private String bucketName;
+	@Autowired
 	private AmazonS3 amazonS3;
 
 	@Autowired
