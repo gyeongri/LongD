@@ -128,7 +128,7 @@ public class MyRestController {
 			this.mapSessions.put(sessionName, session);
 			this.mapSessionNamesTokens.put(sessionName, new ConcurrentHashMap<>());
 			this.mapSessionNamesTokens.get(sessionName).put(token, role);
-			System.out.println("[get-token] mapSessionNames : ");
+//			System.out.println("[get-token] mapSessionNames : ");
 			// Prepare the response with the sessionId and the token
 			responseJson.addProperty("0", token);
 			// Return the response to the client
