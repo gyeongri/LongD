@@ -17,11 +17,20 @@ RUN npm install
 # Vue 프로젝트 빌드
 #RUN npm run build
 
+# Nginx 사용
+FROM nginx:latest
+
+
 # 3001번 포트 열기
 EXPOSE 4200
 
-#CMD ["npm", "run", "build"]
-CMD ["npm", "start"]
+CMD ["/app/start.sh"]
+
+
+# #CMD ["npm", "run", "build"]
+# CMD ["npm", "start"]
+# # Nginx 시작
+# CMD ["nginx", "-g", "daemon off;"]
 
 
 #FROM haxe:4.3.0-alpine3.15
