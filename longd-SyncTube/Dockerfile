@@ -14,13 +14,13 @@ RUN rm -rf /app/node_modules /app/package-lock.json
 # 필요한 패키지 설치
 RUN npm install
 
-RUN npm start
+# RUN npm start
 
 # Vue 프로젝트 빌드
 #RUN npm run build
 
 # Nginx 사용
-FROM nginx:latest
+# FROM nginx:latest
 
 
 # 3001번 포트 열기
