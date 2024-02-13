@@ -21,9 +21,7 @@
                 class="flex items-center justify-end"
                 style="margin-right: 1rem; margin-bottom: 0.5rem"
               >
-                <span class="text-sm text-stone-500">{{
-                  message.senderId
-                }}</span>
+                <span class="text-sm text-stone-500">{{ myNickname }}</span>
                 <img
                   :src="userProfileImage"
                   class="w-8 h-8 rounded-full ml-3"
@@ -38,9 +36,7 @@
                   class="w-8 h-8 rounded-full mr-3"
                   style="margin-left: 1rem; margin-bottom: 0.5rem"
                 />
-                <span class="text-sm text-stone-500">{{
-                  message.senderId
-                }}</span>
+                <span class="text-sm text-stone-500">{{ lovername }}</span>
               </div>
             </template>
           </div>
@@ -103,12 +99,16 @@ const scrollToBottom = () => {
 const props = defineProps({
   messages: Array,
   count: Number,
+  nickname: String,
+  lovername: String,
 });
 const shouldDisplayHeader = index => {
   if (index === 0) {
     return true;
   }
 
+  const myNickname = props.nickname;
+  const lovername = props.lovername;
   const currentSenderId = props.messages[index].senderId;
   const previousSenderId = props.messages[index - 1].senderId;
   // const currentTime = new Date(props.messages[index].createdAt);

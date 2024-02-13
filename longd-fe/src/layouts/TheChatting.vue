@@ -5,6 +5,8 @@
       @chatoff="TurnOffChat"
       :messages="messages"
       :count="count"
+      :nickname="nickname"
+      :lovername="lovername"
       class="border-4 border-blue-500 h-3/4"
     ></ChatDisplayView>
     <ChatInputView
@@ -28,8 +30,9 @@ const messages = reactive([]);
 const senderId = ref('');
 const room = ref(null);
 const count = ref(0);
+const nickname = ref('');
+const lovername = ref('');
 const emit = defineEmits(['offChat']);
-
 // const createRoom = async () => {
 //   const params = new URLSearchParams();
 //   params.append('roomName', coupleId.value);
@@ -109,6 +112,21 @@ onMounted(() => {
   if (userStore.getUserState?.coupleListId !== undefined) {
     console.log('온마운트시점', userStore.getUserState?.coupleListId);
     stompApi
+      .get('/user/findNickname', {
+        params: {
+          coupleListId: userStore.getUserState?.coupleListId,
+          myNickname: userStore.getUserState?.nickname,
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+        lovername.value = response.data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+    stompApi
       .get(`/chat/messages/${userStore.getUserState?.coupleListId}?size=30`)
       .then(res => {
         const sortedArray = res.data.sort((a, b) => a.id - b.id);
@@ -119,6 +137,7 @@ onMounted(() => {
       .then(res => {
         coupleId.value = userStore.getUserState?.coupleListId;
         senderId.value = userStore.getUserState?.id;
+        nickname.value = useUserStore.getUserState?.nickname;
         connect(
           userStore.getUserState?.coupleListId,
           userStore.getUserState?.id,
