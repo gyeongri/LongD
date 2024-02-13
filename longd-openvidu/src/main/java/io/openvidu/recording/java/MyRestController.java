@@ -429,7 +429,7 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing the zip file");
 		}
 		this.sessionRecordings.remove(sessionId);
-		this.openVidu.deleteRecording(recordingId);
+//		this.openVidu.deleteRecording(recordingId);
 		return ResponseEntity.ok(recordingId);
 	} catch (OpenViduJavaClientException | OpenViduHttpException e) {
 		e.printStackTrace();
