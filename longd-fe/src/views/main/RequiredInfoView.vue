@@ -266,30 +266,6 @@ onMounted(() => {
 });
 
 const send = () => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const today = new Date().toISOString().split('T')[0];
-  console.log(Info_state.value);
-  if (
-    Info_state.value.name == null ||
-    Info_state.value.name == '' ||
-    Info_state.value.name == undefined
-  ) {
-    Swal.fire('이름을 입력해주세요');
-  }
-  if (
-    Info_state.value.nickname == null ||
-    Info_state.value.nickname == '' ||
-    Info_state.value.nickname == undefined
-  ) {
-    Swal.fire('닉네임을 입력해주세요');
-  }
-  if (Info_state.value.birth > today) {
-    Swal.fire('생년월일을 확인해주세요');
-  }
-  if (!emailRegex.test(Info_state.value.email)) {
-    Swal.fire('이메일 형식을 확인해주세요');
-  }
-
   if (Info_state.value.code === codeCheck.value) {
     if (
       Info_state.value.nickname &&
@@ -299,16 +275,40 @@ const send = () => {
       Info_state.value.address &&
       Info_state.value.code
     ) {
-      sendinfo(
-        Info_state.value,
-        data => {
-          console.log('sendinfo 성공 & 로그인 값 넣기');
-          router.push({ name: 'ConnectCode' });
-        },
-        error => {
-          console.log('sendinfo 오류 : ' + error);
-        },
-      );
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const today = new Date().toISOString().split('T')[0];
+      console.log(Info_state.value);
+      if (
+        Info_state.value.name == null ||
+        Info_state.value.name == '' ||
+        Info_state.value.name == undefined
+      ) {
+        Swal.fire('이름을 입력해주세요');
+      }
+      if (
+        Info_state.value.nickname == null ||
+        Info_state.value.nickname == '' ||
+        Info_state.value.nickname == undefined
+      ) {
+        Swal.fire('닉네임을 입력해주세요');
+      }
+      if (Info_state.value.birth > today) {
+        Swal.fire('생년월일을 확인해주세요');
+      }
+      if (!emailRegex.test(Info_state.value.email)) {
+        Swal.fire('이메일 형식을 확인해주세요');
+      } else {
+        sendinfo(
+          Info_state.value,
+          data => {
+            console.log('sendinfo 성공 & 로그인 값 넣기');
+            router.push({ name: 'ConnectCode' });
+          },
+          error => {
+            console.log('sendinfo 오류 : ' + error);
+          },
+        );
+      }
     } else {
       Swal.fire({
         icon: 'error',
