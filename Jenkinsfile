@@ -96,7 +96,7 @@ pipeline {
                 stage('Run New FE image') {
                     steps {
                         //FE nginx 설정파일 도커 컨테이너 안으로 복사
-                        
+
                         //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
                         sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt:/etc/letsencrypt ${MAIN_IMAGE_FE}"
                         sh "docker cp ${PROJECT_PATH}/longd-fe/fe-custom.conf ${MAIN_CONTAINER_FE}:/etc/nginx/conf.d"
@@ -122,7 +122,7 @@ pipeline {
                 stage('Copy dist to EC2') {
                     steps {
                         //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                        sh "docker cp longd-frontend:/app/dist ${PROJECT_PATH}"
+                        sh "docker cp ${MAIN_CONTAINER_FE}:/app/dist ${PROJECT_PATH}"
                         // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
                         echo 'COPY FE Dist to EC2'
 
@@ -288,7 +288,7 @@ pipeline {
             }
         }
 
-        
+
         //FE 컨테이너 재실행 (nginx 설정 완료 후)
         stage('Restart SyncTube container'){
             steps{
