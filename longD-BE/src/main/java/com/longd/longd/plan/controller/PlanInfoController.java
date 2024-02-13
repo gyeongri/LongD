@@ -61,7 +61,7 @@ public class PlanInfoController {
     @PostMapping("/add/allInfo")
     public ResponseEntity<?> setAllInfo(@RequestBody PlanRequestDto dto) {
         try {
-            String tmp = planInfoService.setPlanAndPlanInfo(dto);
+            int tmp = planInfoService.setPlanAndPlanInfo(dto);
             return ResponseEntity.status(200).body(tmp);
         } catch (Exception e) {
             log.error(e.getMessage());
