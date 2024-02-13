@@ -133,8 +133,9 @@ import {
 } from '@/utils/api/albums';
 import { uploadImage } from '@/utils/api/photo';
 import { useGalleryStore } from '@/stores/gallery.js';
+import { useUserStore } from '@/stores/user';
 const galleryStore = useGalleryStore();
-
+const userStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
 
@@ -187,7 +188,7 @@ const totalCheckedEvent = data => {
   console.log(totalChecked.value);
 };
 
-const coupleId = ref(1);
+const coupleId = ref('');
 // 해당 폴더의 리스트 조회
 const items = ref([]);
 const fetchAlbums = async () => {
@@ -210,8 +211,13 @@ const fetchAlbums = async () => {
         coupleId.value,
         params2.value,
       );
+      console.log(data, '갤럭리확인');
       items.value = data;
-      totalCount.value = data[0].size;
+      if (data.length > 0) {
+        totalCount.value = data[0].size;
+      } else {
+        totalCount.value = 0;
+      }
       // totalCount.value = data.length;
       // console.log(data);
     } catch (err) {
@@ -353,7 +359,10 @@ const goFolder = () => {
 };
 
 onMounted(() => {
-  getCategoryId();
+  coupleId.value = userStore.getUserState?.coupleListId;
+  setTimeout(() => {
+    getCategoryId();
+  }, 300);
 });
 
 // // 참고 (데이터 전송 관련 방법 2가지)
