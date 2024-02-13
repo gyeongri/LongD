@@ -46,7 +46,7 @@
             </ul>
           </details>
         </li>
-        <li>
+        <!-- <li>
           <a>
             <RouterLink
               :to="{ name: 'TestMap' }"
@@ -54,8 +54,7 @@
               >맵TEST</RouterLink
             >
           </a>
-        </li>
-
+        </li> -->
         <li>
           <details>
             <summary>여행</summary>
@@ -80,6 +79,18 @@
               </li>
             </ul>
           </details>
+        </li>
+
+        <li>
+          <a>
+            <RouterLink
+              :to="{ name: 'bucketList' }"
+              :class="{ 'text-pink-400': isBucketListActive }"
+            >
+              버킷리스트
+              <!-- <img class="image" alt="Gallery" src="/static/img/image.png"/> -->
+            </RouterLink>
+          </a>
         </li>
 
         <!-- <li>

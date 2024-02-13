@@ -7,7 +7,6 @@
         userStore.getUserState?.coupleListId
       "
     ></TheHeader>
-
     <div class="flex">
       <div class="flex-1 mr-8">
         <TheView></TheView>
