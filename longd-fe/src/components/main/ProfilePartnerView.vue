@@ -2,7 +2,7 @@
   <div class="isolate bg-white px-6 py-15 sm:py-15 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-        {{ partnerInfo.nickname }}의 프로필 페이지
+        {{ partnerInfo.nickname }}님의 프로필 페이지
       </h2>
     </div>
     <button class="btn btn-primary" @click="goHome">돌아가기</button>
