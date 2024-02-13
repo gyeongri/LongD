@@ -3,36 +3,36 @@
     <div>
       <div class="stack w-full h-64" @click="totalView">
         <GalleryCard
-          src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+          src="https://i.pinimg.com/564x/b4/bd/75/b4bd756f0d38cf1589b6a9ebc8b5fc32.jpg"
         >
         </GalleryCard>
         <GalleryCard
-          src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+          src="https://i.pinimg.com/564x/b4/bd/75/b4bd756f0d38cf1589b6a9ebc8b5fc32.jpg"
         >
         </GalleryCard>
         <GalleryCard
-          src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+          src="https://i.pinimg.com/564x/b4/bd/75/b4bd756f0d38cf1589b6a9ebc8b5fc32.jpg"
         >
         </GalleryCard>
       </div>
-      <p class="mt-2 ml-4">전체보기</p>
+      <p class="mt-2 ml-4 font-bold">전체보기</p>
     </div>
     <div>
       <div class="stack w-full h-64">
         <GalleryCard
-          src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+          src="https://i.pinimg.com/564x/b4/bd/75/b4bd756f0d38cf1589b6a9ebc8b5fc32.jpg"
         >
         </GalleryCard>
         <GalleryCard
-          src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+          src="https://i.pinimg.com/564x/b4/bd/75/b4bd756f0d38cf1589b6a9ebc8b5fc32.jpg"
         >
         </GalleryCard>
         <GalleryCard
-          src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+          src="https://i.pinimg.com/564x/b4/bd/75/b4bd756f0d38cf1589b6a9ebc8b5fc32.jpg"
         >
         </GalleryCard>
       </div>
-      <p class="mt-2 ml-4">추억영상함</p>
+      <p class="mt-2 ml-4 font-bold">추억영상함</p>
     </div>
     <div v-for="(item, index) in items" :key="index" :class="colClass">
       <slot :item="item" :index="index"></slot>

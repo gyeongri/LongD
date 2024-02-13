@@ -23,11 +23,13 @@
         <AppDropdown>
           <template v-slot>
             <li onclick="gallery_create.showModal()">
-              <a>추가</a>
+              <a class="font-bold">추가</a>
             </li>
-            <li v-if="!deleteActive" @click="toggleDelete"><a>삭제</a></li>
+            <li v-if="!deleteActive" @click="toggleDelete">
+              <a class="font-bold">삭제</a>
+            </li>
             <li v-if="deleteActive" @click="toggleDelete">
-              <a>삭제 취소 </a>
+              <a class="font-bold">삭제 취소 </a>
             </li>
           </template>
         </AppDropdown>
@@ -70,7 +72,10 @@
 
     <template v-slot:footer>
       <!-- 파일 업로드 입력 필드 -->
-      <label for="file-upload" class="btn btn-outline btn-primary mt-4">
+      <label
+        for="file-upload"
+        class="btn btn-outline border-pink-400 mt-4 text-gray-500 hover:bg-pink-300"
+      >
         파일 선택하기
       </label>
       <input
@@ -83,11 +88,14 @@
       <button
         @click="uploadImages"
         :disabled="imagePreviews.length === 0"
-        class="btn btn-outline btn-primary mx-2"
+        class="btn btn-outline border-pink-400 mt-4 text-gray-500 hover:bg-pink-300 mx-2"
       >
         등록하기
       </button>
-      <button @click="cancelImages" class="btn btn-outline btn-primary mx-2">
+      <button
+        @click="cancelImages"
+        class="btn btn-outline border-gray-400 hover:bg-gray-300 mx-2"
+      >
         취소
       </button>
     </template>
@@ -318,18 +326,17 @@ const uploadImages = async () => {
           // 여기로
         }
       },
+      success2 => {
+        console.log(formData2);
+        console.log(coupleId.value);
+        createGallery(formData2);
+        // 이미지 업로드 후 이미지 미리보기 배열 초기화
+        fetchAlbums();
+      },
       error => {
         console.log('사진을 변환할 수 없어요.', error);
       },
     );
-    try {
-      // 서버로 이미지 전송하는 API 호출
-      // await createGallery(coupleId.value, formData2);
-      // 이미지 업로드 후 이미지 미리보기 배열 초기화
-      await fetchAlbums();
-    } catch (error) {
-      console.error('Error uploading images:', error);
-    }
   }
 };
 

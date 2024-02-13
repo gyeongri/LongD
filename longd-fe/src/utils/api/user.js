@@ -11,8 +11,8 @@ const userApi = axios.create({
   },
 });
 
-function sendinfo(param, success, fail) {
-  userApi.post(`/user/add`, JSON.stringify(param)).then(success).catch(fail);
+function sendinfo(payload, success, fail) {
+  userApi.post(`/user/add`, JSON.stringify(payload)).then(success).catch(fail);
 }
 
 function partnerinfo(success, fail) {
