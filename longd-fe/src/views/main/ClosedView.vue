@@ -149,6 +149,7 @@ const resetpassword = () => {
     },
   );
 };
+
 //다른곳 가는거 방지
 onBeforeRouteLeave((to, from, next) => {
   if (mainDisplayStore.closedPage == true) {

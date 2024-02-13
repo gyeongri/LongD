@@ -11,6 +11,10 @@ const userApi = axios.create({
   },
 });
 
+function postPlanData(planAll, success, fail) {
+  userApi.post(`/plan/info/add/allInfo`, planAll).then(success).catch(fail);
+}
+
 function getPlanList(coupleList, success, fail) {
   userApi.get(`/plan/get/${coupleList}`).then(success).catch(fail);
 }
@@ -19,4 +23,4 @@ function getPlanDetail(planId, success, fail) {
   userApi.get(`/plan/info/getList/${planId}`).then(success).catch(fail);
 }
 
-export { getPlanList, getPlanDetail };
+export { postPlanData, getPlanList, getPlanDetail };
