@@ -1,5 +1,6 @@
 package com.longd.longd.fileUpload.controller;
 
+import com.longd.longd.fileUpload.db.dto.UploadResultDto;
 import com.longd.longd.fileUpload.service.FileUploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,13 @@ public class FileUploadController {
     public ResponseEntity<?> postObjectMany (@RequestParam("file")List<MultipartFile> file) {
         // 파일 이름 출력 (예제에서는 콘솔에 출력)
 
-        List<String> tmp = new ArrayList<>();
+        List<UploadResultDto> tmp = new ArrayList<>();
         try {
             tmp = fileUploadService.uploadObjectToS3Many(file);
         } catch (IOException e) {
             log.error("fileUploads Controller error" + e.getMessage());
         }
-        if(tmp.equals("")) return ResponseEntity.status(503).body("Fail");
+        if(tmp.isEmpty()) return ResponseEntity.status(503).body("Fail");
 
         // 성공적인 응답
         return ResponseEntity.ok(tmp);
