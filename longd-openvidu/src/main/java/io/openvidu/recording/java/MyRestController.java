@@ -57,9 +57,11 @@ public class MyRestController {
 	// Secret shared with our OpenVidu server
 	private String SECRET;
 
-	private String sName,sId;
-	private AmazonS3 amazonS3;
+	@Value("${cloud.aws.s3.bucketName}")
 	private String bucketName;
+	private AmazonS3 amazonS3;
+
+	@Autowired
 	private GalleryRepository galleryRepository;
 
 	public MyRestController(@Value("${openvidu.secret}") String secret, @Value("${openvidu.url}") String openviduUrl) {
@@ -401,18 +403,19 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 
 						//S3업로드를 위한 메타데이터 만들기
 						String fileKey = sessionId + "/" + entryName;
+						System.out.println("fileKey = " + fileKey);
 						ObjectMetadata metadata = new ObjectMetadata();
 						metadata.setContentLength(fileContent.length);
 						metadata.setContentType("video/webm");
 
 						try (InputStream inputStream = new ByteArrayInputStream(fileContent)) {
-							System.out.println("하이하이");
+							System.out.println("do upload S3");
 							//S3에 파일 업로드하기
 							amazonS3.putObject(new PutObjectRequest(bucketName, fileKey, inputStream, metadata)
 									.withCannedAcl(CannedAccessControlList.PublicRead));
-
+							System.out.println("amazonS3 putObject");
 							String fileUrl = amazonS3.getUrl(bucketName, fileKey).toString();
-
+							System.out.println("fileUrl = " + fileUrl);
 							// 파일 URL과 coupleListId를 Gallery 테이블에 저장
 							Gallery gallery = new Gallery();
 							gallery.setPathUrl(fileUrl);
