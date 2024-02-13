@@ -212,7 +212,7 @@ const openModal = () => {
       console.log('sendPlan함수 실행!');
       sendPlan();
     } else {
-      Swal.fire('계속 일정을 작성해주세요.');
+      Swal.fire('일정 계획이 끝나면 꼭 저장 버튼을 눌러주세요!');
     }
   });
 };
