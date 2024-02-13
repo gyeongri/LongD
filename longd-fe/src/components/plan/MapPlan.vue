@@ -9,7 +9,7 @@
     <label for="end">종료 날짜:</label>
     <input id="end" type="date" v-model="endDay" />
     <button class="btn" @click="addRangeToList">일정 추가</button>
-    <button class="btn-outline" @click="clearList">일정 초기화</button>
+    <button class="btn btn-outline" @click="clearList">일정 초기화</button>
   </div>
   <!-- 즐겨찾기 목록 -->
   <p>즐겨찾기 목록</p>
@@ -55,9 +55,7 @@
       </div>
     </div>
   </div>
-  {{ startDay }}
-  {{ endDay }}
-  <button>저장</button>
+  <button class="btn" @click="sendPlan()">저장</button>
 </template>
 
 <script setup>
@@ -194,6 +192,20 @@ const removePlace = (date, placeIndex) => {
   // placeList에서 제거
   placeList.value.splice(placeIndex, 1);
   console.log(placeList.value);
+};
+
+// 정보 보내기
+const sendPlan = () => {
+  console.log(
+    'planTitle :',
+    planTitle.value,
+    'startDay :',
+    startDay.value,
+    'endDay :',
+    endDay.value,
+    'placeList :',
+    placeList.value,
+  );
 };
 
 // 컴포넌트가 마운트될 때 이벤트 리스너 추가
