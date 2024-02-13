@@ -82,6 +82,18 @@
           </details>
         </li>
 
+        <li>
+          <a>
+            <RouterLink
+              :to="{ name: 'bucketList' }"
+              :class="{ 'text-pink-400': isBucketListActive }"
+            >
+              버킷리스트
+              <!-- <img class="image" alt="Gallery" src="/static/img/image.png"/> -->
+            </RouterLink>
+          </a>
+        </li>
+
         <!-- <li>
           <a>
             <RouterLink
