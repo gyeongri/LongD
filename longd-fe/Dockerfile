@@ -27,8 +27,10 @@ RUN mkdir -p /usr/share/nginx/html
 # 3001번 포트 열기
 EXPOSE 3001
 
+CMD ["/app/start.sh"]
+
 # #CMD ["npm", "run", "build"]
 #  CMD ["npm", "run", "build"]
 
 # Nginx 시작
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
