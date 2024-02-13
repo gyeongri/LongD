@@ -1,7 +1,14 @@
 <template>
-  <div class="h-[864px]">Nochatting</div>
+  <div class="h-[864px]">
+    <button @click="turnChat">열기</button>
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+const emit = defineEmits(['onChat']);
+const turnChat = function () {
+  emit('onChat');
+};
+</script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>

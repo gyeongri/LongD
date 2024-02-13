@@ -21,11 +21,11 @@
           />
           <img
             v-if="Info_state.profilePicture"
-            :src="Info_state.profilePicture"
+            :src="Info_state?.profilePicture"
             alt="Uploaded Image"
           />
         </div>
-        <!-- ID -->
+        <!-- 애칭 -->
         <div class="sm:col-span-2">
           <label
             for="nickname"
@@ -97,7 +97,7 @@
             />
           </div>
         </div>
-        <!-- 거주국가랑 성별도 입력해야함 -->
+        <!-- 성별 -->
         <div>
           <label
             for="gender"
@@ -119,7 +119,7 @@
             aria-hidden="true"
           />
         </div>
-        <!-- 거주국이랑 거주도시는 값 입력이 안되어있다 이거 저장할 수 있도록 하기! -->
+        <!-- 거주지 -->
         <div>
           <label
             for="addressNation"
@@ -142,27 +142,7 @@
             </option>
           </select>
         </div>
-        <!-- <div>
-          <label
-            for="addressCity"
-            class="block text-sm font-semibold leading-6 text-gray-900"
-            >거주도시</label
-          >
-          나중에 나라 고르면 도시 선택하도록 만들기
-          <select
-            v-model="Info_state.address_city"
-            id="addressCity"
-            name="addressCity"
-            class="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-          >
-            <option selected disabled>도시를 골라주세요</option>
-            <option value="서울">서울</option>
-            <option value="대구">대구</option>
-          </select>
-        </div> -->
-
-        <!-- 이거 DB로 보내서 확인시키기 -->
-        <br />
+        <!-- 연결코드 -->
         <div class="sm:col-span-2">
           <strong>♡ 상대에게 전달할 연결코드를 정해주세요.</strong>
         </div>
@@ -299,16 +279,28 @@ const send = () => {
       Info_state.value.address &&
       Info_state.value.code
     ) {
-      sendinfo(
-        Info_state.value,
-        data => {
-          console.log('sendinfo 성공 & 로그인 값 넣기');
-          router.push({ name: 'ConnectCode' });
-        },
-        error => {
-          console.log('sendinfo 오류 : ' + error);
-        },
-      );
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const today = new Date().toISOString().split('T')[0];
+      console.log(Info_state.value);
+      if (Info_state.value.birth > today) {
+        Swal.fire('생년월일을 확인해주세요');
+        return;
+      }
+      if (!emailRegex.test(Info_state.value.email)) {
+        Swal.fire('이메일 형식을 확인해주세요');
+        return;
+      } else {
+        sendinfo(
+          Info_state.value,
+          data => {
+            console.log('sendinfo 성공 & 로그인 값 넣기');
+            router.push({ name: 'ConnectCode' });
+          },
+          error => {
+            console.log('sendinfo 오류 : ' + error);
+          },
+        );
+      }
     } else {
       Swal.fire({
         icon: 'error',

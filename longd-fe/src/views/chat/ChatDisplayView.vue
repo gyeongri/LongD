@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white rounded-lg shadow-md p-4">
-    <button>집어넣기</button>
+    <button @click="turnOff">집어넣기</button>
     <div class="chat-container" ref="chatContainer">
       <div
         v-for="(message, index) in messages"
@@ -83,6 +83,10 @@ import { useUserStore } from '@/stores/user';
 import { watch, ref, onMounted } from 'vue';
 
 const userStore = useUserStore();
+const emit = defineEmits(['chatoff']);
+const turnOff = function () {
+  emit('chatoff');
+};
 
 const userProfileImage = ref(
   'https://i.namu.wiki/i/ijg40CIiHx5-Ihr3ksIJUm4cQQDEnek8xMEmJaQqGR5U13DKOZnCkzwPx1L5rcEX2-xxFYAyQO7XTcyqQ2BGEw.webp',
