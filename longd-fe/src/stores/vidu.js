@@ -113,7 +113,7 @@ export const useViduStore = defineStore('vidu', () => {
             resolution: '640x480',
             frameRate: 30,
             insertMode: 'APPEND',
-            mirror: false,
+            mirror: true,
           });
 
           // 스트림이 만들어졌을떄
