@@ -3,7 +3,7 @@
     <div class="border-4 border-blue-500 h-3/4">
       <!-- 사용자의 로컬 주소를 준다면?, 방은 저절로 해결? -->
       <iframe
-        src="http://i10d206.p.ssafy.io:4200/"
+        src="https://i10d206.p.ssafy.io/synctube"
         width="100%"
         height="100%"
         frameborder="0"
