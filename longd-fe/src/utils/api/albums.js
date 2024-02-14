@@ -48,6 +48,6 @@ export function deleteGallery(data) {
 }
 
 //비디오만 받아오기
-export function getVideo() {
-  return api.get('gallery/getMovieList');
+export function getVideo(params) {
+  return api.get('gallery/getMovieList', { params });
 }
