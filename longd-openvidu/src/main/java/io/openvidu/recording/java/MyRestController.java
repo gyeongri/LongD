@@ -312,67 +312,6 @@ public class MyRestController {
 		}
 	}
 
-//	@RequestMapping(value = "/recording/stop", method = RequestMethod.POST)
-//	public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) throws IOException {
-//		String recordingId = (String) params.get("recording");
-//		String connectionId= (String) params.get("connectionId");
-//		String coupleId=(String) params.get("coupleId");
-////		System.out.println("Stoping recording | {recordingId}=" + recordingId);
-////		System.out.println("Stoping recording | {connectionId}=" + connectionId);
-////		System.out.println("Stoping recording | {coupleId}=" + coupleId);
-//
-//		try {
-//			Recording recording = this.openVidu.stopRecording(recordingId);
-//			System.out.println("stop recording - url : "+recording.getUrl());
-//
-//			String sessionId=recording.getSessionId();
-//			System.out.println("stop recording - sessionId : "+sessionId);
-//
-////			//unzip
-////			//C:\SSAFY
-//			//지금은 다운로드 위치를 C:\SSAFY로 고정
-//			//상대경로를 사용할 수 없기때문에 C:\SSAFY
-//			String zipPath= "C:"+File.separator+"SSAFY"+File.separator+"testVideo"+File.separator+sessionId+File.separator+sessionId+".zip";
-//			System.out.println("이건 zip파일 위치!"+zipPath);
-//			File zipFile=new File(zipPath);
-//			//압축 해제한 위치
-//			String upzipDir="C:"+File.separator+"SSAFY"+File.separator+"testVideo"+File.separator+sessionId+File.separator;
-//
-//			ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath));
-//			ZipEntry ze = zis.getNextEntry();
-//
-//			while (ze != null) {
-//				String entryName = ze.getName();
-//				if (entryName.endsWith(".webm")) { // .mp4 확장자 파일만 처리
-//					System.out.print("Extracting " + entryName + " -> " + upzipDir + File.separator +  entryName + "...");
-//					File f=new File(".."+File.separator+"myVideo"+File.separator+entryName);
-////					File f = new File(upzipDir + File.separator + entryName);
-//					f.getParentFile().mkdirs(); // 필요한 경우 디렉토리 생성
-//
-//					FileOutputStream fos = new FileOutputStream(f);
-//					int len;
-//					byte buffer[] = new byte[1024];
-//					while ((len = zis.read(buffer)) > 0) {
-//						fos.write(buffer, 0, len);
-//					}
-//					fos.close();
-//					System.out.println("OK!");
-//				} else {
-//					System.out.println(entryName + "는 .webm 확장자가 아니므로 건너뜁니다.");
-//				}
-//
-//				ze = zis.getNextEntry();
-//			}
-//			zis.closeEntry();
-//			zis.close();
-//
-//			this.sessionRecordings.remove(recording.getSessionId());
-//			this.openVidu.deleteRecording(recordingId);
-//			return new ResponseEntity<>(recordingId, HttpStatus.OK);
-//		} catch (OpenViduJavaClientException | OpenViduHttpException e) {
-//			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-//		}
-//    }
 @RequestMapping(value = "/recording/stop", method = RequestMethod.POST)
 public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) {
 	String recordingId = (String) params.get("recording");
@@ -387,7 +326,6 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 
 		//압축파일 경로 -> 도커에서 지정해준 위치로 바꿀것
 		String zipPath = File.separator + "home" + File.separator + "recordings" + File.separator  + sessionId + File.separator + sessionId + ".zip";;
-		System.out.println(zipPath);
 		//압축파일 하나씩 읽음
 		try (ZipInputStream zis = new ZipInputStream(new FileInputStream(zipPath))) {
 			ZipEntry ze = zis.getNextEntry();
@@ -412,17 +350,15 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 						metadata.setContentType("video/webm");
 
 						try (InputStream inputStream = new ByteArrayInputStream(fileContent)) {
-							System.out.println("do upload S3");
 							//S3에 파일 업로드하기
 							amazonS3.putObject(new PutObjectRequest(bucketName, fileKey, inputStream, metadata)
 									.withCannedAcl(CannedAccessControlList.PublicRead));
-							System.out.println("amazonS3 putObject");
 							String fileUrl = amazonS3.getUrl(bucketName, fileKey).toString();
-							System.out.println("fileUrl = " + fileUrl);
 							// 파일 URL과 coupleListId를 Gallery 테이블에 저장
 							Gallery gallery = new Gallery();
 							gallery.setPathUrl(fileUrl);
 							gallery.setCoupleListId(coupleListId);
+							gallery.setType(2);
 							galleryRepository.save(gallery);
 						}
 					}

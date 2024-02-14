@@ -75,8 +75,32 @@ const chatTrue = function () {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'UhBeemysen';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeemysen.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'omyu_pretty';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Beeunhye';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_01@1.0/Beeunhye.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 body,
 html {
-  font-family: 'TTHakgyoansimKkokkomaR', sans-serif;
+  /* font-family: 'TTHakgyoansimKkokkomaR', sans-serif; */
+  /* font-family: 'omyu_pretty', sans-serif; */
+  font-family: 'Beeunhye', sans-serif;
+  font-size: 20px;
 }
 </style>

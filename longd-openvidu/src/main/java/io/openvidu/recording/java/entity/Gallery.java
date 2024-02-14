@@ -18,4 +18,7 @@ public class Gallery {
     private int coupleListId;
     @Column(name="path_url")
     private String pathUrl;
+    @Column(name="type")
+    private int type;
+
 }
