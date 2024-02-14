@@ -7,7 +7,13 @@
     >
       삭제
     </button>
-    <button class="btn btn-sm" style="background-color: #ffeded">목록</button>
+    <button
+      class="btn btn-sm"
+      style="background-color: #ffeded"
+      @click="goList"
+    >
+      목록
+    </button>
   </div>
   <div class="box">
     <div class="box">
@@ -40,20 +46,20 @@
 
 <script setup>
 import { ref, onMounted, watchEffect, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { getPlanDetail, getPlan, deletePlanData } from '@/utils/api/plan';
 import Swal from 'sweetalert2';
-
+const route = useRoute();
 const planDetail = ref('');
 const currentId = ref('');
 const planInfoDetail = ref([]);
 const dateList = ref([]);
-const router = useRoute();
+const router = useRouter();
 const getItemsByDate = date => {
   return planInfoDetail.value.filter(item => item.date === date);
 };
 const getCurrentRouteId = () => {
-  currentId.value = router.params.id;
+  currentId.value = route.params.id;
 };
 const defaultCenter = { lat: 36.10680122096389, lng: 128.4178078082704 };
 
@@ -118,16 +124,21 @@ const deletePlan = function () {
         currentId.value,
         success => {
           console.log(currentId.value);
-          console.log('15151515151');
+          router.push({ name: 'PlanList' });
           // 삭제 성공 시 추가적인 로직 작성
         },
         fail => {
+          console.error(fail);
           // 삭제 실패 시 추가적인 로직 작성
         },
       );
     }
     // '아니오'를 눌렀을 때는 아무 로직도 추가하지 않음
   });
+};
+//리스트로 돌려보낼함수
+const goList = function () {
+  router.push({ name: 'PlanList' });
 };
 // 컴포넌트가 마운트될 때와 라우터의 변경을 감지하여 현재 ID를 업데이트합니다.
 onMounted(async () => {
