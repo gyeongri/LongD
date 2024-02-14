@@ -9,6 +9,7 @@ import com.longd.longd.user.db.repository.NationListRepository;
 import com.longd.longd.user.db.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -157,7 +158,8 @@ public class UserServiceImpl implements UserService{
     }
 
     public List<NationList> getNationList() {
-        return nationListRepository.findAll();
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        return nationListRepository.findAll(sort);
     }
 
     public String WeblockCheck(String simplePassword) {
