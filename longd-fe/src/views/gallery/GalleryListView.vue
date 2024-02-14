@@ -42,6 +42,7 @@
       <GalleryCard
         :src="item.pathUrl"
         :id="item.id"
+        :types="item.type"
         :deleteActive="deleteActive"
         @click="goDetail(folderName, item.id)"
         @checkedEvent="totalCheckedEvent"

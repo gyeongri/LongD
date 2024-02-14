@@ -15,6 +15,9 @@ defineProps({
   src: {
     type: String,
   },
+  type: {
+    type: Number,
+  },
 });
 </script>
 

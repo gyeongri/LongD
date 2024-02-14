@@ -4,7 +4,7 @@
       rows="3"
       v-model="message"
       @keyup.enter="sendMessageToMain"
-      class="textarea w-full h-full resize-none pr-12 shadow-md bg-neutral-50"
+      class="textarea w-full h-full resize-none pr-12 shadow-lg bg-neutral-50"
     ></textarea>
     <button
       @click="sendMessageToMain"

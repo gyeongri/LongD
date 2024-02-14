@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto" :class="{ 'chrome-zoom': isChrome }">
     <TheHeader
       v-show="
         userStore.isLogin &&
@@ -23,7 +23,7 @@
           'w-1/10': !isChatting,
         }"
       >
-        <div v-if="isChatting">
+        <div v-if="isChatting" class="fixed">
           <TheChatting @offChat="chatFalse"></TheChatting>
         </div>
         <div v-else>
@@ -42,7 +42,7 @@ import TheNochatting from './layouts/TheNochatting.vue';
 import ViduMainView from './views/openvidu/ViduMainView.vue';
 import { useUserStore } from '@/stores/user.js';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 const userStore = useUserStore();
 const mainDisplayStore = useMainDisplayStore();
 const isChatting = ref(true);
@@ -52,6 +52,12 @@ const chatFalse = function () {
 const chatTrue = function () {
   isChatting.value = true;
 };
+const isChrome = ref(false);
+onMounted(() => {
+  const userAgent = navigator.userAgent.toLowerCase();
+  isChrome.value =
+    /chrome/.test(userAgent) && !/edge|edg\/|opr\//.test(userAgent);
+});
 // if, else로 하지 말고, 버전 1,2,3으로 구분해서 채팅관련된 것이 아예 없도록 하던가 하면 될 듯.
 </script>
 
@@ -64,6 +70,9 @@ const chatTrue = function () {
 }
 .check {
   display: none;
+}
+.chrome-zoom {
+  zoom: 90%;
 }
 </style>
 
