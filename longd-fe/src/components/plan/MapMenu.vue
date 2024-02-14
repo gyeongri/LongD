@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mapmenu">
     <!-- <div class="drawer drawer-open">
       <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
       <div class="drawer-side">
@@ -12,10 +12,9 @@
         <RouterLink :to="{ name: 'MapPlan' }">일정짜기</RouterLink>
       </button>
     </div>
-    <RouterView></RouterView>
-    <!-- </div>
-      </div>
-    </div> -->
+    <div class="routerview">
+      <RouterView></RouterView>
+    </div>
   </div>
 </template>
 
@@ -24,5 +23,14 @@
 <style scoped>
 .menu .test {
   display: flex;
+}
+
+.mapmenu {
+  width: 16rem;
+  height: 44rem;
+}
+
+.routerview {
+  border: solid 1px;
 }
 </style>
