@@ -10,7 +10,7 @@
           'chat-end': message.senderId == userId,
           'chat-start': message.senderId != userId,
         }"
-        style="display: flex; flex-direction: column"
+        class="flex flex-col"
       >
         <!-- 사용자 ID와 프로필 이미지를 메시지 스레드의 첫 부분에만 표시 -->
         <template v-if="shouldDisplayHeader(index)">
@@ -56,11 +56,13 @@
         >
           <!-- 사용자('나')의 메시지일 경우 시간을 왼쪽에 표시 -->
           <template v-if="message.senderId == userId">
-            <time class="text-xs opacity-50 mt-2 gap-2">{{
-              getFormattedTime(message.createdAt)
-            }}</time>
-            <div class="chat-bubble bg-blue-100 p-3 rounded-lg">
-              <p class="text-sm text-stone-500">{{ message.content }}</p>
+            <div class="flex">
+              <time class="text-xs opacity-50 mt-2 gap-2">{{
+                getFormattedTime(message.createdAt)
+              }}</time>
+              <div class="chat-bubble bg-blue-100 p-3 rounded-lg">
+                <p class="text-sm text-stone-500">{{ message.content }}</p>
+              </div>
             </div>
           </template>
           <!-- 상대방의 메시지일 경우 시간을 오른쪽에 표시 -->
