@@ -17,5 +17,4 @@ const turnChat = function () {
   emit('onChat');
 };
 </script>
-<style scoped>
-</style>
+<style scoped></style>

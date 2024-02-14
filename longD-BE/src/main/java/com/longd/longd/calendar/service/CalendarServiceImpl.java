@@ -64,7 +64,9 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     public Calendar modifycalendarInfo(int id, Calendar updateInfo) {
         // 왜썻더라
+        Optional<User> user = userService.userState();
         log.info("수정 진행");
+        updateInfo.setCoupleListId(user.get().getCoupleListId());
         Optional<Calendar> calendar = calendarRepository.findById(id);
         calendarRepository.save(updateInfo);
         return null;
