@@ -46,3 +46,8 @@ export function updateGallery(id, data) {
 export function deleteGallery(data) {
   return api.post('/gallery/delete', data);
 }
+
+//비디오만 받아오기
+export function getVideo() {
+  return api.get('gallery/getMovieList');
+}

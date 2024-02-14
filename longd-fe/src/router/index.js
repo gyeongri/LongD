@@ -20,6 +20,7 @@ import RequiredInfoView from '@/views/main/RequiredInfoView.vue';
 import ConnectCodeView from '@/components/main/ConnectCodeView.vue';
 import GalleryFolderView from '@/views/gallery/GalleryFolderView.vue';
 import bucketListView from '@/views/bucketList/bucketListView.vue';
+import VideoListView from '@/views/gallery/VideoListView.vue';
 import { useUserStore } from '@/stores/user.js';
 import { loginstate } from '@/utils/api/user';
 
@@ -78,6 +79,11 @@ const router = createRouter({
       path: '/gallery/:folderName/:id',
       name: 'GalleryDetail',
       component: GalleryDetailView,
+    },
+    {
+      path: '/gallery/video',
+      name: 'VideoList',
+      component: VideoListView,
     },
     {
       path: '/calendar',

@@ -18,5 +18,4 @@ const turnChat = function () {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

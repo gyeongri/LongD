@@ -2,7 +2,6 @@
   <div class="navbar bg-base-100">
     <div class="navbar-start">
       <RouterLink class="btn btn-ghost text-5xl" :to="{ name: 'Home' }">
-        <!-- <img class="image" alt="LongDlogo" src="/static/img/longD_logo_.png" /> -->
         <h1 class="logoFont">롱디</h1>
       </RouterLink>
     </div>
