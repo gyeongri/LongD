@@ -27,10 +27,10 @@ const userStore = useUserStore();
 const userInfo = ref();
 const planList = ref();
 
-onMounted(() => {
+onMounted(async () => {
   userInfo.value = userStore.getUserState;
 
-  getPlanList(
+  await getPlanList(
     userStore.getUserState?.coupleListId,
     success => {
       console.log('플랜 리스트', success.data);
