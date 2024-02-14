@@ -57,6 +57,17 @@ public class GalleryController {
         }
     }
 
+    @GetMapping("/getMovieList")
+    public ResponseEntity<?> getGalleryMovieList() {
+        try {
+            List<Gallery> list = galleryService.getGalleryMovieList();
+            return ResponseEntity.status(200).body(list);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(503).body(e.getMessage());
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> setGalleryInfo(@RequestBody List<GallerySaveDto> gallerySaveDtolist) {
         try {
