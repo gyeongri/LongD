@@ -56,7 +56,7 @@ public class GalleryServiceImpl implements GalleryService {
                 if (_order.equals("desc")) sort = Sort.by(Sort.Direction.DESC, _sort);
                 else if (_order.equals(("ASC"))) sort = Sort.by(Sort.Direction.ASC, _sort);
             }
-            List<Gallery> list = galleryRepository.findByCoupleList_IdAndGalleryCategory_Category(coupleListId, categoryName, sort);
+            List<Gallery> list = galleryRepository.findByCoupleList_IdAndTypeAndGalleryCategory_Category(coupleListId, 1, categoryName, sort);
             List<Gallery> listResult = new ArrayList<>();
             if( list.size() < _limit*_page ) {
                 for (int i = 0; i < list.size()%_limit; i++) {
@@ -88,7 +88,7 @@ public class GalleryServiceImpl implements GalleryService {
                 if (_order.equals("desc")) sort = Sort.by(Sort.Direction.DESC, _sort);
                 else if (_order.equals(("ASC"))) sort = Sort.by(Sort.Direction.ASC, _sort);
             }
-            List<Gallery> list = galleryRepository.findByCoupleList_Id(coupleListId, sort);
+            List<Gallery> list = galleryRepository.findByCoupleList_IdAndType(coupleListId, 1, sort);
             List<Gallery> listResult = new ArrayList<>();
             if( list.size() < _limit*_page ) {
                 for (int i = 0; i < list.size()%_limit; i++) {
@@ -139,6 +139,33 @@ public class GalleryServiceImpl implements GalleryService {
     }
 
     @Override
+    public List<Gallery> getGalleryMovieList(int _limit, int _page, String _sort, String _order) {
+        User user = userService.userState().get();
+
+        Sort sort = null;
+        if( _order != null) {
+            if (_order.equals("desc")) sort = Sort.by(Sort.Direction.DESC, _sort);
+            else if (_order.equals(("ASC"))) sort = Sort.by(Sort.Direction.ASC, _sort);
+        }
+
+        List<Gallery> list = galleryRepository.findByCoupleList_IdAndType(user.getCoupleListId(), 2, sort);
+        List<Gallery> listResult = new ArrayList<>();
+        if( list.size() < _limit*_page ) {
+            for (int i = 0; i < list.size()%_limit; i++) {
+                listResult.add(list.get((_page - 1) * _limit + i));
+            }
+        } else {
+            for (int i = 0; i < _limit; i++) {
+                listResult.add(list.get((_page - 1) * _limit + i));
+            }
+        }
+        if( list.size() > 0 ) {
+            listResult.get(0).setSize(list.size());
+        }
+        return listResult;
+    }
+
+    @Override
     public boolean setGallery(List<GallerySaveDto> gallerySaveDtolist) {
         User user = userService.userState().get();
         CoupleList tmpCoupleList = coupleListRepository.findById(user.getCoupleListId()).get();
@@ -177,7 +204,7 @@ public class GalleryServiceImpl implements GalleryService {
                 }
             }
 
-            List<String> imageTypes = List.of("jpeg", "png", "gif");
+            List<String> imageTypes = List.of("jpeg", "png", "gif", "bmp", "webp");
             List<String> videoTypes = List.of("mp4", "webm", "ogg", "3gpp", "x-msvideo", "quicktime");
             log.info("확장자 : " + ext);
             if (imageTypes.contains(ext)) {
