@@ -21,7 +21,12 @@ function getPlanList(coupleList, success, fail) {
   userApi.get(`/plan/get/${coupleList}`).then(success).catch(fail);
 }
 
-// 여행 개별 일정 전체 불러오기(plan 테이블 내 하나)
+// 여행 정보 불러오기
+function getPlan(planId, success, fail) {
+  userApi.get(`/plan/get/detail/${planId}`).then(success).catch(fail);
+}
+
+// 여행 개별 일정 중 PlanInfo 데이터만 불러오기(plan 테이블 내 하나 PlanInfo)
 function getPlanDetail(planId, success, fail) {
   userApi.get(`/plan/info/getList/${planId}`).then(success).catch(fail);
 }
@@ -32,7 +37,7 @@ function postPlanData(planDataPart, success, fail) {
 }
 
 // 여행 개별 일정 삭제(plan 테이블 내 하나)
-function delectPlanData(planId, success, fail) {
+function deletePlanData(planId, success, fail) {
   userApi.delete(`/plan/delete/${planId}`).then(success).catch(fail);
 }
 
@@ -41,16 +46,27 @@ function delectPlanInfoData(planInfoId, success, fail) {
   userApi.delete(`/plan/info/delete/${planInfoId}`).then(success).catch(fail);
 }
 
-// 여행 정보 불러오기
-function getPlan(planId, success, fail) {
-  userApi.get(`/plan/get/detail/${planId}`).then(success).catch(fail);
+// 플랜 ID기준으로 사진 불러오기
+function getGalleryWithPlanID(planId, success, fail) {
+  userApi.get(`/gallery/getList/plan/${planId}`).then(success).catch(fail);
 }
+
+// 고른 사진 플랜id값 빼주기
+function deletePlanIDinpicture(pictureIds, success, fail) {
+  userApi
+    .post(`/gallery/modify/deletePlanId`, pictureIds)
+    .then(success)
+    .catch(fail);
+}
+
 export {
   postPlanAllData,
   getPlanList,
   getPlanDetail,
   postPlanData,
-  delectPlanData,
+  deletePlanData,
   delectPlanInfoData,
   getPlan,
+  getGalleryWithPlanID,
+  deletePlanIDinpicture,
 };

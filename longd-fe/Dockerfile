@@ -17,7 +17,10 @@ RUN npm install
 RUN npm run build
 
 # Nginx 사용
+
 #FROM nginx:latest
+
+
 
 # COPY fe-custom.conf /etc/nginx/conf.d/
 
