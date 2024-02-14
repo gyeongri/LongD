@@ -8,7 +8,6 @@ import GalleryDetailView from '@/views/gallery/GalleryDetailView.vue';
 import CalendarView from '@/views/calendar/CalendarView.vue';
 import ViduMainView from '@/views/openvidu/ViduMainView.vue';
 import ViduVideoView from '@/views/openvidu/ViduVideoView.vue';
-import TestMapView from '@/views/map/TestMapView.vue';
 import MapView from '@/views/map/MapView.vue';
 import MapSearch from '@/components/plan/MapSearch.vue';
 import MapPlan from '@/components/plan/MapPlan.vue';
@@ -120,11 +119,6 @@ const router = createRouter({
       ],
       // children 안 path에는 /를 사용하면 안된다 => 절대경로가 되어버려서!
       // children 안에 children을 만들 수도 있다
-    },
-    {
-      path: '/testmap',
-      name: 'TestMap',
-      component: TestMapView,
     },
     {
       path: '/plan/list',
