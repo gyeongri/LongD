@@ -211,7 +211,9 @@ const fetchAlbums = async () => {
         coupleId.value,
         params2.value,
       );
-      console.log(data, '갤럭리확인');
+
+      console.log(data, '갤러리확인');
+
       items.value = data;
       if (data.length > 0) {
         totalCount.value = data[0].size;
@@ -355,7 +357,9 @@ const uploadImages = async () => {
 
 // 취소했을 때도 미리보기 남아있는 것을 방지하기 위함
 const cancelImages = () => {
+  pathUrlList.value = [];
   imagePreviews.value = [];
+  images.value = [];
 };
 
 // folder화면으로 가기

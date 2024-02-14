@@ -1,4 +1,5 @@
 <template>
+
   <div class="flex justify-end gap-1">
     <button
       class="btn btn-sm"
@@ -179,6 +180,13 @@ onMounted(async () => {
       console.error(error);
     },
   );
+  getPlan(currentId.value, success => {
+    planDetail.value = success.data;
+    dateList.value = generateDateList(
+      success.data.dateStart,
+      success.data.dateEnd,
+    );
+  });
 });
 watchEffect(getCurrentRouteId);
 </script>
@@ -214,7 +222,6 @@ div[aria-hidden='false'] > div {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
 .box {
   display: flex;
 }
