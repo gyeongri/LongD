@@ -1,5 +1,4 @@
 <template>
-
   <div class="flex justify-end gap-1">
     <button
       class="btn btn-sm"
@@ -16,32 +15,37 @@
       목록
     </button>
   </div>
-  <div class="box">
-    <div class="box">
-      <div>제목</div>
-      <div>{{ planDetail.title }}</div>
+  <div class="flex gap-4">
+    <div class="flex flex-col w-1/2">
+      <div class="flex h-8 rounded-full shadow-xl">
+        <div class="w-1/4 bg-red-200 text-center rounded-full">제목</div>
+        <div class="w-3/4 text-center">{{ planDetail.title }}</div>
+      </div>
+      <!-- 마커를 표시할 지도 -->
+      <div class="googleMap rounded-xl mt-4 shadow-xl" id="googleMap"></div>
     </div>
-    <div class="box">
-      <div>일정</div>
-      <div>{{ planDetail.dateStart }}~{{ planDetail.dateEnd }}</div>
-    </div>
-    <div></div>
-  </div>
-  <div class="box">
-    <!-- 마커를 표시할 지도 -->
-    <div class="googleMap" id="googleMap"></div>
-    <div v-for="date in dateList" :key="date.id">
-      <div>
+    <div class="flex flex-col w-1/2">
+      <div class="flex h-8 rounded-full shadow-xl">
+        <div class="w-1/4 bg-red-200 text-center rounded-full">일정</div>
+        <div class="w-3/4 text-center">
+          {{ planDetail.dateStart }}~{{ planDetail.dateEnd }}
+        </div>
+      </div>
+      <div class="my-4" v-for="date in dateList" :key="date.id">
         <div>
-          <!-- 날짜 -->
-          {{ date }}
-          <div v-for="item in getItemsByDate(date)" :key="item.id">
-            <!-- 여행 장소 -->
-            <button>{{ item.title }}</button>
+          <div class="bg-red-200 rounded-lg text-center shadow-xl">
+            {{ date }}
+          </div>
+          <div class="flex bg-red-100 rounded-lg shadow-xl">
+            <div
+              class="m-2"
+              v-for="item in getItemsByDate(date)"
+              :key="item.id"
+            >
+              <p>{{ item.title }}</p>
+            </div>
           </div>
         </div>
-
-        <br />
       </div>
     </div>
   </div>
@@ -177,6 +181,7 @@ onMounted(async () => {
     currentId.value,
     success => {
       planGalleryList.value = success.data;
+      console.log(planGalleryList.value);
     },
     error => {
       console.error(error);
@@ -196,7 +201,7 @@ watchEffect(getCurrentRouteId);
 <style scoped>
 .googleMap {
   height: 600px;
-  width: 550px;
+  width: 100%;
 }
 
 div[aria-hidden='true'] {
@@ -223,8 +228,5 @@ div[aria-hidden='false'] > div {
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-.box {
-  display: flex;
 }
 </style>
