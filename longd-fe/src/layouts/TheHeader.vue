@@ -222,6 +222,9 @@ function closeDropdown2() {
 </script>
 
 <style scoped>
+a, summary, span{
+  font-size: 24px;
+} 
 .image {
   width: 40px;
   height: 40px;

@@ -38,6 +38,7 @@ public class Gallery {
     private String title;
     private String content;
     private LocalDateTime date;
+    private Integer type;
 
 
     @Transient

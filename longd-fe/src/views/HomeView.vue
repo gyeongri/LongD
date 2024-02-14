@@ -1,11 +1,13 @@
 <template>
   <div class="main-side">
-    <div class="left-side">
-      <!-- 디데이 -->
-      <div class="div-wrapper">
-        <div class="text-wrapper-3">D+{{ coupleDday }}</div>
+    <div class="left-side"></div>
+    <div
+      class="mid-side"
+      :style="{ backgroundImage: `url(${coupleInfo.coupleImgUrl})` }"
+    >
+      <div class="toptape">
+        <img class="tape" src="/static/img/group-19.png" />
       </div>
-
       <div class="profiles">
         <RouterLink :to="{ name: 'Profile' }"
           ><img
@@ -13,17 +15,21 @@
             alt="내 프로필"
             :src="userStore?.getUserState?.profilePicture"
         /></RouterLink>
-        <!-- <img
+        <img
           class="heart-suit"
           alt="Heart suit"
           src="/static/img/heart-suit.png"
-        /> -->
+        />
         <RouterLink :to="{ name: 'PartnerInfo' }">
           <img
             class="partnerProfile rounded-full"
             alt="상대 프로필"
             :src="partnerInfo?.profilePicture"
         /></RouterLink>
+      </div>
+      <!-- 디데이 -->
+      <div class="div-wrapper">
+        <div class="text-wrapper-3">D+{{ coupleDday }}</div>
       </div>
 
       <div class="changebtn">
@@ -40,7 +46,7 @@
       </div>
     </div>
     <div class="right-side">
-      <img :src="coupleInfo.coupleImgUrl" />
+      <!-- <img :src="coupleInfo.coupleImgUrl" /> -->
     </div>
   </div>
 </template>
@@ -124,31 +130,37 @@ watchEffect(() => {
 
 .left-side {
   /* border: 3px solid black; */
-  width: 40%;
+  width: 10%;
+}
+
+.mid-side {
+  background-size: 100% 100%;
+  border: 3px solid black;
+  width: 80%;
   display: grid;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
+
 .right-side {
   /* border: 3px solid black; */
-  width: 60%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 10%;
 }
 
 .profiles {
   display: flex;
   align-items: center; /* 수직 정렬을 중앙에 설정 */
-  margin-bottom: 10vh;
+  margin-bottom: 50vh;
 }
 
 .myProfile,
 .partnerProfile {
-  width: 30vh; /* 이미지의 너비를 원하는 크기로 설정 */
-  height: 30vh; /* 이미지의 높이를 원하는 크기로 설정 */
+  width: 20vh; /* 이미지의 너비를 원하는 크기로 설정 */
+  height: 20vh; /* 이미지의 높이를 원하는 크기로 설정 */
   object-fit: cover; /* 이미지를 컨테이너에 맞추기 위해 사용 */
-  margin-right: 10px; /* 이미지 사이에 간격을 조절 */
+  margin-left: 8vh;
+  margin-right: 8vh; /* 이미지 사이에 간격을 조절 */
 }
 
 .text-wrapper-3 {
@@ -166,8 +178,19 @@ watchEffect(() => {
   /* position: absolute; */
   text-align: center;
   text-shadow: 0px 4px 4px #00000040;
-  bottom: 5vh;
+  bottom: 60vh;
   white-space: nowrap;
   width: 100%;
+}
+
+.toptape {
+  height: 100%; /* 부모 요소의 높이를 100%로 설정 */
+  display: flex; /* Flexbox 레이아웃 사용 */
+  justify-content: center; /* 가로 방향 가운데 정렬 */
+  align-items: center; /* 세로 방향 가운데 정렬 */
+}
+
+.tape {
+  height: 50%;
 }
 </style>

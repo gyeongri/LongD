@@ -4,7 +4,7 @@
       rows="3"
       v-model="message"
       @keyup.enter="sendMessageToMain"
-      class="textarea textarea-bordered w-full resize-none pr-12"
+      class="textarea w-full h-full resize-none pr-12 shadow-md bg-neutral-50"
     ></textarea>
     <button
       @click="sendMessageToMain"
@@ -42,7 +42,7 @@ textarea {
   background-repeat: no-repeat;
   position: absolute; /* 절대 위치 지정 */
   right: 0.5rem; /* 오른쪽 padding 공간에 맞춰 버튼을 위치 */
-  bottom: 2.5rem; /* 아래쪽 padding 공간에 맞춰 버튼을 위치 */
+  bottom: 0.5rem; /* 아래쪽 padding 공간에 맞춰 버튼을 위치 */
   width: 2.5rem; /* 버튼의 너비 */
   height: 2.5rem; /* 버튼의 높이 */
   border: none; /* 버튼의 기본 테두리 제거 */

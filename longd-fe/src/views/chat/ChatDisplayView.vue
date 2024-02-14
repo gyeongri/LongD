@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-white rounded-lg shadow-md p-4">
-    <div class="pb-3">
+  <div class="bg-slate-50 rounded-lg shadow-md pb-10">
+    <div class="pl-3">
       <button @click="turnOff">>>>></button>
     </div>
 
-    <div class="chat-container" ref="chatContainer">
+    <div class="chat-container p-3 pb-1" ref="chatContainer">
       <div
         v-for="(message, index) in messages"
         :key="message.id"
@@ -13,7 +13,7 @@
           'chat-end': message.senderId == userId,
           'chat-start': message.senderId != userId,
         }"
-        style="display: flex; flex-direction: column"
+        class="flex flex-col"
       >
         <!-- 사용자 ID와 프로필 이미지를 메시지 스레드의 첫 부분에만 표시 -->
         <template v-if="shouldDisplayHeader(index)">
@@ -55,22 +55,29 @@
         >
           <!-- 사용자('나')의 메시지일 경우 시간을 왼쪽에 표시 -->
           <template v-if="message.senderId == userId">
-            <time class="text-xs opacity-50 mt-2 gap-2">{{
-              getFormattedTime(message.createdAt)
-            }}</time>
-
-            <div class="chat-bubble p-3 rounded-lg">
-              <p class="text-sm text-stone-500">{{ message.content }}</p>
+            <div class="flex gap-2">
+              <div class="flex items-end">
+                <time class="text-xs opacity-50 gap-2 pt-4/5">{{
+                  getFormattedTime(message.createdAt)
+                }}</time>
+              </div>
+              <div class="chat-bubble p-3 rounded-lg">
+                <p class="text-sm text-stone-500">{{ message.content }}</p>
+              </div>
             </div>
           </template>
           <!-- 상대방의 메시지일 경우 시간을 오른쪽에 표시 -->
           <template v-else>
-            <div class="chat-bubble p-3 rounded-lg">
-              <p class="text-sm text-stone-500">{{ message.content }}</p>
+            <div class="flex gap-2">
+              <div class="chat-bubble p-3 rounded-lg">
+                <p class="text-sm text-stone-500">{{ message.content }}</p>
+              </div>
+              <div class="flex items-end">
+                <time class="text-xs opacity-50 gap-2 pt-4/5">{{
+                  getFormattedTime(message.createdAt)
+                }}</time>
+              </div>
             </div>
-            <time class="text-xs opacity-50 mt-2 gap-2">{{
-              getFormattedTime(message.createdAt)
-            }}</time>
           </template>
         </div>
       </div>
@@ -87,7 +94,6 @@ const emit = defineEmits(['chatoff']);
 const turnOff = function () {
   emit('chatoff');
 };
-
 const userProfileImage = ref(
   'https://i.namu.wiki/i/ijg40CIiHx5-Ihr3ksIJUm4cQQDEnek8xMEmJaQqGR5U13DKOZnCkzwPx1L5rcEX2-xxFYAyQO7XTcyqQ2BGEw.webp',
 );
@@ -110,14 +116,12 @@ const shouldDisplayHeader = index => {
   if (index === 0) {
     return true;
   }
-
   const nickname = ref(props.nickname);
   const lovername = ref(props.lovername);
   const currentSenderId = props.messages[index].senderId;
   const previousSenderId = props.messages[index - 1].senderId;
   // const currentTime = new Date(props.messages[index].createdAt);
   // const previousTime = new Date(props.messages[index - 1].createdAt);
-
   return (
     currentSenderId !== previousSenderId
     // currentTime.getMinutes() !== previousTime.getMinutes()
@@ -133,15 +137,12 @@ const getFormattedTime = createdAt => {
   const date = new Date(createdAt);
   const hours = date.getHours();
   const minutes = date.getMinutes();
-
   return `${hours}:${minutes}`;
 };
 onMounted(() => {
   setTimeout(() => scrollToBottom(), 100);
-
   partnerinfo(
     data => {
-      console.log('찍히나');
       partnerInfo.value = data.data;
       otherUserProfileImage.value = partnerInfo.value?.profilePicture;
       userProfileImage.value = userStore.getUserState?.profilePicture;
@@ -168,7 +169,6 @@ div::-webkit-scrollbar {
 }
 .chat-end .chat-bubble {
   background-color: #e2f1ff; /* 연한 파란색으로 변경 (예시) */
-
   margin-right: 1rem; /* 오른쪽 마진 설정 */
 }
 .chat-end time {
@@ -176,7 +176,9 @@ div::-webkit-scrollbar {
 }
 .chat-start .chat-bubble {
   background-color: #ffeded; /* 연한 분홍색으로 유지 */
-
   margin-left: 1rem; /* 왼쪽 마진 설정 */
+}
+p {
+  font-size: 18px;
 }
 </style>
