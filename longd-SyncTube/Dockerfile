@@ -1,5 +1,5 @@
 FROM haxe:4.3.0-alpine3.15
-WORKDIR /usr/src/app
+WORKDIR /app
 
 RUN apk add nodejs npm git
 
