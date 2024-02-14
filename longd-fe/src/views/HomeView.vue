@@ -1,63 +1,37 @@
 <template>
-  <div class="flex gap-8">
-    <div class="flex flex-col">
+  <div class="flex-col">
+    <div class="">
       <!-- 백그라운드 이미지 -->
-      <figure class="relative">
-        <img :src="coupleInfo.coupleImgUrl" alt="backgroundImage" />
-        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 m-4">
-          <!-- 디데이 -->
-          <div class="text-wrapper-3">D+{{ coupleDday }}</div>
-          <!-- 프로필 부분 -->
-          <div class="flex justify-center items-center">
-            <RouterLink :to="{ name: 'Profile' }"
-              ><img
-                class="myProfile rounded-full h-[6rem] w-[6rem]"
-                alt="내 프로필"
-                :src="userStore?.getUserState?.profilePicture"
-            /></RouterLink>
-            <img
-              class="heart-suit h-[4rem] w-[4rem]"
-              alt="Heart suit"
-              src="/static/img/heart-suit.png"
-            />
-            <RouterLink :to="{ name: 'PartnerInfo' }">
-              <img
-                class="partnerProfile rounded-full h-[6rem] w-[6rem]"
-                alt="상대 프로필"
-                :src="partnerInfo?.profilePicture"
-            /></RouterLink>
-          </div>
-        </div>
-      </figure>
-    </div>
-
-    <div class="flex justify-end mb-10 mr-10">
-      <div class="flex">
-        <AppDropdown>
-          <template v-slot>
-            <li class="font-bold lis">
-              <div>
-                <label for="img">메인 사진 변경</label>
-                <input
-                  type="file"
-                  id="img"
-                  autocomplete="img"
-                  @change="changImg"
-                  hidden
+      <div class="flex justify-center">
+        <figure class="relative">
+          <div class="flex justify-center">
+            <img :src="coupleInfo.coupleImgUrl" alt="backgroundImage" />
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 m-4">
+              <!-- 디데이 -->
+              <div class="text-wrapper-3">D+{{ coupleDday }}</div>
+              <!-- 프로필 부분 -->
+              <div class="flex justify-center items-center">
+                <RouterLink :to="{ name: 'Profile' }"
+                  ><img
+                    class="myProfile rounded-full h-[6rem] w-[6rem]"
+                    alt="내 프로필"
+                    :src="userStore?.getUserState?.profilePicture"
+                /></RouterLink>
+                <img
+                  class="heart-suit h-[4rem] w-[4rem]"
+                  alt="Heart suit"
+                  src="/static/img/heart-suit.png"
                 />
+                <RouterLink :to="{ name: 'PartnerInfo' }">
+                  <img
+                    class="partnerProfile rounded-full h-[6rem] w-[6rem]"
+                    alt="상대 프로필"
+                    :src="partnerInfo?.profilePicture"
+                /></RouterLink>
               </div>
-            </li>
-            <li class="font-bold lis" @click="changeDday()">
-              <a>처음 만난 날 변경</a>
-            </li>
-            <li class="font-bold lis" @click="unConnectLove()">
-              <a>상대와 연결 끊기</a>
-            </li>
-            <li class="font-bold lis" @click="deleteMyData()">
-              <a>회원 탈퇴</a>
-            </li>
-          </template>
-        </AppDropdown>
+            </div>
+          </div>
+        </figure>
       </div>
     </div>
   </div>

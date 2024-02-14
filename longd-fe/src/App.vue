@@ -55,7 +55,8 @@ const chatTrue = function () {
 const isChrome = ref(false);
 onMounted(() => {
   const userAgent = navigator.userAgent.toLowerCase();
-  isChrome.value =/chrome/.test(userAgent) && !/edge|edg\/|opr\//.test(userAgent);
+  isChrome.value =
+    /chrome/.test(userAgent) && !/edge|edg\/|opr\//.test(userAgent);
 });
 // if, else로 하지 말고, 버전 1,2,3으로 구분해서 채팅관련된 것이 아예 없도록 하던가 하면 될 듯.
 </script>
@@ -71,7 +72,7 @@ onMounted(() => {
   display: none;
 }
 .chrome-zoom {
-  zoom: 92%;
+  zoom: 90%;
 }
 </style>
 
