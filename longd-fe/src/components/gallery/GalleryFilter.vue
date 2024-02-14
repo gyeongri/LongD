@@ -14,7 +14,7 @@
         <select
           :value="limit"
           @input="$emit('update:limit', $event.target.value)"
-          class="select select-bordered border-pink-400 w-full max-w-xs font-bold text-gray-500"
+          class="select select-bordered border-red-400 w-full max-w-xs font-bold text-gray-500"
         >
           <option value="6" class="font-bold text-gray-500">6개씩 보기</option>
           <option value="12" class="font-bold text-gray-500">

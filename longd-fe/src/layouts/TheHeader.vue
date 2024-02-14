@@ -8,24 +8,27 @@
     <div class="navbar-center">
       <ul class="menu menu-horizontal font-bold">
         <li>
-          <RouterLink
-            :to="{ name: 'GalleryFolder' }"
-            :class="{ 'text-pink-400': isGalleryActive }"
-          >
-            <a> 갤러리 </a>
-          </RouterLink>
+          <a>
+            <RouterLink
+              :to="{ name: 'GalleryFolder' }"
+              :class="{ 'text-red-300': isGalleryActive }"
+            >
+              갤러리
+            </RouterLink>
+          </a>
         </li>
         <li>
-          <RouterLink
-            :to="{ name: 'Calendar' }"
-            :class="{ 'text-pink-400': isCalendarActive }"
-          >
-            <a>캘린더</a>
-          </RouterLink>
+          <a>
+            <RouterLink
+              :to="{ name: 'Calendar' }"
+              :class="{ 'text-red-300': isCalendarActive }"
+              >캘린더
+            </RouterLink>
+          </a>
         </li>
         <li>
           <details ref="dropdown1">
-            <summary :class="{ 'text-pink-400': isViduActive }">
+            <summary :class="{ 'text-red-300': isViduActive }">
               화상통화
             </summary>
             <ul
@@ -47,7 +50,7 @@
         <li>
           <details ref="dropdown2">
             <summary
-              :class="{ 'text-pink-400': isMapActive || isPlandListActive }"
+              :class="{ 'text-red-300': isMapActive || isPlandListActive }"
             >
               여행✈
             </summary>
@@ -75,7 +78,6 @@
             </ul>
           </details>
         </li>
-
         <li>
           <RouterLink
             :to="{ name: 'bucketList' }"
