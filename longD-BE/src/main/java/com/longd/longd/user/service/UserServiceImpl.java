@@ -9,6 +9,7 @@ import com.longd.longd.user.db.repository.NationListRepository;
 import com.longd.longd.user.db.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -44,6 +45,10 @@ public class UserServiceImpl implements UserService{
         user.setBirthYear(tmp[0]);
         user.setBirthMonth(tmp[1]);
         user.setBirthMonth(tmp[2]);
+        if ( user.getProfilePicture().isEmpty()) {
+            user.setProfilePicture("https://longdssafy.s3.ap-northeast-2.amazonaws.com/52efc0a1-f3fa-4e70-a803-748fd41bca7cmainIMG.png");
+        }
+
         userRepository.save(user);
     }
 
@@ -90,10 +95,14 @@ public class UserServiceImpl implements UserService{
         if(coupleList.getUserFirst() == user.getId()) {
             coupleList.setUserFirst(null);
             coupleListRepository.save(coupleList);
+            user.setCoupleListId(null);
+            userRepository.save(user);
             return "연결 끊기 성공";
         } else if (coupleList.getUserSecond() == user.getId()) {
             coupleList.setUserSecond(null);
             coupleListRepository.save(coupleList);
+            user.setCoupleListId(null);
+            userRepository.save(user);
             return "연결 끊기 성공";
         } else {
             log.error("있을 수 없는 상황");
@@ -149,7 +158,8 @@ public class UserServiceImpl implements UserService{
     }
 
     public List<NationList> getNationList() {
-        return nationListRepository.findAll();
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        return nationListRepository.findAll(sort);
     }
 
     public String WeblockCheck(String simplePassword) {

@@ -319,6 +319,7 @@ const uploadImages = async () => {
   const formData = new FormData();
   const formData2 = [];
   for (let i = 0; i < images.value.length; i++) {
+    console.log(images.value);
     formData.append('file', images.value[i]);
   }
   await uploadImage(
@@ -339,16 +340,17 @@ const uploadImages = async () => {
         // 여기로
       }
     },
-    success2 => {
+    async success2 => {
       console.log(formData2);
       console.log(coupleId.value);
       images.value = [];
       imagePreviews.value = [];
-      createGallery(formData2);
+      await createGallery(formData2);
+      await fetchAlbums();
       // 이미지 업로드 후 이미지 미리보기 배열 초기화
     },
     success3 => {
-      setTimeout(() => fetchAlbums(), 100);
+      // setTimeout(() => fetchAlbums(), 3000);
     },
     error => {
       console.log('사진을 변환할 수 없어요.', error);

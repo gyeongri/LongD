@@ -11,7 +11,7 @@
           <a>
             <RouterLink
               :to="{ name: 'GalleryFolder' }"
-              :class="{ 'text-pink-400': isGalleryActive }"
+              :class="{ 'text-red-300': isGalleryActive }"
             >
               갤러리
             </RouterLink>
@@ -21,14 +21,14 @@
           <a>
             <RouterLink
               :to="{ name: 'Calendar' }"
-              :class="{ 'text-pink-400': isCalendarActive }"
+              :class="{ 'text-red-300': isCalendarActive }"
               >캘린더
             </RouterLink>
           </a>
         </li>
         <li>
           <details ref="dropdown1">
-            <summary :class="{ 'text-pink-400': isViduActive }">
+            <summary :class="{ 'text-red-300': isViduActive }">
               화상통화
             </summary>
             <ul
@@ -37,12 +37,12 @@
               @click="closeDropdown"
             >
               <li>
-                <a><RouterLink :to="{ name: 'ViduMain' }">main</RouterLink></a>
+                <RouterLink :to="{ name: 'ViduMain' }"><a>main</a></RouterLink>
               </li>
               <li>
-                <a>
-                  <RouterLink :to="{ name: 'ViduVideo' }">같이보기</RouterLink>
-                </a>
+                <RouterLink :to="{ name: 'ViduVideo' }"
+                  ><a>같이보기</a></RouterLink
+                >
               </li>
             </ul>
           </details>
@@ -50,7 +50,7 @@
         <li>
           <details ref="dropdown2">
             <summary
-              :class="{ 'text-pink-400': isMapActive || isPlandListActive }"
+              :class="{ 'text-red-300': isMapActive || isPlandListActive }"
             >
               여행✈
             </summary>
@@ -61,36 +61,29 @@
               @click="closeDropdown2"
             >
               <li>
-                <a
-                  ><RouterLink
-                    :to="{ name: 'Map' }"
-                    :class="{ 'text-pink-400': isMapActive }"
-                    >일정계획</RouterLink
-                  ></a
+                <RouterLink
+                  :to="{ name: 'Map' }"
+                  :class="{ 'text-pink-400': isMapActive }"
+                  ><a>일정계획</a></RouterLink
                 >
               </li>
               <li>
-                <a>
-                  <RouterLink
-                    :to="{ name: 'PlanList' }"
-                    :class="{ 'text-pink-400': isPlandListActive }"
-                    >여행목록</RouterLink
-                  >
-                </a>
+                <RouterLink
+                  :to="{ name: 'PlanList' }"
+                  :class="{ 'text-pink-400': isPlandListActive }"
+                >
+                  <a>여행목록</a></RouterLink
+                >
               </li>
             </ul>
           </details>
         </li>
-
         <li>
-          <a>
-            <RouterLink
-              :to="{ name: 'bucketList' }"
-              :class="{ 'text-pink-400': isBucketListActive }"
-            >
-              버킷리스트
-            </RouterLink>
-          </a>
+          <RouterLink
+            :to="{ name: 'bucketList' }"
+            :class="{ 'text-pink-400': isBucketListActive }"
+            ><a> 버킷리스트</a>
+          </RouterLink>
         </li>
       </ul>
     </div>
