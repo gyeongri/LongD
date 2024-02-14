@@ -315,7 +315,6 @@ const getCategoryId = async () => {
 const pathUrlList = ref([]);
 
 const uploadImages = async () => {
-  const formData2 = [];
   const formData = new FormData();
   const formData2 = [];
   for (let i = 0; i < images.value.length; i++) {

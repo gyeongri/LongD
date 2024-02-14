@@ -46,6 +46,19 @@ function delectPlanInfoData(planInfoId, success, fail) {
   userApi.delete(`/plan/info/delete/${planInfoId}`).then(success).catch(fail);
 }
 
+// 플랜 ID기준으로 사진 불러오기
+function getGalleryWithPlanID(planId, success, fail) {
+  userApi.get(`/gallery/getList/plan/${planId}`).then(success).catch(fail);
+}
+
+// 고른 사진 플랜id값 빼주기
+function deletePlanIDinpicture(pictureIds, success, fail) {
+  userApi
+    .post(`/gallery/modify/deletePlanId`, pictureIds)
+    .then(success)
+    .catch(fail);
+}
+
 export {
   postPlanAllData,
   getPlanList,
@@ -53,4 +66,7 @@ export {
   postPlanData,
   deletePlanData,
   delectPlanInfoData,
+  getPlan,
+  getGalleryWithPlanID,
+  deletePlanIDinpicture,
 };

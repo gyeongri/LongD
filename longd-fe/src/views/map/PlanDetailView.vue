@@ -1,6 +1,5 @@
 <template>
-<<<<<<< HEAD
-=======
+
   <div class="flex justify-end gap-1">
     <button
       class="btn btn-sm"
@@ -17,7 +16,6 @@
       목록
     </button>
   </div>
->>>>>>> develop
   <div class="box">
     <div class="box">
       <div>제목</div>
@@ -49,15 +47,6 @@
 
 <script setup>
 import { ref, onMounted, watchEffect, watch } from 'vue';
-<<<<<<< HEAD
-import { useRoute } from 'vue-router';
-import { getPlanDetail, getPlan } from '@/utils/api/plan';
-const planDetail = ref('');
-const currentId = ref('');
-const planInfoDetail = ref([]);
-const dateList = ref([]);
-const router = useRoute();
-=======
 import { useRouter, useRoute } from 'vue-router';
 import {
   getPlanDetail,
@@ -73,7 +62,6 @@ const currentId = ref('');
 const planInfoDetail = ref([]);
 const dateList = ref([]);
 const router = useRouter();
->>>>>>> develop
 const getItemsByDate = date => {
   return planInfoDetail.value.filter(item => item.date === date);
 };
