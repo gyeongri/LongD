@@ -1,46 +1,44 @@
 <template>
-  <div class="main-side">
-    <div class="left-side">
-      <!-- 디데이 -->
-      <div class="div-wrapper">
-        <div class="text-wrapper-3">D+{{ coupleDday }}</div>
-      </div>
-
-      <div class="profiles">
-        <RouterLink :to="{ name: 'Profile' }"
-          ><img
-            class="myProfile rounded-full"
-            alt="내 프로필"
-            :src="userStore?.getUserState?.profilePicture"
-        /></RouterLink>
-        <!-- <img
-          class="heart-suit"
-          alt="Heart suit"
-          src="/static/img/heart-suit.png"
-        /> -->
-        <RouterLink :to="{ name: 'PartnerInfo' }">
-          <img
-            class="partnerProfile rounded-full"
-            alt="상대 프로필"
-            :src="partnerInfo?.profilePicture"
-        /></RouterLink>
-      </div>
-
-      <div class="changebtn">
-        <label class="btn btn-secondary-content" for="img"
-          >메인 사진 변경</label
-        >
-        <input
-          type="file"
-          id="img"
-          autocomplete="img"
-          @change="changImg"
-          hidden
-        />
-      </div>
+  <div class="flex gap-8">
+    <div class="flex flex-col">
+      <!-- 백그라운드 이미지 -->
+      <figure class="relative">
+        <img :src="coupleInfo.coupleImgUrl" alt="backgroundImage" />
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 m-4">
+          <!-- 디데이 -->
+          <div class="text-wrapper-3">D+{{ coupleDday }}</div>
+          <!-- 프로필 부분 -->
+          <div class="flex justify-center items-center">
+            <RouterLink :to="{ name: 'Profile' }"
+              ><img
+                class="myProfile rounded-full h-[6rem] w-[6rem]"
+                alt="내 프로필"
+                :src="userStore?.getUserState?.profilePicture"
+            /></RouterLink>
+            <img
+              class="heart-suit h-[4rem] w-[4rem]"
+              alt="Heart suit"
+              src="/static/img/heart-suit.png"
+            />
+            <RouterLink :to="{ name: 'PartnerInfo' }">
+              <img
+                class="partnerProfile rounded-full h-[6rem] w-[6rem]"
+                alt="상대 프로필"
+                :src="partnerInfo?.profilePicture"
+            /></RouterLink>
+          </div>
+        </div>
+      </figure>
     </div>
-    <div class="right-side">
-      <img :src="coupleInfo.coupleImgUrl" />
+    <div>
+      <label class="btn btn-secondary-content" for="img">메인 사진 변경</label>
+      <input
+        type="file"
+        id="img"
+        autocomplete="img"
+        @change="changImg"
+        hidden
+      />
     </div>
   </div>
 </template>
@@ -115,58 +113,17 @@ watchEffect(() => {
 </script>
 
 <style scoped>
-.main-side,
-.changebtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.left-side {
-  /* border: 3px solid black; */
-  width: 40%;
-  display: grid;
-  justify-content: center;
-  align-items: center;
-}
-.right-side {
-  /* border: 3px solid black; */
-  width: 60%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.profiles {
-  display: flex;
-  align-items: center; /* 수직 정렬을 중앙에 설정 */
-  margin-bottom: 10vh;
-}
-
-.myProfile,
-.partnerProfile {
-  width: 30vh; /* 이미지의 너비를 원하는 크기로 설정 */
-  height: 30vh; /* 이미지의 높이를 원하는 크기로 설정 */
-  object-fit: cover; /* 이미지를 컨테이너에 맞추기 위해 사용 */
-  margin-right: 10px; /* 이미지 사이에 간격을 조절 */
-}
-
 .text-wrapper-3 {
   background-image: url(/static/img/group-19.png);
   background-size: 100% 100%;
-  position: relative;
-
   color: #ffffff;
   font-family: 'Jura-SemiBold', Helvetica;
   font-size: 50px;
   font-weight: 600;
-  /* left: 39px; */
   letter-spacing: 0;
   line-height: normal;
-  /* position: absolute; */
   text-align: center;
   text-shadow: 0px 4px 4px #00000040;
-  bottom: 5vh;
   white-space: nowrap;
   width: 100%;
 }

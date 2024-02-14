@@ -211,7 +211,9 @@ const fetchAlbums = async () => {
         coupleId.value,
         params2.value,
       );
-      console.log(data, '갤럭리확인');
+
+      console.log(data, '갤러리확인');
+
       items.value = data;
       if (data.length > 0) {
         totalCount.value = data[0].size;
@@ -309,8 +311,9 @@ const getCategoryId = async () => {
 };
 
 const pathUrlList = ref([]);
-const formData2 = [];
+
 const uploadImages = async () => {
+  const formData2 = [];
   const formData = new FormData();
   for (let i = 0; i < images.value.length; i++) {
     formData.append('file', images.value[i]);
@@ -323,7 +326,8 @@ const uploadImages = async () => {
         let data = {};
         for (let i = 0; i < pathUrlList.value.length; i++) {
           data = {
-            pathUrl: pathUrlList.value[i],
+            createDate: pathUrlList.value[i].createDate,
+            pathUrl: pathUrlList.value[i].pathUrl,
             categoryId: categoryId,
           };
           console.log(data);
@@ -334,13 +338,20 @@ const uploadImages = async () => {
       },
       success2 => {
         console.log(formData2);
-        console.log(coupleId.value);
         createGallery(formData2);
         // 이미지 업로드 후 이미지 미리보기 배열 초기화
+        pathUrlList.value = [];
+        imagePreviews.value = [];
+        images.value = [];
+        formData2.value = [];
         fetchAlbums();
       },
       error => {
-        console.log('사진을 변환할 수 없어요.', error);
+        pathUrlList.value = [];
+        imagePreviews.value = [];
+        images.value = [];
+        formData2.value = [];
+        console.error('사진을 저장하는데 실패했습니다.', error);
       },
     );
   }
@@ -348,7 +359,9 @@ const uploadImages = async () => {
 
 // 취소했을 때도 미리보기 남아있는 것을 방지하기 위함
 const cancelImages = () => {
+  pathUrlList.value = [];
   imagePreviews.value = [];
+  images.value = [];
 };
 
 // folder화면으로 가기

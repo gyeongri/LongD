@@ -1,23 +1,45 @@
 <template>
-  <div>
+  <div class="box">
+    <div class="box">
+      <div>제목</div>
+      <div>{{ planDetail.title }}</div>
+    </div>
+    <div class="box">
+      <div>일정</div>
+      <div>{{ planDetail.dateStart }}~{{ planDetail.dateEnd }}</div>
+    </div>
+    <div></div>
+  </div>
+  <div class="box">
     <!-- 마커를 표시할 지도 -->
     <div class="googleMap" id="googleMap"></div>
-  </div>
-  <div v-for="plan in planInfoDetail" :key="plan.id">
-    {{ plan }}
+    <div v-for="date in dateList" :key="date.id">
+      <div>
+        <div>
+          {{ date }}
+          <div v-for="item in getItemsByDate(date)" :key="item.id">
+            <button>{{ item.title }}</button>
+          </div>
+        </div>
+
+        <br />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watchEffect, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { getPlanDetail } from '@/utils/api/plan';
-
+import { getPlanDetail, getPlan } from '@/utils/api/plan';
+const planDetail = ref('');
 const currentId = ref('');
 const planInfoDetail = ref([]);
-
+const dateList = ref([]);
 const router = useRoute();
-
+const getItemsByDate = date => {
+  return planInfoDetail.value.filter(item => item.date === date);
+};
 const getCurrentRouteId = () => {
   currentId.value = router.params.id;
 };
@@ -59,12 +81,21 @@ const initMap = async () => {
     map.value.fitBounds(bounds);
   });
 };
+function generateDateList(startDate, endDate) {
+  const dateList = [];
+  let currentDate = new Date(startDate);
 
+  while (currentDate <= new Date(endDate)) {
+    dateList.push(currentDate.toISOString().split('T')[0]);
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  return dateList;
+}
 // 컴포넌트가 마운트될 때와 라우터의 변경을 감지하여 현재 ID를 업데이트합니다.
 onMounted(async () => {
   await initMap();
   getCurrentRouteId();
-
   getPlanDetail(
     currentId.value,
     success => {
@@ -78,6 +109,13 @@ onMounted(async () => {
       console.log(error);
     },
   );
+  getPlan(currentId.value, success => {
+    planDetail.value = success.data;
+    dateList.value = generateDateList(
+      success.data.dateStart,
+      success.data.dateEnd,
+    );
+  });
 });
 watchEffect(getCurrentRouteId);
 </script>
@@ -85,7 +123,7 @@ watchEffect(getCurrentRouteId);
 <style scoped>
 .googleMap {
   height: 600px;
-  width: 750px;
+  width: 550px;
 }
 
 div[aria-hidden='true'] {
@@ -112,5 +150,8 @@ div[aria-hidden='false'] > div {
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.box {
+  display: flex;
 }
 </style>

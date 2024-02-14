@@ -61,7 +61,7 @@
         </li> -->
         <li>
           <details ref="dropdown2">
-            <summary>여행</summary>
+            <summary>여행🚀</summary>
             <ul
               class="p-2 bg-base-100 rounded-t-none"
               style="z-index: 999"
@@ -218,6 +218,11 @@ function closeDropdown2() {
 </script>
 
 <style scoped>
+a,
+summary,
+span {
+  font-size: 24px;
+}
 .image {
   width: 40px;
   height: 40px;
