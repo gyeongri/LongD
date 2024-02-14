@@ -11,13 +11,13 @@ COPY . .
 RUN rm -rf /app/node_modules /app/package-lock.json
 
 # 필요한 패키지 설치
-RUN apt-get update && apt-get install -y npm
+# RUN apt-get update && apt-get install -y npm
 
 # 필요한 패키지 설치
-RUN npm install -g npm@latest
+# RUN npm install -g npm@latest
 
 # 필요한 패키지 설치
-# RUN npm install
+RUN npm install
 
 # Vue 프로젝트 빌드
 # RUN npm run build
@@ -34,14 +34,18 @@ FROM nginx:latest
 # 4200번 포트 열기
 EXPOSE 4200
 
+COPY sync-custom.conf /etc/nginx/sites-enabled/
+
+CMD ["nginx", "-g", "daemon off; & npm start"]
+
 # start.sh 스크립트를 복사
-COPY start.sh .
+# COPY start.sh .
 
 # 실행 권한 부여
-RUN chmod +x start.sh
+# RUN chmod +x start.sh
 
 # 컨테이너 실행 시 start.sh 스크립트 실행
-CMD ["./start.sh"]
+# CMD ["./start.sh"]
 
 
 # # Node.js 20.10.0 버전을 기반으로 한 이미지 사용
