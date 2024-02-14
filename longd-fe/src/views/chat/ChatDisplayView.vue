@@ -1,9 +1,8 @@
 <template>
-  <div class="bg-slate-50 rounded-lg shadow-md pb-5 border-b-2">
-    <div class="pl-3">
+  <div class="bg-slate-50 rounded-lg shadow-md border-b-2">
+    <div class="bg-slate-50 pl-3 z-50 w-full" style="position: fixed">
       <button @click="turnOff">>>>></button>
     </div>
-
     <div class="chat-container p-1" ref="chatContainer">
       <div
         v-for="(message, index) in messages"
@@ -22,7 +21,7 @@
             <template v-if="message.senderId == userId">
               <div
                 class="flex items-center justify-end"
-                style="margin-right: 1rem; margin-bottom: 0.5rem"
+                style="margin-right: 1rem"
               >
                 <span class="text-sm text-stone-500">{{ nickname }}</span>
                 <img
@@ -37,7 +36,7 @@
                 <img
                   :src="otherUserProfileImage"
                   class="w-8 h-8 rounded-full mr-3"
-                  style="margin-left: 1rem; margin-bottom: 0.5rem"
+                  style="margin-left: 1rem"
                 />
                 <span class="text-sm text-stone-500">{{ lovername }}</span>
               </div>
