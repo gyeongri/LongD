@@ -411,8 +411,6 @@ b {
   /* the calendar root */
   max-width: 1100px;
   margin: 0 auto;
-  font-family: 'omyu_pretty', sans-serif;
-  /* font-size: 15px; */
 }
 .tooltip {
   position: absolute;

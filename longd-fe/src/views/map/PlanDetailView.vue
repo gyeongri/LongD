@@ -1,4 +1,5 @@
 <template>
+
   <div class="flex justify-end gap-1">
     <button
       class="btn btn-sm"
@@ -7,7 +8,13 @@
     >
       삭제
     </button>
-    <button class="btn btn-sm" style="background-color: #ffeded">목록</button>
+    <button
+      class="btn btn-sm"
+      style="background-color: #ffeded"
+      @click="goList"
+    >
+      목록
+    </button>
   </div>
   <div class="box">
     <div class="box">
@@ -26,8 +33,10 @@
     <div v-for="date in dateList" :key="date.id">
       <div>
         <div>
+          <!-- 날짜 -->
           {{ date }}
           <div v-for="item in getItemsByDate(date)" :key="item.id">
+            <!-- 여행 장소 -->
             <button>{{ item.title }}</button>
           </div>
         </div>
@@ -40,20 +49,26 @@
 
 <script setup>
 import { ref, onMounted, watchEffect, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { getPlanDetail, getPlan, deletePlanData } from '@/utils/api/plan';
+import { useRouter, useRoute } from 'vue-router';
+import {
+  getPlanDetail,
+  getPlan,
+  deletePlanData,
+  getGalleryWithPlanID,
+} from '@/utils/api/plan';
 import Swal from 'sweetalert2';
-
+const route = useRoute();
 const planDetail = ref('');
+const planGalleryList = ref([]);
 const currentId = ref('');
 const planInfoDetail = ref([]);
 const dateList = ref([]);
-const router = useRoute();
+const router = useRouter();
 const getItemsByDate = date => {
   return planInfoDetail.value.filter(item => item.date === date);
 };
 const getCurrentRouteId = () => {
-  currentId.value = router.params.id;
+  currentId.value = route.params.id;
 };
 const defaultCenter = { lat: 36.10680122096389, lng: 128.4178078082704 };
 
@@ -118,16 +133,21 @@ const deletePlan = function () {
         currentId.value,
         success => {
           console.log(currentId.value);
-          console.log('15151515151');
+          router.push({ name: 'PlanList' });
           // 삭제 성공 시 추가적인 로직 작성
         },
         fail => {
+          console.error(fail);
           // 삭제 실패 시 추가적인 로직 작성
         },
       );
     }
     // '아니오'를 눌렀을 때는 아무 로직도 추가하지 않음
   });
+};
+//리스트로 돌려보낼함수
+const goList = function () {
+  router.push({ name: 'PlanList' });
 };
 // 컴포넌트가 마운트될 때와 라우터의 변경을 감지하여 현재 ID를 업데이트합니다.
 onMounted(async () => {
@@ -143,7 +163,23 @@ onMounted(async () => {
       });
     },
     error => {
-      console.log(error);
+      console.error(error);
+    },
+  );
+  getPlan(currentId.value, success => {
+    planDetail.value = success.data;
+    dateList.value = generateDateList(
+      success.data.dateStart,
+      success.data.dateEnd,
+    );
+  });
+  getGalleryWithPlanID(
+    currentId.value,
+    success => {
+      planGalleryList.value = success.data;
+    },
+    error => {
+      console.error(error);
     },
   );
   getPlan(currentId.value, success => {
@@ -188,7 +224,6 @@ div[aria-hidden='false'] > div {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
 .box {
   display: flex;
 }

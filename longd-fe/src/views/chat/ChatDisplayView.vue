@@ -1,10 +1,9 @@
 <template>
-  <div class="bg-slate-50 rounded-lg shadow-md pb-10">
-    <div class="pl-3">
+  <div class="bg-slate-50 rounded-lg shadow-md border-b-2">
+    <div class="bg-slate-50 pl-3 z-50 w-full" style="position: fixed">
       <button @click="turnOff">>>>></button>
     </div>
-
-    <div class="chat-container p-3 pb-1" ref="chatContainer">
+    <div class="chat-container p-1" ref="chatContainer">
       <div
         v-for="(message, index) in messages"
         :key="message.id"
@@ -22,7 +21,7 @@
             <template v-if="message.senderId == userId">
               <div
                 class="flex items-center justify-end"
-                style="margin-right: 1rem; margin-bottom: 0.5rem"
+                style="margin-right: 1rem"
               >
                 <span class="text-sm text-stone-500">{{ nickname }}</span>
                 <img
@@ -37,7 +36,7 @@
                 <img
                   :src="otherUserProfileImage"
                   class="w-8 h-8 rounded-full mr-3"
-                  style="margin-left: 1rem; margin-bottom: 0.5rem"
+                  style="margin-left: 1rem"
                 />
                 <span class="text-sm text-stone-500">{{ lovername }}</span>
               </div>
@@ -61,7 +60,7 @@
                   getFormattedTime(message.createdAt)
                 }}</time>
               </div>
-              <div class="chat-bubble p-3 rounded-lg">
+              <div class="chat-bubble p-1 rounded-lg">
                 <p class="text-sm text-stone-500">{{ message.content }}</p>
               </div>
             </div>
@@ -69,7 +68,7 @@
           <!-- 상대방의 메시지일 경우 시간을 오른쪽에 표시 -->
           <template v-else>
             <div class="flex gap-2">
-              <div class="chat-bubble p-3 rounded-lg">
+              <div class="chat-bubble p-1 rounded-lg">
                 <p class="text-sm text-stone-500">{{ message.content }}</p>
               </div>
               <div class="flex items-end">
@@ -169,16 +168,20 @@ div::-webkit-scrollbar {
 }
 .chat-end .chat-bubble {
   background-color: #e2f1ff; /* 연한 파란색으로 변경 (예시) */
-  margin-right: 1rem; /* 오른쪽 마진 설정 */
+  margin-right: 1vw; /* 오른쪽 마진 설정 */
 }
 .chat-end time {
   order: -1; /* 시간을 버블 왼쪽에 배치 */
 }
 .chat-start .chat-bubble {
   background-color: #ffeded; /* 연한 분홍색으로 유지 */
+
   margin-left: 1rem; /* 왼쪽 마진 설정 */
 }
 p {
-  font-size: 18px;
+  font-size: 16px;
+}
+.chat-bubble {
+  padding: 0.5rem;
 }
 </style>

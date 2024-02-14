@@ -211,7 +211,9 @@ const fetchAlbums = async () => {
         coupleId.value,
         params2.value,
       );
-      console.log(data, '갤럭리확인');
+
+      console.log(data, '갤러리확인');
+
       items.value = data;
       if (data.length > 0) {
         totalCount.value = data[0].size;
@@ -276,6 +278,8 @@ const images = ref([]); // 저장될 이미지
 const imagePreviews = ref([]); // 이미지 미리보기를 위한 배열
 const handleFileChange = event => {
   const files = event.target.files;
+  images.value = [];
+  imagePreviews.value = [];
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     images.value.push(file);
@@ -309,46 +313,53 @@ const getCategoryId = async () => {
 };
 
 const pathUrlList = ref([]);
-const formData2 = [];
+
 const uploadImages = async () => {
   const formData = new FormData();
+  const formData2 = [];
   for (let i = 0; i < images.value.length; i++) {
     formData.append('file', images.value[i]);
-    await uploadImage(
-      formData,
-      success => {
-        pathUrlList.value = success.data;
-        console.log(pathUrlList.value);
-
-        let data = {};
-        for (let i = 0; i < pathUrlList.value.length; i++) {
-          data = {
-            pathUrl: pathUrlList.value[i].pathUrl,
-            categoryId: categoryId,
-          };
-          console.log(data);
-          formData2.push(data);
-          console.log(formData2);
-          // 여기로
-        }
-      },
-      success2 => {
-        console.log(formData2);
-        console.log(coupleId.value);
-        createGallery(formData2);
-        // 이미지 업로드 후 이미지 미리보기 배열 초기화
-        fetchAlbums();
-      },
-      error => {
-        console.log('사진을 변환할 수 없어요.', error);
-      },
-    );
   }
+  await uploadImage(
+    formData,
+    success => {
+      pathUrlList.value = success.data;
+      console.log(pathUrlList.value);
+
+      let data = {};
+      for (let i = 0; i < pathUrlList.value.length; i++) {
+        data = {
+          pathUrl: pathUrlList.value[i].pathUrl,
+          categoryId: categoryId,
+        };
+        console.log(data);
+        formData2.push(data);
+        console.log(formData2);
+        // 여기로
+      }
+    },
+    success2 => {
+      console.log(formData2);
+      console.log(coupleId.value);
+      images.value = [];
+      imagePreviews.value = [];
+      createGallery(formData2);
+      // 이미지 업로드 후 이미지 미리보기 배열 초기화
+    },
+    success3 => {
+      setTimeout(() => fetchAlbums(), 100);
+    },
+    error => {
+      console.log('사진을 변환할 수 없어요.', error);
+    },
+  );
 };
 
 // 취소했을 때도 미리보기 남아있는 것을 방지하기 위함
 const cancelImages = () => {
+  pathUrlList.value = [];
   imagePreviews.value = [];
+  images.value = [];
 };
 
 // folder화면으로 가기

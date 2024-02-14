@@ -1,14 +1,13 @@
 <template>
   <div
-    class="h-[45rem] flex flex-col items-center justify-center border border-black"
+    class="h-[30rem] flex flex-col items-center justify-center cursor-pointer shadow-md fixed w-[3rem] bg-slate-50 rounded-lg"
+    @click="turnChat"
   >
-    <button @click="turnChat">
-      <img
-        src="/static/img/message-regular.svg"
-        alt="asas"
-        style="width: 30px; height: 30px; margin: 0 5px"
-      />
-    </button>
+    <img
+      src="/static/img/noMsg.png"
+      alt="asas"
+      style="width: 30px; height: 30px; margin: 0 5px border-radius:5px"
+    />
   </div>
 </template>
 
@@ -19,4 +18,5 @@ const turnChat = function () {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>
