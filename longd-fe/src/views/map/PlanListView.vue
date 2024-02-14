@@ -35,8 +35,6 @@ onMounted(() => {
     success => {
       console.log('플랜 리스트', success.data);
       planList.value = success.data;
-      console.log('test222222');
-      console.log(planList.value);
     },
     error => {
       console.log('플랜 리스트 에러', error);

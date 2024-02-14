@@ -5,12 +5,11 @@
       @chatoff="TurnOffChat"
       :messages="messages"
       :count="count"
-      class="border-4 border-blue-500 h-3/4"
+      :nickname="nickname"
+      :lovername="lovername"
+      class="h-3/4 overflow-scroll w-full"
     ></ChatDisplayView>
-    <ChatInputView
-      @messageToMain="sendMessage"
-      class="border-4 border-blue-500 h-1/4"
-    >
+    <ChatInputView @messageToMain="sendMessage" class="h-1/4 w-full">
     </ChatInputView>
   </div>
 </template>
@@ -28,8 +27,9 @@ const messages = reactive([]);
 const senderId = ref('');
 const room = ref(null);
 const count = ref(0);
+const nickname = ref('');
+const lovername = ref('');
 const emit = defineEmits(['offChat']);
-
 // const createRoom = async () => {
 //   const params = new URLSearchParams();
 //   params.append('roomName', coupleId.value);
@@ -108,6 +108,23 @@ const connect = function (couple, sender) {
 onMounted(() => {
   if (userStore.getUserState?.coupleListId !== undefined) {
     console.log('온마운트시점', userStore.getUserState?.coupleListId);
+    nickname.value = userStore.getUserState?.nickname;
+    coupleId.value = userStore.getUserState?.coupleListId;
+    stompApi
+      .get('/user/findNickname', {
+        params: {
+          coupleListId: userStore.getUserState?.coupleListId,
+          myNickname: userStore.getUserState?.nickname,
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+        lovername.value = response.data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
     stompApi
       .get(`/chat/messages/${userStore.getUserState?.coupleListId}?size=30`)
       .then(res => {
@@ -117,7 +134,6 @@ onMounted(() => {
         });
       })
       .then(res => {
-        coupleId.value = userStore.getUserState?.coupleListId;
         senderId.value = userStore.getUserState?.id;
         connect(
           userStore.getUserState?.coupleListId,

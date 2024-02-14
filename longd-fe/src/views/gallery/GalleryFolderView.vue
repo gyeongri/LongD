@@ -50,9 +50,10 @@ import Swal from 'sweetalert2';
 import { createFolder } from '@/utils/api/albums';
 import { useGalleryStore } from '@/stores/gallery.js';
 import GalleryCard from '@/components/gallery/GalleryCard.vue';
+import { useUserStore } from '@/stores/user';
 const router = useRouter();
 const galleryStore = useGalleryStore();
-
+const userStore = useUserStore();
 // {{ item[0].pathUrl }}
 // {{ item[0].galleryCategory.category }}
 
@@ -67,7 +68,7 @@ const params2 = ref({
 
 // 폴더 리스트
 const folders = ref([]);
-const coupleId = ref(1);
+const coupleId = ref();
 const folderFirstItem = ref([]);
 
 // 폴더 리스트 가져오기
@@ -157,7 +158,11 @@ const folderDelete = async () => {
 };
 
 onMounted(() => {
-  fetchFolders();
+  coupleId.value = userStore.getUserState?.coupleListId;
+  setTimeout(() => {
+    fetchFolders();
+  }, 300);
+
   galleryStore.addFolderNameList(coupleId.value);
 });
 

@@ -37,7 +37,9 @@ import {
 
 // import { INITIAL_EVENTS, createEventId } from '@/utils/event-utils';
 import Swal from 'sweetalert2';
-
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
+const coupleId = ref('');
 // 추억 작성 및 색깔 선정 알림창
 const titleAlert = async () => {
   const { value: title } = await Swal.fire({
@@ -194,8 +196,8 @@ let dateList = ref([]);
 // DB로 부터 이벤트들 조회
 const getCalendar = async () => {
   try {
-    console.log(1);
-    const res = await getCalendarInfo(1);
+    console.log(coupleId.value, '겟캘린더');
+    const res = await getCalendarInfo(coupleId.value);
     dateList.value = res.data;
     console.log('조회');
     console.dir(dateList);
@@ -207,7 +209,7 @@ const getCalendar = async () => {
 // DB 생성
 const saveCalendarTitle = async () => {
   try {
-    console.log(date);
+    console.log(date, 'date콘솔확인');
     await setCalendarInfo({
       ...date,
     });
@@ -245,7 +247,6 @@ const deleteCalendar = async () => {
 
 // 이벤트
 const date = {
-  coupleListId: 1,
   id: 0,
   title: '',
   start: '',
@@ -353,6 +354,7 @@ const calendarOptions = ref({
 });
 
 onMounted(() => {
+  coupleId.value = userStore.getUserState?.coupleListId;
   getCalendar();
 });
 </script>

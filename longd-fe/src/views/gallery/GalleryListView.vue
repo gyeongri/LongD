@@ -133,8 +133,9 @@ import {
 } from '@/utils/api/albums';
 import { uploadImage } from '@/utils/api/photo';
 import { useGalleryStore } from '@/stores/gallery.js';
+import { useUserStore } from '@/stores/user';
 const galleryStore = useGalleryStore();
-
+const userStore = useUserStore();
 const route = useRoute();
 const router = useRouter();
 
@@ -187,7 +188,7 @@ const totalCheckedEvent = data => {
   console.log(totalChecked.value);
 };
 
-const coupleId = ref(1);
+const coupleId = ref('');
 // 해당 폴더의 리스트 조회
 const items = ref([]);
 const fetchAlbums = async () => {
@@ -210,8 +211,13 @@ const fetchAlbums = async () => {
         coupleId.value,
         params2.value,
       );
+      console.log(data, '갤러리확인');
       items.value = data;
-      totalCount.value = data[0].size;
+      if (data.length > 0) {
+        totalCount.value = data[0].size;
+      } else {
+        totalCount.value = 0;
+      }
       // totalCount.value = data.length;
       // console.log(data);
     } catch (err) {
@@ -303,8 +309,9 @@ const getCategoryId = async () => {
 };
 
 const pathUrlList = ref([]);
-const formData2 = [];
+
 const uploadImages = async () => {
+  const formData2 = [];
   const formData = new FormData();
   for (let i = 0; i < images.value.length; i++) {
     formData.append('file', images.value[i]);
@@ -317,7 +324,8 @@ const uploadImages = async () => {
         let data = {};
         for (let i = 0; i < pathUrlList.value.length; i++) {
           data = {
-            pathUrl: pathUrlList.value[i],
+            createDate: pathUrlList.value[i].createDate,
+            pathUrl: pathUrlList.value[i].pathUrl,
             categoryId: categoryId,
           };
           console.log(data);
@@ -328,13 +336,20 @@ const uploadImages = async () => {
       },
       success2 => {
         console.log(formData2);
-        console.log(coupleId.value);
         createGallery(formData2);
         // 이미지 업로드 후 이미지 미리보기 배열 초기화
+        pathUrlList.value = [];
+        imagePreviews.value = [];
+        images.value = [];
+        formData2.value = [];
         fetchAlbums();
       },
       error => {
-        console.log('사진을 변환할 수 없어요.', error);
+        pathUrlList.value = [];
+        imagePreviews.value = [];
+        images.value = [];
+        formData2.value = [];
+        console.error('사진을 저장하는데 실패했습니다.', error);
       },
     );
   }
@@ -342,7 +357,9 @@ const uploadImages = async () => {
 
 // 취소했을 때도 미리보기 남아있는 것을 방지하기 위함
 const cancelImages = () => {
+  pathUrlList.value = [];
   imagePreviews.value = [];
+  images.value = [];
 };
 
 // folder화면으로 가기
@@ -353,7 +370,10 @@ const goFolder = () => {
 };
 
 onMounted(() => {
-  getCategoryId();
+  coupleId.value = userStore.getUserState?.coupleListId;
+  setTimeout(() => {
+    getCategoryId();
+  }, 300);
 });
 
 // // 참고 (데이터 전송 관련 방법 2가지)

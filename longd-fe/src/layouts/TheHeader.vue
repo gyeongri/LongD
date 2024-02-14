@@ -61,7 +61,7 @@
         </li> -->
         <li>
           <details ref="dropdown2">
-            <summary>여행</summary>
+            <summary>여행🚀</summary>
             <ul
               class="p-2 bg-base-100 rounded-t-none"
               style="z-index: 999"
@@ -165,9 +165,9 @@ const isGalleryActive = computed(
 const isCalendarActive = computed(
   () => router.currentRoute.value.name === 'Calendar',
 );
-const isTestMapActive = computed(
-  () => router.currentRoute.value.name === 'TestMap',
-);
+// const isTestMapActive = computed(
+//   () => router.currentRoute.value.name === 'TestMap',
+// );
 const isMapActive = computed(
   () =>
     router.currentRoute.value.name === 'MapSearch' ||
@@ -218,6 +218,11 @@ function closeDropdown2() {
 </script>
 
 <style scoped>
+a,
+summary,
+span {
+  font-size: 24px;
+}
 .image {
   width: 40px;
   height: 40px;

@@ -121,14 +121,14 @@ const router = createRouter({
       component: TestMapView,
     },
     {
-      path: '/plan/list/:id',
-      name: 'PlanDetail',
-      component: PlanDetailView,
-    },
-    {
       path: '/plan/list',
       name: 'PlanList',
       component: PlanListView,
+    },
+    {
+      path: '/plan/list/:id',
+      name: 'PlanDetail',
+      component: PlanDetailView,
     },
     {
       path: '/closed',
