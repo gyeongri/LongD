@@ -92,7 +92,7 @@ const initMap = async () => {
         console.log(data.latitude);
       }
       const customMarkerImage =
-        'https://longdssafy.s3.ap-northeast-2.amazonaws.com/87147053-0c9c-4059-8759-71252b89cde320240212_182456.jpg';
+        'https://longdssafy.s3.ap-northeast-2.amazonaws.com/a40b8994-d5fb-4cc2-87ce-610b09d3f340heart-suit.png';
 
       const marker = new google.maps.Marker({
         position: { lat: data.latitude, lng: data.longitude },
