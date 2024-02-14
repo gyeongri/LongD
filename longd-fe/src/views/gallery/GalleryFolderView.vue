@@ -10,7 +10,11 @@
     </div>
   </div>
 
-  <GalleryFolderGrid :items="folderFirstItem" @totalView="totalView">
+  <GalleryFolderGrid
+    :items="folderFirstItem"
+    @totalView="totalView"
+    @totalVideo="totalVideo"
+  >
     <template v-slot="{ item }">
       <div class="stack w-full h-64" @click="goList(item.folderName)">
         <GalleryCard
@@ -172,6 +176,12 @@ const totalView = () => {
     params: {
       folderName: '전체보기',
     },
+  });
+};
+
+const totalVideo = () => {
+  router.push({
+    name: 'VideoList',
   });
 };
 

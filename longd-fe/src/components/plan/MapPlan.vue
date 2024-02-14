@@ -210,7 +210,6 @@ const onDrop = (event, date) => {
   addPlaceToDate(date, place);
   // 수정된 place를 placeList에 추가
   placeList.value = [...placeList.value, place];
-  console.log(place, date, placeList.value);
 };
 
 // 삭제버튼 눌렀을 때 제거
@@ -222,7 +221,6 @@ const removePlace = (date, placeIndex) => {
   }
   // placeList에서 제거
   placeList.value.splice(placeIndex, 1);
-  console.log(placeList.value);
 };
 
 // 모달 띄우기
@@ -261,7 +259,6 @@ const openModal = () => {
 
 // 정보 보내기
 const sendPlan = () => {
-  console.log('sendPlan 함수 실행될 예정');
   planAll.value = {
     title: planTitle.value,
     dateStart: startDay.value,
@@ -279,7 +276,6 @@ const sendPlan = () => {
       console.log('여행 일정이 등록되지 않음', error);
     },
   );
-  console.log(planAll.value);
 };
 
 // 컴포넌트가 마운트될 때 이벤트 리스너 추가
