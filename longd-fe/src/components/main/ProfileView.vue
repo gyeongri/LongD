@@ -9,7 +9,16 @@
 
     <!-- 프로필 사진 -->
     <div>
-      <img :src="userStore.getUserState?.profilePicture" alt="MyImage" />
+      <img
+        v-if="userStore.getUserState.profilePicture"
+        :src="userStore.getUserState?.profilePicture"
+        alt="My image"
+      />
+      <img
+        v-else
+        src="https://longdssafy.s3.ap-northeast-2.amazonaws.com/52efc0a1-f3fa-4e70-a803-748fd41bca7cmainIMG.png"
+        alt="기본 이미지"
+      />
     </div>
 
     <!-- 상태 메세지 -->
