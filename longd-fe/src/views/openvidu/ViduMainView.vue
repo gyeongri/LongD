@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-end">
-      <button v-if="!viduStore.isRecording" @click="viduStore.startRecording">
+      <button v-if="!viduStore.isrecoding" @click="viduStore.startRecording">
         <font-awesome-icon
           icon="fa-solid fa-record-vinyl"
           size="2x"
