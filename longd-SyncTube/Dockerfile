@@ -1,42 +1,63 @@
-# Node.js 20.10.0 버전을 기반으로 한 이미지 사용
+# 사용할 베이스 이미지 선택
+#FROM node:latest
 FROM node:20.10.0 AS build
 
 # 작업 디렉토리 설정
 WORKDIR /app
 
+# 프로젝트 종속성 설치
+COPY package*.json ./
+RUN npm install
+
 # 소스 코드 복사
 COPY . .
 
-# npm install을 하기 전에 불필요한 파일을 삭제
-RUN rm -rf /app/node_modules /app/package-lock.json
+# 애플리케이션 빌드
+RUN npm run build
 
-# 필요한 패키지 설치
-# RUN apt-get update && apt-get install -y npm
+# 서버 실행
+CMD ["node", "build/server.js"]
 
-# 필요한 패키지 설치
-# RUN npm install -g npm@latest
 
-# 필요한 패키지 설치
-RUN npm install
+# # Node.js 20.10.0 버전을 기반으로 한 이미지 사용
+# FROM node:20.10.0 AS build
 
-# Vue 프로젝트 빌드
-# RUN npm run build
+# # 작업 디렉토리 설정
+# WORKDIR /app
 
-# Nginx 사용
-FROM nginx:latest
+# # 소스 코드 복사
+# COPY . .
 
-# 작업 디렉토리 설정
-# WORKDIR /usr/share/nginx/html
+# # npm install을 하기 전에 불필요한 파일을 삭제
+# RUN rm -rf /app/node_modules /app/package-lock.json
 
-# Vue 프로젝트 빌드 결과물을 복사
-# COPY --from=build /app/dist .
+# # 필요한 패키지 설치
+# # RUN apt-get update && apt-get install -y npm
 
-# 4200번 포트 열기
-EXPOSE 4200
+# # 필요한 패키지 설치
+# # RUN npm install -g npm@latest
 
-COPY sync-custom.conf /etc/nginx/sites-enabled/
-CMD ["nginx", "-g", "daemon off;"] && npm start
+# # 필요한 패키지 설치
+# RUN npm install
 
+# # Vue 프로젝트 빌드
+# # RUN npm run build
+
+# # Nginx 사용
+# FROM nginx:latest
+
+# # 작업 디렉토리 설정
+# # WORKDIR /usr/share/nginx/html
+
+# # Vue 프로젝트 빌드 결과물을 복사
+# # COPY --from=build /app/dist .
+
+# # 4200번 포트 열기
+# EXPOSE 4200
+
+# COPY sync-custom.conf /etc/nginx/sites-enabled/
+# CMD ["nginx", "-g", "daemon off;"] && npm start
+################################################################
 
 # CMD ["nginx", "-g", "daemon off; & npm start"]
 
@@ -95,22 +116,22 @@ CMD ["nginx", "-g", "daemon off;"] && npm start
 # CMD ["nginx", "-g", "daemon off;"]
 
 
-#FROM haxe:4.3.0-alpine3.15
-#WORKDIR /usr/src/app
-#
-#RUN apk add nodejs npm git
-#
-#COPY res ./res
-#COPY src ./src
-#COPY user ./user
-#COPY build-*.hxml ./
-#COPY package*.json ./
-#COPY default-config.json ./
-#
-#RUN npm ci; \
+# FROM haxe:4.3.0-alpine3.15
+# WORKDIR /usr/src/app
+
+# RUN apk add nodejs npm git
+
+# COPY res ./res
+# COPY src ./src
+# COPY user ./user
+# COPY build-*.hxml ./
+# COPY package*.json ./
+# COPY default-config.json ./
+
+# RUN npm ci; \
 #    haxelib install all --always; \
 #    haxe build-all.hxml
-#
-#EXPOSE 4200
-#
-#CMD npm start
+
+# EXPOSE 4200
+
+# CMD npm start

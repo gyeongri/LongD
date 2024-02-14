@@ -89,27 +89,27 @@ pipeline {
       //새 SyncTube 컨테이너 실행
         stage('Run New SyncTube image') {
             steps {
+                sh "docker build -t synctube ."
+                sh "docker run --rm -it -p 4200:4200 -v ${PROJECT_PATH}/longd-SyncTube/user:/usr/src/app/user synctube"
+
                 //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} -d -p 4200:4200 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt:/etc/letsencrypt ${MAIN_IMAGE_SYNCTUBE}"
+                // sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} -d -p 4200:4200 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt:/etc/letsencrypt ${MAIN_IMAGE_SYNCTUBE}"
                 // sh "docker cp ${PROJECT_PATH}/longd-SyncTube/sync-custom.conf ${MAIN_CONTAINER_SYNCTUBE}:/etc/nginx/conf.d"
-                sh "docker cp ${PROJECT_PATH}/longd-SyncTube/Default ${MAIN_CONTAINER_SYNCTUBE}:/etc/nginx/conf.d"
+                // sh "docker cp ${PROJECT_PATH}/longd-SyncTube/Default ${MAIN_CONTAINER_SYNCTUBE}:/etc/nginx/conf.d"
                 // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
                 echo 'Run New FE image'
             }
         }
 
 
-        //FE 컨테이너 재실행 (nginx 설정 완료 후)
-        stage('Restart SyncTube container'){
-            steps{
-                sh "docker restart ${MAIN_CONTAINER_SYNCTUBE}"
-                echo 'SyncTube 컨테이너 재실행'
-            }
-        }
+        // //SyncTube 컨테이너 재실행 (nginx 설정 완료 후)
+        // stage('Restart SyncTube container'){
+        //     steps{
+        //         sh "docker restart ${MAIN_CONTAINER_SYNCTUBE}"
+        //         echo 'SyncTube 컨테이너 재실행'
+        //     }
+        // }
 //////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
 
 
