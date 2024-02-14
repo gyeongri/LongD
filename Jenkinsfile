@@ -90,7 +90,7 @@ pipeline {
         stage('Run New SyncTube image') {
             steps {
                 // sh "docker build -t synctube ."
-                sh "docker run --rm -it -p 4200:4200 -v ${PROJECT_PATH}/longd-SyncTube/user:/usr/src/app/user synctube"
+                sh "docker run --rm -p 4200:4200 -v ${PROJECT_PATH}/longd-SyncTube/user:/usr/src/app/user synctube"
 
                 //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
                 // sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} -d -p 4200:4200 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt:/etc/letsencrypt ${MAIN_IMAGE_SYNCTUBE}"
