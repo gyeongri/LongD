@@ -138,7 +138,7 @@ const changeDday = () => {
         },
       });
       if (date) {
-        await Swal.fire('여러분의 처음 만난 날', date);
+        await Swal.fire('우리가 처음 만난 날', date);
         coupleInfo.value.startDay = date;
         startDay.value = dayjs(date);
         await coupleDataModify(
@@ -233,8 +233,12 @@ onMounted(() => {
       coupleInfo.value = data.data;
       startDay.value = dayjs(coupleInfo.value?.startDay);
       if (!coupleInfo.value.coupleImgUrl) {
-        coupleInfo.value.coupleImgUrl = '/static/img/frame.png';
+        coupleInfo.value.coupleImgUrl =
+          'https://longdssafy.s3.ap-northeast-2.amazonaws.com/ab0c912f-db17-4854-8ffd-a717207575e7frame.png';
       }
+    },
+    success => {
+      console.log('커플매칭이 잘되었습니다!');
     },
     error => {
       console.log('Couple Info 가져오기 안됨', error);

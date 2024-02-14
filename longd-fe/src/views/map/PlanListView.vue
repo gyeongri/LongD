@@ -31,7 +31,7 @@ onMounted(() => {
   userInfo.value = userStore.getUserState;
 
   getPlanList(
-    userInfo.value.coupleListId,
+    userStore.getUserState?.coupleListId,
     success => {
       console.log('플랜 리스트', success.data);
       planList.value = success.data;
