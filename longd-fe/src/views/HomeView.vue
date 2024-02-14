@@ -138,7 +138,7 @@ const changeDday = () => {
         },
       });
       if (date) {
-        await Swal.fire('우리가 처음 만난 날', date);
+        await Swal.fire('우리가 처음 만난 날', `<strong>${date}</strong>`);
         coupleInfo.value.startDay = date;
         startDay.value = dayjs(date);
         await coupleDataModify(
@@ -165,7 +165,9 @@ const changeDday = () => {
 const unConnectLove = () => {
   Swal.fire({
     title:
-      '상대와 연결을 끊으실건가요? 연결을 끊으면 우리의 모든 추억이 삭제됩니다.',
+      '상대와 연결을 끊으실건가요?' +
+      '<br>' +
+      '연결을 끊으면 우리의 모든 추억이 삭제됩니다.',
     showCancelButton: true,
     allowEscapeKey: false,
     confirmButtonText: '그래도 연결 끊기',
@@ -189,7 +191,9 @@ const deleteMyData = () => {
   // 진짜 회원탈퇴할건지 물어보기
   Swal.fire({
     title:
-      '회원탈퇴를 원하시나요? 회원탈퇴를 하면 롱디와의 모든 추억이 삭제됩니다.',
+      '회원탈퇴를 원하시나요?' +
+      '<br>' +
+      '회원탈퇴를 하면 롱디와의 모든 추억이 삭제됩니다.',
     showCancelButton: true,
     allowEscapeKey: false,
     confirmButtonText: '회원 탈퇴',

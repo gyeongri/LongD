@@ -126,7 +126,7 @@ function generateDateList(startDate, endDate) {
 
 const deletePlan = function () {
   Swal.fire({
-    title: '진짜 삭제하시겠습니까?',
+    title: '삭제하시겠습니까?',
     showCancelButton: true,
     confirmButtonText: '예',
     cancelButtonText: '아니오',

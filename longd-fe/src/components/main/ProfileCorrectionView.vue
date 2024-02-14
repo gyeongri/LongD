@@ -4,18 +4,24 @@
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
         {{ userInfo.nickname }}님의 프로필 수정 페이지
       </h2>
+      <div class="flex justify-items-start">
+        <button class="img-btn mt-1 mr-2" @click="goHome"></button>
+      </div>
     </div>
-    <button class="btn btn-rose" @click="goHome">돌아가기</button>
 
     <!-- 프로필 사진 -->
-    <div>
-      <label class="btn btn-primary" for="uploadImage">이미지 업로드</label>
-      <input type="file" id="uploadImage" @change="fileUpload" hidden />
-      <img
-        v-if="userInfo.profilePicture"
-        :src="userInfo?.profilePicture"
-        alt="Uploaded Image"
-      />
+    <div class="text-center">
+      <div class="flex justify-center">
+        <img
+          v-if="userInfo.profilePicture"
+          :src="userInfo?.profilePicture"
+          alt="Uploaded Image"
+        />
+      </div>
+      <div>
+        <label class="btn mt-3" for="uploadImage">이미지 업로드</label>
+        <input type="file" id="uploadImage" @change="fileUpload" hidden />
+      </div>
     </div>
 
     <!-- 상태 메세지 -->
@@ -272,4 +278,20 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.img-btn {
+  background-image: url('/static/img/arrow2.png');
+  background-size: contain; /* 이미지가 버튼 크기에 맞게 조정됩니다 */
+  background-position: center; /* 이미지가 중앙에 위치하도록 합니다 */
+  background-repeat: no-repeat;
+  /* right: 0.5rem;
+  bottom: 0.5rem; */
+  width: 2rem; /* 버튼의 너비 */
+  height: 2rem; /* 버튼의 높이 */
+  border: none; /* 버튼의 기본 테두리 제거 */
+}
+img {
+  height: 25%;
+  width: 25%;
+}
+</style>

@@ -142,7 +142,7 @@ const addRangeToList = () => {
     // 날짜를 추가하고 정렬
     dateList.value = dateList.value.concat(daysToAdd).sort();
   } else {
-    Swal.fire('날짜의 범위가 맞지 않습니다. 확인 후 다시 입력해주세요!');
+    Swal.fire('날짜의 범위가 맞지 않습니다.', '확인 후 다시 입력해주세요!');
   }
 };
 
@@ -238,7 +238,9 @@ const removePlace = (date, placeIndex) => {
 const openModal = () => {
   Swal.fire({
     title:
-      "일정 계획이 모두 끝나셨나요? 아래 '여행 일정 생성' 버튼을 누르시면 여행일정이 생성됩니다.",
+      '일정 계획이 모두 끝나셨나요?' +
+      '<br>' +
+      "아래 '여행 일정 생성' 버튼을 누르시면 여행일정이 생성됩니다.",
     showCancelButton: true,
     allowEscapeKey: false,
     confirmButtonText: '여행 일정 생성',
