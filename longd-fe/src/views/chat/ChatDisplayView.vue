@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-slate-50 rounded-lg shadow-md pb-10">
+  <div class="bg-slate-50 rounded-lg shadow-md pb-5 border-b-2">
     <div class="pl-3">
       <button @click="turnOff">>>>></button>
     </div>
 
-    <div class="chat-container p-3 pb-1" ref="chatContainer">
+    <div class="chat-container p-1" ref="chatContainer">
       <div
         v-for="(message, index) in messages"
         :key="message.id"
@@ -61,7 +61,7 @@
                   getFormattedTime(message.createdAt)
                 }}</time>
               </div>
-              <div class="chat-bubble p-3 rounded-lg">
+              <div class="chat-bubble p-1 rounded-lg">
                 <p class="text-sm text-stone-500">{{ message.content }}</p>
               </div>
             </div>
@@ -69,7 +69,7 @@
           <!-- 상대방의 메시지일 경우 시간을 오른쪽에 표시 -->
           <template v-else>
             <div class="flex gap-2">
-              <div class="chat-bubble p-3 rounded-lg">
+              <div class="chat-bubble p-1 rounded-lg">
                 <p class="text-sm text-stone-500">{{ message.content }}</p>
               </div>
               <div class="flex items-end">
@@ -169,7 +169,7 @@ div::-webkit-scrollbar {
 }
 .chat-end .chat-bubble {
   background-color: #e2f1ff; /* 연한 파란색으로 변경 (예시) */
-  margin-right: 1rem; /* 오른쪽 마진 설정 */
+  margin-right: 1vw; /* 오른쪽 마진 설정 */
 }
 .chat-end time {
   order: -1; /* 시간을 버블 왼쪽에 배치 */
@@ -180,6 +180,9 @@ div::-webkit-scrollbar {
   margin-left: 1rem; /* 왼쪽 마진 설정 */
 }
 p {
-  font-size: 18px;
+  font-size: 16px;
+}
+.chat-bubble {
+  padding: 0.5rem;
 }
 </style>
