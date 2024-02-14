@@ -38,7 +38,10 @@ export const useViduStore = defineStore('vidu', () => {
       publisher.value.element.volume = volume.value / 100; // 볼륨을 0~1 사이 값으로 조절
     }
   };
-  let isRecording = false;
+  const isRecording = ref(false);
+  const isrecoding = computed(() => {
+    return isRecording.value;
+  });
   //세션들어가기
   const joinSession = function (coupleid) {
     //토큰부터받아오고
@@ -217,7 +220,7 @@ export const useViduStore = defineStore('vidu', () => {
       })
       .then(res => {
         // 녹화 성공 알림
-        isRecording = true;
+        isRecording.value = true;
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
@@ -252,7 +255,7 @@ export const useViduStore = defineStore('vidu', () => {
       .then(res => {
         //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
         // 녹화 완료 알림
-        isRecording = false;
+        isRecording.value = false;
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
@@ -327,6 +330,6 @@ export const useViduStore = defineStore('vidu', () => {
     toggleAudio,
     toggleVideo,
     adjustVolume,
-    isRecording,
+    isrecoding,
   };
 });
