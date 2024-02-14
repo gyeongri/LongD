@@ -90,10 +90,14 @@ public class UserServiceImpl implements UserService{
         if(coupleList.getUserFirst() == user.getId()) {
             coupleList.setUserFirst(null);
             coupleListRepository.save(coupleList);
+            user.setCoupleListId(null);
+            userRepository.save(user);
             return "연결 끊기 성공";
         } else if (coupleList.getUserSecond() == user.getId()) {
             coupleList.setUserSecond(null);
             coupleListRepository.save(coupleList);
+            user.setCoupleListId(null);
+            userRepository.save(user);
             return "연결 끊기 성공";
         } else {
             log.error("있을 수 없는 상황");

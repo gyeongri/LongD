@@ -286,7 +286,7 @@ pipeline {
         stage('Run New SyncTube image') {
             steps {
                 // sh "docker build -t synctube ."
-                sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} --rm -p 4200:4200 -v /var/run/docker.sock:/var/run/docker.sock -v ${PROJECT_PATH}/longd-SyncTube/user:/usr/src/app/user ${MAIN_IMAGE_SYNCTUBE}"
+                sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} --rm -p 4200:4200 -v ${PROJECT_PATH}/longd-SyncTube/user:/usr/src/app/user ${MAIN_IMAGE_SYNCTUBE}"
 
                 //  sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} --rm -p 4200:4200 -v ${PROJECT_PATH}/longd-SyncTube/user:/app/user ${MAIN_IMAGE_SYNCTUBE}"
                 // sh "docker run --rm -p 4200:4200 -v ${MAIN_CONTAINER_SYNCTUBE}"
