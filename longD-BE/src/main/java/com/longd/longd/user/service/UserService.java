@@ -9,7 +9,8 @@ import java.util.Optional;
 public interface UserService {
 
     public void userRegist(User user);
-    public void userDelete();
+    public String userDelete();
+    public String userDisconnect();
     public Optional<User> userState();
     public User BaseInfo();
     public List<NationList> getNationList();

@@ -83,9 +83,24 @@ public class UserController {
     }
 
     //API 명세서 등록 완료 02-01
-    @GetMapping("/delete")
-    public void userDelete() {
-        userService.userDelete();
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> userDelete() {
+        try {
+            String tmp = userService.userDelete();
+            return ResponseEntity.status(200).body(tmp);
+        } catch (Exception e) {
+            return ResponseEntity.status(503).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/disconnect")
+    public ResponseEntity<?> userDisconnect() {
+        try {
+            String tmp = userService.userDisconnect();
+            return ResponseEntity.status(200).body(tmp);
+        } catch (Exception e) {
+            return ResponseEntity.status(503).body(e.getMessage());
+        }
     }
 
     //API 명세서 등록 완료 02-01
@@ -151,7 +166,7 @@ public class UserController {
     @GetMapping("/test")
     public String gettest() {
 
-        return "테스트페이지 Ver11.0";
+        return "테스트페이지 Ver12.0";
 
     }
 

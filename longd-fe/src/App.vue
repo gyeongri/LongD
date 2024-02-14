@@ -55,7 +55,6 @@ const chatTrue = function () {
 // if, else로 하지 말고, 버전 1,2,3으로 구분해서 채팅관련된 것이 아예 없도록 하던가 하면 될 듯.
 </script>
 
-
 <style scoped>
 .hihi {
   visibility: hidden;
@@ -71,28 +70,34 @@ const chatTrue = function () {
 <style>
 @font-face {
   font-family: 'TTHakgyoansimKkokkomaR';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimKkokkomaR.woff2') format('woff2');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimKkokkomaR.woff2')
+    format('woff2');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'UhBeemysen';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeemysen.woff') format('woff');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeemysen.woff')
+    format('woff');
   font-weight: normal;
   font-style: normal;
 }
-@font-face { font-family: 'omyu_pretty';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+@font-face {
+  font-family: 'omyu_pretty';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2')
+    format('woff2');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'Beeunhye';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_01@1.0/Beeunhye.woff') format('woff');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_01@1.0/Beeunhye.woff')
+    format('woff');
   font-weight: normal;
   font-style: normal;
 }
-body, html {
+body,
+html {
   /* font-family: 'TTHakgyoansimKkokkomaR', sans-serif; */
   /* font-family: 'omyu_pretty', sans-serif; */
   font-family: 'Beeunhye', sans-serif;

@@ -56,7 +56,13 @@ public class PlanController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deletePlan(@PathVariable int id) {
-        return null;
+        try {
+            String tmp = planSerivce.deletePlan(id);
+            return ResponseEntity.status(200).body(tmp);
+        } catch (Exception e) {
+            return ResponseEntity.status(503).body(e.getMessage());
+        }
+        
     }
 
 
