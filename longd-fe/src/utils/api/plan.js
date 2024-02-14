@@ -32,7 +32,7 @@ function postPlanData(planDataPart, success, fail) {
 }
 
 // 여행 개별 일정 삭제(plan 테이블 내 하나)
-function delectPlanData(planId, success, fail) {
+function deletePlanData(planId, success, fail) {
   userApi.delete(`/plan/delete/${planId}`).then(success).catch(fail);
 }
 
@@ -50,7 +50,7 @@ export {
   getPlanList,
   getPlanDetail,
   postPlanData,
-  delectPlanData,
+  deletePlanData,
   delectPlanInfoData,
   getPlan,
 };

@@ -1,4 +1,14 @@
 <template>
+  <div class="flex justify-end gap-1">
+    <button
+      class="btn btn-sm"
+      style="background-color: #ffeded"
+      @click="deletePlan()"
+    >
+      삭제
+    </button>
+    <button class="btn btn-sm" style="background-color: #ffeded">목록</button>
+  </div>
   <div class="box">
     <div class="box">
       <div>제목</div>
@@ -31,7 +41,9 @@
 <script setup>
 import { ref, onMounted, watchEffect, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { getPlanDetail, getPlan } from '@/utils/api/plan';
+import { getPlanDetail, getPlan, deletePlanData } from '@/utils/api/plan';
+import Swal from 'sweetalert2';
+
 const planDetail = ref('');
 const currentId = ref('');
 const planInfoDetail = ref([]);
@@ -92,6 +104,31 @@ function generateDateList(startDate, endDate) {
 
   return dateList;
 }
+
+const deletePlan = function () {
+  Swal.fire({
+    title: '진짜 삭제하시겠습니까?',
+    showCancelButton: true,
+    confirmButtonText: '예',
+    cancelButtonText: '아니오',
+  }).then(result => {
+    if (result.isConfirmed) {
+      // 사용자가 '예'를 눌렀을 때의 로직
+      deletePlanData(
+        currentId.value,
+        success => {
+          console.log(currentId.value);
+          console.log('15151515151');
+          // 삭제 성공 시 추가적인 로직 작성
+        },
+        fail => {
+          // 삭제 실패 시 추가적인 로직 작성
+        },
+      );
+    }
+    // '아니오'를 눌렀을 때는 아무 로직도 추가하지 않음
+  });
+};
 // 컴포넌트가 마운트될 때와 라우터의 변경을 감지하여 현재 ID를 업데이트합니다.
 onMounted(async () => {
   await initMap();

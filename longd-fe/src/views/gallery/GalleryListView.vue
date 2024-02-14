@@ -323,7 +323,7 @@ const uploadImages = async () => {
         let data = {};
         for (let i = 0; i < pathUrlList.value.length; i++) {
           data = {
-            pathUrl: pathUrlList.value[i],
+            pathUrl: pathUrlList.value[i].pathUrl,
             categoryId: categoryId,
           };
           console.log(data);
