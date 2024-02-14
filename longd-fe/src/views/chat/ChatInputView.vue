@@ -41,8 +41,8 @@ textarea {
   background-position: center; /* 이미지가 중앙에 위치하도록 합니다 */
   background-repeat: no-repeat;
   position: absolute; /* 절대 위치 지정 */
-  right: 1rem; /* 오른쪽 padding 공간에 맞춰 버튼을 위치 */
-  bottom: 0.5rem; /* 아래쪽 padding 공간에 맞춰 버튼을 위치 */
+  right: 0.5rem; /* 오른쪽 padding 공간에 맞춰 버튼을 위치 */
+  bottom: 2.5rem; /* 아래쪽 padding 공간에 맞춰 버튼을 위치 */
   width: 2.5rem; /* 버튼의 너비 */
   height: 2.5rem; /* 버튼의 높이 */
   border: none; /* 버튼의 기본 테두리 제거 */
