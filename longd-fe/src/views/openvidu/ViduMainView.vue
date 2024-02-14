@@ -16,7 +16,7 @@
           color="red"
         />
       </button>
-      <button @click="enterPiPMode" class="px-2">
+      <button @click="callChildMethod()" class="px-2">
         <img alt="Pip" src="/static/img/pip_icon.png" class="w-9 h-9" />
       </button>
     </div>
@@ -31,7 +31,7 @@
         <div
           class="w-1/2 aspect-ratio shadow-xl flex justify-center items-center rounded-xl"
         >
-          <ViduYours v-if="viduStore.hasSubscriber" />
+          <ViduYours v-if="viduStore.hasSubscriber" ref="viduYoursRef" />
           <div v-else class="border border-blue-400">아직 사람이 없을 시</div>
         </div>
       </div>
@@ -121,6 +121,10 @@ import { useUserStore } from '@/stores/user.js';
 import { onMounted, ref } from 'vue';
 const userStore = useUserStore();
 const viduStore = useViduStore();
+const viduYoursRef = ref();
+const callChildMethod = () => {
+  viduYoursRef.value.enterPiPMode();
+};
 const coupleid = ref('');
 const join = function () {
   console.log('조인할때 coupleid', coupleid.value);
