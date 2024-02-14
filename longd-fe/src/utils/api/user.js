@@ -43,7 +43,7 @@ function logout(success, fail) {
 
 // 회원탈퇴
 function DeleteUser(success, fail) {
-  userApi.delete(`/user/delete/`).then(success).catch(fail);
+  userApi.delete(`/user/delete`).then(success).catch(fail);
 }
 
 // 로그인 상태 확인

@@ -27,7 +27,7 @@ const userStore = useUserStore();
 const userInfo = ref();
 const planList = ref();
 
-onMounted(() => {
+onMounted(async () => {
   userInfo.value = userStore.getUserState;
 
   getPlanList(

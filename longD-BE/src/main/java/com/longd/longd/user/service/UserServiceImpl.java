@@ -90,10 +90,14 @@ public class UserServiceImpl implements UserService{
         if(coupleList.getUserFirst() == user.getId()) {
             coupleList.setUserFirst(null);
             coupleListRepository.save(coupleList);
+            user.setCoupleListId(null);
+            userRepository.save(user);
             return "연결 끊기 성공";
         } else if (coupleList.getUserSecond() == user.getId()) {
             coupleList.setUserSecond(null);
             coupleListRepository.save(coupleList);
+            user.setCoupleListId(null);
+            userRepository.save(user);
             return "연결 끊기 성공";
         } else {
             log.error("있을 수 없는 상황");
@@ -109,8 +113,8 @@ public class UserServiceImpl implements UserService{
         if(authentication.getPrincipal().toString().equals("anonymousUser")) {
             System.out.println("유저 상태 로그인 되어있지 않음");
             //임시 사용자 반환(제거)
-            return userRepository.findById(12);
-//            return null;
+//            return userRepository.findById(12);
+            return null;
         }
         CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
         Optional<User> user = null;

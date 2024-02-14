@@ -1,6 +1,6 @@
 <template>
   <div class="flex-col">
-    <div class="flex justify-end mb-10">
+    <div class="flex justify-end">
       <AppDropdown>
         <template v-slot>
           <li class="font-bold lis">
@@ -138,7 +138,7 @@ const changeDday = () => {
         },
       });
       if (date) {
-        await Swal.fire('여러분의 처음 만난 날', date);
+        await Swal.fire('우리가 처음 만난 날', date);
         coupleInfo.value.startDay = date;
         startDay.value = dayjs(date);
         await coupleDataModify(
@@ -197,7 +197,7 @@ const deleteMyData = () => {
   }).then(result => {
     if (result.isConfirmed) {
       Swal.fire({
-        title: '정말로 회원탈퇴하실건가요?.',
+        title: '정말로 회원탈퇴하실건가요?',
         showCancelButton: true,
         allowEscapeKey: false,
         confirmButtonText: '변함없이 회원탈퇴',
@@ -234,8 +234,11 @@ onMounted(() => {
       startDay.value = dayjs(coupleInfo.value?.startDay);
       if (!coupleInfo.value.coupleImgUrl) {
         coupleInfo.value.coupleImgUrl =
-          'https://meeting.ssafy.com/s10p10dd2/pl/zn33rbfdrbrj9qdmhmzuidzkzr';
+          'https://longdssafy.s3.ap-northeast-2.amazonaws.com/ab0c912f-db17-4854-8ffd-a717207575e7frame.png';
       }
+    },
+    success => {
+      console.log('커플매칭이 잘되었습니다!');
     },
     error => {
       console.log('Couple Info 가져오기 안됨', error);

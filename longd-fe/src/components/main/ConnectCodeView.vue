@@ -170,10 +170,7 @@ const choiceDate = async () => {
             });
             startDay.value = date;
             if (startDay.value) {
-              await Swal.fire(
-                '여러분의 처음 만난 날은',
-                `${startDay.value}입니다.`,
-              );
+              await Swal.fire('우리가 처음 만난 날', startDay.value);
               coupleData.value.startDay = startDay.value;
               console.log(startDay.value);
               console.log(coupleData.value.startDay);
