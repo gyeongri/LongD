@@ -1,6 +1,7 @@
 <template>
-  <h2>검색 결과</h2>
-  <div class="border-4 border-red-200"></div>
+  <div class="border-2 border-red-200 rounded-lg">
+    <h2>검색 결과</h2>
+  </div>
   <ul>
     <!-- 검색 결과 클릭 시 handleResultClick 함수 호출 -->
     <li
