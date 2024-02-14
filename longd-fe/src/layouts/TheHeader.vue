@@ -58,36 +58,30 @@
               @click="closeDropdown2"
             >
               <li>
-                <a
-                  ><RouterLink
-                    :to="{ name: 'Map' }"
-                    :class="{ 'text-pink-400': isMapActive }"
-                    >일정계획</RouterLink
-                  ></a
+                <RouterLink
+                  :to="{ name: 'Map' }"
+                  :class="{ 'text-pink-400': isMapActive }"
+                  ><a>일정계획</a></RouterLink
                 >
               </li>
               <li>
-                <a>
-                  <RouterLink
-                    :to="{ name: 'PlanList' }"
-                    :class="{ 'text-pink-400': isPlandListActive }"
-                    >여행목록</RouterLink
-                  >
-                </a>
+                <RouterLink
+                  :to="{ name: 'PlanList' }"
+                  :class="{ 'text-pink-400': isPlandListActive }"
+                >
+                  <a>여행목록</a></RouterLink
+                >
               </li>
             </ul>
           </details>
         </li>
 
         <li>
-          <a>
-            <RouterLink
-              :to="{ name: 'bucketList' }"
-              :class="{ 'text-pink-400': isBucketListActive }"
-            >
-              버킷리스트
-            </RouterLink>
-          </a>
+          <RouterLink
+            :to="{ name: 'bucketList' }"
+            :class="{ 'text-pink-400': isBucketListActive }"
+            ><a> 버킷리스트</a>
+          </RouterLink>
         </li>
       </ul>
     </div>
