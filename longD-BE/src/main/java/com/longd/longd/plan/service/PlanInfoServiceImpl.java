@@ -118,11 +118,11 @@ public class PlanInfoServiceImpl implements PlanInfoService {
 
     @Override
     public int setPlanAndPlanInfo(PlanRequestDto planRequestDto) {
-        //User user = userService.userState().get();
-        User user = null;
-        if(user == null) {
-            user = userRepository.findById(12).get();
-        }
+        User user = userService.userState().get();
+//        User user = null;
+//        if(user == null) {
+//            user = userRepository.findById(12).get();
+//        }
 
         Plan plan = new Plan();
         plan.setCoupleList(new CoupleList());
