@@ -62,6 +62,7 @@ function deletePlanIDinpicture(pictureIds, success, fail) {
     .then(success)
     .catch(fail);
 }
+
 export {
   postPlanAllData,
   getPlanList,

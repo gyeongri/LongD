@@ -9,7 +9,10 @@
       :lovername="lovername"
       class="overflow-scroll h-3/4 w-full"
     ></ChatDisplayView>
-    <ChatInputView @messageToMain="sendMessage" class="w-full h-1/12"></ChatInputView>
+    <ChatInputView
+      @messageToMain="sendMessage"
+      class="w-full h-1/12"
+    ></ChatInputView>
   </div>
 </template>
 

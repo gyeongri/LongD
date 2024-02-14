@@ -176,6 +176,7 @@ div::-webkit-scrollbar {
 }
 .chat-start .chat-bubble {
   background-color: #ffeded; /* 연한 분홍색으로 유지 */
+
   margin-left: 1rem; /* 왼쪽 마진 설정 */
 }
 p {
