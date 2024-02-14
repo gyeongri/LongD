@@ -1,15 +1,23 @@
 <template>
-  <div>
+  <AppGrid class="mb-10" :items="videoList">
+    <template v-slot="{ item }">
+      <GalleryVideoCard :src="item.pathUrl" :id="item.id"></GalleryVideoCard>
+    </template>
+  </AppGrid>
+
+  <!-- <div>
     <div v-for="item in videoList" :key="item.id">
       {{ item }}
       <video width="320" height="240" controls autoplay>
         <source :src="item.pathUrl" type="video/webm" />
       </video>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
+import GalleryVideoCard from '@/components/gallery/GalleryVideoCard.vue';
+import AppGrid from '@/components/app/AppGrid.vue';
 import { getVideo } from '@/utils/api/albums';
 import { onMounted, ref } from 'vue';
 const videoList = ref([]);

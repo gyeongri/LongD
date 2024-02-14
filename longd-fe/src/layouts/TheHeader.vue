@@ -11,7 +11,7 @@
           <a>
             <RouterLink
               :to="{ name: 'GalleryFolder' }"
-              :class="{ 'text-pink-400': isGalleryActive }"
+              :class="{ 'text-red-300': isGalleryActive }"
             >
               갤러리
             </RouterLink>
@@ -21,14 +21,14 @@
           <a>
             <RouterLink
               :to="{ name: 'Calendar' }"
-              :class="{ 'text-pink-400': isCalendarActive }"
+              :class="{ 'text-red-300': isCalendarActive }"
               >캘린더
             </RouterLink>
           </a>
         </li>
         <li>
           <details ref="dropdown1">
-            <summary :class="{ 'text-pink-400': isViduActive }">
+            <summary :class="{ 'text-red-300': isViduActive }">
               화상통화
             </summary>
             <ul
@@ -50,7 +50,7 @@
         <li>
           <details ref="dropdown2">
             <summary
-              :class="{ 'text-pink-400': isMapActive || isPlandListActive }"
+              :class="{ 'text-red-300': isMapActive || isPlandListActive }"
             >
               여행✈
             </summary>
@@ -64,7 +64,7 @@
                 <a
                   ><RouterLink
                     :to="{ name: 'Map' }"
-                    :class="{ 'text-pink-400': isMapActive }"
+                    :class="{ 'text-red-300': isMapActive }"
                     >일정계획</RouterLink
                   ></a
                 >
@@ -73,7 +73,7 @@
                 <a>
                   <RouterLink
                     :to="{ name: 'PlanList' }"
-                    :class="{ 'text-pink-400': isPlandListActive }"
+                    :class="{ 'text-red-300': isPlandListActive }"
                     >여행목록</RouterLink
                   >
                 </a>
@@ -86,7 +86,7 @@
           <a>
             <RouterLink
               :to="{ name: 'bucketList' }"
-              :class="{ 'text-pink-400': isBucketListActive }"
+              :class="{ 'text-red-300': isBucketListActive }"
             >
               버킷리스트
             </RouterLink>
