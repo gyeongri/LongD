@@ -1,25 +1,43 @@
-# 사용할 베이스 이미지 선택
-#FROM node:latest
-FROM node:20.10.0 AS build
+FROM haxe:4.3.0-alpine3.15
+WORKDIR /usr/src/app
 
-# 작업 디렉토리 설정
-WORKDIR /app
+RUN apk add nodejs npm git
 
-# 프로젝트 종속성 설치
+COPY res ./res
+COPY src ./src
+COPY user ./user
+COPY build-*.hxml ./
 COPY package*.json ./
-RUN npm install
-RUN npm install webpack-cli --save-dev
+COPY default-config.json ./
 
-RUN npm install webpack --save-dev
+RUN npm ci; \
+    haxelib install all --always; \
+    haxe build-all.hxml
 
-# 소스 코드 복사
-COPY . .
+EXPOSE 4200
 
-# 애플리케이션 빌드
-RUN npm run build
+CMD npm start
 
-# 서버 실행
-CMD ["node", "build/server.js"]
+
+# # 사용할 베이스 이미지 선택
+# #FROM node:latest
+# FROM node:20.10.0 AS build
+
+# # 작업 디렉토리 설정
+# WORKDIR /app
+
+# # 프로젝트 종속성 설치
+# COPY package*.json ./
+# RUN npm install
+
+# # 소스 코드 복사
+# COPY . .
+
+# # 애플리케이션 빌드
+# RUN npm run build
+
+# # 서버 실행
+# CMD ["node", "build/server.js"]
 
 
 # # Node.js 20.10.0 버전을 기반으로 한 이미지 사용
