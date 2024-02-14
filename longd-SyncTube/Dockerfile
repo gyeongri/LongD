@@ -3,6 +3,7 @@ WORKDIR /app
 
 RUN apk add nodejs npm git
 
+COPY build ./build
 COPY res ./res
 COPY src ./src
 COPY user ./user
