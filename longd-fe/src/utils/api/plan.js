@@ -46,10 +46,6 @@ function delectPlanInfoData(planInfoId, success, fail) {
   userApi.delete(`/plan/info/delete/${planInfoId}`).then(success).catch(fail);
 }
 
-// 여행 정보 불러오기
-function getPlan(planId, success, fail) {
-  userApi.get(`/plan/get/detail/${planId}`).then(success).catch(fail);
-
 // 플랜 ID기준으로 사진 불러오기
 function getGalleryWithPlanID(planId, success, fail) {
   userApi.get(`/gallery/getList/plan/${planId}`).then(success).catch(fail);
@@ -73,4 +69,4 @@ export {
   getPlan,
   getGalleryWithPlanID,
   deletePlanIDinpicture,
-}
+};
