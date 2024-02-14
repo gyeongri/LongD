@@ -53,7 +53,7 @@
             <summary
               :class="{ 'text-pink-400': isMapActive || isPlandListActive }"
             >
-              여행
+              여행✈
             </summary>
 
             <ul
