@@ -8,6 +8,7 @@ WORKDIR /app
 # 프로젝트 종속성 설치
 COPY package*.json ./
 RUN npm install
+RUN npm install webpack --save-dev
 
 # 소스 코드 복사
 COPY . .
