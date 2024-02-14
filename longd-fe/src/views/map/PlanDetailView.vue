@@ -47,10 +47,16 @@
 <script setup>
 import { ref, onMounted, watchEffect, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getPlanDetail, getPlan, deletePlanData } from '@/utils/api/plan';
+import {
+  getPlanDetail,
+  getPlan,
+  deletePlanData,
+  getGalleryWithPlanID,
+} from '@/utils/api/plan';
 import Swal from 'sweetalert2';
 const route = useRoute();
 const planDetail = ref('');
+const planGalleryList = ref([]);
 const currentId = ref('');
 const planInfoDetail = ref([]);
 const dateList = ref([]);
@@ -154,7 +160,7 @@ onMounted(async () => {
       });
     },
     error => {
-      console.log(error);
+      console.error(error);
     },
   );
   getPlan(currentId.value, success => {
@@ -164,6 +170,15 @@ onMounted(async () => {
       success.data.dateEnd,
     );
   });
+  getGalleryWithPlanID(
+    currentId.value,
+    success => {
+      planGalleryList.value = success.data;
+    },
+    error => {
+      console.error(error);
+    },
+  );
 });
 watchEffect(getCurrentRouteId);
 </script>
