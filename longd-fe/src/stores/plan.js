@@ -19,6 +19,10 @@ export const usePlanStore = defineStore('plan', () => {
     };
     hopeList.value.push(data.value);
   };
+  const isHeartSelected = function (place) {
+    // 해당 장소가 hopeList에 있는지 확인하여 선택 여부를 반환합니다.
+    return hopeList.value.some(item => item.title === place.name);
+  };
 
   return {
     hopeList,
@@ -26,5 +30,6 @@ export const usePlanStore = defineStore('plan', () => {
     searchResults,
     addSearchResult,
     resetSearchResult,
+    isHeartSelected,
   };
 });

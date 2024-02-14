@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- 검색 입력창 -->
-    <div class="join">
+    <div>
       <input
-        class="input input-bordered join-item"
+        class="input input-xs border-red-400 input-bordered w-full max-w-xs mt-1 placeholder-red-400"
         type="text"
         v-model="where"
         placeholder="검색 후 Enter키를 눌러주세요."
@@ -299,7 +299,7 @@ onMounted(async () => {
 
 <style scoped>
 .googleMap {
-  height: 600px;
+  height: 650px;
   width: 750px;
 }
 
