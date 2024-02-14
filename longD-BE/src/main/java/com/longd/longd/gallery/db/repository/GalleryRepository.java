@@ -13,9 +13,9 @@ import java.util.List;
 @Repository
 public interface GalleryRepository extends JpaRepository<Gallery, Integer> {
 
-    public List<Gallery> findByCoupleList_Id(int id, Sort sort);
+    public List<Gallery> findByCoupleList_IdAndType(int id, int type, Sort sort);
 
-    public List<Gallery> findByCoupleList_IdAndGalleryCategory_Category(int id, String category, Sort sort);
+    public List<Gallery> findByCoupleList_IdAndTypeAndGalleryCategory_Category(int id, int type, String category, Sort sort);
 
     public List<Gallery> findByGalleryCategory_Id(int id);
 

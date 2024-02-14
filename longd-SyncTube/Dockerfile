@@ -1,9 +1,12 @@
 FROM haxe:4.3.0-alpine3.15
-WORKDIR /app
+# 작업 디렉토리 설정
+WORKDIR /usr/src/app
 
 RUN apk add nodejs npm git
 
-COPY build ./build
+# 소스 코드 복사
+COPY . .
+# COPY build ./build
 COPY res ./res
 COPY src ./src
 COPY user ./user
@@ -11,15 +14,21 @@ COPY build-*.hxml ./
 COPY package*.json ./
 COPY default-config.json ./
 
-RUN npm install
+# RUN npm install
+RUN npm install ws
+
+# 의존성 설치
+# RUN npm install
 
 # RUN npm ci; \
 #     haxelib install all --always; \
 #     haxe build-all.hxml
 
 EXPOSE 4200
+# 서버 실행 명령 추가
+CMD ["node", "build/server.js"]
 
-CMD npm start
+# CMD npm start
 
 
 # # 사용할 베이스 이미지 선택
