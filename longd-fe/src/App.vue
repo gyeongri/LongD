@@ -69,14 +69,32 @@ const chatTrue = function () {
 </style>
 
 <style>
-  @font-face {
-    
-      font-family: 'TTHakgyoansimKkokkomaR';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimKkokkomaR.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-  }
-  body, html {
-  font-family: 'TTHakgyoansimKkokkomaR', sans-serif;
+@font-face {
+  font-family: 'TTHakgyoansimKkokkomaR';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimKkokkomaR.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'UhBeemysen';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeemysen.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face { font-family: 'omyu_pretty';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Beeunhye';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_01@1.0/Beeunhye.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+body, html {
+  /* font-family: 'TTHakgyoansimKkokkomaR', sans-serif; */
+  /* font-family: 'omyu_pretty', sans-serif; */
+  font-family: 'Beeunhye', sans-serif;
 }
 </style>

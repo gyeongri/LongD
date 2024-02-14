@@ -423,6 +423,7 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 							Gallery gallery = new Gallery();
 							gallery.setPathUrl(fileUrl);
 							gallery.setCoupleListId(coupleListId);
+							gallery.setType(2);
 							galleryRepository.save(gallery);
 						}
 					}

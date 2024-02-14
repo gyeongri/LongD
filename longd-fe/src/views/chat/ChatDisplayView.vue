@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-lg shadow-md p-4">
+  <div class="bg-slate-50 rounded-lg shadow-md">
     <div class="pb-3">
       <button @click="turnOff">>>>></button>
     </div>
@@ -13,7 +13,7 @@
           'chat-end': message.senderId == userId,
           'chat-start': message.senderId != userId,
         }"
-        style="display: flex; flex-direction: column"
+        class="flex flex-col"
       >
         <!-- 사용자 ID와 프로필 이미지를 메시지 스레드의 첫 부분에만 표시 -->
         <template v-if="shouldDisplayHeader(index)">
@@ -168,7 +168,6 @@ div::-webkit-scrollbar {
 }
 .chat-end .chat-bubble {
   background-color: #e2f1ff; /* 연한 파란색으로 변경 (예시) */
-
   margin-right: 1rem; /* 오른쪽 마진 설정 */
 }
 .chat-end time {
@@ -176,7 +175,9 @@ div::-webkit-scrollbar {
 }
 .chat-start .chat-bubble {
   background-color: #ffeded; /* 연한 분홍색으로 유지 */
-
   margin-left: 1rem; /* 왼쪽 마진 설정 */
+}
+p {
+  font-size: 20px;
 }
 </style>
