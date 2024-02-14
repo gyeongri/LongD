@@ -35,8 +35,10 @@ FROM nginx:latest
 EXPOSE 4200
 
 COPY sync-custom.conf /etc/nginx/sites-enabled/
+CMD ["nginx", "-g", "daemon off;"] && npm start
 
-CMD ["nginx", "-g", "daemon off; & npm start"]
+
+# CMD ["nginx", "-g", "daemon off; & npm start"]
 
 # start.sh 스크립트를 복사
 # COPY start.sh .
