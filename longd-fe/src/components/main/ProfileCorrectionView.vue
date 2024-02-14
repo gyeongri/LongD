@@ -238,7 +238,7 @@ const fileUpload = event => {
   uploadImage(
     formData,
     success => {
-      userInfo.profilePicture = success.data['pathUrl'];
+      userInfo.profilePicture = success.data[0]['pathUrl'];
     },
     success2 => {
       console.log('사진 변환 완료!');
@@ -257,6 +257,7 @@ const choiceDate = () => {
   const today = new Date().toISOString().split('T')[0];
   if (userInfo.birth > today) {
     Swal.fire('생년월일을 확인해주세요');
+    return;
   }
   if (!emailRegex.test(userInfo.email)) {
     Swal.fire('이메일 형식을 확인해주세요');
@@ -264,6 +265,7 @@ const choiceDate = () => {
   }
   if (userInfo.passwordSimple.length !== 4) {
     Swal.fire('화면잠금 비밀번호를 확인해주세요');
+    return;
   }
 
   sendinfo(
