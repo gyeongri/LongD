@@ -21,6 +21,7 @@ RUN npm run build
 #FROM nginx:latest
 
 
+
 # COPY fe-custom.conf /etc/nginx/conf.d/
 
 # Nginx 설정을 위한 별도의 디렉토리 생성
@@ -29,7 +30,6 @@ RUN mkdir -p /usr/share/nginx/html
 # 3001번 포트 열기
 EXPOSE 3001
 
-
 #CMD ["/app/start.sh"]
 
 CMD ["npm", "run", "build"]
@@ -37,4 +37,3 @@ CMD ["npm", "run", "build"]
 
 # Nginx 시작
 # CMD ["nginx", "-g", "daemon off;"]
-

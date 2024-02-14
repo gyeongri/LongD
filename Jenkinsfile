@@ -59,6 +59,10 @@ pipeline {
         }
 
 
+
+
+
+
         //////////////////////////////////////////////////////////////////////////////
                 //FE - 이미지 생성
                 stage('Build FE image'){
@@ -95,17 +99,13 @@ pipeline {
               //새 FE 컨테이너 실행
                 stage('Run New FE image') {
                     steps {
-<<<<<<< HEAD
-                        //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                        sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt/live/i10d206.p.ssafy.io:/home/certificates ${MAIN_IMAGE_FE}"
-=======
                         //FE nginx 설정파일 도커 컨테이너 안으로 복사
-                        
+
                         //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                        sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt/live/i10d206.p.ssafy.io:/home/certificates ${MAIN_IMAGE_FE}"
-                        sh "docker cp ${PROJECT_PATH}/longd-fe/fe-custom.conf ${MAIN_CONTAINER_FE}:/etc/nginx/conf.d"
->>>>>>> develop
-                        // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
+                        // sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt:/etc/letsencrypt ${MAIN_IMAGE_FE}"
+                        sh "docker run --name ${MAIN_CONTAINER_FE} -d -p 3001:3001 ${MAIN_IMAGE_FE}"
+                        // sh "docker cp ${PROJECT_PATH}/longd-fe/fe-custom.conf ${MAIN_CONTAINER_FE}:/etc/nginx/conf.d"
+                        
                         echo 'Run New FE image'
 
                         script {
@@ -114,28 +114,25 @@ pipeline {
                                 }
                     }
                 }
-<<<<<<< HEAD
-=======
 
-                //FE 컨테이너 재실행 (nginx 설정 완료 후)
-                stage('Restart FE container'){
-                    steps{
-                        sh "docker restart ${MAIN_CONTAINER_FE}"
-                        echo 'FE 컨테이너 재실행'
-                    }
-                }
->>>>>>> develop
+                // //FE 컨테이너 재실행 (nginx 설정 완료 후)
+                // stage('Restart FE container'){
+                //     steps{
+                //         sh "docker restart ${MAIN_CONTAINER_FE}"
+                //         echo 'FE 컨테이너 재실행'
+                //     }
+                // }
         //////////////////////////////////////////////////////////////////////////////////////////
 
-//                 stage('Copy dist to EC2') {
-//                     steps {
-//                         //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-//                         sh "docker cp longd-frontend:/app/dist ${PROJECT_PATH}"
-//                         // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
-//                         echo 'COPY FE Dist to EC2'
-//
-//                     }
-//                 }
+                stage('Copy dist to EC2') {
+                    steps {
+                        //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
+                        sh "docker cp ${MAIN_CONTAINER_FE}:/app/dist ${PROJECT_PATH}"
+                        // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
+                        echo 'COPY FE Dist to EC2'
+
+                    }
+                }
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -257,7 +254,7 @@ pipeline {
             }
         }
 
-
+////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
         //SyncTube - 이미지 생성
         stage('Build SyncTube image'){
@@ -288,15 +285,34 @@ pipeline {
       //새 SyncTube 컨테이너 실행
         stage('Run New SyncTube image') {
             steps {
+                // sh "docker build -t synctube ."
+                // sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} --rm -p 4200:4200 -v ${PROJECT_PATH}/longd-SyncTube/user:/usr/src/app/user ${MAIN_IMAGE_SYNCTUBE}"
+
+                 sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} --rm -p 4200:4200 -v ${PROJECT_PATH}/longd-SyncTube/user:/app/user ${MAIN_IMAGE_SYNCTUBE}"
+                // sh "docker run --rm -p 4200:4200 -v ${MAIN_CONTAINER_SYNCTUBE}"
+
                 //컨테이너의 모든 디렉터리 home/ubuntu/nginx에 볼륨 마운트
-                sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} -d -p 4200:4200 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt/live/i10d206.p.ssafy.io:/home/certificates ${MAIN_IMAGE_SYNCTUBE}"
+                // sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} -d -p 4200:4200 -v /var/run/docker.sock:/var/run/docker.sock -v /etc/letsencrypt:/etc/letsencrypt ${MAIN_IMAGE_SYNCTUBE}"
+                // sh "docker cp ${PROJECT_PATH}/longd-SyncTube/sync-custom.conf ${MAIN_CONTAINER_SYNCTUBE}:/etc/nginx/conf.d"
+                // sh "docker cp ${PROJECT_PATH}/longd-SyncTube/Default ${MAIN_CONTAINER_SYNCTUBE}:/etc/nginx/conf.d"
                 // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
                 echo 'Run New FE image'
             }
         }
+
+
+        // //SyncTube 컨테이너 재실행 (nginx 설정 완료 후)
+        // stage('Restart SyncTube container'){
+        //     steps{
+        //         sh "docker restart ${MAIN_CONTAINER_SYNCTUBE}"
+        //         echo 'SyncTube 컨테이너 재실행'
+        //     }
+        // }
 //////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
     }
 }
+

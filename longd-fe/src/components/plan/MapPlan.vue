@@ -209,8 +209,23 @@ const openModal = () => {
     cancelButtonText: '계속 편집 하기',
   }).then(result => {
     if (result.isConfirmed) {
-      console.log('sendPlan함수 실행!');
-      sendPlan();
+      if (
+        planTitle.value &&
+        startDay.value &&
+        endDay.value &&
+        placeList.value.length !== 0
+      ) {
+        console.log('sendPlan함수 실행!');
+        sendPlan();
+      } else {
+        console.log(
+          planTitle.value,
+          startDay.value,
+          endDay.value,
+          placeList.value,
+        );
+        Swal.fire('입력되지 않은 정보가 있습니다. 다시 확인해주세요.');
+      }
     } else {
       Swal.fire('일정 계획이 끝나면 꼭 저장 버튼을 눌러주세요!');
     }

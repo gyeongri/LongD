@@ -127,4 +127,15 @@ watchEffect(() => {
   white-space: nowrap;
   width: 100%;
 }
+
+.toptape {
+  height: 100%; /* 부모 요소의 높이를 100%로 설정 */
+  display: flex; /* Flexbox 레이아웃 사용 */
+  justify-content: center; /* 가로 방향 가운데 정렬 */
+  align-items: center; /* 세로 방향 가운데 정렬 */
+}
+
+.tape {
+  height: 50%;
+}
 </style>

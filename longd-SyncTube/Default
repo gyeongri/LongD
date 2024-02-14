@@ -14,7 +14,7 @@ server {
         proxy_pass http://i10d206.p.ssafy.io:4200/;
     }
 
-    # SSL 설정을 위한 인증서 및 개인 키 파일의 경로를 지정합니다. 
+    # SSL 설정을 위한 인증서 및 개인 키 파일의 경로를 지정합니다.  
 
     # ssl_certificate /home/certificates/fullchain.pem;
     # ssl_certificate_key /home/certificates/privkey.pem;
@@ -22,4 +22,4 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/i10d206.p.ssafy.io/privkey.pem;
 
 
-}
+    }

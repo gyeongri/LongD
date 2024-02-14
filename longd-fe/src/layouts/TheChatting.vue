@@ -7,11 +7,12 @@
       :count="count"
       :nickname="nickname"
       :lovername="lovername"
-      class="h-3/4 overflow-scroll w-full"
+      class="overflow-scroll h-3/4 w-full"
     ></ChatDisplayView>
-
-    <ChatInputView @messageToMain="sendMessage" class="h-1/4 w-full">
-    </ChatInputView>
+    <ChatInputView
+      @messageToMain="sendMessage"
+      class="w-full h-1/12"
+    ></ChatInputView>
   </div>
 </template>
 
@@ -31,20 +32,7 @@ const count = ref(0);
 const nickname = ref('');
 const lovername = ref('');
 const emit = defineEmits(['offChat']);
-// const createRoom = async () => {
-//   const params = new URLSearchParams();
-//   params.append('roomName', coupleId.value);
-//   try {
-//     const response = await stompApi.post('/chat/room', params);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
 
-// const findRoom = async () => {
-//   const response = await stompApi.get(`/chat/room/${coupleId.value}`);
-//   room.value = response.data;
-// };
 const TurnOffChat = function () {
   emit('offChat');
 };
@@ -108,7 +96,6 @@ const connect = function (couple, sender) {
 
 onMounted(() => {
   if (userStore.getUserState?.coupleListId !== undefined) {
-    console.log('온마운트시점', userStore.getUserState?.coupleListId);
     nickname.value = userStore.getUserState?.nickname;
     coupleId.value = userStore.getUserState?.coupleListId;
     stompApi
@@ -119,7 +106,6 @@ onMounted(() => {
         },
       })
       .then(response => {
-        console.log(response.data);
         lovername.value = response.data;
       })
       .catch(error => {

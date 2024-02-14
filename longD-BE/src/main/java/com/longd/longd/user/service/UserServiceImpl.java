@@ -1,5 +1,7 @@
 package com.longd.longd.user.service;
 
+import com.longd.longd.coupleList.db.entity.CoupleList;
+import com.longd.longd.coupleList.db.repository.CoupleListRepository;
 import com.longd.longd.user.db.dto.CustomOAuth2User;
 import com.longd.longd.user.db.entity.NationList;
 import com.longd.longd.user.db.entity.User;
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CoupleListRepository coupleListRepository;
 
     @Autowired
     NationListRepository nationListRepository;
@@ -55,25 +60,46 @@ public class UserServiceImpl implements UserService{
 
     }
 
-    public void userDelete() {
+    public String userDelete() {
+        User user = userState().get();
+        int coupleId = user.getCoupleListId();
+        CoupleList coupleList = coupleListRepository.findById(coupleId).get();
 
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
-
-        if ( info != null ) {
-
-            Optional<User> user = userRepository.findByUserId(info.getProviderId());
-            User temp = new User();
-            temp.setId(user.get().getId());
-            userRepository.delete(temp);
-            System.out.println("삭제성공");
+        if(coupleList.getUserFirst() == user.getId()) {
+            coupleList.setUserFirst(null);
+            coupleListRepository.save(coupleList);
+            userRepository.delete(user);
+            return "회원 탈퇴 성공";
+        } else if (coupleList.getUserSecond() == user.getId()) {
+            coupleList.setUserSecond(null);
+            coupleListRepository.save(coupleList);
+            userRepository.delete(user);
+            return "회원 탈퇴 성공";
         } else {
-            System.out.println("그런사람 없음");
+            log.error("있을 수 없는 상황");
+            return "있을 수 없는 상황";
         }
     }
 
+    @Override
+    public String userDisconnect() {
+        User user = userState().get();
+        int coupleId = user.getCoupleListId();
+        CoupleList coupleList = coupleListRepository.findById(coupleId).get();
 
+        if(coupleList.getUserFirst() == user.getId()) {
+            coupleList.setUserFirst(null);
+            coupleListRepository.save(coupleList);
+            return "연결 끊기 성공";
+        } else if (coupleList.getUserSecond() == user.getId()) {
+            coupleList.setUserSecond(null);
+            coupleListRepository.save(coupleList);
+            return "연결 끊기 성공";
+        } else {
+            log.error("있을 수 없는 상황");
+            return "있을 수 없는 상황";
+        }
+    }
 
 
     public Optional<User> userState() {

@@ -21,7 +21,12 @@ function getPlanList(coupleList, success, fail) {
   userApi.get(`/plan/get/${coupleList}`).then(success).catch(fail);
 }
 
-// 여행 개별 일정 전체 불러오기(plan 테이블 내 하나)
+// 여행 정보 불러오기
+function getPlan(planId, success, fail) {
+  userApi.get(`/plan/get/detail/${planId}`).then(success).catch(fail);
+}
+
+// 여행 개별 일정 중 PlanInfo 데이터만 불러오기(plan 테이블 내 하나 PlanInfo)
 function getPlanDetail(planId, success, fail) {
   userApi.get(`/plan/info/getList/${planId}`).then(success).catch(fail);
 }
@@ -32,7 +37,7 @@ function postPlanData(planDataPart, success, fail) {
 }
 
 // 여행 개별 일정 삭제(plan 테이블 내 하나)
-function delectPlanData(planId, success, fail) {
+function deletePlanData(planId, success, fail) {
   userApi.delete(`/plan/delete/${planId}`).then(success).catch(fail);
 }
 
@@ -41,17 +46,11 @@ function delectPlanInfoData(planInfoId, success, fail) {
   userApi.delete(`/plan/info/delete/${planInfoId}`).then(success).catch(fail);
 }
 
-
-// 여행 정보 불러오기
-function getPlan(planId, success, fail) {
-  userApi.get(`/plan/get/detail/${planId}`).then(success).catch(fail);
-}
 export {
   postPlanAllData,
   getPlanList,
   getPlanDetail,
   postPlanData,
-  delectPlanData,
+  deletePlanData,
   delectPlanInfoData,
-  getPlan,
 };
