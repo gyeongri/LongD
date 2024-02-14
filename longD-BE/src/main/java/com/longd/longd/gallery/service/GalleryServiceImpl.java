@@ -139,11 +139,30 @@ public class GalleryServiceImpl implements GalleryService {
     }
 
     @Override
-    public List<Gallery> getGalleryMovieList() {
+    public List<Gallery> getGalleryMovieList(int _limit, int _page, String _sort, String _order) {
         User user = userService.userState().get();
 
-        List<Gallery> list = galleryRepository.findByCoupleList_IdAndType(user.getCoupleListId(), 2);
-        return list;
+        Sort sort = null;
+        if( _order != null) {
+            if (_order.equals("desc")) sort = Sort.by(Sort.Direction.DESC, _sort);
+            else if (_order.equals(("ASC"))) sort = Sort.by(Sort.Direction.ASC, _sort);
+        }
+
+        List<Gallery> list = galleryRepository.findByCoupleList_IdAndType(user.getCoupleListId(), 2, sort);
+        List<Gallery> listResult = new ArrayList<>();
+        if( list.size() < _limit*_page ) {
+            for (int i = 0; i < list.size()%_limit; i++) {
+                listResult.add(list.get((_page - 1) * _limit + i));
+            }
+        } else {
+            for (int i = 0; i < _limit; i++) {
+                listResult.add(list.get((_page - 1) * _limit + i));
+            }
+        }
+        if( list.size() > 0 ) {
+            listResult.get(0).setSize(list.size());
+        }
+        return listResult;
     }
 
     @Override

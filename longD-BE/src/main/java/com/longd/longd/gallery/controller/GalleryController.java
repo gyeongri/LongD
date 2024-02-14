@@ -58,9 +58,9 @@ public class GalleryController {
     }
 
     @GetMapping("/getMovieList")
-    public ResponseEntity<?> getGalleryMovieList() {
+    public ResponseEntity<?> getGalleryMovieList(@RequestParam(required = false) String _sort, @RequestParam(required = false) String _order , @RequestParam int _limit, @RequestParam int _page) {
         try {
-            List<Gallery> list = galleryService.getGalleryMovieList();
+            List<Gallery> list = galleryService.getGalleryMovieList(_limit, _page, _order, _sort);
             return ResponseEntity.status(200).body(list);
         } catch (Exception e) {
             log.error(e.getMessage());
