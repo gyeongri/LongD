@@ -1,6 +1,6 @@
 <template>
   <div class="flex-col">
-    <div class="flex justify-end mb-10">
+    <div class="flex justify-end">
       <AppDropdown>
         <template v-slot>
           <li class="font-bold lis">
@@ -197,7 +197,7 @@ const deleteMyData = () => {
   }).then(result => {
     if (result.isConfirmed) {
       Swal.fire({
-        title: '정말로 회원탈퇴하실건가요?.',
+        title: '정말로 회원탈퇴하실건가요?',
         showCancelButton: true,
         allowEscapeKey: false,
         confirmButtonText: '변함없이 회원탈퇴',
