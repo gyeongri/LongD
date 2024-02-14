@@ -134,9 +134,22 @@ public class GalleryServiceImpl implements GalleryService {
                 log.info(gallery.getGalleryCategory().toString());
             }
 
+            String tmpPathUrl = gallerySaveDto.getPathUrl();
+            String ext = tmpPathUrl.substring(tmpPathUrl.lastIndexOf(".")+1); //확장자
             //세팅
             gallery.setId(gallerySaveDto.getId());  //등록의 경우 null이 세팅됨
-            gallery.setPathUrl(gallerySaveDto.getPathUrl());
+            gallery.setPathUrl(tmpPathUrl);
+
+            List<String> imageTypes = List.of("jpeg", "png", "gif");
+            List<String> videoTypes = List.of("mp4", "webm", "ogg", "3gpp", "x-msvideo", "quicktime");
+            log.info(ext);
+            if (imageTypes.contains(ext)) {
+                gallery.setType(1);
+            } else if (videoTypes.contains(ext)) {
+                gallery.setType(2);
+            } else {
+                log.error("확장자 명이 이미지/동영상이 아님");
+            }
             log.info(gallery.toString());
             galleryRepository.save(gallery);
             log.info("도착확인");

@@ -93,7 +93,14 @@ public class PlanServiceImpl implements PlanSerivce{
 
     @Override
     public Plan getDetailPlan(int planId) {
-        Optional<Plan> plan=planRepository.findById(planId);
-        return plan.orElse(null);
+        User user = userService.userState().get();
+        Optional<Plan> plan = planRepository.findById(planId);
+        //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
+        if( ( user != null && user.getCoupleListId() == plan.get().getCoupleList().getId() ) || plan.get().getCoupleList().getId() == 1 ) {
+            return plan.orElse(null);
+        } else {
+            return null;
+        }
+
     }
 }
