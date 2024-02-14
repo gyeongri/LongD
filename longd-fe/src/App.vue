@@ -23,7 +23,7 @@
           'w-1/10': !isChatting,
         }"
       >
-        <div v-if="isChatting">
+        <div v-if="isChatting" class="fixed">
           <TheChatting @offChat="chatFalse"></TheChatting>
         </div>
         <div v-else>
