@@ -32,8 +32,10 @@
     <div v-for="date in dateList" :key="date.id">
       <div>
         <div>
+          <!-- 날짜 -->
           {{ date }}
           <div v-for="item in getItemsByDate(date)" :key="item.id">
+            <!-- 여행 장소 -->
             <button>{{ item.title }}</button>
           </div>
         </div>
