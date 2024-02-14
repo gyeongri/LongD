@@ -11,7 +11,7 @@
       />
     </div>
     <!-- 지도 표시 -->
-    <div class="googleMap" id="googleMap"></div>
+    <div class="googleMap rounded-xl" id="googleMap"></div>
 
     <!-- 선택한 장소의 상세 정보 모달 -->
     <!-- <div v-if="selectedPlace">
