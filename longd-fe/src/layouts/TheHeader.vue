@@ -1,9 +1,10 @@
 <template>
   <div class="navbar bg-base-100">
     <div class="navbar-start">
-      <RouterLink class="btn btn-ghost text-2xl" :to="{ name: 'Home' }"
-        >롱디</RouterLink
-      >
+      <RouterLink class="btn btn-ghost text-5xl" :to="{ name: 'Home' }">
+        <!-- <img class="image" alt="LongDlogo" src="/static/img/longD_logo_.png" /> -->
+        <h1 class="logoFont">롱디</h1>
+      </RouterLink>
     </div>
     <div class="navbar-center">
       <ul class="menu menu-horizontal font-bold">
@@ -183,7 +184,10 @@ span {
   font-size: 24px;
 }
 .image {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
+}
+.logoFont {
+  font-size: 35px;
 }
 </style>
