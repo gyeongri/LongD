@@ -233,7 +233,8 @@ onMounted(() => {
       coupleInfo.value = data.data;
       startDay.value = dayjs(coupleInfo.value?.startDay);
       if (!coupleInfo.value.coupleImgUrl) {
-        coupleInfo.value.coupleImgUrl = '/static/img/frame.png';
+        coupleInfo.value.coupleImgUrl =
+          'https://meeting.ssafy.com/s10p10dd2/pl/zn33rbfdrbrj9qdmhmzuidzkzr';
       }
     },
     error => {
