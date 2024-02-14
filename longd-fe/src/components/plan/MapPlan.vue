@@ -1,16 +1,43 @@
 <template>
   <!-- 제목 입력 -->
-  <label for="title">제목</label>
-  <input id="title" type="text" v-model="planTitle" />
-  <!-- 일정 입력하기 -->
-  <div>
-    <label for="start">시작 날짜:</label>
-    <input id="start" type="date" v-model="startDay" />
-    <label for="end">종료 날짜:</label>
-    <input id="end" type="date" v-model="endDay" />
-    <button class="btn" @click="addRangeToList">일정 추가</button>
-    <button class="btn btn-outline" @click="clearList">일정 초기화</button>
+  <div class="flex">
+    <label class="flex items-center" for="title">제목: </label>
+    <input
+      class="input input-bordered input-sm flex-1"
+      id="title"
+      type="text"
+      placeholder="일정 제목을 입력해주세요."
+      v-model="planTitle"
+    />
   </div>
+  <!-- 일정 입력하기 -->
+  <div class="flex flex-col">
+    <div class="flex justify-between">
+      <label for="start">시작 날짜:</label>
+      <input id="start" type="date" v-model="startDay" />
+    </div>
+    <div class="flex justify-between">
+      <label for="end">종료 날짜:</label>
+      <input id="end" type="date" v-model="endDay" />
+    </div>
+  </div>
+  <div class="flex justify-end mr-1">
+    <button
+      class="btn btn-sm mr-1"
+      style="background-color: #ffeded"
+      @click="addRangeToList"
+    >
+      일정 추가
+    </button>
+    <button
+      class="btn btn-sm"
+      style="background-color: #ffeded"
+      @click="clearList"
+    >
+      일정 초기화
+    </button>
+  </div>
+
   <!-- 즐겨찾기 목록 -->
   <p>즐겨찾기 목록</p>
   <!-- 로컬에 저장할 수 있도록 하기 -->

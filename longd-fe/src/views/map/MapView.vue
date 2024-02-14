@@ -1,7 +1,7 @@
 <template>
-  <div class="test">
-    <MapMenu></MapMenu>
-    <Map></Map>
+  <div class="flex">
+    <MapMenu class="w-1/4 ml-2"></MapMenu>
+    <Map class="w-3/4"></Map>
   </div>
 </template>
 
@@ -10,8 +10,4 @@ import MapMenu from '@/components/plan/MapMenu.vue';
 import Map from '@/components/plan/Map.vue';
 </script>
 
-<style scoped>
-.test {
-  display: flex;
-}
-</style>
+<style scoped></style>
