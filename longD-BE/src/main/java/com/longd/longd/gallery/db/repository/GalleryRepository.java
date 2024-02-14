@@ -13,13 +13,15 @@ import java.util.List;
 @Repository
 public interface GalleryRepository extends JpaRepository<Gallery, Integer> {
 
-    public List<Gallery> findByCoupleList_Id(int id, Sort sort);
+    public List<Gallery> findByCoupleList_IdAndType(int id, int type, Sort sort);
 
-    public List<Gallery> findByCoupleList_IdAndGalleryCategory_Category(int id, String category, Sort sort);
+    public List<Gallery> findByCoupleList_IdAndTypeAndGalleryCategory_Category(int id, int type, String category, Sort sort);
 
     public List<Gallery> findByGalleryCategory_Id(int id);
 
     public List<Gallery> findByPlan_Id(int id);
+
+    public List<Gallery> findByCoupleList_IdAndType(int id, int type);
 
 //    @Query("SELECT g FROM Gallery g ORDER BY sort DESC")
 //    public List<Gallery> findByCoupleList_IdAndFolderNameOrder(int id, String folderName, @Param("sort") String sort);
