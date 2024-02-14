@@ -96,5 +96,6 @@ body, html {
   /* font-family: 'TTHakgyoansimKkokkomaR', sans-serif; */
   /* font-family: 'omyu_pretty', sans-serif; */
   font-family: 'Beeunhye', sans-serif;
+  font-size: 20px;
 }
 </style>
