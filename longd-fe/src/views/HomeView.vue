@@ -138,15 +138,13 @@ const changeDday = () => {
         },
       });
       if (date) {
-        await Swal.fire('여러분의 처음 만난 날은', `${date}입니다.`);
+        await Swal.fire('여러분의 처음 만난 날', date);
         coupleInfo.value.startDay = date;
-        console.log(date);
-        console.log(coupleInfo.value.startDay);
-        coupleDataModify(
+        startDay.value = dayjs(date);
+        await coupleDataModify(
           coupleInfo.value,
           success => {
             console.log(coupleInfo.value);
-            router.push({ name: 'Home' });
           },
           error => {
             Swal.fire('수정되지않았어요!', error);
