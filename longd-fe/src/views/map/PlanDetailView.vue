@@ -1,5 +1,4 @@
 <template>
-
   <div class="flex justify-end gap-1">
     <button
       class="btn btn-sm"
