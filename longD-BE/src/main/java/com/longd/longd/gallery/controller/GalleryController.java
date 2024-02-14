@@ -30,6 +30,17 @@ public class GalleryController {
         }
     }
 
+    @GetMapping("/getList/plan/{planId}")
+    public ResponseEntity<?> getGalleryListByPlanId(@PathVariable int planId) {
+        try {
+            List<Gallery> galleryList = galleryService.getGalleryListByPlanId(planId);
+            return ResponseEntity.status(200).body(galleryList);
+        } catch (Exception e ) {
+            log.error(e.toString());
+            return ResponseEntity.status(503).body(e.getMessage());
+        }
+    }
+
     @GetMapping("/getList/{coupleListId}")
     public ResponseEntity<?> getGalleryList(@PathVariable int coupleListId, @RequestParam(required = false) String categoryName, @RequestParam(required = false) String _sort, @RequestParam(required = false) String _order , @RequestParam int _limit, @RequestParam int _page, @RequestParam(required = false) String id_like) {
         try {
@@ -54,6 +65,17 @@ public class GalleryController {
         } catch (Exception e) {
             log.error(e.toString());
             return ResponseEntity.status(503).body(e.toString());
+        }
+    }
+
+    @PostMapping("/modify/deletePlanId")
+    public ResponseEntity<?> modifyDeletePlanId(@RequestBody int[] id) {
+        try {
+            String tmp = galleryService.modifyDeletePlanId(id);
+            return ResponseEntity.status(200).body(tmp);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(503).body(e.getMessage());
         }
     }
 
