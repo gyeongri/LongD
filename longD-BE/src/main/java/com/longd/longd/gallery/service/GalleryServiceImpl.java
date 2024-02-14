@@ -138,11 +138,12 @@ public class GalleryServiceImpl implements GalleryService {
             String ext = tmpPathUrl.substring(tmpPathUrl.lastIndexOf(".")+1); //확장자
             //세팅
             gallery.setId(gallerySaveDto.getId());  //등록의 경우 null이 세팅됨
+            gallery.setCreateDate(gallerySaveDto.getCreateDate());  // 날짜가 없을 경우 null이 세팅됨
             gallery.setPathUrl(tmpPathUrl);
 
             List<String> imageTypes = List.of("jpeg", "png", "gif");
             List<String> videoTypes = List.of("mp4", "webm", "ogg", "3gpp", "x-msvideo", "quicktime");
-            log.info(ext);
+            log.info("확장자 : " + ext);
             if (imageTypes.contains(ext)) {
                 gallery.setType(1);
             } else if (videoTypes.contains(ext)) {
