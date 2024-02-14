@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="flex justify-end">
-      <button @click="viduStore.startRecording">
+      <button v-if="!viduStore.isrecoding" @click="viduStore.startRecording">
         <font-awesome-icon
           icon="fa-solid fa-record-vinyl"
           size="2x"
           color="red"
         />
       </button>
-      <button @click="viduStore.stopRecording(coupleid)">
+      <button v-else @click="viduStore.stopRecording(coupleid)">
         <font-awesome-icon
           icon="fa-solid fa-record-vinyl"
           size="2x"
@@ -129,6 +129,7 @@ const join = function () {
 const disconnect = function () {
   viduStore.removeUser();
   viduStore.leaveSession();
+  viduStore.closeSession();
   viduStore.subscriber = '';
   viduStore.publisher = '';
   viduStore.publisherTest = '';

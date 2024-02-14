@@ -204,7 +204,8 @@ public class GalleryServiceImpl implements GalleryService {
                 }
             }
 
-            List<String> imageTypes = List.of("jpeg", "png", "gif", "bmp", "webp");
+            List<String> imageTypes = List.of("jpg", "jpeg", "png", "gif", "bmp", "webp", "test");
+            log.info("확인용");
             List<String> videoTypes = List.of("mp4", "webm", "ogg", "3gpp", "x-msvideo", "quicktime");
             log.info("확장자 : " + ext);
             if (imageTypes.contains(ext)) {
