@@ -1,17 +1,15 @@
 <template>
-  <div class="mt-4 flex items-center">
-    <input
-      type="text"
+  <div class="flex items-center relative">
+    <textarea
+      rows="3"
       v-model="message"
       @keyup.enter="sendMessageToMain"
-      class="flex-1 py-2 px-3 rounded-full bg-gray-100 focus:outline-none"
-    />
+      class="textarea textarea-bordered w-full resize-none pr-12"
+    ></textarea>
     <button
       @click="sendMessageToMain"
-      class="bg-blue-500 text-white px-4 py-2 rounded-full ml-3 hover:bg-blue-600"
-    >
-      전송
-    </button>
+      class="img-btn rounded-full absolute right-3 bottom-3"
+    ></button>
   </div>
 </template>
 
@@ -32,8 +30,21 @@ const sendMessageToMain = function () {
 </script>
 
 <style scoped>
-input {
-  border: px, solid, black;
+textarea {
+  border: 1px, solid, black;
   width: 100%;
+}
+
+.img-btn {
+  background-image: url('/static/img/send.png');
+  background-size: contain; /* 이미지가 버튼 크기에 맞게 조정됩니다 */
+  background-position: center; /* 이미지가 중앙에 위치하도록 합니다 */
+  background-repeat: no-repeat;
+  position: absolute; /* 절대 위치 지정 */
+  right: 0.5rem; /* 오른쪽 padding 공간에 맞춰 버튼을 위치 */
+  bottom: 2.5rem; /* 아래쪽 padding 공간에 맞춰 버튼을 위치 */
+  width: 2.5rem; /* 버튼의 너비 */
+  height: 2.5rem; /* 버튼의 높이 */
+  border: none; /* 버튼의 기본 테두리 제거 */
 }
 </style>

@@ -42,6 +42,18 @@ public class PlanController {
         }
     }
 
+    //POST MAN 검증 완료
+    @GetMapping("/get/detail/{planId}")
+    public ResponseEntity<?> getDetailPlan(@PathVariable int planId){
+        Plan plan=planSerivce.getDetailPlan(planId);
+        if(plan!=null){
+            return ResponseEntity.status(200).body(plan);
+        }else{
+            return ResponseEntity.status(403).body(null);
+        }
+    }
+
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deletePlan(@PathVariable int id) {
         return null;
