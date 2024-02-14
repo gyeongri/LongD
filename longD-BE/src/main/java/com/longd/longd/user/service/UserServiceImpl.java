@@ -1,5 +1,7 @@
 package com.longd.longd.user.service;
 
+import com.longd.longd.coupleList.db.entity.CoupleList;
+import com.longd.longd.coupleList.db.repository.CoupleListRepository;
 import com.longd.longd.user.db.dto.CustomOAuth2User;
 import com.longd.longd.user.db.entity.NationList;
 import com.longd.longd.user.db.entity.User;
@@ -26,39 +28,78 @@ public class UserServiceImpl implements UserService{
     UserRepository userRepository;
 
     @Autowired
+    CoupleListRepository coupleListRepository;
+
+    @Autowired
     NationListRepository nationListRepository;
 
-    public void userReigst(User user) {
+    public void userRegist(User user) {
         log.info(user.toString());
-        if(user.getBirth() == null) {
-            log.error("생일이 없어서 화면잠금 비밀번호 저장 실패");
-        } else {
+        String[] tmp = user.getBirth().split("-");
+        if ( user.getPasswordSimple() == null ) {
             //혹시 0228이면 어떻게 될까 ?
-            String[] tmp = user.getBirth().split("-");
+            //생일 값은 반드시 있다 가정
             user.setPasswordSimple(Integer.parseInt(tmp[1] + tmp[2]));
         }
+        user.setBirthYear(tmp[0]);
+        user.setBirthMonth(tmp[1]);
+        user.setBirthMonth(tmp[2]);
         userRepository.save(user);
     }
 
-    public void userDelete() {
-
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
-
-        if ( info != null ) {
-
-            Optional<User> user = userRepository.findByUserId(info.getProviderId());
-            User temp = new User();
-            temp.setId(user.get().getId());
-            userRepository.delete(temp);
-            System.out.println("삭제성공");
+    public boolean resetSimplePassword() {
+        User user = userState().get();
+        if( user == null) {
+            return false;
         } else {
-            System.out.println("그런사람 없음");
+            String[] tmp = user.getBirth().split("-");
+            user.setPasswordSimple(Integer.parseInt(tmp[1] + tmp[2]));
+            userRepository.save(user);
+            return true;
+        }
+
+    }
+
+    public String userDelete() {
+        User user = userState().get();
+        int coupleId = user.getCoupleListId();
+        CoupleList coupleList = coupleListRepository.findById(coupleId).get();
+
+        if(coupleList.getUserFirst() == user.getId()) {
+            coupleList.setUserFirst(null);
+            coupleListRepository.save(coupleList);
+            userRepository.delete(user);
+            return "회원 탈퇴 성공";
+        } else if (coupleList.getUserSecond() == user.getId()) {
+            coupleList.setUserSecond(null);
+            coupleListRepository.save(coupleList);
+            userRepository.delete(user);
+            return "회원 탈퇴 성공";
+        } else {
+            log.error("있을 수 없는 상황");
+            return "있을 수 없는 상황";
         }
     }
 
+    @Override
+    public String userDisconnect() {
+        User user = userState().get();
+        int coupleId = user.getCoupleListId();
+        CoupleList coupleList = coupleListRepository.findById(coupleId).get();
 
+        if(coupleList.getUserFirst() == user.getId()) {
+            coupleList.setUserFirst(null);
+            coupleListRepository.save(coupleList);
+            return "연결 끊기 성공";
+        } else if (coupleList.getUserSecond() == user.getId()) {
+            coupleList.setUserSecond(null);
+            coupleListRepository.save(coupleList);
+            return "연결 끊기 성공";
+        } else {
+            log.error("있을 수 없는 상황");
+            return "있을 수 없는 상황";
+        }
+    }
 
 
     public Optional<User> userState() {
@@ -67,8 +108,9 @@ public class UserServiceImpl implements UserService{
         log.info(authentication.toString());
         if(authentication.getPrincipal().toString().equals("anonymousUser")) {
             System.out.println("유저 상태 로그인 되어있지 않음");
-            //임시 사용자 반환
-            return userRepository.findById(3);
+            //임시 사용자 반환(제거)
+            return userRepository.findById(12);
+//            return null;
         }
         CustomOAuth2User info = (CustomOAuth2User) authentication.getPrincipal();
         Optional<User> user = null;
@@ -110,4 +152,20 @@ public class UserServiceImpl implements UserService{
         return nationListRepository.findAll();
     }
 
+    public String WeblockCheck(String simplePassword) {
+        User user = userState().get();
+        int tmp = -1;
+
+        try {
+            tmp = Integer.parseInt(simplePassword);
+        } catch (NumberFormatException e) {
+            return "정수가 아닌값이 감지되었습니다.";
+        }
+
+        if (user.getPasswordSimple() == tmp ) {
+            return "비밀번호 인증 성공";
+        } else {
+            return "비밀번호가 다릅니다.";
+        }
+    }
 }

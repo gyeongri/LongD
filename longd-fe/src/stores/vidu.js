@@ -43,11 +43,7 @@ export const useViduStore = defineStore('vidu', () => {
     //토큰부터받아오고
     getToken(coupleid).then(token => {
       OV.value = new OpenVidu();
-      console.log('hihi');
-      console.log('Token:', token);
-
       session.value = OV.value.initSession();
-      console.log('session', session.value);
       //연결만들때 할거 생기면 적는용
       // session.value.on('connectionCreated', (event) => {});
       // 연결 끊겼을때 할거 생기면 적는용
@@ -55,7 +51,6 @@ export const useViduStore = defineStore('vidu', () => {
 
       //새로운 스트림 생겼을 때 다른 참가자가 오디오,비디오 전송시작할 때
       session.value.on('streamCreated', event => {
-        console.log('되니되니되니?');
         subscriber.value = session.value.subscribe(
           event.stream,
           videoContainer.value,
@@ -65,7 +60,6 @@ export const useViduStore = defineStore('vidu', () => {
 
         //세션에 비디오 엘리먼트가 생겼을 때
         subscriber.value.on('videoElementCreated', event => {
-          console.log('떠라떠라떠라');
           // updateNumVideos(1);
         });
         //세션에 비디오 엘리먼트 사라졌을때
@@ -108,9 +102,8 @@ export const useViduStore = defineStore('vidu', () => {
           // document.getElementById('session-title').textContent =
           //   sessionName.value;
           // document.getElementById('join').style.display = 'none';
-          // document.getElementById('session').style.display = 'block';
+          // document.getElementById('session').style.display = 'block';'
 
-          console.log('dsada412421214d', publisher.value);
           // 자신의 카메라 스트림 가져오기
           publisher.value = OV.value.initPublisher('video-container', {
             audioSource: undefined,
@@ -122,12 +115,9 @@ export const useViduStore = defineStore('vidu', () => {
             insertMode: 'APPEND',
             mirror: false,
           });
-          console.log('dsadasdasdad', publisher.value);
 
           // 스트림이 만들어졌을떄
-          publisher.value.on('streamCreated', () => {
-            console.log('어디지?');
-          });
+          publisher.value.on('streamCreated', () => {});
           //요청이 거부당했을떄
           // publisher.on('accessDenied', (event) => {});
           //카메라, 마이크 사용권한부여 생길떄
@@ -138,7 +128,6 @@ export const useViduStore = defineStore('vidu', () => {
           // publisher.on('streamCreated', () => {});
           publisher.value.on('videoElementCreated', event => {
             // updateNumVideos(1);
-            console.log('여기가뜨는건가?');
             event.element.prop('muted', true);
           });
           publisher.value.on('videoElementDestroyed', event => {
@@ -169,10 +158,11 @@ export const useViduStore = defineStore('vidu', () => {
   //토큰받아오기
   const getToken = function (coupleid) {
     sessionName.value = coupleid;
+    console.log('coupleid', coupleid);
+    console.log('sessionName', sessionName.value);
     return viduapi
       .post('/get-token', { sessionName: sessionName.value })
       .then(res => {
-        console.log(res.data[0]);
         token.value = res.data[0];
         console.warn(`Token 요청 성공 (TOKEN: ${token.value})`);
         return token.value;
@@ -225,7 +215,6 @@ export const useViduStore = defineStore('vidu', () => {
         hasVideo,
       })
       .then(res => {
-        console.log('녹화시작성공');
         // 녹화 성공 알림
         const Toast = Swal.mixin({
           toast: true,
@@ -251,10 +240,12 @@ export const useViduStore = defineStore('vidu', () => {
   };
 
   //녹화 끝
-  const stopRecording = function () {
+  const stopRecording = function (coupleid) {
+    console.log('커플아디', typeof coupleid);
     viduapi
       .post('recording/stop', {
         recording: forceRecordingId.value,
+        coupleListId: coupleid,
       })
       .then(res => {
         //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
@@ -273,7 +264,6 @@ export const useViduStore = defineStore('vidu', () => {
           icon: 'success',
           title: '녹화가 완료되었습니다.',
         });
-        console.log('녹화완료');
       })
       .catch(error => {
         console.error(error);

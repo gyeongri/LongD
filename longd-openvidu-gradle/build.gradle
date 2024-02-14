@@ -29,6 +29,15 @@ dependencies {
     testImplementation 'ws.schild:jave-all-deps:2.4.6'
     testImplementation 'ws.schild:jave-core:2.4.6'
     testImplementation 'io.openvidu:openvidu-test-browsers:1.0.0'
+
+    //AWS S3
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+    // JAXB API
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
+    // JAXB Runtime
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
 }
 
 group = 'io.openvidu'

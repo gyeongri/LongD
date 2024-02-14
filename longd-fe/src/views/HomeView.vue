@@ -1,69 +1,58 @@
 <template>
-  <div>
-    <label class="btn btn-secondary-content" for="img">메인 사진 변경</label>
-    <input type="file" id="img" autocomplete="img" @change="changImg" hidden />
-  </div>
-
-  <div class="box">
-    <div class="overlap">
-      <div class="view">
-        <!-- 여기는 배경 사진들어가는 곳 -->
-        <div
-          class="overlap-group"
-          :style="{ backgroundImage: `url(${coupleInfo.coupleImgUrl})` }"
-        >
-          <!-- 프로필 -->
-          <div class="group-2">
+  <div class="flex gap-8">
+    <div class="flex flex-col">
+      <!-- 백그라운드 이미지 -->
+      <figure class="relative">
+        <img :src="coupleInfo.coupleImgUrl" alt="backgroundImage" />
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 m-4">
+          <!-- 디데이 -->
+          <div class="text-wrapper-3">D+{{ coupleDday }}</div>
+          <!-- 프로필 부분 -->
+          <div class="flex justify-center items-center">
             <RouterLink :to="{ name: 'Profile' }"
               ><img
-                class="myProfile rounded-full"
+                class="myProfile rounded-full h-[6rem] w-[6rem]"
                 alt="내 프로필"
-                :src="myprofile.profilePicture"
+                :src="userStore?.getUserState?.profilePicture"
             /></RouterLink>
-            <div class="image">
-              <img
-                class="heart-suit"
-                alt="Heart suit"
-                src="/static/img/heart-suit.png"
-              />
-            </div>
+            <img
+              class="heart-suit h-[4rem] w-[4rem]"
+              alt="Heart suit"
+              src="/static/img/heart-suit.png"
+            />
             <RouterLink :to="{ name: 'PartnerInfo' }">
               <img
-                class="partnerProfile rounded-full"
+                class="partnerProfile rounded-full h-[6rem] w-[6rem]"
                 alt="상대 프로필"
-                :src="partnerInfo.profilePicture"
+                :src="partnerInfo?.profilePicture"
             /></RouterLink>
           </div>
         </div>
-      </div>
-      <!-- 디데이 -->
-      <div class="overlap-wrapper">
-        <div class="div-wrapper">
-          <div class="text-wrapper-3">D+{{ coupleDday }}</div>
-        </div>
-      </div>
+      </figure>
+    </div>
+    <div>
+      <label class="btn btn-secondary-content" for="img">메인 사진 변경</label>
+      <input
+        type="file"
+        id="img"
+        autocomplete="img"
+        @change="changImg"
+        hidden
+      />
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watchEffect } from 'vue';
-import {
-  loginstate,
-  partnerinfo,
-  coupleDataGet,
-  coupleDataModify,
-} from '@/utils/api/user';
+import { partnerinfo, coupleDataGet, coupleDataModify } from '@/utils/api/user';
 import { uploadImage } from '@/utils/api/photo';
-import { useRouter } from 'vue-router';
-import { useMainDisplayStore } from '@/stores/maindisplay.js';
+import { useUserStore } from '@/stores/user.js';
 import dayjs from 'dayjs';
 
-const router = useRouter();
-const myprofile = ref({});
 const partnerInfo = ref({});
 const coupleInfo = ref({});
-const mainDisplayStore = useMainDisplayStore();
+const userStore = useUserStore();
 
 const today = ref(dayjs());
 const startDay = ref();
@@ -75,7 +64,7 @@ const changImg = event => {
   uploadImage(
     formData,
     success => {
-      coupleInfo.value.coupleImgUrl = success.data[0];
+      coupleInfo.value.coupleImgUrl = success.data[0]['pathUrl'];
       coupleDataModify(
         coupleInfo.value,
         success => {
@@ -86,6 +75,9 @@ const changImg = event => {
         },
       );
     },
+    success2 => {
+      console.log('사진을 변환했습니다.', success2);
+    },
     error => {
       console.log('사진을 변환할 수 없어요.', error);
     },
@@ -93,21 +85,6 @@ const changImg = event => {
 };
 
 onMounted(() => {
-  loginstate(
-    success => {
-      if (success.data === '롱디에 로그인 되어 있지 않음') {
-        console.log('로그인 안되어있다.');
-        mainDisplayStore.logOutPage = true;
-        router.push({ name: 'Login' });
-      } else {
-        console.log('롱디에 로그인 되어있다', success.data);
-        myprofile.value = success.data;
-      }
-    },
-    error => {
-      console.log('error') + error;
-    },
-  );
   partnerinfo(
     data => {
       partnerInfo.value = data.data;
@@ -136,89 +113,29 @@ watchEffect(() => {
 </script>
 
 <style scoped>
-.box {
-  height: 740px;
-  width: 612px;
-}
-
-.box .view {
-  height: 720px;
-  left: 50px;
-  position: absolute;
-  top: 200px;
-  width: 612px;
-}
-
-.box .overlap-group {
-  background-size: 100%;
-  background-repeat: no-repeat;
-  height: 100%;
-  width: 100%;
-  left: -4px;
-  position: relative;
-}
-
-.box .group-2 {
-  height: 80px;
-  left: 210px;
-  position: absolute;
-  top: 70px;
-  width: 216px;
-}
-
-.box .partnerProfile {
-  height: 80px;
-  left: 136px;
-  position: absolute;
-  top: 0;
-  width: 80px;
-}
-
-.image .heart-suit {
-  height: 43px;
-  left: 85px;
-  object-fit: cover;
-  position: relative;
-  top: 20px;
-  width: 42px;
-}
-.box .myProfile {
-  height: 80px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 80px;
-}
-
-.box .overlap-wrapper {
-  height: 78px;
-  left: 230px;
-  position: absolute;
-  top: 180px;
-  width: 266px;
-}
-
-.box .div-wrapper {
+.text-wrapper-3 {
   background-image: url(/static/img/group-19.png);
   background-size: 100% 100%;
-  height: 78px;
-  position: relative;
-  width: 264px;
-}
-
-.box .text-wrapper-3 {
   color: #ffffff;
   font-family: 'Jura-SemiBold', Helvetica;
   font-size: 50px;
   font-weight: 600;
-  left: 39px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
   text-align: center;
   text-shadow: 0px 4px 4px #00000040;
-  top: 11px;
   white-space: nowrap;
-  width: 182px;
+  width: 100%;
+}
+
+.toptape {
+  height: 100%; /* 부모 요소의 높이를 100%로 설정 */
+  display: flex; /* Flexbox 레이아웃 사용 */
+  justify-content: center; /* 가로 방향 가운데 정렬 */
+  align-items: center; /* 세로 방향 가운데 정렬 */
+}
+
+.tape {
+  height: 50%;
 }
 </style>

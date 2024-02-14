@@ -21,17 +21,17 @@ public class User implements OAuth2Response {
     private Integer id = null;
 
     private Integer coupleListId = null;
-    private String userId = "NULL방지";
-    private String email = "NULL방지";
-    private String provider = "NULL방지";
-    private String name = "NULL방지";
-    private String nickname = "NULL방지";
-    private String address = "NULL방지";
-    private String birth = "NULL방지";
-    private String birthYear = "NULL방지";
-    private String birthMonth = "NULL방지";
-    private String birthDay = "NULL방지";
-    private String gender = "NULL방지";
+    private String userId;
+    private String email;
+    private String provider;
+    private String name;
+    private String nickname;
+    private String address;
+    private String birth;
+    private String birthYear;
+    private String birthMonth;
+    private String birthDay;
+    private String gender;
     private String profilePicture;
     private String profileMessage;
     private String position;

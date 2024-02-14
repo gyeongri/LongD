@@ -11,6 +11,8 @@ public interface GalleryService {
     public List<Gallery> getGalleryCategoryName(int coupleListId, int _limit, int _page, String categoryName, String _sort, String _order, String id_like);
     public List<Gallery> getGalleryList(int coupleListId, int _limit, int _page, String _sort, String _order, String id_like);
     public Gallery getGallery(int id);
-    public boolean setGallery(GallerySaveDto gallerySaveDto);
+    public List<Gallery> getGalleryListByPlanId(int planId);
+    public boolean setGallery(List<GallerySaveDto> gallerySaveDto);
     public boolean deleteGallery(int[] id);
+    public String modifyDeletePlanId(int[] id);
 }

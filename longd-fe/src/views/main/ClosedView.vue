@@ -7,7 +7,7 @@
           <br />
           비밀번호를 잊어버리셨다면?
         </span>
-        <button @click="removepassword()" class="span">비밀번호초기화</button>
+        <button @click="resetpassword()" class="span">비밀번호초기화</button>
       </p>
       <div class="text-wrapper-2">비밀번호 입력</div>
       <div class="long-d">
@@ -17,12 +17,14 @@
       </div>
       <div class="group">
         <input
-          v-for="(password, index) in passwords"
+          v-for="(password, index) in inputRefs"
           :key="index"
-          v-model="passwords[index]"
-          @input="handleInput(index)"
+          :value="displayValues[index]"
+          :class="`password-input${index}`"
           maxlength="1"
-          :class="`password-input${index + 1}`"
+          @input="handleInput(index)"
+          :ref="inputRefs[index]"
+          v-model="inputRefs[index]"
         />
       </div>
     </div>
@@ -30,66 +32,141 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref, watch } from 'vue';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useMainDisplayStore } from '@/stores/maindisplay.js';
+import { useUserStore } from '@/stores/user.js';
 import Swal from 'sweetalert2';
-// import { watch } from 'vue';
-// import { useFocus } from '@vueuse/core';
-
+import { resetClosedPasswords, checkSimplePassword } from '@/utils/api/user';
+const count = ref(0);
 const mainDisplayStore = useMainDisplayStore();
+const userStore = useUserStore();
 const router = useRouter();
-const passwords = reactive(['', '', '', '']);
-const inputRefs = ref([]);
-const realPasswords = ref('1234');
-// 프로필에서 사용자가 바꾼 번호로 설정해주기!
-// const { focused } = useFocus(passwords);
+//화면비번
+const displayValues = ref(['', '', '', '']);
+
+//실제비번
+const inputRefs = ref(['', '', '', '']);
 
 const handleInput = index => {
-  if (passwords[index] && index < 3) {
-    inputRefs.value.push(passwords[index]);
-    passwords[index] = '❤️';
-    // watch(passwords[index], ('','❤️') => {
-    //   if ('') {
-    //     passwords[index].focus();
-    //   } else console.log('input element has lost focus');
-    // });
-    // passwords[`${index + 1}`].focus();
-  } else if (passwords[index]) {
-    inputRefs.value.push(passwords[index]);
-    passwords[index] = '❤️';
-    console.log(passwords);
-    // if (passwords == ['❤️', '❤️', '❤️', '❤️']) {
+  if (inputRefs.value[index]) {
+    if (!/^\d*$/.test(inputRefs.value[index])) {
+      inputRefs.value[index] = '';
+      const inputElement = document.querySelector(`.password-input${index}`);
+      inputElement.focus();
+      Swal.fire('숫자만 입력해주세요');
 
-    if (inputRefs.value.join('') == realPasswords.value) {
-      router.go(-1);
-      mainDisplayStore.closedPage = false;
-    } else {
-      Swal.fire('비밀번호가 틀립니다!');
+      return;
     }
-    console.log(`Password:${passwords}`, inputRefs.value.join(''));
-    passwords.value = ['', '', '', ''];
-    inputRefs.value = [];
-    // }
+    displayValues.value[index] = '🤍';
+    const nextIndex = index + 1;
+    if (nextIndex <= 3) {
+      focusNextInput(nextIndex);
+    } else {
+      inputRefs.value.forEach((element, index) => {
+        console.log(index, element);
+        if (element == '') {
+          const inputElement = document.querySelector(
+            `.password-input${index}`,
+          );
+          inputElement.focus();
+          Swal.fire('모두 입력해주세요');
+        }
+      });
+    }
   }
 };
-const removepassword = () => {
-  realPasswords.value = '0413';
-  // 여기 0413말고 사용자 생일로 바꿀 수 있게
+watch(inputRefs.value, (newValues, oldValues) => {
+  count.value = 0;
+  console.log('왜안되니');
+  newValues.forEach((element, index) => {
+    console.log(index, typeof element, element);
+    if (element != '' && !isNaN(element)) {
+      count.value++;
+    }
+  });
+});
+watch(count, (newValues, oldValues) => {
+  if (newValues == 4) {
+    checkpassword();
+  }
+});
+const checkpassword = function () {
+  const result = inputRefs.value.join('');
+  const payload = result.replace(/^0*/, '');
+
+  checkSimplePassword(payload, success => {
+    const result = success.data;
+    if (result == '정수가 아닌값이 감지되었습니다.') {
+      displayValues.value = ['', '', '', ''];
+      inputRefs.value.forEach((element, index) => {
+        inputRefs.value[index] = '';
+      });
+      const inputElement = document.querySelector(`.password-input0`);
+      inputElement.focus();
+      count.value = 0;
+      Swal.fire('숫자만 적어주세요!');
+    } else if (result == '비밀번호가 다릅니다.') {
+      displayValues.value = ['', '', '', ''];
+      inputRefs.value.forEach((element, index) => {
+        inputRefs.value[index] = '';
+      });
+      const inputElement = document.querySelector(`.password-input0`);
+      inputElement.focus();
+      count.value = 0;
+      Swal.fire('비밀번호가 틀립니다!');
+    } else if (result == '비밀번호 인증 성공') {
+      mainDisplayStore.closedPage = false;
+      router.go(-1);
+    }
+  });
+  // if (inputRefs.value.join('') == userStore.getUserState.passwordSimple) {
+  //   mainDisplayStore.closedPage = false;
+  //   router.go(-1);
+  // } else {
+  //   displayValues.value = ['', '', '', ''];
+  //   inputRefs.value.forEach((element, index) => {
+  //     inputRefs.value[index] = '';
+  //   });
+  //   const inputElement = document.querySelector(`.password-input0`);
+  //   inputElement.focus();
+  //   count.value = 0;
+  //   Swal.fire('비밀번호가 틀립니다!');
+  // }
 };
-// 관찰자 써서 그대로 넣을 수 있게 하는 것!
-// watch(passwords, (newValue, oldValue) => {
-//   if (newValue) {
-//     inputRefs.value.push(passwords.value)
-//   }
-//   // 누를때마다 넣는 것!
-//   else {
-//     const index = checkTrue.value.indexOf(true)
-//     // true가 있는 인덱스를 찾아서
-//     checkTrue.value.splice(index,1)
-//     // 해당 인덱스의 값을 지우기!
-//   }
-// })
+const resetpassword = () => {
+  resetClosedPasswords(
+    success => {
+      console.log('화면잠금 비밀번호 초기화 완료');
+      console.log(success.data);
+      Swal.fire('비밀번호 초기화 완료');
+      displayValues.value.forEach((_, i) => (displayValues[i] = ''));
+      inputRefs.value = ['', '', '', ''];
+      router.push({ name: 'Closed' });
+    },
+    error => {
+      console.log('비밀번호 초기화 실패', error);
+    },
+  );
+};
+
+//다른곳 가는거 방지
+onBeforeRouteLeave((to, from, next) => {
+  if (mainDisplayStore.closedPage == true) {
+    return;
+  }
+  next();
+  // ...
+});
+
+const focusNextInput = index => {
+  const inputElement = document.querySelector(`.password-input${index}`);
+  inputElement.focus();
+};
+onMounted(() => {
+  const inputElement = document.querySelector('.password-input0');
+  inputElement.focus();
+});
 </script>
 
 <style scoped>
@@ -170,7 +247,7 @@ const removepassword = () => {
   width: 359px;
 }
 
-.password-input1 {
+.password-input0 {
   background-color: #fff4f4;
   border: 2px solid;
   border-color: #000000;
@@ -186,7 +263,7 @@ const removepassword = () => {
   font-size: 30px;
 }
 
-.password-input2 {
+.password-input1 {
   background-color: #fff4f4;
   border: 2px solid;
   border-color: #000000;
@@ -202,7 +279,7 @@ const removepassword = () => {
   font-size: 30px;
 }
 
-.password-input3 {
+.password-input2 {
   background-color: #fff4f4;
   border: 2px solid;
   border-color: #000000;
@@ -218,7 +295,7 @@ const removepassword = () => {
   font-size: 30px;
 }
 
-.password-input4 {
+.password-input3 {
   background-color: #fff4f4;
   border: 2px solid;
   border-color: #000000;

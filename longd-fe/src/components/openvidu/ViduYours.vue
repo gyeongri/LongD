@@ -3,7 +3,7 @@
     <video class="rounded-lg" ref="videoElement" autoplay></video>
   </div>
 
-  <button @click="enterPiPMode">pip변신</button>
+  <!-- <button @click="enterPiPMode">pip변신</button> -->
   <!-- <button @click="check">여기,이제 필요없음</button> -->
 </template>
 

@@ -51,7 +51,7 @@ test/
 
 # Distribution / packaging
 .Python
-build/
+build/tests.js
 develop-eggs/
 dist/
 downloads/

@@ -8,6 +8,8 @@ import com.longd.longd.gallery.db.entity.Gallery;
 import com.longd.longd.gallery.db.entity.GalleryCategory;
 import com.longd.longd.gallery.db.repository.GalleryCategoryRepository;
 import com.longd.longd.gallery.db.repository.GalleryRepository;
+import com.longd.longd.plan.db.entity.Plan;
+import com.longd.longd.plan.db.repository.PlanRepository;
 import com.longd.longd.user.db.entity.User;
 import com.longd.longd.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.relational.core.sql.Where;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +39,9 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Autowired
     GalleryCategoryRepository galleryCategoryRepository;
+
+    @Autowired
+    PlanRepository planRepository;
 
     @Override
     public List<Gallery> getGalleryCategoryName(int coupleListId, int _limit, int _page, String categoryName, String _sort, String _order, String id_like) {
@@ -117,39 +123,75 @@ public class GalleryServiceImpl implements GalleryService {
     }
 
     @Override
-    public boolean setGallery(GallerySaveDto gallerySaveDto) {
-        Optional<User> user = userService.userState();
-        if( gallerySaveDto.getId() == null ) {
-            log.info("등록 진행");
+    public List<Gallery> getGalleryListByPlanId(int planId) {
+        Plan plan = planRepository.findById(planId).get();
+        User user = userService.userState().get();
+
+        if( plan.getCoupleList().getId() == user.getCoupleListId()) {
+            List<Gallery> galleryList = galleryRepository.findByPlan_Id(planId);
+            return galleryList;
         } else {
-            log.info("수정 진행");
+            log.info("로그인 상태와 얻으려는 플랜의 주인이 일치하지 않음");
+            return null;
         }
-        log.info(gallerySaveDto.toString());
-        //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인 user.get().getCoupleListId() == gallery.getCoupleListId()
-        //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
-        //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인 user.get().getCoupleListId() == gallery.getCoupleListId()
-        //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
-        if( ( user != null && user.get().getCoupleListId() == gallerySaveDto.getCoupleListId() ) || gallerySaveDto.getCoupleListId() == 1 ) {
-            //생성
+
+
+    }
+
+    @Override
+    public boolean setGallery(List<GallerySaveDto> gallerySaveDtolist) {
+        User user = userService.userState().get();
+        CoupleList tmpCoupleList = coupleListRepository.findById(user.getCoupleListId()).get();
+        for (GallerySaveDto gallerySaveDto : gallerySaveDtolist) {
+            if (gallerySaveDto.getId() == null) {
+                log.info("등록 진행");
+            } else {
+                log.info("수정 진행");
+            }
             Gallery gallery = new Gallery();
-            log.info(gallery.toString());
-            gallery.setCoupleList(coupleListRepository.findById(gallerySaveDto.getCoupleListId()).get());
-            log.info(gallery.getCoupleList().toString());
-            if(gallerySaveDto.getCategoryId() != null) {
+            gallery.setCoupleList(tmpCoupleList);
+            //업로드시 폴더가 지정되어 있을경우 폴더 지정
+            if (gallerySaveDto.getCategoryId() != null) {
                 gallery.setGalleryCategory(galleryCategoryRepository.findById(gallerySaveDto.getCategoryId()).get());
                 log.info(gallery.getGalleryCategory().toString());
             }
 
+            String tmpPathUrl = gallerySaveDto.getPathUrl();
+            String ext = tmpPathUrl.substring(tmpPathUrl.lastIndexOf(".")+1); //확장자
             //세팅
             gallery.setId(gallerySaveDto.getId());  //등록의 경우 null이 세팅됨
-            gallery.setPathUrl(gallerySaveDto.getPathUrl());
+            gallery.setCreateDate(gallerySaveDto.getCreateDate());  // 날짜가 없을 경우 null이 세팅됨
+            gallery.setPathUrl(tmpPathUrl);
+            LocalDate tmpCreateDate = gallerySaveDto.getCreateDate();
+            gallery.setCreateDate(tmpCreateDate);
+
+            if(tmpCreateDate == null) {
+                log.info("이미지가 생성된 날짜가 없습니다.");
+            } else {
+                List<Plan> tmpPlanList = planRepository.findByDateStartLessThanEqualAndDateEndGreaterThanEqualAndCoupleList_IdEquals(tmpCreateDate, tmpCreateDate, user.getCoupleListId());
+                if (tmpPlanList.isEmpty()) {
+                    log.info("해당 날짜에 Plan이 없습니다.");
+                } else {
+                    if (tmpPlanList.size() > 1 ) log.info("해당 날짜에 Plan이 2개 이상입니다.");
+                    gallery.setPlan(tmpPlanList.get(0));
+                }
+            }
+
+            List<String> imageTypes = List.of("jpeg", "png", "gif");
+            List<String> videoTypes = List.of("mp4", "webm", "ogg", "3gpp", "x-msvideo", "quicktime");
+            log.info("확장자 : " + ext);
+            if (imageTypes.contains(ext)) {
+                gallery.setType(1);
+            } else if (videoTypes.contains(ext)) {
+                gallery.setType(2);
+            } else {
+                log.error("확장자 명이 이미지/동영상이 아님");
+            }
             log.info(gallery.toString());
             galleryRepository.save(gallery);
             log.info("도착확인");
-            return true;
-        } else {
-            return false;
         }
+        return true;
     }
 
     @Override
@@ -170,5 +212,22 @@ public class GalleryServiceImpl implements GalleryService {
             }
         }
         return true;
+    }
+
+    @Override
+    public String modifyDeletePlanId(int[] id) {
+        User user = userService.userState().get();
+        StringBuilder sb = new StringBuilder();
+        for(int tmpId : id) {
+            Gallery gallery = galleryRepository.findById(tmpId).get();
+            if(user.getCoupleListId() == gallery.getCoupleList().getId()) {
+                gallery.setPlan(null);
+                galleryRepository.save(gallery);
+            } else {
+                log.info("선택된 사진이 로그인된 사용자의 것이 아닙니다. id : " + tmpId);
+                sb.append(tmpId + ", ");
+            }
+        }
+        return "완료, 처리가 안된 ID : " + sb.toString();
     }
 }

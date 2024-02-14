@@ -1,16 +1,21 @@
 package com.longd.longd.plan.service;
 
 import com.longd.longd.coupleList.db.entity.CoupleList;
+import com.longd.longd.plan.db.dto.PlanInfoListDto;
+import com.longd.longd.plan.db.dto.PlanRequestDto;
+import com.longd.longd.plan.db.entity.Plan;
 import com.longd.longd.plan.db.entity.PlanInfo;
 import com.longd.longd.plan.db.repository.CustomPlanInfoRepository;
 import com.longd.longd.plan.db.repository.PlanInfoRepository;
 import com.longd.longd.plan.db.repository.PlanRepository;
 import com.longd.longd.user.db.entity.User;
+import com.longd.longd.user.db.repository.UserRepository;
 import com.longd.longd.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,14 +32,29 @@ public class PlanInfoServiceImpl implements PlanInfoService {
     @Autowired
     PlanRepository planRepository;
     @Override
-    public List<PlanInfo> getPlanInfoList(int planId) {
+    public List<PlanInfoListDto> getPlanInfoList(int planId) {
         Optional<User> user = userService.userState();
         log.info(" plan info 를 planId로 조회 진행");
         //로그인 상태가 내가 지금 보고 있는 테이블의 권한이 있는지 확인
         //테스트 환경이 아니면 or(coupleId == 1)을 지워야함
         if( ( user != null && user.get().getCoupleListId() == planRepository.findCoupleListIdById(planId) ) || planRepository.findCoupleListIdById(planId) == 1 ) {
             log.info("test 조회");
-            return planInfoRepository.findByPlanId(planId);
+            List<PlanInfo> planInfos = planInfoRepository.findByPlanId(planId);
+            List<PlanInfoListDto> tmpList = new ArrayList<>();
+            for(PlanInfo planInfo : planInfos) {
+                PlanInfoListDto tmp = new PlanInfoListDto();
+                tmp.setId(planInfo.getId());
+                tmp.setTitle(planInfo.getTitle());
+                tmp.setInfoType(planInfo.getInfoType());
+                tmp.setMyOrder(planInfo.getMyOrder());
+                tmp.setTitleUrl(planInfo.getTitleUrl());
+                tmp.setDate(planInfo.getDate());
+                tmp.setLongitude(planInfo.getLongitude());
+                tmp.setLatitude(planInfo.getLatitude());
+                tmp.setMemo(planInfo.getMemo());
+                tmpList.add(tmp);
+            }
+            return tmpList;
         } else {
             log.info("test 여긴가요");
             return null;
@@ -91,5 +111,39 @@ public class PlanInfoServiceImpl implements PlanInfoService {
         } else {
             return false;
         }
+    }
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Override
+    public int setPlanAndPlanInfo(PlanRequestDto planRequestDto) {
+        //User user = userService.userState().get();
+        User user = null;
+        if(user == null) {
+            user = userRepository.findById(12).get();
+        }
+
+        Plan plan = new Plan();
+        plan.setCoupleList(new CoupleList());
+        plan.getCoupleList().setId(user.getCoupleListId());
+        plan.setDateStart(planRequestDto.getDateStart());
+        plan.setDateEnd(planRequestDto.getDateEnd());
+        plan.setTitle(planRequestDto.getTitle());
+
+        Plan savePlan = planRepository.save(plan);
+
+        for(PlanInfoListDto planInfoListDto : planRequestDto.getPlanInfo()) {
+            PlanInfo planInfo = new PlanInfo();
+            planInfo.setPlan(savePlan);
+            planInfo.setTitle(planInfoListDto.getTitle());
+            planInfo.setMyOrder(planInfoListDto.getMyOrder());
+            planInfo.setDate(planInfoListDto.getDate());
+            planInfo.setLatitude(planInfoListDto.getLatitude());
+            planInfo.setLongitude(planInfoListDto.getLongitude());
+            planInfoRepository.save(planInfo);
+        }
+
+        return savePlan.getId();
     }
 }

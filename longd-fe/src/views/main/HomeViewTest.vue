@@ -83,7 +83,7 @@ const changImg = event => {
   uploadImage(
     formData,
     success => {
-      coupleInfo.value.coupleImgUrl = success.data[0];
+      coupleInfo.value.coupleImgUrl = success.data[0]['pathUrl'];
       console.log(coupleInfo.value);
       coupleDataModify(
         coupleInfo.value,

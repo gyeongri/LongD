@@ -2,51 +2,47 @@
   <!-- h-1/4, h-3/4 - 차지할 비율을 나타냄, w-1/4도 있음(가로버전) -->
   <div class="h-[45rem] flex flex-col">
     <ChatDisplayView
+      @chatoff="TurnOffChat"
       :messages="messages"
       :count="count"
-      class="border-4 border-blue-500 h-3/4"
+      :nickname="nickname"
+      :lovername="lovername"
+      class="overflow-scroll h-3/4 w-full"
     ></ChatDisplayView>
     <ChatInputView
       @messageToMain="sendMessage"
-      class="border-4 border-blue-500 h-1/4"
-    >
-    </ChatInputView>
+      class="w-full h-1/12"
+    ></ChatInputView>
   </div>
 </template>
 
 <script setup>
 import ChatInputView from '@/views/chat/ChatInputView.vue';
 import ChatDisplayView from '@/views/chat/ChatDisplayView.vue';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, onUnmounted } from 'vue';
 import { stompApi } from '@/utils/api/index.js';
+import { useUserStore } from '@/stores/user';
+const userStore = useUserStore();
 const { VITE_CHAT_BASE_IP } = import.meta.env;
-const coupleId = ref(77);
+const coupleId = ref('');
 const messages = reactive([]);
-const sender = ref(8);
+const senderId = ref('');
 const room = ref(null);
 const count = ref(0);
-const createRoom = async () => {
-  const params = new URLSearchParams();
-  params.append('roomName', coupleId.value);
-  try {
-    const response = await stompApi.post('/chat/room', params);
-  } catch (error) {
-    console.error(error);
-  }
-};
+const nickname = ref('');
+const lovername = ref('');
+const emit = defineEmits(['offChat']);
 
-const findRoom = async () => {
-  const response = await stompApi.get(`/chat/room/${coupleId.value}`);
-  room.value = response.data;
+const TurnOffChat = function () {
+  emit('offChat');
 };
-
 const sendMessage = message => {
   ws.value.send(
     '/app/chat/message',
     {},
     JSON.stringify({
       roomName: coupleId.value,
-      senderId: sender.value,
+      senderId: senderId.value,
       content: message,
     }),
   );
@@ -66,18 +62,23 @@ let reconnect = 0;
 const sock = ref(new SockJS(`${VITE_CHAT_BASE_IP}/ws/chat`));
 const ws = ref(Stomp.over(sock.value));
 
-const connect = function () {
+const connect = function (couple, sender) {
   ws.value.connect(
     {},
     frame => {
-      ws.value.subscribe(`/topic/chat/room/${coupleId.value}`, message => {
+      coupleId.value = couple;
+      senderId.value = sender;
+      ws.value.subscribe(`/topic/chat/room/${couple}`, message => {
         const recv = JSON.parse(message.body);
         recvMessage(recv);
       });
       ws.value.send(
         '/app/chat/message',
         {},
-        JSON.stringify({ roomName: coupleId.value, senderId: sender.value }),
+        JSON.stringify({
+          roomName: couple,
+          senderId: sender,
+        }),
       );
     },
     error => {
@@ -94,18 +95,50 @@ const connect = function () {
 };
 
 onMounted(() => {
-  stompApi
-    .get(`/chat/messages/${coupleId.value}?size=30`)
-    .then(res => {
-      const sortedArray = res.data.sort((a, b) => a.id - b.id);
-      sortedArray.forEach(element => {
-        messages.push(element);
+  if (userStore.getUserState?.coupleListId !== undefined) {
+    nickname.value = userStore.getUserState?.nickname;
+    coupleId.value = userStore.getUserState?.coupleListId;
+    stompApi
+      .get('/user/findNickname', {
+        params: {
+          coupleListId: userStore.getUserState?.coupleListId,
+          myNickname: userStore.getUserState?.nickname,
+        },
+      })
+      .then(response => {
+        lovername.value = response.data;
+      })
+      .catch(error => {
+        console.error(error);
       });
-    })
-    .catch(error => {
-      console.error(error);
+
+    stompApi
+      .get(`/chat/messages/${userStore.getUserState?.coupleListId}?size=30`)
+      .then(res => {
+        const sortedArray = res.data.sort((a, b) => a.id - b.id);
+        sortedArray.forEach(element => {
+          messages.push(element);
+        });
+      })
+      .then(res => {
+        senderId.value = userStore.getUserState?.id;
+        connect(
+          userStore.getUserState?.coupleListId,
+          userStore.getUserState?.id,
+        );
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+});
+
+onUnmounted(() => {
+  if (ws.value && ws.value.connectedState === 1) {
+    ws.value.disconnect(() => {
+      console.log('WebSocket disconnected on component unmount');
     });
-  connect();
+  }
 });
 </script>
 
