@@ -162,10 +162,6 @@ onMounted(() => {
 div::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
 }
-.chat-message {
-  display: flex;
-  align-items: center;
-}
 .chat-end .chat-bubble {
   background-color: #e2f1ff; /* 연한 파란색으로 변경 (예시) */
   margin-right: 1vw; /* 오른쪽 마진 설정 */
@@ -183,6 +179,7 @@ p {
 }
 .chat-bubble {
   padding: 0.5rem;
+  max-width: 80%; /* 채팅 버블의 최대 너비를 설정합니다. */
 }
 
 .chat-bubble p {
