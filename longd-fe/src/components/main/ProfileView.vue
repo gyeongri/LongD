@@ -147,6 +147,10 @@ const correctionDate = () => {
 </script>
 
 <style scoped>
+img {
+  height: 25%;
+  width: 25%;
+}
 .img-btn {
   background-image: url('/static/img/arrow2.png');
   background-size: contain; /* 이미지가 버튼 크기에 맞게 조정됩니다 */
