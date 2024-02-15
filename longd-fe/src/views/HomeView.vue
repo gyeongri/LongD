@@ -1,34 +1,33 @@
 <template>
-  <div class="flex-col">
-    <div class="flex justify-end">
-      <AppDropdown>
-        <template v-slot>
-          <li class="font-bold lis">
-            <div>
-              <label for="img">메인 사진 변경</label>
-              <input
-                type="file"
-                id="img"
-                autocomplete="img"
-                @change="changImg"
-                hidden
-              />
-            </div>
-          </li>
-          <li class="font-bold lis" @click="changeDday()">
-            <a>처음 만난 날 변경</a>
-          </li>
-          <li class="font-bold lis" @click="unConnectLove()">
-            <a>상대와 연결 끊기</a>
-          </li>
-          <li class="font-bold lis" @click="deleteMyData()">
-            <a>회원 탈퇴</a>
-          </li>
-        </template>
-      </AppDropdown>
-    </div>
-
-    <div>
+  <div>
+    <div class="flex-col">
+      <div class="flex justify-end ml-10">
+        <AppDropdown>
+          <template v-slot>
+            <li class="font-bold lis">
+              <div>
+                <label for="img">메인 사진 변경</label>
+                <input
+                  type="file"
+                  id="img"
+                  autocomplete="img"
+                  @change="changImg"
+                  hidden
+                />
+              </div>
+            </li>
+            <li class="font-bold lis" @click="changeDday()">
+              <a>처음 만난 날 변경</a>
+            </li>
+            <li class="font-bold lis" @click="unConnectLove()">
+              <a>상대와 연결 끊기</a>
+            </li>
+            <li class="font-bold lis" @click="deleteMyData()">
+              <a>회원 탈퇴</a>
+            </li>
+          </template>
+        </AppDropdown>
+      </div>
       <!-- 백그라운드 이미지 -->
       <div class="flex justify-center">
         <figure class="relative">
