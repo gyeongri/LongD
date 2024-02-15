@@ -23,7 +23,7 @@ RUN npm install ws
 # RUN npm ci; \
 #     haxelib install all --always; \
 #     haxe build-all.hxml
-
+RUN npm run dev
 EXPOSE 4200
 # 서버 실행 명령 추가
 CMD ["node", "build/server.js"]
