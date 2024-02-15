@@ -8,19 +8,23 @@
     <div class="navbar-center">
       <ul class="menu menu-horizontal font-bold">
         <li>
-          <RouterLink
-            :to="{ name: 'GalleryFolder' }"
-            :class="{ 'text-red-300': isGalleryActive }"
-            ><a> 갤러리</a>
-          </RouterLink>
+          <a>
+            <RouterLink
+              :to="{ name: 'GalleryFolder' }"
+              :class="{ 'text-red-300': isGalleryActive }"
+              >갤러리
+            </RouterLink></a
+          >
         </li>
         <li>
-          <RouterLink
-            :to="{ name: 'Calendar' }"
-            :class="{ 'text-red-300': isCalendarActive }"
+          <a>
+            <RouterLink
+              :to="{ name: 'Calendar' }"
+              :class="{ 'text-red-300': isCalendarActive }"
+            >
+              캘린더
+            </RouterLink></a
           >
-            <a>캘린더</a>
-          </RouterLink>
         </li>
         <li>
           <details ref="dropdown1">
