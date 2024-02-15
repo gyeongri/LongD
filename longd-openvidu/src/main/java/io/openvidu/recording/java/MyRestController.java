@@ -317,6 +317,7 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 	String recordingId = (String) params.get("recording");
 	System.out.println("Stopping recording | {recordingId}=" + recordingId);
 	int coupleListId=Integer.parseInt((String) params.get("coupleListId"));
+	String name=(String) params.get("name");
 	try {
 		Recording recording = this.openVidu.stopRecording(recordingId);
 		System.out.println("stop recording - url : " + recording.getUrl());
@@ -343,7 +344,7 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 						byte[] fileContent = baos.toByteArray();
 
 						//S3업로드를 위한 메타데이터 만들기
-						String fileKey = sessionId + "/" + entryName;
+						String fileKey = name + "/" + entryName;
 						System.out.println("fileKey = " + fileKey);
 						ObjectMetadata metadata = new ObjectMetadata();
 						metadata.setContentLength(fileContent.length);
