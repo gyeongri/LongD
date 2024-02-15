@@ -31,8 +31,10 @@ public class CoupleListServiceImpl implements CoupleListService {
 
     public String setCoupleList(CheckRegistDto checkRegistDto) {
         Optional<User> OptionalOther = userRepository.findByEmail(checkRegistDto.getEmail());
+        //로그인 중인 사용자가 누구인지 가져옴
+        User loginUser = userService.userState().get();
         if(OptionalOther.isPresent()) {
-            if ( OptionalOther.get().getCoupleListId() != null ) {
+            if ( OptionalOther.get().getCoupleListId() != null || OptionalOther.get().getId() == loginUser.getId() ) {
                 return "상대방이 coupleListId를 가지고 있는 상태입니다.";
             } else if (checkRegistDto.getCode() != OptionalOther.get().getCode()) {
                 log.error("코드가 일치하지 않음");
@@ -48,8 +50,7 @@ public class CoupleListServiceImpl implements CoupleListService {
 
                 User other = OptionalOther.get();
 
-                //로그인 중인 사용자가 누구인지 가져옴
-                User loginUser = userService.userState().get();
+
 
                 coupleList.setUserFirst(other.getId());
                 coupleList.setUserSecond(loginUser.getId());

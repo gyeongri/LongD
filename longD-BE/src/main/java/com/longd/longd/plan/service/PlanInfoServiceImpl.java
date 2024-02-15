@@ -1,6 +1,8 @@
 package com.longd.longd.plan.service;
 
 import com.longd.longd.coupleList.db.entity.CoupleList;
+import com.longd.longd.gallery.db.entity.Gallery;
+import com.longd.longd.gallery.db.repository.GalleryRepository;
 import com.longd.longd.plan.db.dto.PlanInfoListDto;
 import com.longd.longd.plan.db.dto.PlanRequestDto;
 import com.longd.longd.plan.db.entity.Plan;
@@ -31,6 +33,10 @@ public class PlanInfoServiceImpl implements PlanInfoService {
 
     @Autowired
     PlanRepository planRepository;
+
+    @Autowired
+    GalleryRepository galleryRepository;
+
     @Override
     public List<PlanInfoListDto> getPlanInfoList(int planId) {
         Optional<User> user = userService.userState();
@@ -142,6 +148,13 @@ public class PlanInfoServiceImpl implements PlanInfoService {
             planInfo.setLatitude(planInfoListDto.getLatitude());
             planInfo.setLongitude(planInfoListDto.getLongitude());
             planInfoRepository.save(planInfo);
+        }
+
+        List<Gallery> galleryList = galleryRepository.findByCreateDateBetweenAndPlan_IdIsNull(plan.getDateStart(), plan.getDateEnd());
+
+        for (Gallery gallery : galleryList) {
+            gallery.setPlan(savePlan);
+            galleryRepository.save(gallery);
         }
 
         return savePlan.getId();
