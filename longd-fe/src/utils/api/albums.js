@@ -43,6 +43,10 @@ export function updateGallery(id, data) {
 // 갤러리 DB에 값을 삭제합니다, 삭제하려는 데이터의 coupleId값과, 로그인된 회원의 coupleId가 같아야 입력됩니다.
 // parameter는 수정 될 수 있습니다.
 
+export function deleteFolder(folderId) {
+  return api.delete(`/galleryCategory/delete/${folderId}`);
+}
+
 export function deleteGallery(data) {
   return api.post('/gallery/delete', data);
 }

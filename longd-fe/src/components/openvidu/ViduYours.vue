@@ -34,6 +34,15 @@ onMounted(() => {
   if (document.pictureInPictureElement) {
     exitPiPMode();
   }
+
+  watch(
+    () => viduStore.subscriber,
+    (newValue, oldValue) => {
+      if (viduStore.subscriber) {
+        viduStore.subscriber.addVideoElement(videoElement.value);
+      }
+    },
+  );
 });
 // watch(
 //   () => viduStore.hasSubscriber,

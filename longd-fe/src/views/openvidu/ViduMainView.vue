@@ -1,20 +1,19 @@
 <template>
   <div>
     <div class="flex justify-end">
-      <button v-if="!viduStore.isrecoding" @click="viduStore.startRecording">
-        <font-awesome-icon
-          icon="fa-solid fa-record-vinyl"
-          size="2x"
-          color="red"
-        />
+      <button
+        v-if="!viduStore.isrecoding"
+        @click="viduStore.startRecording"
+        class="btn btn-sm mr-1 bg-red-200 hover:bg-red-400"
+      >
+        녹화 시작
       </button>
-      <button v-else @click="viduStore.stopRecording(coupleid)">
-        <font-awesome-icon
-          icon="fa-solid fa-record-vinyl"
-          size="2x"
-          fade
-          color="red"
-        />
+      <button
+        v-else
+        @click="viduStore.stopRecording(coupleid)"
+        class="btn btn-sm mr-1 bg-red-200 hover:bg-red-400"
+      >
+        녹화 종료
       </button>
       <button @click="callChildMethod()" class="px-2">
         <img alt="Pip" src="/static/img/pip_icon.png" class="w-9 h-9" />

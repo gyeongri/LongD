@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto" :class="{ 'chrome-zoom': isChrome }">
+  <div class="container mx-auto w-full" :class="{ 'chrome-zoom': isChrome }">
     <TheHeader
       v-show="
         userStore.isLogin &&
@@ -29,9 +29,10 @@
         <div v-else>
           <TheNochatting @onChat="chatTrue"></TheNochatting>
         </div>
-        <ViduMainView class="hihi"></ViduMainView>
       </div>
+      <ViduMainView class="hihi"></ViduMainView>
     </div>
+    <ViduMainView class="hihi"></ViduMainView>
   </div>
 </template>
 <script setup>
@@ -71,9 +72,19 @@ onMounted(() => {
 .check {
   display: none;
 }
-.chrome-zoom {
-  zoom: 90%;
+.chatting-container,
+.nochatting-container {
+  position: fixed;
+  top: 50%; /* 세로 가운데 정렬을 위해 top 50% 설정 */
+  right: 0; /* 오른쪽 끝으로 이동 */
+  transform: translateY(
+    -50%
+  ); /* 세로 가운데 정렬을 위해 translateY(-50%) 설정 */
+  z-index: 1000; /* 필요에 따라 z-index 조절 */
 }
+/* .chrome-zoom {
+  zoom: 90%;
+} */
 </style>
 
 <style>
