@@ -151,9 +151,9 @@ const folderDelete = async () => {
     cancelButtonColor: '#a0a0a0',
   });
   if (folder) {
-    Swal.fire(`당신이 선택한 폴더는 ${folder} 입니다.`); // 삭제 모양으로 만들기
+    Swal.fire(`당신이 선택한 폴더는 ${folder.name} 입니다.`); // 삭제 모양으로 만들기
     try {
-      // await deleteFolder(형식 맞추기);
+      await deleteFolder(folder.id);
       fetchFolders();
     } catch (error) {
       console.error(error);
