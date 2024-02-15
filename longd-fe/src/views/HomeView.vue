@@ -27,6 +27,7 @@
         </template>
       </AppDropdown>
     </div>
+
     <div>
       <!-- 백그라운드 이미지 -->
       <div class="flex justify-center">
@@ -281,6 +282,6 @@ watchEffect(() => {
 }
 
 .lis {
-  /* width: 10rem; */
+  /* width: 10rem;... */
 }
 </style>
