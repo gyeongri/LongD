@@ -6,7 +6,7 @@
 
 :root {
   --background-video: #000000;
-  --background-chat: #ffb4a1;
+  --background-chat: rgb(236, 186, 177);
   --scroll-to-end-bg: #fff;
   --midground: #888;
   --foreground: #bbb;
