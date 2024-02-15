@@ -46,7 +46,7 @@ onMounted(() => {
     },
   );
   watch(
-    () => count,
+    () => props.count,
     (newValue, oldValue) => {
       if (videoElement.value) {
         enterPiPMode();
