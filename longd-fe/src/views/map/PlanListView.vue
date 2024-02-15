@@ -33,7 +33,6 @@ onMounted(async () => {
   getPlanList(
     userStore.getUserState.coupleListId,
     success => {
-      console.log('플랜 리스트', success.data);
       planList.value = success.data;
     },
     error => {
