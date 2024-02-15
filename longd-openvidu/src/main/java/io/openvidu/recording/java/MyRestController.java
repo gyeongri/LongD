@@ -315,6 +315,7 @@ public class MyRestController {
 @RequestMapping(value = "/recording/stop", method = RequestMethod.POST)
 public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) {
 	String recordingId = (String) params.get("recording");
+	String name = (String) params.get("name");
 	System.out.println("Stopping recording | {recordingId}=" + recordingId);
 	int coupleListId=Integer.parseInt((String) params.get("coupleListId"));
 	try {
