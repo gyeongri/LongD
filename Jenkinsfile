@@ -282,11 +282,11 @@ pipeline {
             }
         }
 
-      //새 SyncTube 컨테이너 실행
+      //새 SyncTube 컨테이너 실행 
         stage('Run New SyncTube image') {
             steps {
                 // sh "docker build -t synctube ."
-                sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} --rm -d -p 4200:4200 -v ${PROJECT_PATH}/longd-SyncTube/res:/usr/src/app/res ${MAIN_IMAGE_SYNCTUBE}"
+                sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} --rm -p 4200:4200 -v ${PROJECT_PATH}/longd-SyncTube/res:/usr/src/app/res ${MAIN_IMAGE_SYNCTUBE}"
 
                 //  sh "docker run --name ${MAIN_CONTAINER_SYNCTUBE} --rm -p 4200:4200 -v ${PROJECT_PATH}/longd-SyncTube/user:/app/user ${MAIN_IMAGE_SYNCTUBE}"
                 // sh "docker run --rm -p 4200:4200 -v ${MAIN_CONTAINER_SYNCTUBE}"
