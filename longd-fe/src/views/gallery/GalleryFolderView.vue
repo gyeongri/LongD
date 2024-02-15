@@ -80,6 +80,7 @@ const fetchFolders = async () => {
   try {
     const { data } = await getGalleryFolderName(coupleId.value);
     folders.value = data;
+    folderFirstItem.value = [];
 
     for (const folder of data) {
       try {
@@ -143,7 +144,7 @@ const folderDelete = async () => {
     title: '삭제할 폴더를 선택해주세요.',
     input: 'select',
     inputOptions: Object.fromEntries(
-      folders.value.map(folder => [folder.name.toLowerCase(), folder.name]),
+      folders.value.map(folder => [folder.id, folder.name]),
     ),
     inputPlaceholder: 'Select a folder',
     showCancelButton: true,
@@ -151,9 +152,10 @@ const folderDelete = async () => {
     cancelButtonColor: '#a0a0a0',
   });
   if (folder) {
-    Swal.fire(`당신이 선택한 폴더는 ${folder.name} 입니다.`); // 삭제 모양으로 만들기
+    Swal.fire(`폴더가 삭제되었습니다.`, '', 'success'); // 삭제 모양으로 만들기
     try {
-      await deleteFolder(folder.id);
+      console.log(folder, '폴더객체확인');
+      await deleteFolder(folder);
       fetchFolders();
     } catch (error) {
       console.error(error);
