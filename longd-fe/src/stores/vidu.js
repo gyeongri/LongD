@@ -251,6 +251,7 @@ export const useViduStore = defineStore('vidu', () => {
       .post('recording/stop', {
         recording: forceRecordingId.value,
         coupleListId: coupleid,
+        name: '김익환',
       })
       .then(res => {
         //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
