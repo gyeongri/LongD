@@ -1,6 +1,6 @@
 <template>
   <div class="flex-col">
-    <div class="flex justify-end mb-10">
+    <div class="flex justify-end">
       <AppDropdown>
         <template v-slot>
           <li class="font-bold lis">
@@ -27,31 +27,40 @@
         </template>
       </AppDropdown>
     </div>
-    <div class="">
+
+    <div>
       <!-- 백그라운드 이미지 -->
       <div class="flex justify-center">
         <figure class="relative">
           <div class="flex justify-center">
-            <img :src="coupleInfo.coupleImgUrl" alt="backgroundImage" />
-            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 m-4">
+            <div
+              class="h-[650px] w-[600px] object-cover overflow-hidden rounded-sm shadow-xl bg-stone-100 border border-stone-300 mt-4"
+            >
+              <img
+                class="h-[500px] w-[500px] rounded-sm ml-9 mt-8"
+                :src="coupleInfo.coupleImgUrl"
+                alt="backgroundImage"
+              />
+            </div>
+            <div class="absolute top-0 left-1/2 transform -translate-x-1/2">
               <!-- 디데이 -->
               <div class="text-wrapper-3">D+{{ coupleDday }}</div>
               <!-- 프로필 부분 -->
               <div class="flex justify-center items-center">
                 <RouterLink :to="{ name: 'Profile' }"
                   ><img
-                    class="myProfile rounded-full h-[6rem] w-[6rem]"
+                    class="myProfile rounded-full h-[4rem] w-[4rem]"
                     alt="내 프로필"
                     :src="userStore?.getUserState?.profilePicture"
                 /></RouterLink>
                 <img
-                  class="heart-suit h-[4rem] w-[4rem]"
+                  class="heart-suit h-[2rem] w-[2rem]"
                   alt="Heart suit"
                   src="/static/img/heart-suit.png"
                 />
                 <RouterLink :to="{ name: 'PartnerInfo' }">
                   <img
-                    class="partnerProfile rounded-full h-[6rem] w-[6rem]"
+                    class="partnerProfile rounded-full h-[4rem] w-[4rem]"
                     alt="상대 프로필"
                     :src="partnerInfo?.profilePicture"
                 /></RouterLink>
@@ -123,6 +132,7 @@ const changeDday = () => {
       const { value: date } = await Swal.fire({
         title: '여러분이 처음 만난 날을 입력해주세요.',
         input: 'date',
+        confirmButtonColor: '#FF9CBD',
         didOpen: () => {},
         preConfirm: () => {
           const selectedDate = Swal.getInput().value;
@@ -138,7 +148,7 @@ const changeDday = () => {
         },
       });
       if (date) {
-        await Swal.fire('여러분의 처음 만난 날', date);
+        await Swal.fire('우리가 처음 만난 날', `<strong>${date}</strong>`);
         coupleInfo.value.startDay = date;
         startDay.value = dayjs(date);
         await coupleDataModify(
@@ -165,7 +175,9 @@ const changeDday = () => {
 const unConnectLove = () => {
   Swal.fire({
     title:
-      '상대와 연결을 끊으실건가요? 연결을 끊으면 우리의 모든 추억이 삭제됩니다.',
+      '상대와 연결을 끊으실건가요?' +
+      '<br>' +
+      '연결을 끊으면 우리의 모든 추억이 삭제됩니다.',
     showCancelButton: true,
     allowEscapeKey: false,
     confirmButtonText: '그래도 연결 끊기',
@@ -189,7 +201,9 @@ const deleteMyData = () => {
   // 진짜 회원탈퇴할건지 물어보기
   Swal.fire({
     title:
-      '회원탈퇴를 원하시나요? 회원탈퇴를 하면 롱디와의 모든 추억이 삭제됩니다.',
+      '회원탈퇴를 원하시나요?' +
+      '<br>' +
+      '회원탈퇴를 하면 롱디와의 모든 추억이 삭제됩니다.',
     showCancelButton: true,
     allowEscapeKey: false,
     confirmButtonText: '회원 탈퇴',
@@ -197,7 +211,7 @@ const deleteMyData = () => {
   }).then(result => {
     if (result.isConfirmed) {
       Swal.fire({
-        title: '정말로 회원탈퇴하실건가요?.',
+        title: '정말로 회원탈퇴하실건가요?',
         showCancelButton: true,
         allowEscapeKey: false,
         confirmButtonText: '변함없이 회원탈퇴',
@@ -233,8 +247,12 @@ onMounted(() => {
       coupleInfo.value = data.data;
       startDay.value = dayjs(coupleInfo.value?.startDay);
       if (!coupleInfo.value.coupleImgUrl) {
-        coupleInfo.value.coupleImgUrl = '/static/img/frame.png';
+        coupleInfo.value.coupleImgUrl =
+          'https://longdssafy.s3.ap-northeast-2.amazonaws.com/ab0c912f-db17-4854-8ffd-a717207575e7frame.png';
       }
+    },
+    success => {
+      console.log('커플매칭이 잘되었습니다!');
     },
     error => {
       console.log('Couple Info 가져오기 안됨', error);
@@ -261,17 +279,6 @@ watchEffect(() => {
   text-shadow: 0px 4px 4px #00000040;
   white-space: nowrap;
   width: 100%;
-}
-
-.toptape {
-  height: 100%; /* 부모 요소의 높이를 100%로 설정 */
-  display: flex; /* Flexbox 레이아웃 사용 */
-  justify-content: center; /* 가로 방향 가운데 정렬 */
-  align-items: center; /* 세로 방향 가운데 정렬 */
-}
-
-.tape {
-  height: 50%;
 }
 
 .lis {

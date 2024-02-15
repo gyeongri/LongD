@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-end gap-1">
+  <div class="flex justify-end gap-1 mb-7">
     <button
       class="btn btn-sm"
       style="background-color: #ffeded"
@@ -15,34 +15,55 @@
       목록
     </button>
   </div>
+
   <div class="flex gap-4">
     <div class="flex flex-col w-1/2">
       <div class="flex h-8 rounded-full shadow-xl">
-        <div class="w-1/4 bg-red-200 text-center rounded-full">제목</div>
-        <div class="w-3/4 text-center">{{ planDetail.title }}</div>
+        <div
+          class="w-1/4 bg-red-200 text-center rounded-tl-full rounded-bl-full"
+        >
+          <p>제목</p>
+        </div>
+        <div class="w-3/4 text-center">
+          <p>{{ planDetail.title }}</p>
+        </div>
       </div>
       <!-- 마커를 표시할 지도 -->
       <div class="googleMap rounded-xl mt-4 shadow-xl" id="googleMap"></div>
+      <div class="mt-4 rounded-xl shadow-xl flex h-10 stat">
+        <p>여기에는 사진이 들어갈 곳!</p>
+      </div>
     </div>
+
     <div class="flex flex-col w-1/2">
       <div class="flex h-8 rounded-full shadow-xl">
-        <div class="w-1/4 bg-red-200 text-center rounded-full">일정</div>
+        <div
+          class="w-1/4 bg-red-200 text-center rounded-tl-full rounded-bl-full"
+        >
+          <p>일정</p>
+        </div>
         <div class="w-3/4 text-center">
-          {{ planDetail.dateStart }}~{{ planDetail.dateEnd }}
+          <p>{{ planDetail.dateStart }} ~ {{ planDetail.dateEnd }}</p>
         </div>
       </div>
       <div class="my-4" v-for="date in dateList" :key="date.id">
         <div>
-          <div class="bg-red-200 rounded-lg text-center shadow-xl">
-            {{ date }}
+          <div class="bg-red-200 rounded-lg text-center shadow-xl mb-1">
+            <p>{{ date }}</p>
           </div>
-          <div class="flex bg-red-100 rounded-lg shadow-xl">
+          <div class="flex bg-red-50 rounded-lg shadow-xl">
             <div
               class="m-2"
               v-for="item in getItemsByDate(date)"
               :key="item.id"
             >
-              <p>{{ item.title }}</p>
+              <div class="stats shadow">
+                <div class="stat">
+                  <p>
+                    {{ item.title }}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -92,7 +113,7 @@ const initMap = async () => {
         console.log(data.latitude);
       }
       const customMarkerImage =
-        'https://longdssafy.s3.ap-northeast-2.amazonaws.com/87147053-0c9c-4059-8759-71252b89cde320240212_182456.jpg';
+        'https://longdssafy.s3.ap-northeast-2.amazonaws.com/a40b8994-d5fb-4cc2-87ce-610b09d3f340heart-suit.png';
 
       const marker = new google.maps.Marker({
         position: { lat: data.latitude, lng: data.longitude },
@@ -126,7 +147,7 @@ function generateDateList(startDate, endDate) {
 
 const deletePlan = function () {
   Swal.fire({
-    title: '진짜 삭제하시겠습니까?',
+    title: '삭제하시겠습니까?',
     showCancelButton: true,
     confirmButtonText: '예',
     cancelButtonText: '아니오',
@@ -199,6 +220,10 @@ watchEffect(getCurrentRouteId);
 </script>
 
 <style scoped>
+p {
+  font-size: larger;
+  font-weight: 600;
+}
 .googleMap {
   height: 600px;
   width: 100%;

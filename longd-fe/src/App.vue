@@ -105,11 +105,19 @@ onMounted(() => {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'HakgyoansimGgooreogiR';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/HakgyoansimGgooreogiR.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
 body,
 html {
   /* font-family: 'TTHakgyoansimKkokkomaR', sans-serif; */
   /* font-family: 'omyu_pretty', sans-serif; */
   font-family: 'Beeunhye', sans-serif;
-  font-size: 20px;
+  /* font-family: 'HakgyoansimGgooreogiR', sans-serif; */
+  font-size: 22px;
 }
 </style>
