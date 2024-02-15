@@ -30,7 +30,7 @@ const showManual = () => {
       '2. "리더" 버튼을 통해 상대방과 자신의 동영상을 동시에 통제할 수 있습니다.',
     allowEscapeKey: false,
     confirmButtonColor: '#FF9CBD',
-  })
+  });
 };
 </script>
 
