@@ -7,11 +7,11 @@
       ② 원하는 곳 하트 누르기<br />
       ③ '일정짜기'에서 여행계획 세우기
     </h2>
-    <ul class="p-4">
+    <ul class="p-2">
       <li
         v-for="place in planStore?.searchResults"
         :key="place.place_id"
-        class="mb-4"
+        class="mb-4 shadow-md rounded"
       >
         <strong>{{ place.name }}</strong
         ><br />

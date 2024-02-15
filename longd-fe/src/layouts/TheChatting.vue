@@ -1,6 +1,6 @@
 <template>
   <!-- h-1/4, h-3/4 - 차지할 비율을 나타냄, w-1/4도 있음(가로버전) -->
-  <div class="h-[45rem] flex flex-col">
+  <div class="h-[30rem] flex flex-col">
     <ChatDisplayView
       @chatoff="TurnOffChat"
       :messages="messages"
