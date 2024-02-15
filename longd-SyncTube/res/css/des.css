@@ -11,8 +11,8 @@
   --midground: #888;
   --foreground: #bbb;
   --accent: #0055ff;
-  --success: #009632;
-  --leader-hint: #00963288;
+  --success: #b1ffcb;
+  --leader-hint: #52ff8c88;
   --warning: #ffb800;
   --error: #ff0800;
   --border: #333;
@@ -515,7 +515,7 @@ footer#footer {
   border-right: 0;
   border-radius: 1rem;
   flex-shrink: 0;
-
+ 
   transition: 0ms;
   height: 0;
   margin-bottom: 1rem;
