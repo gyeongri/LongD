@@ -11,17 +11,12 @@
       <div class="flex-1 mr-8">
         <TheView></TheView>
       </div>
-
       <div
         v-if="
           userStore.isLogin &&
           !mainDisplayStore.isClosed &&
           userStore.getUserState?.coupleListId
         "
-        :class="{
-          'w-1/4': isChatting,
-          'w-1/5': !isChatting,
-        }"
       >
         <div v-if="isChatting" class="fixed right-0">
           <TheChatting @offChat="chatFalse"></TheChatting>
