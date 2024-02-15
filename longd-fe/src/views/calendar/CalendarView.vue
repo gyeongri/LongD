@@ -314,7 +314,6 @@ const calendarOptions = ref({
     date.color = obj.event.backgroundColor;
     // DB에서 id만 받을 수 있으면 끝인데
     // 조회 먼저 해보자
-    console.log(date);
     changeCalendar(date.id, date);
   },
   eventRemove: function (obj) {

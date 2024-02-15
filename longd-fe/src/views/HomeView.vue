@@ -125,7 +125,6 @@ const changeDday = () => {
   coupleDataGet(
     success => {
       coupleInfo.value = success.data;
-      console.log(coupleInfo.value);
     },
     async success2 => {
       const { value: date } = await Swal.fire({
@@ -136,7 +135,6 @@ const changeDday = () => {
         preConfirm: () => {
           const selectedDate = Swal.getInput().value;
           const today = new Date().toISOString().split('T')[0];
-          console.log(selectedDate);
           if (!selectedDate) {
             Swal.showValidationMessage('날짜를 선택해주세요');
             return false;
@@ -153,7 +151,6 @@ const changeDday = () => {
         await coupleDataModify(
           coupleInfo.value,
           success => {
-            console.log(coupleInfo.value);
           },
           error => {
             Swal.fire('수정되지않았어요!', error);
@@ -161,7 +158,6 @@ const changeDday = () => {
           },
         );
       } else {
-        console.log(coupleInfo.value);
         Swal.fire('날짜가 입력되지 않았어요.');
       }
     },

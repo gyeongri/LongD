@@ -279,15 +279,8 @@ const openModal = () => {
         endDay.value &&
         placeList.value.length !== 0
       ) {
-        console.log('sendPlan함수 실행!');
         sendPlan();
       } else {
-        console.log(
-          planTitle.value,
-          startDay.value,
-          endDay.value,
-          placeList.value,
-        );
         Swal.fire('입력되지 않은 정보가 있습니다. 다시 확인해주세요.');
       }
     } else {

@@ -145,7 +145,6 @@ const initMap = async () => {
   watch(planInfoDetail.value, (newvalue, oldvalue) => {
     newvalue.forEach(data => {
       if (map.value) {
-        console.log(data.latitude);
       }
       const customMarkerImage =
         'https://longdssafy.s3.ap-northeast-2.amazonaws.com/a40b8994-d5fb-4cc2-87ce-610b09d3f340heart-suit.png';
@@ -192,7 +191,6 @@ const deletePlan = function () {
       deletePlanData(
         currentId.value,
         success => {
-          console.log(currentId.value);
           router.push({ name: 'PlanList' });
           // 삭제 성공 시 추가적인 로직 작성
         },

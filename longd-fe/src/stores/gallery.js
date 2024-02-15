@@ -8,7 +8,6 @@ export const useGalleryStore = defineStore('gallery', () => {
     try {
       const { data } = await getGalleryFolderName(coupleId);
       folderNameList.value = data;
-      console.log(folderNameList.value);
     } catch (err) {
       console.error(err);
     }

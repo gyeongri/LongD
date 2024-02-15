@@ -229,7 +229,6 @@ onMounted(() => {
   BaseInfo(
     data => {
       Info_state.value = data.data;
-      console.log(Info_state.value);
     },
     error => {
       console.log('Base Info 가져오기 안됨', error);
@@ -257,7 +256,6 @@ const send = () => {
     ) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const today = new Date().toISOString().split('T')[0];
-      console.log(Info_state.value);
       if (Info_state.value.birth > today) {
         Swal.fire('생년월일을 확인해주세요');
         return;

@@ -218,7 +218,6 @@ const goHome = () => {
 const fileUpload = event => {
   const formData = new FormData();
   formData.append('file', event.target.files[0]);
-  console.log(event.target.files[0]);
   uploadImage(
     formData,
     success => {
@@ -274,7 +273,6 @@ onMounted(() => {
     },
   );
   if (userStore.getUserState?.passwordSimple) {
-    console.log(userStore.getUserState.passwordSimple);
     if (userStore.getUserState.passwordSimple.toString().length === 3) {
       userInfo.passwordSimple = '0' + userStore.getUserState.passwordSimple;
     }

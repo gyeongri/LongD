@@ -14,10 +14,6 @@ import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
 import { Session } from 'openvidu-browser';
 const viduStore = useViduStore();
 const videoElement = ref();
-// const check = function () {
-//   console.log(viduStore.hasSubscriber);
-//   viduStore.subscriber.addVideoElement(videoElement.value);
-// };
 const exitPiPMode = async () => {
   try {
     if (document.exitPictureInPicture) {
@@ -44,15 +40,6 @@ onMounted(() => {
     },
   );
 });
-// watch(
-//   () => viduStore.hasSubscriber,
-//   (newValue, oldValue) => {
-//     console.log('김익환');
-//     if (viduStore.hasSubscriber) {
-//       viduStore.subscriber.addVideoElement(videoElement.value);
-//     }
-//   },
-// );
 
 const enterPiPMode = async () => {
   try {

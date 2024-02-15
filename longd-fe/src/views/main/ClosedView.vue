@@ -64,7 +64,6 @@ const handleInput = index => {
       focusNextInput(nextIndex);
     } else {
       inputRefs.value.forEach((element, index) => {
-        console.log(index, element);
         if (element == '') {
           const inputElement = document.querySelector(
             `.password-input${index}`,
@@ -78,9 +77,7 @@ const handleInput = index => {
 };
 watch(inputRefs.value, (newValues, oldValues) => {
   count.value = 0;
-  console.log('왜안되니');
   newValues.forEach((element, index) => {
-    console.log(index, typeof element, element);
     if (element != '' && !isNaN(element)) {
       count.value++;
     }
@@ -137,8 +134,6 @@ const checkpassword = function () {
 const resetpassword = () => {
   resetClosedPasswords(
     async success => {
-      console.log('화면잠금 비밀번호 초기화 완료');
-      console.log(success.data);
       displayValues.value.forEach((_, i) => (displayValues[i] = ''));
       inputRefs.value.forEach((_, i) => {
         const inputElement = document.querySelector(`.password-input${i}`);

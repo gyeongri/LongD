@@ -59,8 +59,6 @@ export const useViduStore = defineStore('vidu', () => {
           event.stream,
           videoContainer.value,
         );
-        // console.log(subscriber.value.addVideoElement(test2.value));
-        // console.log(event.stream.addVideoElement(test1.value));
 
         //세션에 비디오 엘리먼트가 생겼을 때
         subscriber.value.on('videoElementCreated', event => {
@@ -162,8 +160,6 @@ export const useViduStore = defineStore('vidu', () => {
   //토큰받아오기
   const getToken = function (coupleid) {
     sessionName.value = coupleid;
-    console.log('coupleid', coupleid);
-    console.log('sessionName', sessionName.value);
     return viduapi
       .post('/get-token', { sessionName: sessionName.value })
       .then(res => {
@@ -210,7 +206,6 @@ export const useViduStore = defineStore('vidu', () => {
     var outputMode = 'INDIVIDUAL';
     var hasAudio = true;
     var hasVideo = true;
-    console.log(session.value.sessionId);
     viduapi
       .post('recording/start', {
         session: session.value.sessionId,
@@ -236,7 +231,6 @@ export const useViduStore = defineStore('vidu', () => {
           title: '녹화가 시작되었습니다.',
         });
         forceRecordingId.value = res.data.id;
-        console.log(`forceRecordingId : ${res.data.id}`);
       })
       .catch(error => {
         console.error(error);
@@ -246,7 +240,6 @@ export const useViduStore = defineStore('vidu', () => {
 
   //녹화 끝
   const stopRecording = function (coupleid) {
-    console.log('커플아디', typeof coupleid);
     //여기에 만들어줘 name에 담기게
     //
     // viduapi
@@ -287,7 +280,6 @@ export const useViduStore = defineStore('vidu', () => {
           name,
         })
         .then(res => {
-          console.log('여기까지 오니??', name);
           //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
           // 녹화 완료 알림
           isRecording.value = false;

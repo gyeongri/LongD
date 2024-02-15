@@ -151,7 +151,6 @@ const folderDelete = async () => {
   if (folder) {
     Swal.fire(`폴더가 삭제되었습니다.`, '', 'success'); // 삭제 모양으로 만들기
     try {
-      console.log(folder, '폴더객체확인');
       await deleteFolder(folder);
       fetchFolders();
     } catch (error) {

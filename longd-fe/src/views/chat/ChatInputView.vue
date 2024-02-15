@@ -20,7 +20,6 @@ const message = ref('');
 
 const sendMessageToMain = function () {
   emit('messageToMain', message.value);
-  console.log(message.value);
   message.value = ''; // 초기화
   const inputField = document.querySelector('input[type="text"]');
   if (inputField) {

@@ -173,7 +173,6 @@ onMounted(() => {
   getVideo(params.value)
     .then(res => {
       videoList.value = res.data;
-      console.log(res.data);
     })
     .catch(error => {
       console.error(error);
