@@ -1,7 +1,11 @@
 <template>
   <AppGrid class="mb-10" :items="videoList">
     <template v-slot="{ item }">
-      <GalleryVideoCard :src="item.pathUrl" :id="item.id"></GalleryVideoCard>
+      <GalleryVideoCard
+        :src="item.pathUrl"
+        :id="item.id"
+        :title="item.title"
+      ></GalleryVideoCard>
     </template>
   </AppGrid>
 

@@ -10,7 +10,7 @@
       />
     </video>
     <div class="card-body flex items-end mr-8">
-      <h2 class="card-title">{{ id }}</h2>
+      <h2 class="card-title">{{ title }}</h2>
       <div class="card-actions justify-end"></div>
     </div>
   </div>
@@ -22,6 +22,9 @@ defineProps({
     type: Number,
   },
   src: {
+    type: String,
+  },
+  title: {
     type: String,
   },
 });
