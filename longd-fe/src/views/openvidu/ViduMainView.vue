@@ -32,7 +32,7 @@
         <div
           class="w-1/2 aspect-ratio shadow-xl flex justify-center items-center rounded-xl"
         >
-          <ViduYours v-if="viduStore.hasSubscriber" ref="viduYoursRef" />
+          <ViduYours v-if="viduStore.hasSubscriber" :count="count" />
           <div v-else>
             <video v-if="videosrc != false" controls>
               <source
@@ -144,7 +144,7 @@ const viduStore = useViduStore();
 const videoList = ref([]);
 const viduYoursRef = ref();
 const callChildMethod = () => {
-  viduYoursRef.value.enterPiPMode();
+  count.value++;
 };
 const coupleid = ref('');
 const join = function () {
@@ -166,6 +166,7 @@ const params = ref({
   _order: 'desc', // 내림차순
   // id_like: '', // 해당 요소 검색 기능
 });
+const count = ref(1);
 onMounted(() => {
   if (userStore.getUserState?.coupleListId !== undefined) {
     coupleid.value = String(userStore.getUserState?.coupleListId);

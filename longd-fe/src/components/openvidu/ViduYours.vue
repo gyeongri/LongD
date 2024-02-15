@@ -8,12 +8,18 @@
 </template>
 
 <script setup>
-import { computed, watch, ref, onMounted } from 'vue';
+import { watch, ref, onMounted } from 'vue';
 import { useViduStore } from '@/stores/vidu.js';
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
+import { onBeforeRouteLeave } from 'vue-router';
 import { Session } from 'openvidu-browser';
 const viduStore = useViduStore();
 const videoElement = ref();
+const props = defineProps({
+  count: {
+    type: Number,
+  },
+});
+
 const exitPiPMode = async () => {
   try {
     if (document.exitPictureInPicture) {
@@ -36,6 +42,14 @@ onMounted(() => {
     (newValue, oldValue) => {
       if (viduStore.subscriber) {
         viduStore.subscriber.addVideoElement(videoElement.value);
+      }
+    },
+  );
+  watch(
+    () => count,
+    (newValue, oldValue) => {
+      if (videoElement.value) {
+        enterPiPMode();
       }
     },
   );
