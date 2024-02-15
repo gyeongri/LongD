@@ -6,6 +6,7 @@
         <div class="menu p-4 w-80 min-h-full bg-base-200 text-base-content"> -->
     <div class="flex justify-center gap-1 border-b border-red-200 mb-1">
       <RouterLink :to="{ name: 'MapSearch' }">
+
         <button
           class="btn btn-sm mr-1 bg-red-200 hover:bg-red-400"
           :class="{ 'bg-red-400': isMapSearchActive }"
@@ -15,6 +16,7 @@
       >
 
       <RouterLink :to="{ name: 'MapPlan' }">
+
         <button
           class="btn btn-sm mr-1 bg-red-200 hover:bg-red-400"
           :class="{ 'bg-red-400': isMapPlanActive }"

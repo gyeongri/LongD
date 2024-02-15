@@ -3,56 +3,78 @@
     class="container max-h-[600px] border-2 border-red-200 rounded-lg overflow-y-auto"
   >
     <!-- 제목 입력 -->
-    <div class="flex gap-2">
-      <label class="flex items-center" for="title">제목: </label>
-      <input
-        class="input input-bordered input-xs flex-1 rounded-lg"
-        id="title"
-        type="text"
-        placeholder="일정 제목을 입력해주세요."
-        v-model="planTitle"
-      />
+    <div class="flex h-7 rounded-full shadow-md m-2">
+      <div class="w-1/5 bg-red-50 rounded-tl-full rounded-bl-full text-center">
+        <label class="flex items-center ml-2 test" for="title">제목</label>
+      </div>
+      <div class="w-4/5 input input-bordered input-xs rounded-lg ml-1">
+        <input
+          class="test test-input"
+          id="title"
+          type="text"
+          placeholder="일정 제목을 입력해주세요."
+          v-model="planTitle"
+        />
+      </div>
     </div>
     <!-- 일정 입력하기 -->
-    <div class="flex flex-col">
-      <div class="flex justify-between">
-        <label for="start">시작 날짜:</label>
-        <input id="start" type="date" v-model="startDay" />
+    <div class="flex h-7 rounded-full shadow-sm mt-6 mx-2">
+      <div class="w-1/5 bg-red-50 rounded-tl-full rounded-bl-full text-center">
+        <label class="flex items-center ml-1 test" for="start">시작일</label>
       </div>
-      <div class="flex justify-between">
-        <label for="end">종료 날짜:</label>
-        <input id="end" type="date" v-model="endDay" />
+      <div class="w-4/5 input input-bordered input-xs rounded-lg ml-1 mt-1">
+        <input
+          class="test test-input mx-1"
+          id="start"
+          type="date"
+          v-model="startDay"
+        />
       </div>
     </div>
-    <div class="flex justify-end mr-1">
+    <div class="flex h-7 rounded-full shadow-md mb-1 mx-2">
+      <div class="w-1/5 bg-red-50 rounded-tl-full rounded-bl-full text-center">
+        <label class="flex items-center ml-2 test" for="end">종료일</label>
+      </div>
+      <div class="w-4/5 input input-bordered input-xs rounded-lg ml-1">
+        <input
+          class="test test-input ml-1"
+          id="end"
+          type="date"
+          v-model="endDay"
+        />
+      </div>
+    </div>
+    <div class="flex justify-end mr-1 mb-2">
       <button
-        class="btn btn-sm mr-1"
-        style="background-color: #ffeded"
+        class="btn btn-sm mr-1 shadow-md"
+        style="background-color: #ffcbcb"
         @click="addRangeToList"
       >
         일정 추가
       </button>
       <button
-        class="btn btn-sm"
-        style="background-color: #ffeded"
+        class="btn btn-sm shadow-md"
+        style="background-color: #ffcbcb"
         @click="clearList"
       >
         일정 초기화
       </button>
     </div>
-
-    <!-- 즐겨찾기 목록 -->
-    <p>즐겨찾기 목록</p>
+    <div class="bg-red-100 rounded-lg text-center mb-1 mt-6 mx-1">
+      <!-- 즐겨찾기 목록 -->
+      <p class="test">즐겨찾기 목록</p>
+    </div>
     <!-- 로컬에 저장할 수 있도록 하기 -->
     <div
+      class="flex flex-col w-full min-h-200px h-auto bg-white items-center shadow-md"
       v-for="place in planStore?.hopeList"
       :key="place.place_id"
       draggable="true"
       @dragstart="onDragStart(place)"
     >
-      <div class="stats shadow">
-        <div class="stat">
-          <div class="favorite-place">
+      <div class="stats shadow-md mx-2 h-7 rounded-lg my-1">
+        <div class="h-6">
+          <div class="favorite-place mx-3 test">
             {{ place.title }}
           </div>
         </div>
@@ -60,9 +82,11 @@
     </div>
     <!-- 날짜별 드롭하는 곳 만들기 -->
     <div v-for="(date, index) in dateList" :key="index">
-      {{ date }}
+      <div class="bg-red-100 rounded-lg text-center shadow-md mt-2 mx-1 test">
+        {{ date }}
+      </div>
       <div
-        class="flex flex-col w-full min-h-200px h-auto bg-gray-400/10 justify-center items-center mt-6 rounded"
+        class="flex flex-col w-full min-h-200px h-auto bg-white justify-center items-center rounded-lg shadow-xl"
         @dragover.prevent
         @drop="onDrop($event, date)"
       >
@@ -88,7 +112,7 @@
     <div class="flex justify-end mt-2">
       <button
         class="btn btn-sm mr-1"
-        style="background-color: #ffeded"
+        style="background-color: #ffcbcb"
         @click="openModal()"
       >
         저장
@@ -311,6 +335,14 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.test {
+  font-weight: 600;
+}
+
+.test-input {
+  font-size: large;
+}
+
 /* 스크롤바 커스터마이징 */
 .container::-webkit-scrollbar {
   width: 12px; /* 스크롤바 너비 */
@@ -323,5 +355,9 @@ onUnmounted(() => {
 
 .container::-webkit-scrollbar-track {
   background-color: #cbd5e0; /* 스크롤바 트랙 색상 */
+}
+
+div::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
 }
 </style>
