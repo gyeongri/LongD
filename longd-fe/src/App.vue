@@ -65,7 +65,7 @@ onMounted(() => {
   display: flex;
 }
 /* .chrome-zoom {
-  zoom: 90%;
+  zoom: 90%;21
 } */
 </style>
 
