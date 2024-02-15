@@ -102,7 +102,6 @@ const handleDateSelect = selectInfo => {
 // 내가 이벤트를 클릭했을 시
 const handleEventClick = clickInfo => {
   if (clickInfo.event) {
-    console.log(clickInfo.event.id);
     contentAlert(clickInfo);
   }
 };
@@ -126,13 +125,7 @@ const contentAlert = async clickInfo => {
   currentClickInfo = clickInfo;
   // currentClickInfoId = currentClickInfo.event.id;
 
-  // console.log('확인');
-  // console.log(dateList.value);
-  // console.log(clickInfo.event.id);
-
   const content = getContentById(dateList.value, clickInfo.event.id);
-
-  // console.log(content);
 
   let isSave = false;
   const inputValue = content;
@@ -164,9 +157,6 @@ const contentAlert = async clickInfo => {
   }
 
   if (isSave && result.value) {
-    console.log('저장-------');
-    console.log(clickInfo);
-    console.log(result.value);
     date.id = clickInfo.event.id;
     date.title = clickInfo.event._def.title;
     date.content = result.value;
@@ -198,10 +188,8 @@ let dateList = ref([]);
 // DB로 부터 이벤트들 조회
 const getCalendar = async () => {
   try {
-    console.log(coupleId.value, '겟캘린더');
     const res = await getCalendarInfo(coupleId.value);
     dateList.value = res.data;
-    console.log('조회');
     console.dir(dateList);
   } catch (err) {
     console.log(err);
@@ -211,7 +199,6 @@ const getCalendar = async () => {
 // DB 생성
 const saveCalendarTitle = async () => {
   try {
-    console.log(date, 'date콘솔확인');
     await setCalendarInfo({
       ...date,
     });
@@ -224,8 +211,6 @@ const saveCalendarTitle = async () => {
 // DB 수정
 const changeCalendar = async () => {
   try {
-    console.log('수정');
-    console.log(date.id);
     await updateCalendarInfo(date.id, {
       ...date,
     });
@@ -238,9 +223,6 @@ const changeCalendar = async () => {
 // DB 삭제
 const deleteCalendar = async () => {
   try {
-    console.log('삭제');
-    console.log(date.id);
-    console.log(date);
     await delCalendarInfo(date.id);
   } catch (err) {
     console.log(err);
@@ -286,8 +268,6 @@ const calendarOptions = ref({
   eventClick: handleEventClick,
   // hover 들어갈 때
   eventMouseEnter: function (mouseEnterInfo) {
-    // console.log(mouseEnterInfo.event._def.publicId);
-    // console.log(dateList.value);
     let popContent = getContentById(
       dateList.value,
       mouseEnterInfo.event._def.publicId,
@@ -322,10 +302,7 @@ const calendarOptions = ref({
     date.title = obj.event._def.title;
     date.start = obj.event.startStr;
     date.end = obj.event.endStr;
-    // console.log('------------------');
-    // console.log(obj.event.backgroundColor);
     date.color = obj.event.backgroundColor;
-    // console.log(date);
     saveCalendarTitle(date);
   },
   eventChange: function (obj) {
@@ -335,8 +312,6 @@ const calendarOptions = ref({
     date.start = obj.event.startStr;
     date.end = obj.event.endStr;
     date.color = obj.event.backgroundColor;
-    console.log('-----------');
-    console.log(obj);
     // DB에서 id만 받을 수 있으면 끝인데
     // 조회 먼저 해보자
     console.log(date);
@@ -349,7 +324,6 @@ const calendarOptions = ref({
     // date.start = obj.event.startStr;
     // date.end = obj.event.endStr;
     // date.color = obj.event.backgroundColor;
-    // console.log(date);
     deleteCalendar(date.id);
   },
   events: dateList,

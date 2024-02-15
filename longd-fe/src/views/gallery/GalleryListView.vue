@@ -186,7 +186,6 @@ const totalCheckedEvent = data => {
       totalChecked.value.splice(index, 1);
     }
   }
-  console.log(totalChecked.value);
 };
 
 const coupleId = ref('');
@@ -194,10 +193,8 @@ const coupleId = ref('');
 const items = ref([]);
 const fetchAlbums = async () => {
   if (route.params.folderName === '전체보기') {
-    console.log('전체보기');
     try {
       const { data } = await getGalleryTotalList(coupleId.value, params.value);
-      console.log(data);
       items.value = data;
       totalCount.value = data[0].size;
     } catch (err) {
@@ -206,14 +203,11 @@ const fetchAlbums = async () => {
   } else {
     // 서버 켜지면 test 필요.
     // 폴더명으로 필터처리 후 조회(백에서 해줌)
-    console.log('폴더 조회');
     try {
       const { data } = await getGalleryFolderList(
         coupleId.value,
         params2.value,
       );
-
-      console.log(data, '갤러리확인');
 
       items.value = data;
       if (data.length > 0) {
@@ -221,8 +215,6 @@ const fetchAlbums = async () => {
       } else {
         totalCount.value = 0;
       }
-      // totalCount.value = data.length;
-      // console.log(data);
     } catch (err) {
       console.error(err);
     }
@@ -271,7 +263,6 @@ const removeItems = async () => {
 
   deleteActive.value = !deleteActive.value;
   totalChecked.value = []; // totalChecked 리스트를 빈 배열로 설정
-  console.log('삭제');
 };
 
 // 생성 모달 관련
@@ -308,7 +299,6 @@ const getCategoryId = async () => {
     );
     if (folder) {
       categoryId = folder.id;
-      console.log(categoryId);
     }
   }
 };
@@ -319,30 +309,22 @@ const uploadImages = async () => {
   const formData = new FormData();
   const formData2 = [];
   for (let i = 0; i < images.value.length; i++) {
-    console.log(images.value);
     formData.append('file', images.value[i]);
   }
   await uploadImage(
     formData,
     success => {
       pathUrlList.value = success.data;
-      console.log(pathUrlList.value);
-
       let data = {};
       for (let i = 0; i < pathUrlList.value.length; i++) {
         data = {
           pathUrl: pathUrlList.value[i].pathUrl,
           categoryId: categoryId,
         };
-        console.log(data);
         formData2.push(data);
-        console.log(formData2);
-        // 여기로
       }
     },
     async success2 => {
-      console.log(formData2);
-      console.log(coupleId.value);
       images.value = [];
       imagePreviews.value = [];
       await createGallery(formData2);
@@ -378,29 +360,6 @@ onMounted(() => {
     getCategoryId();
   }, 300);
 });
-
-// // 참고 (데이터 전송 관련 방법 2가지)
-// // 데이터 받는 방식 1
-// const fetchAlbums2 = () => {
-//   getAlbums()
-//     .then(res => {
-//       console.log('res', res);
-//     })
-//     .catch(err => {
-//       console.log('err', err);
-//     });
-// };
-// fetchAlbums2();
-// // 데이터 받는 방식 2
-// const fetchAlbums3 = async () => {
-//   try {
-//     const res = await getAlbums();
-//     console.dir(res);
-//   } catch (err) {
-//     console.err(err);
-//   }
-// };
-// fetchAlbums3();
 </script>
 
 <style lang="scss" scoped></style>

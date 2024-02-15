@@ -86,13 +86,13 @@
             </ul>
           </details>
         </li>
-        <li>
+        <!-- <li>
           <RouterLink
             :to="{ name: 'bucketList' }"
             :class="{ 'text-pink-400': isBucketListActive }"
             ><a> 버킷리스트</a>
           </RouterLink>
-        </li>
+        </li> -->
       </ul>
     </div>
     <div class="navbar-end">

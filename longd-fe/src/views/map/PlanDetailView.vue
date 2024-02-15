@@ -226,8 +226,6 @@ onMounted(async () => {
   getPlanDetail(
     currentId.value,
     success => {
-      // console.log(typeof success.data);
-      // console.log(success.data);
       success.data.forEach(element => {
         planInfoDetail.value.push(element);
       });
@@ -247,9 +245,6 @@ onMounted(async () => {
     currentId.value,
     success => {
       planGalleryList.value = success.data;
-      console.log('slide');
-      console.log(planGalleryList.value);
-      console.log(planGalleryList.value[0].pathUrl);
       // initSlides();
     },
     error => {
