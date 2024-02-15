@@ -282,7 +282,7 @@ pipeline {
             }
         }
 
-      //새 SyncTube 컨테이너 실행
+      //새 SyncTube 컨테이너 실행 
         stage('Run New SyncTube image') {
             steps {
                 // sh "docker build -t synctube ."
