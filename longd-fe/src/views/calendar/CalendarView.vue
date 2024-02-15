@@ -338,6 +338,7 @@ onMounted(() => {
 h2 {
   margin: 0;
   font-size: 16px;
+  font-family: 'omyu_pretty';
 }
 
 ul {
@@ -358,12 +359,8 @@ b {
 .demo-app {
   display: flex;
   min-height: 100%;
-  font-family:
-    Arial,
-    Helvetica Neue,
-    Helvetica,
-    sans-serif;
-  font-size: 14px;
+  font-size: 16px;
+  font-family: 'omyu_pretty', sans-serif;
 }
 
 .demo-app-sidebar {
@@ -380,6 +377,7 @@ b {
 .demo-app-main {
   flex-grow: 1;
   padding: 3em;
+  font-family: 'omyu_pretty';
 }
 
 .fc {
@@ -393,7 +391,7 @@ b {
   color: white;
   padding: 5px 10px;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: 13px;
   z-index: 10000; /* 충분히 높은 값으로 설정하여 다른 요소들 위에 표시되도록 합니다. */
   display: none; /* 기본적으로 툴팁을 숨깁니다. */
   max-width: 200px; /* 원하는 최대 가로 길이를 지정합니다. */
@@ -401,5 +399,8 @@ b {
   overflow: hidden;
   white-space: normal; /* 세로로 3줄까지만 허용하기 위해 normal로 설정 */
   text-overflow: ellipsis; /* 가로로는 말줄임표를 표시하도록 유지 */
+  font-family: 'omyu_pretty', sans-serif;
 }
+
+
 </style>
