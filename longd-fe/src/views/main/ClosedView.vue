@@ -136,13 +136,19 @@ const checkpassword = function () {
 };
 const resetpassword = () => {
   resetClosedPasswords(
-    success => {
+    async success => {
       console.log('화면잠금 비밀번호 초기화 완료');
       console.log(success.data);
-      Swal.fire('비밀번호 초기화 완료');
       displayValues.value.forEach((_, i) => (displayValues[i] = ''));
-      inputRefs.value = ['', '', '', ''];
-      router.push({ name: 'Closed' });
+      inputRefs.value.forEach((_, i) => {
+        const inputElement = document.querySelector(`.password-input${i}`);
+        if (inputElement) {
+          inputElement.value = '';
+        }
+      });
+      const inputElement = document.querySelector('.password-input0');
+      inputElement.focus();
+      await Swal.fire('비밀번호 초기화 완료');
     },
     error => {
       console.log('비밀번호 초기화 실패', error);

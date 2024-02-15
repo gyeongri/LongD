@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'chrome-zoom': isChrome }">
+  <div class="container mx-auto" :class="{ 'chrome-zoom': isChrome }">
     <TheHeader
       v-show="
         userStore.isLogin &&
@@ -18,10 +18,10 @@
           userStore.getUserState?.coupleListId
         "
       >
-        <div v-if="isChatting" class="fixed right-0">
+        <div v-if="isChatting">
           <TheChatting @offChat="chatFalse"></TheChatting>
         </div>
-        <div v-else class="fixed right-10">
+        <div v-else>
           <TheNochatting @onChat="chatTrue"></TheNochatting>
         </div>
       </div>
@@ -63,19 +63,6 @@ onMounted(() => {
   height: 0.2px;
   width: 1px;
   display: flex;
-}
-.check {
-  display: none;
-}
-.chatting-container,
-.nochatting-container {
-  position: fixed;
-  top: 50%; /* 세로 가운데 정렬을 위해 top 50% 설정 */
-  right: 0; /* 오른쪽 끝으로 이동 */
-  transform: translateY(
-    -50%
-  ); /* 세로 가운데 정렬을 위해 translateY(-50%) 설정 */
-  z-index: 1000; /* 필요에 따라 z-index 조절 */
 }
 /* .chrome-zoom {
   zoom: 90%;
