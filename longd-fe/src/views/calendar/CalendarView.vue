@@ -71,6 +71,8 @@ const titleAlert = async () => {
       },
       inputPlaceholder: 'Select a color',
       showCancelButton: true,
+      confirmButtonColor: '#FF9CBD',
+      cancelButtonColor: '#a0a0a0',
     });
     if (color) {
       Swal.fire('Saved!', '', 'success');

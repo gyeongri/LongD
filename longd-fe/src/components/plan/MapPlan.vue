@@ -3,10 +3,10 @@
     class="container max-h-[600px] border-2 border-red-200 rounded-lg overflow-y-auto"
   >
     <!-- 제목 입력 -->
-    <div class="flex">
+    <div class="flex gap-2">
       <label class="flex items-center" for="title">제목: </label>
       <input
-        class="input input-bordered input-sm flex-1"
+        class="input input-bordered input-xs flex-1 rounded-lg"
         id="title"
         type="text"
         placeholder="일정 제목을 입력해주세요."

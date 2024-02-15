@@ -28,7 +28,9 @@
         </li>
         <li>
           <details ref="dropdown1">
-            <summary :class="{ 'text-red-300': isViduActive }">
+            <summary
+              :class="{ 'text-red-300': isViduMainActive || isViduVideoActive }"
+            >
               화상통화
             </summary>
             <ul
@@ -37,10 +39,16 @@
               @click="closeDropdown"
             >
               <li>
-                <RouterLink :to="{ name: 'ViduMain' }"><a>main</a></RouterLink>
+                <RouterLink
+                  :to="{ name: 'ViduMain' }"
+                  :class="{ 'text-red-300': isViduMainActive }"
+                  ><a>메인</a></RouterLink
+                >
               </li>
               <li>
-                <RouterLink :to="{ name: 'ViduVideo' }"
+                <RouterLink
+                  :to="{ name: 'ViduVideo' }"
+                  :class="{ 'text-red-300': isViduVideoActive }"
                   ><a>같이보기</a></RouterLink
                 >
               </li>
@@ -50,7 +58,7 @@
         <li>
           <details ref="dropdown2">
             <summary
-              :class="{ 'text-red-300': isMapActive || isPlandListActive }"
+              :class="{ 'text-red-300': isMapActive || isPlanListActive }"
             >
               여행✈
             </summary>
@@ -63,14 +71,14 @@
               <li>
                 <RouterLink
                   :to="{ name: 'Map' }"
-                  :class="{ 'text-pink-400': isMapActive }"
+                  :class="{ 'text-red-300': isMapActive }"
                   ><a>일정계획</a></RouterLink
                 >
               </li>
               <li>
                 <RouterLink
                   :to="{ name: 'PlanList' }"
-                  :class="{ 'text-pink-400': isPlandListActive }"
+                  :class="{ 'text-red-300': isPlanListActive }"
                 >
                   <a>여행목록</a></RouterLink
                 >
@@ -127,16 +135,18 @@ const isMapActive = computed(
     router.currentRoute.value.name === 'MapSearch' ||
     router.currentRoute.value.name === 'MapPlan',
 );
-const isPlandListActive = computed(
+const isPlanListActive = computed(
   () =>
     router.currentRoute.value.name === 'PlanList' ||
     router.currentRoute.value.name === 'PlanDetail',
 );
 
-const isViduActive = computed(
-  () =>
-    router.currentRoute.value.name === 'ViduMain' ||
-    router.currentRoute.value.name === 'ViduVideo',
+const isViduMainActive = computed(
+  () => router.currentRoute.value.name === 'ViduMain',
+);
+
+const isViduVideoActive = computed(
+  () => router.currentRoute.value.name === 'ViduVideo',
 );
 
 const lockPage = () => {
@@ -163,9 +173,11 @@ const dropdown2 = ref(null);
 
 function closeDropdown() {
   dropdown1.value.removeAttribute('open');
+  dropdown2.value.removeAttribute('open');
 }
 
 function closeDropdown2() {
+  dropdown1.value.removeAttribute('open');
   dropdown2.value.removeAttribute('open');
 }
 </script>

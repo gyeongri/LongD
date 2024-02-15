@@ -129,6 +129,6 @@ html {
   /* font-family: 'omyu_pretty', sans-serif; */
   font-family: 'Beeunhye', sans-serif;
   /* font-family: 'HakgyoansimGgooreogiR', sans-serif; */
-  font-size: 20px;
+  font-size: 22px;
 }
 </style>
