@@ -179,7 +179,7 @@ div::-webkit-scrollbar {
   margin-left: 1rem; /* 왼쪽 마진 설정 */
 }
 p {
-  font-size: 16px;
+  font-size: 20px;
 }
 .chat-bubble {
   padding: 0.5rem;

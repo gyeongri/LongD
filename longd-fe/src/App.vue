@@ -32,6 +32,7 @@
       </div>
       <ViduMainView class="hihi"></ViduMainView>
     </div>
+    <ViduMainView class="hihi"></ViduMainView>
   </div>
 </template>
 <script setup>
