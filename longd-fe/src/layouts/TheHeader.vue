@@ -7,21 +7,22 @@
     </div>
     <div class="navbar-center">
       <ul class="menu menu-horizontal font-bold">
-        <li>
-          <RouterLink
-            :to="{ name: 'GalleryFolder' }"
-            :class="{ 'text-red-300': isGalleryActive }"
-            ><a> 갤러리</a>
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink
-            :to="{ name: 'Calendar' }"
-            :class="{ 'text-red-300': isCalendarActive }"
-          >
+        <RouterLink
+          :to="{ name: 'GalleryFolder' }"
+          :class="{ 'text-red-300': isGalleryActive }"
+        >
+          <li>
+            <a> 갤러리</a>
+          </li>
+        </RouterLink>
+        <RouterLink
+          :to="{ name: 'Calendar' }"
+          :class="{ 'text-red-300': isCalendarActive }"
+        >
+          <li>
             <a>캘린더</a>
-          </RouterLink>
-        </li>
+          </li>
+        </RouterLink>
         <li>
           <details ref="dropdown1">
             <summary
@@ -34,20 +35,22 @@
               style="z-index: 999"
               @click="closeDropdown"
             >
-              <li>
-                <RouterLink
-                  :to="{ name: 'ViduMain' }"
-                  :class="{ 'text-red-300': isViduMainActive }"
-                  ><a>통화하기</a></RouterLink
-                >
-              </li>
-              <li>
-                <RouterLink
-                  :to="{ name: 'ViduVideo' }"
-                  :class="{ 'text-red-300': isViduVideoActive }"
-                  ><a>같이보기</a></RouterLink
-                >
-              </li>
+              <RouterLink
+                :to="{ name: 'ViduMain' }"
+                :class="{ 'text-red-300': isViduMainActive }"
+              >
+                <li>
+                  <a>통화하기</a>
+                </li>
+              </RouterLink>
+              <RouterLink
+                :to="{ name: 'ViduVideo' }"
+                :class="{ 'text-red-300': isViduVideoActive }"
+              >
+                <li>
+                  <a>같이보기</a>
+                </li>
+              </RouterLink>
             </ul>
           </details>
         </li>
@@ -64,21 +67,22 @@
               style="z-index: 999"
               @click="closeDropdown2"
             >
-              <li>
-                <RouterLink
-                  :to="{ name: 'Map' }"
-                  :class="{ 'text-red-300': isMapActive }"
-                  ><a>일정계획</a></RouterLink
-                >
-              </li>
-              <li>
-                <RouterLink
-                  :to="{ name: 'PlanList' }"
-                  :class="{ 'text-red-300': isPlanListActive }"
-                >
-                  <a>여행목록</a></RouterLink
-                >
-              </li>
+              <RouterLink
+                :to="{ name: 'Map' }"
+                :class="{ 'text-red-300': isMapActive }"
+              >
+                <li>
+                  <a>일정계획</a>
+                </li>
+              </RouterLink>
+              <RouterLink
+                :to="{ name: 'PlanList' }"
+                :class="{ 'text-red-300': isPlanListActive }"
+              >
+                <li>
+                  <a>여행목록</a>
+                </li>
+              </RouterLink>
             </ul>
           </details>
         </li>
