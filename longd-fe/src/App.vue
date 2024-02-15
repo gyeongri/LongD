@@ -18,10 +18,10 @@
           userStore.getUserState?.coupleListId
         "
       >
-        <div v-if="isChatting" class="fixed right-0">
+        <div v-if="isChatting">
           <TheChatting @offChat="chatFalse"></TheChatting>
         </div>
-        <div v-else class="fixed right-10">
+        <div v-else>
           <TheNochatting @onChat="chatTrue"></TheNochatting>
         </div>
       </div>
