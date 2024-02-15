@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-//import com.google.gson.stream.JsonReader;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -18,7 +17,6 @@ import io.openvidu.recording.java.repository.GalleryRepository;
 import org.apache.catalina.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -79,22 +77,18 @@ public class MyRestController {
 //	@CrossOrigin
 	@RequestMapping(value = "/get-token", method = RequestMethod.POST)
 	public ResponseEntity<JsonObject> getToken(@RequestBody Map<String, Object> sessionNameParam) {
-		System.out.println("Getting sessionId and token | {sessionName}=" + sessionNameParam);
 		// The video-call to connect ("TUTORIAL")
 		String sessionName = (String) sessionNameParam.get("sessionName");
 		// Role associated to this user
 		OpenViduRole role = OpenViduRole.PUBLISHER;
-		System.out.println("[get-token] sessionName : " + sessionName);
 		// Build connectionProperties object with the serverData and the role
 		ConnectionProperties connectionProperties = new ConnectionProperties.Builder().type(ConnectionType.WEBRTC)
 				.role(role).data("user_data").build();
 
-		System.out.println("[get-token] connectionProperties : " + connectionProperties.getData().toString() + "\n[get-token] role : "+connectionProperties.getRole());
 		JsonObject responseJson = new JsonObject();
 
 		if (this.mapSessions.get(sessionName) != null) {
 			// Session already exists
-			System.out.println("Existing session " + sessionName);
 			try {
 				// Generate a new token with the recently created connectionProperties
 				String token = this.mapSessions.get(sessionName).createConnection(connectionProperties).getToken();
@@ -103,7 +97,6 @@ public class MyRestController {
 				// Prepare the response with the token
 				responseJson.addProperty("0", token);
 				// Return the response to the client
-				System.out.println(sessionName);
 				return new ResponseEntity<>(responseJson, HttpStatus.OK);
 			} catch (OpenViduJavaClientException e1) {
 				// If internal error generate an error message and return it to client
@@ -118,13 +111,9 @@ public class MyRestController {
 			}
 		}
 		// New session
-		System.out.println("[get-token] New session : " + sessionName);
 		try {
-			System.out.println("createSession 생성하기");
 			// Create a new OpenVidu Session
 			Session session = this.openVidu.createSession();
-			System.out.println("createSession 생성완료");
-			System.out.println("[get-token] session : " + session.getSessionId());
 			// Generate a new token with the recently created connectionProperties
 			String token = session.createConnection(connectionProperties).getToken();
 			// Store the session and the token in our collections
@@ -144,7 +133,6 @@ public class MyRestController {
 
 	@RequestMapping(value = "/remove-user", method = RequestMethod.POST)
 	public ResponseEntity<JsonObject> removeUser(@RequestBody Map<String, Object> sessionNameToken) throws Exception {
-		System.out.println("Removing user | {sessionName, token}=" + sessionNameToken);
 		// Retrieve the params from BODY
 		String sessionName = (String) sessionNameToken.get("sessionName");
 		String token = (String) sessionNameToken.get("token");
@@ -157,24 +145,19 @@ public class MyRestController {
 					// Last user left: session must be removed
 					this.mapSessions.remove(sessionName);
 				}
-				System.out.println("remove-user");
 				return new ResponseEntity<>(HttpStatus.OK);
 			} else {
 				// The TOKEN wasn't valid
-				System.out.println("Problems in the app server: the TOKEN wasn't valid");
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} else {
 			// The SESSION does not exist
-			System.out.println("Problems in the app server: the SESSION does not exist");
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@RequestMapping(value = "/close-session", method = RequestMethod.DELETE)
 	public ResponseEntity<JsonObject> closeSession(@RequestBody Map<String, Object> sessionName) throws Exception {
-
-		System.out.println("Closing session | {sessionName}=" + sessionName);
 
 		// Retrieve the param from BODY
 		String session = (String) sessionName.get("sessionName");
@@ -186,11 +169,9 @@ public class MyRestController {
 			this.mapSessions.remove(session);
 			this.mapSessionNamesTokens.remove(session);
 			this.sessionRecordings.remove(s.getSessionId());
-			System.out.println("close-session");
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			// The SESSION does not exist
-			System.out.println("Problems in the app server: the SESSION does not exist");
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -198,8 +179,6 @@ public class MyRestController {
 	@RequestMapping(value = "/fetch-info", method = RequestMethod.POST)
 	public ResponseEntity<JsonObject> fetchInfo(@RequestBody Map<String, Object> sessionName) {
 		try {
-			System.out.println("Fetching session info | {sessionName}=" + sessionName);
-
 			// Retrieve the param from BODY
 			String session = (String) sessionName.get("sessionName");
 
@@ -207,11 +186,9 @@ public class MyRestController {
 			if (this.mapSessions.get(session) != null && this.mapSessionNamesTokens.get(session) != null) {
 				Session s = this.mapSessions.get(session);
 				boolean changed = s.fetch();
-				System.out.println("Any change: " + changed);
 				return new ResponseEntity<>(this.sessionToJson(s), HttpStatus.OK);
 			} else {
 				// The SESSION does not exist
-				System.out.println("Problems in the app server: the SESSION does not exist");
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		} catch (OpenViduJavaClientException | OpenViduHttpException e) {
@@ -223,9 +200,7 @@ public class MyRestController {
 	@RequestMapping(value = "/fetch-all", method = RequestMethod.GET)
 	public ResponseEntity<?> fetchAll() {
 		try {
-			System.out.println("Fetching all session info");
 			boolean changed = this.openVidu.fetch();
-			System.out.println("Any change: " + changed);
 			JsonArray jsonArray = new JsonArray();
 			for (Session s : this.openVidu.getActiveSessions()) {
 				jsonArray.add(this.sessionToJson(s));
@@ -293,15 +268,11 @@ public class MyRestController {
 		boolean hasVideo = (boolean) params.get("hasVideo");
 
 		String currentWorkingDir = System.getProperty("user.dir");
-		System.out.println("Current working directory : " + currentWorkingDir);
-
 		RecordingProperties properties = new RecordingProperties.Builder()
 				.hasAudio(hasAudio)
 				.hasVideo(hasVideo)
 				.outputMode(outputMode).build();
 
-		System.out.println("Starting recording for session " + sessionId + " with properties {outputMode=" + outputMode
-				+ ", hasAudio=" + hasAudio + ", hasVideo=" + hasVideo + "}");
 		try {
 			Recording recording = this.openVidu.startRecording(sessionId, properties);
 			this.sessionRecordings.put(sessionId, true);
@@ -316,14 +287,11 @@ public class MyRestController {
 public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) {
 	String recordingId = (String) params.get("recording");
 	String name = (String) params.get("name");
-	System.out.println("Stopping recording | {recordingId}=" + recordingId);
 	int coupleListId=Integer.parseInt((String) params.get("coupleListId"));
 	try {
 		Recording recording = this.openVidu.stopRecording(recordingId);
-		System.out.println("stop recording - url : " + recording.getUrl());
 
 		String sessionId = recording.getSessionId();
-		System.out.println("stop recording - sessionId : " + sessionId);
 
 		//압축파일 경로 -> 도커에서 지정해준 위치로 바꿀것
 		String zipPath = File.separator + "home" + File.separator + "recordings" + File.separator  + sessionId + File.separator + sessionId + ".zip";;
@@ -345,7 +313,6 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 
 						//S3업로드를 위한 메타데이터 만들기
 						String fileKey = sessionId + "/" + entryName;
-						System.out.println("fileKey = " + fileKey);
 						ObjectMetadata metadata = new ObjectMetadata();
 						metadata.setContentLength(fileContent.length);
 						metadata.setContentType("video/webm");
@@ -384,9 +351,6 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 	@RequestMapping(value = "/recording/delete", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteRecording(@RequestBody Map<String, Object> params) {
 		String recordingId = (String) params.get("recording");
-
-		System.out.println("Deleting recording | {recordingId}=" + recordingId);
-		
 		try {
 			this.openVidu.deleteRecording(recordingId);
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -397,9 +361,6 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 
 	@RequestMapping(value = "/recording/get/{recordingId}", method = RequestMethod.GET)
 	public ResponseEntity<?> getRecording(@PathVariable(value = "recordingId") String recordingId) {
-
-		System.out.println("Getting recording | {recordingId}=" + recordingId);
-
 		try {
 			Recording recording = this.openVidu.getRecording(recordingId);
 			return new ResponseEntity<>(recording, HttpStatus.OK);
@@ -410,9 +371,6 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 
 	@RequestMapping(value = "/recording/list", method = RequestMethod.GET)
 	public ResponseEntity<?> listRecordings() {
-
-		System.out.println("Listing recordings");
-
 		try {
 			List<Recording> recordings = this.openVidu.listRecordings();
 

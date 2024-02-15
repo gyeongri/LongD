@@ -364,6 +364,7 @@ b {
     Helvetica,
     sans-serif;
   font-size: 14px;
+  font-family: 'omyu_pretty', sans-serif;
 }
 
 .demo-app-sidebar {
@@ -401,5 +402,8 @@ b {
   overflow: hidden;
   white-space: normal; /* 세로로 3줄까지만 허용하기 위해 normal로 설정 */
   text-overflow: ellipsis; /* 가로로는 말줄임표를 표시하도록 유지 */
+  font-family: 'omyu_pretty', sans-serif;
 }
+
+
 </style>
