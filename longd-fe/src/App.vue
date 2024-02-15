@@ -13,7 +13,7 @@
       </div>
 
       <div
-        v-show="
+        v-if="
           userStore.isLogin &&
           !mainDisplayStore.isClosed &&
           userStore.getUserState?.coupleListId
