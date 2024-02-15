@@ -142,13 +142,11 @@ const videosrc = computed(() => {
 const userStore = useUserStore();
 const viduStore = useViduStore();
 const videoList = ref([]);
-const viduYoursRef = ref();
 const callChildMethod = () => {
   count.value++;
 };
 const coupleid = ref('');
 const join = function () {
-  console.log('조인할때 coupleid', coupleid.value);
   viduStore.joinSession(coupleid.value);
 };
 const disconnect = function () {

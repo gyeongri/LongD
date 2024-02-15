@@ -239,31 +239,9 @@ export const useViduStore = defineStore('vidu', () => {
   };
 
   //녹화 끝
-  const stopRecording = function (coupleid) {
+  const stopRecording = async function (coupleid) {
     //여기에 만들어줘 name에 담기게
-    //
-    // viduapi
-    //   .post('recording/stop', {
-    //     recording: forceRecordingId.value,
-    //     coupleListId: coupleid,
-    //     name,
-    //   })
-    //   .then(res => {
-    //     //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
-    //     // 녹화 완료 알림
-    //     isRecording.value = false;
-    //     const Toast = Swal.mixin({
-    //       toast: true,
-    //       position: 'top-end',
-    //       showConfirmButton: false,
-    //       timer: 1500,
-    //       didOpen: toast => {
-    //         toast.onmouseenter = Swal.stopTimer;
-    //         toast.onmouseleave = Swal.resumeTimer;
-    //       },
-
-
-    const { value: name } = Swal.fire({
+    const { value: name } = await Swal.fire({
       title: '추억 이름을 입력해주세요.',
       input: 'text',
       inputLabel: '',
@@ -273,7 +251,7 @@ export const useViduStore = defineStore('vidu', () => {
       cancelButtonColor: '#a0a0a0',
     });
     if (name) {
-      viduapi
+      await viduapi
         .post('recording/stop', {
           recording: forceRecordingId.value,
           coupleListId: coupleid,
