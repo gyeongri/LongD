@@ -28,7 +28,9 @@
         </li>
         <li>
           <details ref="dropdown1">
-            <summary :class="{ 'text-red-300': isViduActive }">
+            <summary
+              :class="{ 'text-red-300': isViduMainActive || isViduVideoActive }"
+            >
               화상통화
             </summary>
             <ul
@@ -37,12 +39,18 @@
               @click="closeDropdown"
             >
               <li>
-                <a><RouterLink :to="{ name: 'ViduMain' }">main</RouterLink></a>
+                <RouterLink
+                  :to="{ name: 'ViduMain' }"
+                  :class="{ 'text-red-300': isViduMainActive }"
+                  ><a>메인</a></RouterLink
+                >
               </li>
               <li>
-                <a>
-                  <RouterLink :to="{ name: 'ViduVideo' }">같이보기</RouterLink>
-                </a>
+                <RouterLink
+                  :to="{ name: 'ViduVideo' }"
+                  :class="{ 'text-red-300': isViduVideoActive }"
+                  ><a>같이보기</a></RouterLink
+                >
               </li>
             </ul>
           </details>
@@ -50,7 +58,7 @@
         <li>
           <details ref="dropdown2">
             <summary
-              :class="{ 'text-red-300': isMapActive || isPlandListActive }"
+              :class="{ 'text-red-300': isMapActive || isPlanListActive }"
             >
               여행✈
             </summary>
@@ -61,36 +69,29 @@
               @click="closeDropdown2"
             >
               <li>
-                <a
-                  ><RouterLink
-                    :to="{ name: 'Map' }"
-                    :class="{ 'text-red-300': isMapActive }"
-                    >일정계획</RouterLink
-                  ></a
+                <RouterLink
+                  :to="{ name: 'Map' }"
+                  :class="{ 'text-red-300': isMapActive }"
+                  ><a>일정계획</a></RouterLink
                 >
               </li>
               <li>
-                <a>
-                  <RouterLink
-                    :to="{ name: 'PlanList' }"
-                    :class="{ 'text-red-300': isPlandListActive }"
-                    >여행목록</RouterLink
-                  >
-                </a>
+                <RouterLink
+                  :to="{ name: 'PlanList' }"
+                  :class="{ 'text-red-300': isPlanListActive }"
+                >
+                  <a>여행목록</a></RouterLink
+                >
               </li>
             </ul>
           </details>
         </li>
-
         <li>
-          <a>
-            <RouterLink
-              :to="{ name: 'bucketList' }"
-              :class="{ 'text-red-300': isBucketListActive }"
-            >
-              버킷리스트
-            </RouterLink>
-          </a>
+          <RouterLink
+            :to="{ name: 'bucketList' }"
+            :class="{ 'text-pink-400': isBucketListActive }"
+            ><a> 버킷리스트</a>
+          </RouterLink>
         </li>
       </ul>
     </div>
@@ -134,16 +135,18 @@ const isMapActive = computed(
     router.currentRoute.value.name === 'MapSearch' ||
     router.currentRoute.value.name === 'MapPlan',
 );
-const isPlandListActive = computed(
+const isPlanListActive = computed(
   () =>
     router.currentRoute.value.name === 'PlanList' ||
     router.currentRoute.value.name === 'PlanDetail',
 );
 
-const isViduActive = computed(
-  () =>
-    router.currentRoute.value.name === 'ViduMain' ||
-    router.currentRoute.value.name === 'ViduVideo',
+const isViduMainActive = computed(
+  () => router.currentRoute.value.name === 'ViduMain',
+);
+
+const isViduVideoActive = computed(
+  () => router.currentRoute.value.name === 'ViduVideo',
 );
 
 const lockPage = () => {
@@ -170,9 +173,11 @@ const dropdown2 = ref(null);
 
 function closeDropdown() {
   dropdown1.value.removeAttribute('open');
+  dropdown2.value.removeAttribute('open');
 }
 
 function closeDropdown2() {
+  dropdown1.value.removeAttribute('open');
   dropdown2.value.removeAttribute('open');
 }
 </script>

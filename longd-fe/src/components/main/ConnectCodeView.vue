@@ -125,23 +125,26 @@ const choiceDate = async () => {
       console.log(success.data);
       if (success.data === '코드가 일치하지 않습니다.') {
         Swal.fire(
-          '코드가 일치하지 않습니다. 상대방이 전해준 코드가 맞는지 확인해주세요.',
+          '코드가 일치하지 않습니다.',
+          '상대방이 전해준 코드가 맞는지 확인해주세요.',
         );
         console.log(checkInfo.value);
       }
       if (success.data === '상대방 이름 또는 생일이 일치하지 않습니다.') {
         Swal.fire(
-          '상대방 이름 또는 생일이 일치하지 않습니다. 다시 확인해주세요.',
+          '상대방 이름 또는 생일이 일치하지 않습니다.',
+          '다시 확인해주세요.',
         );
         console.log(checkInfo.value);
       }
       if (success.data === '상대방이 coupleListId를 가지고 있는 상태입니다.') {
-        Swal.fire('이미 다른 사람과 연결된 사람입니다. 다시 확인해주세요.');
+        Swal.fire('이미 다른 사람과 연결된 사람입니다.', '다시 확인해주세요.');
         console.log(checkInfo.value);
       }
       if (success.data === '상대방이 존재하지 않습니다.') {
         Swal.fire(
-          '동일한 이메일 정보를 가진 사람이 없습니다. 다시 확인해주세요.',
+          '동일한 이메일 정보를 가진 사람이 없습니다.',
+          '다시 확인해주세요.',
         );
       }
       if (success.data === '커플리스트를 만드는데 성공했습니다.') {
@@ -170,10 +173,7 @@ const choiceDate = async () => {
             });
             startDay.value = date;
             if (startDay.value) {
-              await Swal.fire(
-                '여러분의 처음 만난 날은',
-                `${startDay.value}입니다.`,
-              );
+              await Swal.fire('우리가 처음 만난 날', startDay.value);
               coupleData.value.startDay = startDay.value;
               console.log(startDay.value);
               console.log(coupleData.value.startDay);
