@@ -184,4 +184,8 @@ p {
 .chat-bubble {
   padding: 0.5rem;
 }
+
+.chat-bubble p {
+  word-wrap: break-word; /* 텍스트가 버블을 벗어나면 자동으로 줄 바꿈되도록 설정 */
+}
 </style>
