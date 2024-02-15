@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService{
         user.setBirthYear(tmp[0]);
         user.setBirthMonth(tmp[1]);
         user.setBirthDay(tmp[2]);
-        if ( user.getProfilePicture().isEmpty()) {
+        if ( user.getProfilePicture() == null || user.getProfilePicture().isEmpty() ) {
             user.setProfilePicture("https://longdssafy.s3.ap-northeast-2.amazonaws.com/52efc0a1-f3fa-4e70-a803-748fd41bca7cmainIMG.png");
         }
 
