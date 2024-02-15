@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto w-full" :class="{ 'chrome-zoom': isChrome }">
+  <div :class="{ 'chrome-zoom': isChrome }">
     <TheHeader
       v-show="
         userStore.isLogin &&
@@ -20,13 +20,13 @@
         "
         :class="{
           'w-1/4': isChatting,
-          'w-1/10': !isChatting,
+          'w-1/5': !isChatting,
         }"
       >
-        <div v-if="isChatting" class="fixed">
+        <div v-if="isChatting" class="fixed right-0">
           <TheChatting @offChat="chatFalse"></TheChatting>
         </div>
-        <div v-else>
+        <div v-else class="fixed right-10">
           <TheNochatting @onChat="chatTrue"></TheNochatting>
         </div>
       </div>

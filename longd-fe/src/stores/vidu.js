@@ -249,35 +249,68 @@ export const useViduStore = defineStore('vidu', () => {
     console.log('커플아디', typeof coupleid);
     //여기에 만들어줘 name에 담기게
     //
-    viduapi
-      .post('recording/stop', {
-        recording: forceRecordingId.value,
-        coupleListId: coupleid,
-        name,
-      })
-      .then(res => {
-        //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
-        // 녹화 완료 알림
-        isRecording.value = false;
-        const Toast = Swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          didOpen: toast => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          },
+    // viduapi
+    //   .post('recording/stop', {
+    //     recording: forceRecordingId.value,
+    //     coupleListId: coupleid,
+    //     name,
+    //   })
+    //   .then(res => {
+    //     //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
+    //     // 녹화 완료 알림
+    //     isRecording.value = false;
+    //     const Toast = Swal.mixin({
+    //       toast: true,
+    //       position: 'top-end',
+    //       showConfirmButton: false,
+    //       timer: 1500,
+    //       didOpen: toast => {
+    //         toast.onmouseenter = Swal.stopTimer;
+    //         toast.onmouseleave = Swal.resumeTimer;
+    //       },
+
+
+    const { value: name } = Swal.fire({
+      title: '추억 이름을 입력해주세요.',
+      input: 'text',
+      inputLabel: '',
+      inputPlaceholder: '추억을 입력해주세요.',
+      showCancelButton: true,
+      confirmButtonColor: '#FF9CBD',
+      cancelButtonColor: '#a0a0a0',
+    });
+    if (name) {
+      viduapi
+        .post('recording/stop', {
+          recording: forceRecordingId.value,
+          coupleListId: coupleid,
+          name,
+        })
+        .then(res => {
+          console.log('여기까지 오니??', name);
+          //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
+          // 녹화 완료 알림
+          isRecording.value = false;
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 1500,
+            didOpen: toast => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            },
+          });
+          Toast.fire({
+            icon: 'success',
+            title: '녹화가 완료되었습니다.',
+          });
+        })
+        .catch(error => {
+          console.error(error);
+          throw error;
         });
-        Toast.fire({
-          icon: 'success',
-          title: '녹화가 완료되었습니다.',
-        });
-      })
-      .catch(error => {
-        console.error(error);
-        throw error;
-      });
+    }
   };
 
   //세션에서 나가기
