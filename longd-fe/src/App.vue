@@ -30,6 +30,7 @@
           <TheNochatting @onChat="chatTrue"></TheNochatting>
         </div>
       </div>
+      <ViduMainView class="hihi"></ViduMainView>
     </div>
     <ViduMainView class="hihi"></ViduMainView>
   </div>
@@ -70,6 +71,16 @@ onMounted(() => {
 }
 .check {
   display: none;
+}
+.chatting-container,
+.nochatting-container {
+  position: fixed;
+  top: 50%; /* 세로 가운데 정렬을 위해 top 50% 설정 */
+  right: 0; /* 오른쪽 끝으로 이동 */
+  transform: translateY(
+    -50%
+  ); /* 세로 가운데 정렬을 위해 translateY(-50%) 설정 */
+  z-index: 1000; /* 필요에 따라 z-index 조절 */
 }
 /* .chrome-zoom {
   zoom: 90%;

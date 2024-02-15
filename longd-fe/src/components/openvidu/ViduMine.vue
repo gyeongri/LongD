@@ -1,16 +1,6 @@
 <template>
   <div v-if="viduStore.publisher">
     <video ref="videoElement" autoplay class="rounded-lg"></video>
-    <!-- <input type="color" v-model="selectedColor" /> -->
-    <!-- <canvas
-      ref="canvas"
-      class="canvas"
-      width="640"
-      height="480"
-      @mousedown="startDrawing"
-      @mouseup="stopDrawing"
-      @mousemove="draw"
-    ></canvas> -->
   </div>
   <br />
 
