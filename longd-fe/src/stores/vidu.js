@@ -250,37 +250,35 @@ export const useViduStore = defineStore('vidu', () => {
       confirmButtonColor: '#FF9CBD',
       cancelButtonColor: '#a0a0a0',
     });
-    if (name) {
-      await viduapi
-        .post('recording/stop', {
-          recording: forceRecordingId.value,
-          coupleListId: coupleid,
-          name,
-        })
-        .then(res => {
-          //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
-          // 녹화 완료 알림
-          isRecording.value = false;
-          const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 1500,
-            didOpen: toast => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            },
-          });
-          Toast.fire({
-            icon: 'success',
-            title: '녹화가 완료되었습니다.',
-          });
-        })
-        .catch(error => {
-          console.error(error);
-          throw error;
+    await viduapi
+      .post('recording/stop', {
+        recording: forceRecordingId.value,
+        coupleListId: coupleid,
+        name,
+      })
+      .then(res => {
+        //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기
+        // 녹화 완료 알림
+        isRecording.value = false;
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          didOpen: toast => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          },
         });
-    }
+        Toast.fire({
+          icon: 'success',
+          title: '녹화가 완료되었습니다.',
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        throw error;
+      });
   };
 
   //세션에서 나가기
