@@ -28,10 +28,42 @@
           <p>{{ planDetail.title }}</p>
         </div>
       </div>
+
       <!-- 마커를 표시할 지도 -->
       <div class="googleMap rounded-xl mt-4 shadow-xl" id="googleMap"></div>
-      <div class="mt-4 rounded-xl shadow-xl flex h-10 stat">
-        <p>여기에는 사진이 들어갈 곳!</p>
+      <div class="carousel w-full mt-4 rounded-xl">
+        <div
+          v-for="(slide, index) in planGalleryList"
+          :key="index"
+          :id="`slide${index + 1}`"
+          class="carousel-item relative w-full"
+        >
+          <img :src="slide.pathUrl" class="w-full" />
+          <div
+            class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2"
+          >
+            <a
+              :href="`#slide${index === 0 ? planGalleryList.length : index}`"
+              class="btn btn-circle"
+              style="
+                background-color: transparent;
+                border-color: transparent;
+                color: white;
+              "
+              >❮</a
+            >
+            <a
+              :href="`#slide${index === planGalleryList.length - 1 ? 1 : index + 2}`"
+              class="btn btn-circle"
+              style="
+                background-color: transparent;
+                border-color: transparent;
+                color: white;
+              "
+              >❯</a
+            >
+          </div>
+        </div>
       </div>
     </div>
 
@@ -51,7 +83,7 @@
           <div class="bg-red-200 rounded-lg text-center shadow-xl mb-1">
             <p>{{ date }}</p>
           </div>
-          <div class="flex bg-red-50 rounded-lg shadow-xl">
+          <div class="flex bg-red-50 rounded-lg shadow-xl flex-wrap">
             <div
               class="m-2"
               v-for="item in getItemsByDate(date)"
@@ -73,6 +105,8 @@
 </template>
 
 <script setup>
+// 캐로셀 해결하려면 router 방식 이용해야 될 듯!
+
 import { ref, onMounted, watchEffect, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import {
@@ -89,6 +123,7 @@ const currentId = ref('');
 const planInfoDetail = ref([]);
 const dateList = ref([]);
 const router = useRouter();
+
 const getItemsByDate = date => {
   return planInfoDetail.value.filter(item => item.date === date);
 };
@@ -175,6 +210,16 @@ const goList = function () {
   router.push({ name: 'PlanList' });
 };
 // 컴포넌트가 마운트될 때와 라우터의 변경을 감지하여 현재 ID를 업데이트합니다.
+
+// const slides = ref([]);
+
+// const initSlides = () => {
+//   planGalleryList.value.forEach(item => {
+//     slides.value.push({ imageUrl: item.pathUrl });
+//     console.log(slides.value);
+//   });
+// };
+
 onMounted(async () => {
   await initMap();
   getCurrentRouteId();
@@ -202,7 +247,10 @@ onMounted(async () => {
     currentId.value,
     success => {
       planGalleryList.value = success.data;
+      console.log('slide');
       console.log(planGalleryList.value);
+      console.log(planGalleryList.value[0].pathUrl);
+      // initSlides();
     },
     error => {
       console.error(error);
