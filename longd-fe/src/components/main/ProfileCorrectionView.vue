@@ -275,6 +275,12 @@ onMounted(() => {
       console.log(error);
     },
   );
+  if (userStore.getUserState?.passwordSimple) {
+    if (userStore.getUserState.passwordSimple.length === 3) {
+      userInfo.passwordSimple =
+        '0' + userStore.getUserState.passwordSimple.length;
+    }
+  }
 });
 </script>
 

@@ -42,7 +42,7 @@
                 <RouterLink
                   :to="{ name: 'ViduMain' }"
                   :class="{ 'text-red-300': isViduMainActive }"
-                  ><a>메인</a></RouterLink
+                  ><a>통화하기</a></RouterLink
                 >
               </li>
               <li>
