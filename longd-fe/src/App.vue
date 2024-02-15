@@ -8,13 +8,7 @@
       "
     ></TheHeader>
     <div class="flex">
-      <div
-        class="flex-1 mr-8"
-        :class="{
-          'w-3/4': isChatting,
-          'w-9/10': !isChatting,
-        }"
-      >
+      <div class="flex-1 mr-8">
         <TheView></TheView>
       </div>
 
@@ -29,7 +23,7 @@
           'w-1/10': !isChatting,
         }"
       >
-        <div v-if="isChatting" class="fixed right-0">
+        <div v-if="isChatting" class="fixed">
           <TheChatting @offChat="chatFalse"></TheChatting>
         </div>
         <div v-else>
