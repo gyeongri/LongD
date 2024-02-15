@@ -29,9 +29,9 @@
         <div v-else>
           <TheNochatting @onChat="chatTrue"></TheNochatting>
         </div>
-        <ViduMainView class="hihi"></ViduMainView>
       </div>
     </div>
+    <ViduMainView class="hihi"></ViduMainView>
   </div>
 </template>
 <script setup>
