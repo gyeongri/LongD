@@ -247,10 +247,13 @@ export const useViduStore = defineStore('vidu', () => {
   //녹화 끝
   const stopRecording = function (coupleid) {
     console.log('커플아디', typeof coupleid);
+    //여기에 만들어줘 name에 담기게
+    //
     viduapi
       .post('recording/stop', {
         recording: forceRecordingId.value,
         coupleListId: coupleid,
+        name,
       })
       .then(res => {
         //나중에 녹화가 완료되었습니다 알림같은거 뜨게하기

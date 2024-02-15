@@ -1,20 +1,19 @@
 <template>
   <div>
     <div class="flex justify-end">
-      <button v-if="!viduStore.isrecoding" @click="viduStore.startRecording">
-        <font-awesome-icon
-          icon="fa-solid fa-record-vinyl"
-          size="2x"
-          color="red"
-        />
+      <button
+        v-if="!viduStore.isrecoding"
+        @click="viduStore.startRecording"
+        class="btn btn-sm mr-1 bg-red-200 hover:bg-red-400"
+      >
+        녹화 시작
       </button>
-      <button v-else @click="viduStore.stopRecording(coupleid)">
-        <font-awesome-icon
-          icon="fa-solid fa-record-vinyl"
-          size="2x"
-          fade
-          color="red"
-        />
+      <button
+        v-else
+        @click="viduStore.stopRecording(coupleid)"
+        class="btn btn-sm mr-1 bg-red-200 hover:bg-red-400"
+      >
+        녹화 종료
       </button>
       <button @click="callChildMethod()" class="px-2">
         <img alt="Pip" src="/static/img/pip_icon.png" class="w-9 h-9" />
@@ -26,13 +25,27 @@
           class="w-1/2 aspect-ratio shadow-xl flex justify-center items-center rounded-xl"
         >
           <ViduMine v-if="viduStore.publisherTest" />
-          <div v-else class="border border-blue-400">아직 사람이 없을 시</div>
+          <div v-else class="noChatting">
+            아래 버튼을 통화버튼을 눌러 영상 통화를 시작해주세요.
+          </div>
         </div>
         <div
           class="w-1/2 aspect-ratio shadow-xl flex justify-center items-center rounded-xl"
         >
           <ViduYours v-if="viduStore.hasSubscriber" ref="viduYoursRef" />
-          <div v-else class="border border-blue-400">아직 사람이 없을 시</div>
+          <div v-else>
+            <video v-if="videosrc != false" controls>
+              <source
+                :src="videosrc"
+                type="video/webm"
+                class="object-cover overflow-hidden rounded-xl"
+              />
+            </video>
+
+            <div v-else class="noChatting">
+              같이 찍은 영상으로 대기 영상 지정이 가능해요.
+            </div>
+          </div>
         </div>
       </div>
       <div class="bottomBar flex justify-center">
@@ -118,9 +131,17 @@ import ViduMine from '@/components/openvidu/ViduMine.vue';
 import ViduYours from '@/components/openvidu/ViduYours.vue';
 import { useViduStore } from '@/stores/vidu.js';
 import { useUserStore } from '@/stores/user.js';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import { getVideo } from '@/utils/api/albums';
+const videosrc = computed(() => {
+  if (videoList.value.length > 0) {
+    return videoList.value[0].pathUrl;
+  }
+  return false;
+});
 const userStore = useUserStore();
 const viduStore = useViduStore();
+const videoList = ref([]);
 const viduYoursRef = ref();
 const callChildMethod = () => {
   viduYoursRef.value.enterPiPMode();
@@ -138,10 +159,25 @@ const disconnect = function () {
   viduStore.publisher = '';
   viduStore.publisherTest = '';
 };
+const params = ref({
+  _limit: 6, // 몇개씩 조회
+  _page: 1, // 현재 페이지를 조회
+  _sort: 'id', // 무엇을
+  _order: 'desc', // 내림차순
+  // id_like: '', // 해당 요소 검색 기능
+});
 onMounted(() => {
   if (userStore.getUserState?.coupleListId !== undefined) {
     coupleid.value = String(userStore.getUserState?.coupleListId);
   }
+  getVideo(params.value)
+    .then(res => {
+      videoList.value = res.data;
+      console.log(res.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
 });
 </script>
 
@@ -195,7 +231,9 @@ onMounted(() => {
 .rectangle-icon font-awesome-icon {
   font-size: 24px;
 }
-
+.noChatting {
+  font-size: 35px;
+}
 .aspect-ratio {
   aspect-ratio: 4 / 3; /* 640x480 ratio */
 }

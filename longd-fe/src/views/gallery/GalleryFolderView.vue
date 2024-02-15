@@ -51,7 +51,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { getGalleryFolderName, getGalleryFolderList } from '@/utils/api/albums';
 import Swal from 'sweetalert2';
-import { createFolder } from '@/utils/api/albums';
+import { createFolder, deleteFolder } from '@/utils/api/albums';
 import { useGalleryStore } from '@/stores/gallery.js';
 import GalleryCard from '@/components/gallery/GalleryCard.vue';
 import { useUserStore } from '@/stores/user';
