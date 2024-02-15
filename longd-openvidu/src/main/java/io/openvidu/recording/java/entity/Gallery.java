@@ -20,5 +20,7 @@ public class Gallery {
     private String pathUrl;
     @Column(name="type")
     private int type;
+    @Column(name = "title")
+    private String title;
 
 }

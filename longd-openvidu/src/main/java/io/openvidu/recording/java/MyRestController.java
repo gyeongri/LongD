@@ -360,6 +360,7 @@ public ResponseEntity<?> stopRecording(@RequestBody Map<String, Object> params) 
 							gallery.setPathUrl(fileUrl);
 							gallery.setCoupleListId(coupleListId);
 							gallery.setType(2);
+							gallery.setTitle(name);
 							galleryRepository.save(gallery);
 						}
 					}
