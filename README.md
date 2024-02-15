@@ -1,4 +1,4 @@
-# LongD, 세상의 모든 장거리 커플들을 위한 서비스
+# LongD, 세상의 모든 장거리 커플들을 위한..
 ![롱디](image.png)
 ## 팀원 소개
 ### Front-End
@@ -41,14 +41,33 @@
     <img alt="nginx" src ="https://img.shields.io/badge/nginx-009639.svg?&style=for-the-badge&logo=nginx&logoColor=white"/>
     
 ## 버전
+| 프로그램/언어 | 버전 |
+|---|:---:|
+|JAVA|17|
+|Spring boot|3.2.2|
+|Vue|3.3.11|
+|MySQL|8.0.33|
+|node.js|20.10.0|
+|Docker|4.26.1|
+|Jenkins||
+|Ngingx||
 
 ## ERD
 
 ## API 명세서
-[![Alt text](image-2.png)](https://bittersweet-artichoke-dea.notion.site/API-be64101bfc074154b7086352f0d47f1d?pvs=4 "Notion")
+[![Notion](image-2.png)](https://bittersweet-artichoke-dea.notion.site/API-be64101bfc074154b7086352f0d47f1d?pvs=4 "Notion")
 
 ## 와이어프레임
 [![Figma](image-1.png)](https://www.figma.com/file/8uS1HLLbQOEUyzimwOohBF/%5B%EB%A1%B1%EB%94%94%5D?type=design&node-id=0%3A1&mode=design&t=TTD4cbrtWGndKYqY-1 "피그마")
+
+## 주요 기능
+1. 회원 프로필 관리
+2. 화상 통화
+3. 통화 중 녹화 기능
+4. 영상 같이 보기
+5. 여행 일정 계획하기
+6. 캘린더
+
 ## 서비스 화면
 
 ### 1. 소셜 로그인
@@ -68,15 +87,10 @@
 
 
 
-## 주요 기능
-1. 회원 프로필 관리
-2. 화상 통화
-3. 통화 중 녹화 기능
-4. 영상 같이 보기
-5. 여행 일정 계획하기
-6. 캘린더
 
-## 기술 소개
+
+
+
 
 
 
