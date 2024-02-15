@@ -12,7 +12,7 @@
   --foreground: #bbb;
   --accent: #0055ff;
   --success: #009632;
-  --leader-hint: #00963288;
+  --leader-hint: #52ff8c88;
   --warning: #ffb800;
   --error: #ff0800;
   --border: #333;
@@ -510,7 +510,6 @@ footer#footer {
 /* Users online */
 
 #userlist-wrap {
-  display: none;
   overflow-y: auto;
   background-color: var(--background-video);
   border-right: 0;
