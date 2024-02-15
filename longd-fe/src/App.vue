@@ -8,12 +8,18 @@
       "
     ></TheHeader>
     <div class="flex">
-      <div class="flex-1 mr-8">
+      <div
+        class="flex-1 mr-8"
+        :class="{
+          'w-3/4': isChatting,
+          'w-9/10': !isChatting,
+        }"
+      >
         <TheView></TheView>
       </div>
 
       <div
-        v-if="
+        v-show="
           userStore.isLogin &&
           !mainDisplayStore.isClosed &&
           userStore.getUserState?.coupleListId

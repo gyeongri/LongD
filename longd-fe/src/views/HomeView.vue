@@ -1,6 +1,6 @@
 <template>
   <div class="flex-col">
-    <!-- <div class="flex justify-end">
+    <div class="flex justify-end">
       <AppDropdown>
         <template v-slot>
           <li class="font-bold lis">
@@ -26,7 +26,7 @@
           </li>
         </template>
       </AppDropdown>
-    </div> -->
+    </div>
 
     <div>
       <!-- 백그라운드 이미지 -->
