@@ -5,8 +5,8 @@
 @import url(https://rsms.me/inter/inter.css);
 
 :root {
-  --background-video: #000000;
-  --background-chat: #e9afaf;
+  --background-video: #b4b4b4;
+  --background-chat: #4fffb6;
   --scroll-to-end-bg: #fff;
   --midground: #888;
   --foreground: #bbb;
