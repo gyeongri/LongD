@@ -184,7 +184,7 @@ public class GalleryServiceImpl implements GalleryService {
             }
 
             String tmpPathUrl = gallerySaveDto.getPathUrl();
-            String ext = tmpPathUrl.substring(tmpPathUrl.lastIndexOf(".")+1); //확장자
+            String ext = tmpPathUrl.substring(tmpPathUrl.lastIndexOf(".")+1).toLowerCase(); //확장자
             //세팅
             gallery.setId(gallerySaveDto.getId());  //등록의 경우 null이 세팅됨
             gallery.setCreateDate(gallerySaveDto.getCreateDate());  // 날짜가 없을 경우 null이 세팅됨
