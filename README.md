@@ -53,7 +53,7 @@
 |Ngingx|nginx/1.18.0 (Ubuntu)|
 
 ## 시스템 아키텍처
-![시스템 아키텍처](MD/arcitecture.png)
+![시스템 아키텍처](MD/LongD-Architecture.png)
 ## ERD
 ![ERD](MD/ERD.png)
 
