@@ -47,6 +47,7 @@ public class CoupleListServiceImpl implements CoupleListService {
                 //code는 Integer
                 //코드가 같으므로 커플리스트 생성
                 CoupleList coupleList = new CoupleList();
+                coupleList.setCoupleImgUrl("https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimage.idus.com%2Fimage%2Ffiles%2Fd5a7911d05904569a172a604d866322d_512.jpg&type=sc960_832");
 
                 User other = OptionalOther.get();
 

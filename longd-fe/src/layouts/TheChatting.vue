@@ -1,18 +1,14 @@
 <template>
-  <!-- h-1/4, h-3/4 - 차지할 비율을 나타냄, w-1/4도 있음(가로버전) -->
-  <div class="h-[30rem] flex flex-col">
+  <div class="h-[30rem] w-[15rem] flex flex-col">
     <ChatDisplayView
       @chatoff="TurnOffChat"
       :messages="messages"
       :count="count"
       :nickname="nickname"
       :lovername="lovername"
-      class="overflow-scroll h-11/12 w-full"
+      class="overflow-scroll h-11/12"
     ></ChatDisplayView>
-    <ChatInputView
-      @messageToMain="sendMessage"
-      class="w-full h-1/12"
-    ></ChatInputView>
+    <ChatInputView @messageToMain="sendMessage" class="h-1/12"></ChatInputView>
   </div>
 </template>
 

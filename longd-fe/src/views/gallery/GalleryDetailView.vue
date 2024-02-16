@@ -23,7 +23,6 @@ const fetchAlbum = () => {
   getGalleryDetail(id)
     .then(res => {
       item.value = res.data;
-      console.log(item.value);
     })
     .catch(err => {
       console.log('err', err);

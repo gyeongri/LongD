@@ -335,7 +335,6 @@ function startRecording() {
 		},
 		'Start recording WRONG',
 		res => {
-			console.log(res);
 			document.getElementById('forceRecordingId').value = res.id;
 			checkBtnsRecordings();
 			$('#textarea-http').text(JSON.stringify(res, null, "\t"));
@@ -345,7 +344,6 @@ function startRecording() {
 
 function stopRecording() {
 	var forceRecordingId = document.getElementById('forceRecordingId').value;
-	console.log("app.js입니다"+forceRecordingId);
 	httpRequest(
 		'POST',
 		'/api/recording/stop', {
@@ -353,7 +351,6 @@ function stopRecording() {
 		},
 		'Stop recording WRONG',
 		res => {
-			console.log(res);
 			$('#textarea-http').text(JSON.stringify(res, null, "\t"));
 		}
 	);

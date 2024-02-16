@@ -12,19 +12,19 @@
             <RouterLink
               :to="{ name: 'GalleryFolder' }"
               :class="{ 'text-red-300': isGalleryActive }"
-            >
-              갤러리
-            </RouterLink>
-          </a>
+              >갤러리
+            </RouterLink></a
+          >
         </li>
         <li>
           <a>
             <RouterLink
               :to="{ name: 'Calendar' }"
               :class="{ 'text-red-300': isCalendarActive }"
-              >캘린더
-            </RouterLink>
-          </a>
+            >
+              캘린더
+            </RouterLink></a
+          >
         </li>
         <li>
           <details ref="dropdown1">
@@ -42,7 +42,7 @@
                 <RouterLink
                   :to="{ name: 'ViduMain' }"
                   :class="{ 'text-red-300': isViduMainActive }"
-                  ><a>메인</a></RouterLink
+                  ><a>통화하기</a></RouterLink
                 >
               </li>
               <li>
@@ -86,13 +86,13 @@
             </ul>
           </details>
         </li>
-        <li>
+        <!-- <li>
           <RouterLink
             :to="{ name: 'bucketList' }"
             :class="{ 'text-pink-400': isBucketListActive }"
             ><a> 버킷리스트</a>
           </RouterLink>
-        </li>
+        </li> -->
       </ul>
     </div>
     <div class="navbar-end">

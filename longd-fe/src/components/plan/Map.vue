@@ -244,8 +244,6 @@ const getCurrentLocation = async () => {
 
 // 검색 결과 클릭 처리 함수
 const handleResultClick = place => {
-  console.log(place); // 확인을 위한 로그
-
   // 기존의 infowindow가 있으면 닫기
   if (infowindow) {
     infowindow.close();

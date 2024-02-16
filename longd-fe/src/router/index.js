@@ -42,14 +42,6 @@ const router = createRouter({
       component: ConnectCodeView,
     },
     {
-      path: '/about',
-      name: 'About',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
-    },
-    {
       path: '/profile',
       name: 'Profile',
       component: ProfileView,
@@ -154,8 +146,8 @@ router.beforeEach((to, from, next) => {
   }
   const userStore = useUserStore();
   loginstate(
-    data => {
-      userStore.setUserState(data.data);
+    async data => {
+      await userStore.setUserState(data.data);
       if (!userStore.isLogin) {
         next({ name: 'Login' });
       } else {

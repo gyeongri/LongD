@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-[30rem] flex flex-col items-center justify-center cursor-pointer shadow-md fixed w-[3rem] bg-slate-50 rounded-lg"
+    class="h-[30rem] flex flex-col items-center justify-center cursor-pointer shadow-md w-[3rem] bg-slate-50 rounded-lg"
     @click="turnChat"
   >
     <img

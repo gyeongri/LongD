@@ -23,7 +23,6 @@ onMounted(() => {
   getBucketList(
     userInfo.value.coupleListId,
     success => {
-      console.log('버킷 리스트', success.data);
       bucketList.value = success.data;
     },
     error => {

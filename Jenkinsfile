@@ -136,42 +136,7 @@ pipeline {
 
 /////////////////////////////////////////////////////////////////////////////
 
-        stage('Build main openvidu image') {
-            steps {
-                sh 'ls -al'
-                dir("${DIRECTORY_OPENVIDU}") {
-                    sh 'ls -al'
-                    sh "docker build -t ${OPENVIDU_IMAGE_BE} -f ${PROJECT_PATH}/longd-openvidu/Dockerfile ${PROJECT_PATH}/longd-openvidu"
-                }
-                echo 'Build openvidu image...'
-            }
-        }
 
-
-//         //BE - 이전 컨테이너 삭제
-        stage('Remove Previous openvidu BE Container') {
-            steps {
-                script {
-                    try {
-                        sh "docker stop ${OPENVIDU_CONTAINER_BE}"
-                        sh "docker rm ${OPENVIDU_CONTAINER_BE}"
-                    } catch (e) {
-                        echo 'fail to stop and remove openvidu container'
-                    }
-                }
-            }
-        }
-
-    //   //새 BE 컨테이너 실행
-        stage('Run New main openvidu image') {
-            steps {
-//                 sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 4000:4000 --rm -e OPENVIDU_RECORDING=true -e OPENVIDU_RECORDING_PATH=opt/openvidu/recordings -v /var/run/docker.sock:/var/run/docker.sock -v opt/openvidu/recordings:/home/recordings ${OPENVIDU_IMAGE_BE}"
-                sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 4000:4000 --rm -e OPENVIDU_RECORDING=true -e OPENVIDU_RECORDING_PATH=/opt/openvidu/recordings -v /var/run/docker.sock:/var/run/docker.sock -v /opt/openvidu/recordings:/home/recordings ${OPENVIDU_IMAGE_BE}"
-                echo 'Run New openvidu BE image'
-            }
-        }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////
         stage('Build main BE image') {
@@ -255,6 +220,45 @@ pipeline {
         }
 
 ////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////
+  stage('Build main openvidu image') {
+            steps {
+                sh 'ls -al'
+                dir("${DIRECTORY_OPENVIDU}") {
+                    sh 'ls -al'
+                    sh "docker build -t ${OPENVIDU_IMAGE_BE} -f ${PROJECT_PATH}/longd-openvidu/Dockerfile ${PROJECT_PATH}/longd-openvidu"
+                }
+                echo 'Build openvidu image...'
+            }
+        }
+
+
+//         //BE - 이전 컨테이너 삭제
+        stage('Remove Previous openvidu BE Container') {
+            steps {
+                script {
+                    try {
+                        sh "docker stop ${OPENVIDU_CONTAINER_BE}"
+                        sh "docker rm ${OPENVIDU_CONTAINER_BE}"
+                    } catch (e) {
+                        echo 'fail to stop and remove openvidu container'
+                    }
+                }
+            }
+        }
+
+    //   //새 BE 컨테이너 실행
+        stage('Run New main openvidu image') {
+            steps {
+//                 sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 4000:4000 --rm -e OPENVIDU_RECORDING=true -e OPENVIDU_RECORDING_PATH=opt/openvidu/recordings -v /var/run/docker.sock:/var/run/docker.sock -v opt/openvidu/recordings:/home/recordings ${OPENVIDU_IMAGE_BE}"
+                sh "docker run --name ${OPENVIDU_CONTAINER_BE} -d -p 4000:4000 --rm -e OPENVIDU_RECORDING=true -e OPENVIDU_RECORDING_PATH=/opt/openvidu/recordings -v /var/run/docker.sock:/var/run/docker.sock -v /opt/openvidu/recordings:/home/recordings ${OPENVIDU_IMAGE_BE}"
+                echo 'Run New openvidu BE image'
+            }
+        }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 //////////////////////////////////////////////////////////////////////////////
         //SyncTube - 이미지 생성
         stage('Build SyncTube image'){
@@ -282,7 +286,7 @@ pipeline {
             }
         }
 
-      //새 SyncTube 컨테이너 실행 
+      //새 SyncTube 컨테이너 실행
         stage('Run New SyncTube image') {
             steps {
                 // sh "docker build -t synctube ."
@@ -296,7 +300,7 @@ pipeline {
                 // sh "docker cp ${PROJECT_PATH}/longd-SyncTube/sync-custom.conf ${MAIN_CONTAINER_SYNCTUBE}:/etc/nginx/conf.d"
                 // sh "docker cp ${PROJECT_PATH}/longd-SyncTube/Default ${MAIN_CONTAINER_SYNCTUBE}:/etc/nginx/conf.d"
                 // sh "docker cp /home/ubuntu/nginx longd-frontend:/usr/share/nginx"
-                echo 'Run New FE image'
+                echo 'Run New SyncTube image'
             }
         }
 
@@ -308,10 +312,6 @@ pipeline {
         //         echo 'SyncTube 컨테이너 재실행'
         //     }
         // }
-//////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
     }
 }

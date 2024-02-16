@@ -218,7 +218,6 @@ const goHome = () => {
 const fileUpload = event => {
   const formData = new FormData();
   formData.append('file', event.target.files[0]);
-  console.log(event.target.files[0]);
   uploadImage(
     formData,
     success => {
@@ -256,12 +255,10 @@ const choiceDate = () => {
     userInfo,
     success => {
       console.log('Sendinfo success!');
-      console.log(userInfo.passwordSimple);
       router.push({ name: 'Profile' });
     },
     error => {
       console.log('sendinfo 오류 : ' + error);
-      console.log(userInfo);
     },
   );
 };
@@ -276,9 +273,8 @@ onMounted(() => {
     },
   );
   if (userStore.getUserState?.passwordSimple) {
-    if (userStore.getUserState.passwordSimple.length === 3) {
-      userInfo.passwordSimple =
-        '0' + userStore.getUserState.passwordSimple.length;
+    if (userStore.getUserState.passwordSimple.toString().length === 3) {
+      userInfo.passwordSimple = '0' + userStore.getUserState.passwordSimple;
     }
   }
 });

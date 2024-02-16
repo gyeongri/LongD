@@ -8,16 +8,18 @@
 </template>
 
 <script setup>
-import { computed, watch, ref, onMounted } from 'vue';
+import { watch, ref, onMounted } from 'vue';
 import { useViduStore } from '@/stores/vidu.js';
-import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router';
+import { onBeforeRouteLeave } from 'vue-router';
 import { Session } from 'openvidu-browser';
 const viduStore = useViduStore();
 const videoElement = ref();
-// const check = function () {
-//   console.log(viduStore.hasSubscriber);
-//   viduStore.subscriber.addVideoElement(videoElement.value);
-// };
+const props = defineProps({
+  count: {
+    type: Number,
+  },
+});
+
 const exitPiPMode = async () => {
   try {
     if (document.exitPictureInPicture) {
@@ -43,16 +45,15 @@ onMounted(() => {
       }
     },
   );
+  watch(
+    () => props.count,
+    (newValue, oldValue) => {
+      if (videoElement.value) {
+        enterPiPMode();
+      }
+    },
+  );
 });
-// watch(
-//   () => viduStore.hasSubscriber,
-//   (newValue, oldValue) => {
-//     console.log('김익환');
-//     if (viduStore.hasSubscriber) {
-//       viduStore.subscriber.addVideoElement(videoElement.value);
-//     }
-//   },
-// );
 
 const enterPiPMode = async () => {
   try {

@@ -91,7 +91,6 @@ const fetchFolders = async () => {
         );
         let data3 = {};
         if (data2.length === 0) {
-          console.log('데이터가 없습니다.');
           data3 = {
             folderName: folder.name,
             pathUrl:
@@ -107,7 +106,6 @@ const fetchFolders = async () => {
       } catch (err) {
         console.error(err);
       }
-      console.log(folderFirstItem.value);
     }
   } catch (err) {
     console.error(err);
@@ -127,13 +125,12 @@ const folderCreate = async () => {
   if (title) {
     Swal.fire('Saved!', '', 'success');
     try {
-      console.log(title);
       await createFolder({ category: title });
       // 새로고침 해야 추가되는 현상있음
       // 조회 박으면 해결될 것
       fetchFolders();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 };
@@ -154,7 +151,6 @@ const folderDelete = async () => {
   if (folder) {
     Swal.fire(`폴더가 삭제되었습니다.`, '', 'success'); // 삭제 모양으로 만들기
     try {
-      console.log(folder, '폴더객체확인');
       await deleteFolder(folder);
       fetchFolders();
     } catch (error) {

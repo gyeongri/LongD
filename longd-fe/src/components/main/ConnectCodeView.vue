@@ -122,24 +122,20 @@ const choiceDate = async () => {
   coupleMatching(
     checkInfo.value,
     success => {
-      console.log(success.data);
       if (success.data === '코드가 일치하지 않습니다.') {
         Swal.fire(
           '코드가 일치하지 않습니다.',
           '상대방이 전해준 코드가 맞는지 확인해주세요.',
         );
-        console.log(checkInfo.value);
       }
       if (success.data === '상대방 이름 또는 생일이 일치하지 않습니다.') {
         Swal.fire(
           '상대방 이름 또는 생일이 일치하지 않습니다.',
           '다시 확인해주세요.',
         );
-        console.log(checkInfo.value);
       }
       if (success.data === '상대방이 coupleListId를 가지고 있는 상태입니다.') {
         Swal.fire('이미 다른 사람과 연결된 사람입니다.', '다시 확인해주세요.');
-        console.log(checkInfo.value);
       }
       if (success.data === '상대방이 존재하지 않습니다.') {
         Swal.fire(
@@ -151,7 +147,6 @@ const choiceDate = async () => {
         coupleDataGet(
           success => {
             coupleData.value = success.data;
-            console.log(coupleData.value);
           },
           async success2 => {
             const { value: date } = await Swal.fire({
@@ -161,7 +156,6 @@ const choiceDate = async () => {
               preConfirm: () => {
                 const selectedDate = Swal.getInput().value;
                 const today = new Date().toISOString().split('T')[0];
-                console.log(selectedDate);
                 if (!selectedDate) {
                   Swal.showValidationMessage('날짜를 선택해주세요');
                   return false;
@@ -175,12 +169,9 @@ const choiceDate = async () => {
             if (startDay.value) {
               await Swal.fire('우리가 처음 만난 날', startDay.value);
               coupleData.value.startDay = startDay.value;
-              console.log(startDay.value);
-              console.log(coupleData.value.startDay);
               coupleDataModify(
                 coupleData.value,
                 success => {
-                  console.log(coupleData.value);
                   router.push({ name: 'Home' });
                 },
                 error => {
