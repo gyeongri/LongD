@@ -147,11 +147,10 @@ const correctionDate = () => {
 </script>
 
 <style scoped>
-
-/* img {
+img {
   height: 25%;
   width: 25%;
-} */
+}
 
 .img-btn {
   background-image: url('/static/img/arrow2.png');
