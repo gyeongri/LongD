@@ -58,9 +58,14 @@
 ![ERD](MD/ERD.png)
 
 ## API 명세서
-[![Alt text](MD/image-2.png)](https://bittersweet-artichoke-dea.notion.site/API-be64101bfc074154b7086352f0d47f1d?pvs=4 "Notion")
+[![Notion](MD/image-2.png)](https://bittersweet-artichoke-dea.notion.site/API-be64101bfc074154b7086352f0d47f1d?pvs=4 "Notion")
 ## 와이어프레임
 [![Figma](MD/image-1.png)](https://www.figma.com/file/8uS1HLLbQOEUyzimwOohBF/%5B%EB%A1%B1%EB%94%94%5D?type=design&node-id=0%3A1&mode=design&t=TTD4cbrtWGndKYqY-1 "피그마")
+
+## 포팅 매뉴얼
+[![Notion](MD/image-2.png)](https://intriguing-aluminum-a33.notion.site/LongD-cd2d925dccfa4db398f69bb1311ac508 "Notion")
+## 와이어프레임
+https://intriguing-aluminum-a33.notion.site/LongD-cd2d925dccfa4db398f69bb1311ac508
 ## 주요 기능
 1. 캘린더
     - 일정 및 세부 내용 등록
